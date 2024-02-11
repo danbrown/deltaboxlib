@@ -1,6 +1,17 @@
-// 1.20.1	2024-02-11T19:26:19.839253	Registrate Provider for databoxlib [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.20.1	2024-02-11T20:47:52.993856	Registrate Provider for databoxlib [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 85a7e0ed7f928895aa1c8bebbeaeb6e2706bc056 assets/databoxlib/blockstates/adamantium_block.json
-0e31ad180a8e3087bc6cd18bd831b60693abc4e7 assets/databoxlib/lang/en_ud.json
-16e50b8e438e0105c65a3ecea4e5b0026e40f3ef assets/databoxlib/lang/en_us.json
+a90c9ef158d10ea95d94d010291e9771dd3cccb9 assets/databoxlib/blockstates/basalt_adamantium_ore.json
+221fafe1d80accfa1e2bfec4f5feb121fe4411aa assets/databoxlib/lang/en_ud.json
+4a11d403f92c5269bc1518b3b659484075798906 assets/databoxlib/lang/en_us.json
 8e33ae5cdfcba7e46cef032cb4a1504b292f64c4 assets/databoxlib/models/block/adamantium_block.json
-a454c2b1b36aa79d2038e7ec7d1884b6fc6e66b4 data/databoxlib/loot_tables/blocks/adamantium_block.json
+7a5dee2fd4336dddb9b00ce589d85b692ab7b1c9 assets/databoxlib/models/block/basalt_adamantium_ore.json
+f718298759974953d1a82915ffac1d7dc49eb3dc assets/databoxlib/models/item/adamantium_block.json
+a8b2333efdf7155f811488b19097632684bef426 assets/databoxlib/models/item/basalt_adamantium_ore.json
+ba700c614766a18be42e216a2a0f0b819d6c0614 data/databoxlib/loot_tables/blocks/adamantium_block.json
+63a472b2f55c43a9ac31391a20c879e3bf89b217 data/databoxlib/loot_tables/blocks/basalt_adamantium_ore.json
+b41c60d98fd4d93909ee8c544441a28bbc607564 data/forge/tags/blocks/ores.json
+b41c60d98fd4d93909ee8c544441a28bbc607564 data/forge/tags/blocks/ores/basalt_adamantium.json
+b41c60d98fd4d93909ee8c544441a28bbc607564 data/forge/tags/blocks/ores_in_ground/basalt.json
+b41c60d98fd4d93909ee8c544441a28bbc607564 data/forge/tags/items/ores.json
+b41c60d98fd4d93909ee8c544441a28bbc607564 data/forge/tags/items/ores/basalt_adamantium.json
+b41c60d98fd4d93909ee8c544441a28bbc607564 data/forge/tags/items/ores_in_ground/basalt.json
