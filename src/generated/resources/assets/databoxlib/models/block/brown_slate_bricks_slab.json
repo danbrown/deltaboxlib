@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "databoxlib:block/brown_slate_bricks",
-    "side": "databoxlib:block/brown_slate_bricks",
-    "top": "databoxlib:block/brown_slate_bricks"
-  }
-}

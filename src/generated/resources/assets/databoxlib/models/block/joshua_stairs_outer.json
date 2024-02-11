@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "databoxlib:block/joshua_planks",
-    "side": "databoxlib:block/joshua_planks",
-    "top": "databoxlib:block/joshua_planks"
-  }
-}

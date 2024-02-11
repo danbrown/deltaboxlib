@@ -1,8 +1,0 @@
-{
-  "parent": "databoxlib:block/joshua_trapdoor_bottom",
-  "render_type": "minecraft:cutout_mipped",
-  "textures": {
-    "particle": "databoxlib:block/joshua_trapdoor",
-    "texture": "databoxlib:block/joshua_trapdoor"
-  }
-}

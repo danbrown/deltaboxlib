@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "databoxlib:block/moonslate_top",
-    "side": "databoxlib:block/moonslate"
-  }
-}

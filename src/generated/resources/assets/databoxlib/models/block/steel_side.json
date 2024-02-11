@@ -1,8 +1,0 @@
-{
-  "parent": "databoxlib:block/bars/side",
-  "textures": {
-    "bars": "databoxlib:block/bars/steel_bars",
-    "edge": "databoxlib:block/bars/steel_bars_edge",
-    "particle": "databoxlib:block/bars/steel_bars"
-  }
-}

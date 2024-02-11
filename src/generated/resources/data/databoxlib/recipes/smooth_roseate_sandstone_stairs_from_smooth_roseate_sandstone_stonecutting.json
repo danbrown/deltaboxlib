@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:smooth_roseate_sandstone"
-  },
-  "result": "databoxlib:smooth_roseate_sandstone_stairs"
-}

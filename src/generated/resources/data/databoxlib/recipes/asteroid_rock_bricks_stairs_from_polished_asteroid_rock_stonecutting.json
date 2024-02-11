@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:polished_asteroid_rock"
-  },
-  "result": "databoxlib:asteroid_rock_bricks_stairs"
-}

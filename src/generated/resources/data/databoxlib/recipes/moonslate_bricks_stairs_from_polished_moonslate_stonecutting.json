@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:polished_moonslate"
-  },
-  "result": "databoxlib:moonslate_bricks_stairs"
-}

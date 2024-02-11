@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "databoxlib:block/polished_moonslate",
-    "side": "databoxlib:block/polished_moonslate",
-    "top": "databoxlib:block/polished_moonslate"
-  }
-}

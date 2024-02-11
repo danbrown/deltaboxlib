@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "databoxlib:block/norite_bricks",
-    "side": "databoxlib:block/norite_bricks"
-  }
-}

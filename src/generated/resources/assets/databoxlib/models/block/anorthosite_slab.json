@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "databoxlib:block/anorthosite",
-    "side": "databoxlib:block/anorthosite",
-    "top": "databoxlib:block/anorthosite"
-  }
-}

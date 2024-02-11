@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "databoxlib:block/polished_asteroid_rock",
-    "side": "databoxlib:block/polished_asteroid_rock"
-  }
-}

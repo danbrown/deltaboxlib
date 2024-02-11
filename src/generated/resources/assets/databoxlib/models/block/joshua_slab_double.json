@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "databoxlib:block/joshua_planks",
-    "side": "databoxlib:block/joshua_planks"
-  }
-}

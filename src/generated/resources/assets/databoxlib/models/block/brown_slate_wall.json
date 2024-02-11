@@ -1,8 +1,0 @@
-{
-  "parent": "databoxlib:block/wall_special_post",
-  "textures": {
-    "bottom": "databoxlib:block/brown_slate_top",
-    "top": "databoxlib:block/brown_slate_top",
-    "wall": "databoxlib:block/brown_slate"
-  }
-}

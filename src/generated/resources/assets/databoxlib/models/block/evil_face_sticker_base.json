@@ -1,7 +1,0 @@
-{
-  "parent": "databoxlib:block/sticker/base",
-  "textures": {
-    "particle": "databoxlib:block/stickers/evil_face_sticker",
-    "texture": "databoxlib:block/stickers/evil_face_sticker"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "databoxlib:block/stickers/safety_tape_cross_sticker"
-  }
-}

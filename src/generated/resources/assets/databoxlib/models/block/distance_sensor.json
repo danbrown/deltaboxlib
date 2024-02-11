@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "bottom": "databoxlib:block/distance_sensor_side",
-    "front": "databoxlib:block/distance_sensor_front",
-    "side": "databoxlib:block/distance_sensor_side",
-    "top": "databoxlib:block/distance_sensor_side"
-  }
-}

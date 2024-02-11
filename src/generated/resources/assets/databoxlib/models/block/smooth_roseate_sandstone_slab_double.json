@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "databoxlib:block/roseate_sandstone_top",
-    "side": "databoxlib:block/roseate_sandstone_top"
-  }
-}

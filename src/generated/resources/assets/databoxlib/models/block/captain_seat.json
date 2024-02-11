@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "render_type": "minecraft:cutout_mipped",
-  "textures": {
-    "bottom": "databoxlib:block/captain_seat",
-    "side": "databoxlib:block/captain_seat",
-    "top": "databoxlib:block/captain_seat"
-  }
-}

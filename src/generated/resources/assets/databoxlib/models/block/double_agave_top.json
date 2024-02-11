@@ -1,8 +1,0 @@
-{
-  "parent": "databoxlib:block/cross_large",
-  "render_type": "minecraft:cutout_mipped",
-  "textures": {
-    "cross": "databoxlib:block/agave_top",
-    "particle": "databoxlib:block/agave_top"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "databoxlib:block/olivine_bricks",
-    "side": "databoxlib:block/olivine_bricks",
-    "top": "databoxlib:block/olivine_bricks"
-  }
-}

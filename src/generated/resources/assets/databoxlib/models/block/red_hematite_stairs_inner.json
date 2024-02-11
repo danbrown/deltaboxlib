@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "databoxlib:block/red_hematite",
-    "side": "databoxlib:block/red_hematite",
-    "top": "databoxlib:block/red_hematite"
-  }
-}

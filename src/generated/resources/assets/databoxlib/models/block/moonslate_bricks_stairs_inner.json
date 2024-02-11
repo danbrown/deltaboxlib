@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "databoxlib:block/moonslate_bricks",
-    "side": "databoxlib:block/moonslate_bricks",
-    "top": "databoxlib:block/moonslate_bricks"
-  }
-}

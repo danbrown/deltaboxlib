@@ -1,8 +1,0 @@
-{
-	"parent": "create:block/gearshift/block",
-	"render_type": "minecraft:cutout",
-	"textures": {
-		"0": "databoxlib:block/resistor/resistor_15",
-		"particle": "databoxlib:block/resistor/resistor_15"
-	}
-}

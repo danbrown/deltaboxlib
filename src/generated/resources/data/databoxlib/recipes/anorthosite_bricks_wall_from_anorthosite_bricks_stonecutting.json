@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:anorthosite_bricks"
-  },
-  "result": "databoxlib:anorthosite_bricks_wall"
-}

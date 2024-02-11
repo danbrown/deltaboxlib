@@ -1,7 +1,0 @@
-{
-  "parent": "databoxlib:block/thrusters/thruster_horizontal",
-  "textures": {
-    "0": "databoxlib:block/thrusters/scalar_thruster",
-    "particle": "databoxlib:block/thrusters/scalar_thruster"
-  }
-}

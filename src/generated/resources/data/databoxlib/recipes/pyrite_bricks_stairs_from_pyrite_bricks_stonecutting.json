@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:pyrite_bricks"
-  },
-  "result": "databoxlib:pyrite_bricks_stairs"
-}

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:roseate_sandstone"
-  },
-  "result": "databoxlib:chiseled_roseate_sandstone"
-}

@@ -1,8 +1,0 @@
-{
-  "parent": "databoxlib:block/wall_special_post",
-  "textures": {
-    "bottom": "databoxlib:block/joshua_stalk_top",
-    "top": "databoxlib:block/joshua_stalk_top",
-    "wall": "databoxlib:block/joshua_stalk"
-  }
-}

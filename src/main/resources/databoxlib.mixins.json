@@ -5,27 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "databoxlib.mixins.refmap.json",
   "mixins": [
-    "block.ClutchBlockMixin",
-    "gravity.AbstractArrowMixin",
-    "gravity.BoatMixin",
-    "gravity.CommonEntityMixin",
-    "gravity.FallingBlockEntityMixin",
-    "gravity.FishingHookMixin",
-    "gravity.LivingEntityMixin",
-    "gravity.ThrowableProjectileMixin",
-    "gravity.ThrownExperienceBottleMixin",
-    "gravity.ThrownPotionMixin",
-    "heating.AnimatedBlazeBurnerMixin",
-    "heating.BasinBlockEntityMixin",
-    "heating.BasinCategoryMixin",
-    "heating.HeatConditionMixin",
-    "heating.HeatLevelMixin",
-    "oxygen.BacktankBlockEntityMixin",
-    "oxygen.LivingEntityMixin",
-    "render.DimensionSpecialEffectsMixin"
   ],
   "client": [
-    "render.LevelRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:polished_phosphorite"
-  },
-  "result": "databoxlib:polished_phosphorite_stairs"
-}

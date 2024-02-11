@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:raw_himalayan_salt_block"
-  },
-  "result": "databoxlib:polished_himalayan_salt"
-}

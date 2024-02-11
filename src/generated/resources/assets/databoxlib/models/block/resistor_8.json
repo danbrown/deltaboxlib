@@ -1,7 +1,0 @@
-{
-  "parent": "databoxlib:block/resistor/block",
-  "textures": {
-    "0": "databoxlib:block/resistor/resistor_8",
-    "particle": "databoxlib:block/resistor/resistor_8"
-  }
-}

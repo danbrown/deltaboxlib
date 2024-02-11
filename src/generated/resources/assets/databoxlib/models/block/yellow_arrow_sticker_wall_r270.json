@@ -1,7 +1,0 @@
-{
-  "parent": "databoxlib:block/sticker/wall_r270",
-  "textures": {
-    "particle": "databoxlib:block/stickers/yellow_arrow_sticker",
-    "texture": "databoxlib:block/stickers/yellow_arrow_sticker"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:brown_slate_bricks"
-  },
-  "result": "databoxlib:brown_slate_bricks_wall"
-}

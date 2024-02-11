@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "databoxlib:block/himalayan_salt_bricks",
-    "side": "databoxlib:block/himalayan_salt_bricks",
-    "top": "databoxlib:block/himalayan_salt_bricks"
-  }
-}

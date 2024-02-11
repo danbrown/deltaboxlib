@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "databoxlib:block/anorthosite_bricks",
-    "side": "databoxlib:block/anorthosite_bricks"
-  }
-}

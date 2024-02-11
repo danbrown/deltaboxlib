@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "databoxlib:block/cobbled_brown_slate",
-    "side": "databoxlib:block/cobbled_brown_slate",
-    "top": "databoxlib:block/cobbled_brown_slate"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 2,
-  "ingredient": {
-    "item": "databoxlib:norite"
-  },
-  "result": "databoxlib:norite_bricks_slab"
-}

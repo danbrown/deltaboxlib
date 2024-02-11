@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:asteroid_rock"
-  },
-  "result": "databoxlib:chiseled_asteroid_rock"
-}

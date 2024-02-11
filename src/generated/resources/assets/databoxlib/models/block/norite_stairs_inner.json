@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "databoxlib:block/norite",
-    "side": "databoxlib:block/norite",
-    "top": "databoxlib:block/norite"
-  }
-}

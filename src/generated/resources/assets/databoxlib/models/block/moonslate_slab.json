@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "databoxlib:block/moonslate_bottom",
-    "side": "databoxlib:block/moonslate",
-    "top": "databoxlib:block/moonslate_top"
-  }
-}

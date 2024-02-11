@@ -1,7 +1,0 @@
-{
-  "parent": "databoxlib:block/sticker/wall_r270",
-  "textures": {
-    "particle": "databoxlib:block/stickers/warning_sticker",
-    "texture": "databoxlib:block/stickers/warning_sticker"
-  }
-}

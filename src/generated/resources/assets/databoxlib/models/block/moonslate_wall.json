@@ -1,8 +1,0 @@
-{
-  "parent": "databoxlib:block/wall_special_post",
-  "textures": {
-    "bottom": "databoxlib:block/moonslate_top",
-    "top": "databoxlib:block/moonslate_top",
-    "wall": "databoxlib:block/moonslate"
-  }
-}

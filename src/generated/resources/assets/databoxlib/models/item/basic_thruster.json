@@ -1,6 +1,0 @@
-{
-  "parent": "databoxlib:block/thrusters/thruster_item",
-  "textures": {
-    "0": "databoxlib:block/thrusters/basic_thruster"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "databoxlib:cobbled_anorthosite"
-  },
-  "result": "databoxlib:polished_anorthosite_wall"
-}
