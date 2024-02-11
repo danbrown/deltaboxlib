@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "databoxlib:block/asteroid_rock_slab"
+    },
+    "type=double": {
+      "model": "databoxlib:block/asteroid_rock_slab_double"
+    },
+    "type=top": {
+      "model": "databoxlib:block/asteroid_rock_slab_top"
+    }
+  }
+}

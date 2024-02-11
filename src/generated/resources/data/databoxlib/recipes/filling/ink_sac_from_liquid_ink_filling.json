@@ -1,0 +1,17 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "databoxlib:condensed_latex"
+    },
+    {
+      "amount": 100,
+      "fluidTag": "forge:ink"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:ink_sac"
+    }
+  ]
+}

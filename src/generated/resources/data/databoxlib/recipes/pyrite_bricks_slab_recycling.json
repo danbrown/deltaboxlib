@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "databoxlib:pyrite_bricks_slab"
+    },
+    {
+      "item": "databoxlib:pyrite_bricks_slab"
+    }
+  ],
+  "result": {
+    "item": "databoxlib:pyrite_bricks"
+  }
+}

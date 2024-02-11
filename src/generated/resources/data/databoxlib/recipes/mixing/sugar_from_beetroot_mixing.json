@@ -1,0 +1,15 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "passiveheated",
+  "ingredients": [
+    {
+      "item": "minecraft:beetroot"
+    }
+  ],
+  "results": [
+    {
+      "chance": 0.125,
+      "item": "minecraft:sugar"
+    }
+  ]
+}

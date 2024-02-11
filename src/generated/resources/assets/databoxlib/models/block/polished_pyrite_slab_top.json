@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "databoxlib:block/polished_pyrite",
+    "side": "databoxlib:block/polished_pyrite",
+    "top": "databoxlib:block/polished_pyrite"
+  }
+}

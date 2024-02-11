@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "databoxlib:polished_pyrite"
+  },
+  "result": "databoxlib:polished_pyrite_wall"
+}

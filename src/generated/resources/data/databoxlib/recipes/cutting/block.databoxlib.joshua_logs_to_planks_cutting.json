@@ -1,0 +1,14 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "databoxlib:joshua_logs"
+    }
+  ],
+  "results": [
+    {
+      "count": 6,
+      "item": "databoxlib:joshua_planks"
+    }
+  ]
+}

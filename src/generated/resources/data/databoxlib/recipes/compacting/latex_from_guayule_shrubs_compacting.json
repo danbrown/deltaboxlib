@@ -1,0 +1,42 @@
+{
+  "type": "create:compacting",
+  "heatRequirement": "passiveheated",
+  "ingredients": [
+    {
+      "item": "databoxlib:guayule_shrub"
+    },
+    {
+      "item": "databoxlib:guayule_shrub"
+    },
+    {
+      "item": "databoxlib:guayule_shrub"
+    },
+    {
+      "item": "databoxlib:guayule_shrub"
+    },
+    {
+      "item": "databoxlib:guayule_shrub"
+    },
+    {
+      "item": "databoxlib:guayule_shrub"
+    },
+    {
+      "item": "databoxlib:guayule_shrub"
+    },
+    {
+      "item": "databoxlib:guayule_shrub"
+    },
+    {
+      "item": "databoxlib:guayule_shrub"
+    },
+    {
+      "item": "databoxlib:guayule_shrub"
+    }
+  ],
+  "results": [
+    {
+      "amount": 100,
+      "fluid": "databoxlib:latex"
+    }
+  ]
+}

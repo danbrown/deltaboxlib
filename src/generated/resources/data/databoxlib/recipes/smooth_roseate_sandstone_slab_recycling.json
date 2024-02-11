@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "databoxlib:smooth_roseate_sandstone_slab"
+    },
+    {
+      "item": "databoxlib:smooth_roseate_sandstone_slab"
+    }
+  ],
+  "result": {
+    "item": "databoxlib:smooth_roseate_sandstone"
+  }
+}

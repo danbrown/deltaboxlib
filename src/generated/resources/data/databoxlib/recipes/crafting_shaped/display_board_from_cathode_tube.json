@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "create:andesite_alloy"
+    },
+    "C": {
+      "item": "databoxlib:cathode_tube"
+    }
+  },
+  "pattern": [
+    "ACA"
+  ],
+  "result": {
+    "item": "create:display_board"
+  },
+  "show_notification": true
+}

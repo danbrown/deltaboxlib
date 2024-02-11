@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "databoxlib:block/red_hematite_bricks",
+    "side": "databoxlib:block/red_hematite_bricks",
+    "top": "databoxlib:block/red_hematite_bricks"
+  }
+}

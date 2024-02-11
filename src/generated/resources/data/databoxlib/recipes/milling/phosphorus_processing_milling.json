@@ -1,0 +1,14 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "databoxlib:phosphorite"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "item": "databoxlib:phosphorus_powder"
+    }
+  ]
+}

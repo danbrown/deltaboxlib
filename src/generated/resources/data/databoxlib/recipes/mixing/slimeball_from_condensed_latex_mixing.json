@@ -1,0 +1,16 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "databoxlib:condensed_latex"
+    },
+    {
+      "item": "minecraft:lime_dye"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:slime_ball"
+    }
+  ]
+}

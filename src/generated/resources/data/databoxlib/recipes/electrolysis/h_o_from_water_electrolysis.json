@@ -1,0 +1,20 @@
+{
+  "type": "databoxlib:electrolysis",
+  "ingredients": [
+    {
+      "amount": 1000,
+      "fluid": "minecraft:water",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "amount": 100,
+      "fluid": "databoxlib:hydrogen"
+    },
+    {
+      "amount": 100,
+      "fluid": "databoxlib:oxygen"
+    }
+  ]
+}

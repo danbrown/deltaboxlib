@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "databoxlib:raw_aluminium_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "databoxlib:raw_aluminium"
+  }
+}

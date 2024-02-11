@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "databoxlib:raw_graphite"
+    }
+  ],
+  "result": {
+    "item": "minecraft:black_dye"
+  }
+}

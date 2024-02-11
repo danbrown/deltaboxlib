@@ -1,0 +1,16 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "databoxlib:condensed_latex"
+    },
+    {
+      "item": "minecraft:black_dye"
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:rubber"
+    }
+  ]
+}

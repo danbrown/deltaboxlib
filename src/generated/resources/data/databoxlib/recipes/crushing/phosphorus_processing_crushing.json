@@ -1,0 +1,19 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "databoxlib:phosphorite"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "count": 2,
+      "item": "databoxlib:phosphorus_powder"
+    },
+    {
+      "chance": 0.33,
+      "item": "databoxlib:phosphorus_powder"
+    }
+  ]
+}

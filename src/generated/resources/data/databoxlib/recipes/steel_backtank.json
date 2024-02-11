@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "databoxlib:steel_ingot"
+    },
+    "S": {
+      "item": "databoxlib:steel_sheet"
+    }
+  },
+  "pattern": [
+    "S S",
+    "SIS",
+    "SSS"
+  ],
+  "result": {
+    "item": "databoxlib:steel_backtank"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,17 @@
+{
+  "type": "create:compacting",
+  "heatRequirement": "passiveheated",
+  "ingredients": [
+    {
+      "item": "create:copper_nugget"
+    },
+    {
+      "item": "create:zinc_nugget"
+    }
+  ],
+  "results": [
+    {
+      "item": "create:brass_nugget"
+    }
+  ]
+}

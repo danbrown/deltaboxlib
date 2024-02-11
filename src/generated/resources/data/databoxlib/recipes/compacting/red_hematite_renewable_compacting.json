@@ -1,0 +1,21 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/iron"
+    },
+    {
+      "item": "minecraft:cobblestone"
+    },
+    {
+      "amount": 100,
+      "fluid": "minecraft:lava",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:red_hematite"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "databoxlib:cobbled_red_hematite"
+  },
+  "result": "databoxlib:cobbled_red_hematite_wall"
+}

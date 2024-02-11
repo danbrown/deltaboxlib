@@ -1,0 +1,18 @@
+{
+  "type": "create:compacting",
+  "heatRequirement": "passiveheated",
+  "ingredients": [
+    {
+      "tag": "forge:seeds"
+    },
+    {
+      "tag": "forge:seeds"
+    }
+  ],
+  "results": [
+    {
+      "amount": 50,
+      "fluid": "databoxlib:plant_oil"
+    }
+  ]
+}

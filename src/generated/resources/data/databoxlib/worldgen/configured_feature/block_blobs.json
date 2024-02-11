@@ -1,0 +1,43 @@
+{
+  "type": "databoxlib:block_blobs",
+  "config": {
+    "block_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "minecraft:cobblestone"
+          },
+          "weight": 4
+        },
+        {
+          "data": {
+            "Name": "minecraft:andesite"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "minecraft:mossy_cobblestone"
+          },
+          "weight": 2
+        }
+      ]
+    },
+    "predicate": [
+      {
+        "type": "minecraft:matching_blocks",
+        "blocks": "minecraft:brown_terracotta"
+      },
+      {
+        "type": "minecraft:matching_blocks",
+        "blocks": "databoxlib:cobbled_brown_slate"
+      },
+      {
+        "type": "minecraft:matching_block_tag",
+        "tag": "minecraft:dirt"
+      }
+    ],
+    "size": 3
+  }
+}

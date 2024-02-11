@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "databoxlib:cathode_tube"
+    },
+    "G": {
+      "tag": "forge:ingots/gold"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "G G",
+    "GSG",
+    "GCG"
+  ],
+  "result": {
+    "item": "create:controller_rail"
+  },
+  "show_notification": true
+}

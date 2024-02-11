@@ -1,0 +1,18 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "databoxlib:moon_regolith"
+    }
+  ],
+  "results": [
+    {
+      "chance": 0.5,
+      "item": "minecraft:flint"
+    },
+    {
+      "chance": 0.125,
+      "item": "databoxlib:aluminium_nugget"
+    }
+  ]
+}

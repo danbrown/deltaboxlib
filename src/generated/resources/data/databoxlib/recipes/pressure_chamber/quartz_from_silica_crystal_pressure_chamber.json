@@ -1,0 +1,15 @@
+{
+  "type": "databoxlib:pressure_chamber",
+  "heatRequirement": "passiveheated",
+  "ingredients": [
+    {
+      "item": "databoxlib:silica_crystal"
+    }
+  ],
+  "processingTime": 200,
+  "results": [
+    {
+      "item": "minecraft:quartz"
+    }
+  ]
+}

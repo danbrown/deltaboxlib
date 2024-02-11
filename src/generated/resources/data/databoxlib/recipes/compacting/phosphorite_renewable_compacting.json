@@ -1,0 +1,19 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "tag": "forge:dusts/phosphorus"
+    },
+    {
+      "tag": "forge:dusts/phosphorus"
+    },
+    {
+      "item": "minecraft:cobblestone"
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:phosphorite"
+    }
+  ]
+}

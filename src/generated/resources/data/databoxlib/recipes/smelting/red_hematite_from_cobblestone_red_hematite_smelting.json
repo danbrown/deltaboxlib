@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": {
+    "item": "databoxlib:cobbled_red_hematite"
+  },
+  "result": "databoxlib:red_hematite"
+}

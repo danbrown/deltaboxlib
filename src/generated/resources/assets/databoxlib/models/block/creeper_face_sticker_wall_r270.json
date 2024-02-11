@@ -1,0 +1,7 @@
+{
+  "parent": "databoxlib:block/sticker/wall_r270",
+  "textures": {
+    "particle": "databoxlib:block/stickers/creeper_face_sticker",
+    "texture": "databoxlib:block/stickers/creeper_face_sticker"
+  }
+}

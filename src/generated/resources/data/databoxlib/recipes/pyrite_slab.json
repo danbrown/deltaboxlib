@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "pyrite_slab",
+  "key": {
+    "X": {
+      "item": "databoxlib:pyrite"
+    }
+  },
+  "pattern": [
+    "XXX"
+  ],
+  "result": {
+    "count": 6,
+    "item": "databoxlib:pyrite_slab"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,14 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "databoxlib:red_hematite"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "item": "databoxlib:cobbled_red_hematite"
+    }
+  ]
+}

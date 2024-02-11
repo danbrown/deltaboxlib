@@ -1,0 +1,22 @@
+{
+  "type": "databoxlib:pressure_chamber",
+  "heatRequirement": "passiveheated",
+  "ingredients": [
+    {
+      "tag": "forge:storage_blocks/sugar"
+    },
+    {
+      "tag": "forge:storage_blocks/sugar"
+    },
+    {
+      "tag": "forge:storage_blocks/sugar"
+    }
+  ],
+  "processingTime": 200,
+  "results": [
+    {
+      "amount": 25,
+      "fluid": "create:honey"
+    }
+  ]
+}

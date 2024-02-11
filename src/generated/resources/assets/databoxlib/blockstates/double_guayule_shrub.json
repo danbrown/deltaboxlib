@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "databoxlib:block/double_guayule_shrub_bottom"
+    },
+    "half=upper": {
+      "model": "databoxlib:block/double_guayule_shrub_top"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "olivine_slab",
+  "key": {
+    "X": {
+      "item": "databoxlib:olivine"
+    }
+  },
+  "pattern": [
+    "XXX"
+  ],
+  "result": {
+    "count": 6,
+    "item": "databoxlib:olivine_slab"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "cobbled_moonslate_slab",
+  "key": {
+    "X": {
+      "item": "databoxlib:cobbled_moonslate"
+    }
+  },
+  "pattern": [
+    "XXX"
+  ],
+  "result": {
+    "count": 6,
+    "item": "databoxlib:cobbled_moonslate_slab"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "databoxlib:block/polished_pyrite_slab"
+    },
+    "type=double": {
+      "model": "databoxlib:block/polished_pyrite_slab_double"
+    },
+    "type=top": {
+      "model": "databoxlib:block/polished_pyrite_slab_top"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "K": {
+      "tag": "databoxlib:rubber_replacements"
+    }
+  },
+  "pattern": [
+    "KKK",
+    "KKK"
+  ],
+  "result": {
+    "item": "create:belt_connector"
+  },
+  "show_notification": true
+}

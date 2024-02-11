@@ -1,0 +1,14 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "tag": "create:crushed_raw_tungsten"
+    }
+  ],
+  "results": [
+    {
+      "count": 9,
+      "item": "databoxlib:tungsten_nugget"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "cobbled_brown_slate_stairs",
+  "key": {
+    "X": {
+      "item": "databoxlib:cobbled_brown_slate"
+    }
+  },
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "result": {
+    "count": 4,
+    "item": "databoxlib:cobbled_brown_slate_stairs"
+  },
+  "show_notification": true
+}

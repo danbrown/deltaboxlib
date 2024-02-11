@@ -1,0 +1,20 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "passiveheated",
+  "ingredients": [
+    {
+      "item": "create:limestone"
+    },
+    {
+      "item": "create:crushed_raw_iron"
+    },
+    {
+      "tag": "forge:dusts/carbon"
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:steel_blend"
+    }
+  ]
+}

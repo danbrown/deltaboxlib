@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "databoxlib:joshua_planks"
+    }
+  ],
+  "result": {
+    "item": "databoxlib:joshua_button"
+  }
+}

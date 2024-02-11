@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "forge:storage_blocks/aluminium"
+    },
+    "B": {
+      "item": "minecraft:blue_ice"
+    },
+    "G": {
+      "item": "create:framed_glass"
+    },
+    "S": {
+      "tag": "forge:plates/steel"
+    },
+    "s": {
+      "item": "create:shaft"
+    }
+  },
+  "pattern": [
+    "AsA",
+    "SBS",
+    "GSG"
+  ],
+  "result": {
+    "item": "databoxlib:mechanical_cooler"
+  },
+  "show_notification": true
+}

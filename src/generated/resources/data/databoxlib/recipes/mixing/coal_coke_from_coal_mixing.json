@@ -1,0 +1,47 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "passiveheated",
+  "ingredients": [
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "amount": 500,
+      "fluid": "minecraft:water",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:raw_carbon"
+    },
+    {
+      "amount": 25,
+      "fluid": "databoxlib:creosote_oil"
+    }
+  ]
+}

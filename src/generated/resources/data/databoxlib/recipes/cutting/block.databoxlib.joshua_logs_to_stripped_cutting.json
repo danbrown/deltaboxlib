@@ -1,0 +1,13 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "databoxlib:joshua_logs"
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:stripped_joshua_logs"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "databoxlib:block/olivine",
+    "side": "databoxlib:block/olivine",
+    "top": "databoxlib:block/olivine"
+  }
+}

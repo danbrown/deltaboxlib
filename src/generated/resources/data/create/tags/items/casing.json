@@ -1,0 +1,12 @@
+{
+  "values": [
+    "databoxlib:wall_panel",
+    "databoxlib:hull_panel",
+    "databoxlib:steel_purple_panel_casing",
+    "databoxlib:steel_blue_panel_casing",
+    "databoxlib:steel_orange_panel_casing",
+    "databoxlib:steel_red_panel_casing",
+    "databoxlib:steel_green_panel_casing",
+    "databoxlib:steel_casing"
+  ]
+}

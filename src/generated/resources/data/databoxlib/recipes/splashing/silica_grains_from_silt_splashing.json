@@ -1,0 +1,22 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "databoxlib:silt"
+    }
+  ],
+  "results": [
+    {
+      "chance": 0.05,
+      "item": "databoxlib:silica_grains"
+    },
+    {
+      "chance": 0.125,
+      "item": "create:copper_nugget"
+    },
+    {
+      "chance": 0.5,
+      "item": "minecraft:clay_ball"
+    }
+  ]
+}

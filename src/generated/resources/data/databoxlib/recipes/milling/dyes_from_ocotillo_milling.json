@@ -1,0 +1,14 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "databoxlib:ocotillo"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "item": "minecraft:orange_dye"
+    }
+  ]
+}

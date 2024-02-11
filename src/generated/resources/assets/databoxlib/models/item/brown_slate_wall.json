@@ -1,0 +1,8 @@
+{
+  "parent": "databoxlib:block/wall_inventory_special_top",
+  "textures": {
+    "down": "databoxlib:block/brown_slate_top",
+    "top": "databoxlib:block/brown_slate_top",
+    "wall": "databoxlib:block/brown_slate"
+  }
+}

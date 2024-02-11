@@ -1,0 +1,16 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "databoxlib:sandstone_pebbles"
+    },
+    {
+      "item": "databoxlib:sandstone_pebbles"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:sandstone"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "databoxlib:block/brown_slate_bricks_slab"
+    },
+    "type=double": {
+      "model": "databoxlib:block/brown_slate_bricks_slab_double"
+    },
+    "type=top": {
+      "model": "databoxlib:block/brown_slate_bricks_slab_top"
+    }
+  }
+}

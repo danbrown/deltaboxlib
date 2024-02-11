@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "default": {
+      "feature": "databoxlib:small_boulder_column",
+      "placement": []
+    },
+    "features": [
+      {
+        "chance": 0.75,
+        "feature": {
+          "feature": "databoxlib:tall_boulder_column",
+          "placement": []
+        }
+      }
+    ]
+  }
+}

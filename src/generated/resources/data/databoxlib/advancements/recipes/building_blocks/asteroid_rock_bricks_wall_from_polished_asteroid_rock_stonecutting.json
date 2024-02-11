@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_polished_asteroid_rock": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "databoxlib:polished_asteroid_rock"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "databoxlib:asteroid_rock_bricks_wall_from_polished_asteroid_rock_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_polished_asteroid_rock",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "databoxlib:asteroid_rock_bricks_wall_from_polished_asteroid_rock_stonecutting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

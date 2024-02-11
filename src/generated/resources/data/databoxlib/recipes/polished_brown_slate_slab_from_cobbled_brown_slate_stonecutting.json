@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "databoxlib:cobbled_brown_slate"
+  },
+  "result": "databoxlib:polished_brown_slate_slab"
+}

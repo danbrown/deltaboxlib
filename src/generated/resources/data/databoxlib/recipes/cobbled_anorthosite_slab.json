@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "cobbled_anorthosite_slab",
+  "key": {
+    "X": {
+      "item": "databoxlib:cobbled_anorthosite"
+    }
+  },
+  "pattern": [
+    "XXX"
+  ],
+  "result": {
+    "count": 6,
+    "item": "databoxlib:cobbled_anorthosite_slab"
+  },
+  "show_notification": true
+}

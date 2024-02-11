@@ -1,0 +1,115 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "amount": 1000,
+      "fluid": "minecraft:lava",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:raw_graphite"
+    },
+    {
+      "chance": 0.125,
+      "item": "minecraft:diamond"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "databoxlib:item/bars",
+  "textures": {
+    "bars": "databoxlib:block/bars/steel_bars",
+    "edge": "databoxlib:block/bars/steel_bars_edge"
+  }
+}

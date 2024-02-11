@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "databoxlib:block/tungsten_block"
+    }
+  }
+}

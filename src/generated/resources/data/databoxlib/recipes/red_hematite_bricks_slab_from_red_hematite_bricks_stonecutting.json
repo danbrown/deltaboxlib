@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "databoxlib:red_hematite_bricks"
+  },
+  "result": "databoxlib:red_hematite_bricks_slab"
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "databoxlib:block/tall_sparse_dry_grass_bottom"
+    },
+    "half=upper": {
+      "model": "databoxlib:block/tall_sparse_dry_grass_top"
+    }
+  }
+}

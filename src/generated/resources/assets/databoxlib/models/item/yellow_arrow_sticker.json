@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "databoxlib:block/stickers/yellow_arrow_sticker"
+  }
+}

@@ -1,0 +1,12 @@
+// 1.20.1	2024-02-11T18:18:53.11475	Databox Biome Tags
+ae01ff8383d4aecfa0867dac7160af204595f4b8 data/alexsmobs/tags/worldgen/biome/spawns_red_gusters.json
+d2e2825c27819cb1a641015d41cad5009652f5d5 data/databoxlib/tags/worldgen/biome/has_structure/granite_arches.json
+fd9305063ff7e812bf105e12c3cbe3c52a58cc4a data/databoxlib/tags/worldgen/biome/has_structure/lush_red_arches.json
+ae01ff8383d4aecfa0867dac7160af204595f4b8 data/databoxlib/tags/worldgen/biome/has_structure/red_arches.json
+c168a24bcd900c3e6cf0d4f5dc0022fb736aacc2 data/databoxlib/tags/worldgen/biome/is_databoxlib.json
+6a04375441cb76cbef9eac92b963f6e7e1be784a data/databoxlib/tags/worldgen/biome/is_earth.json
+c05b19e15956d1263a8ba6d0aa149b351fe8cea4 data/databoxlib/tags/worldgen/biome/is_mossy_slates.json
+ae01ff8383d4aecfa0867dac7160af204595f4b8 data/databoxlib/tags/worldgen/biome/is_red_sand_arches.json
+755bf7d01717fc46c1d5bd4589033d9398de5752 data/databoxlib/tags/worldgen/biome/is_roseate_desert.json
+6dc9e40e74df63a95372bd8c55d22bd2b077e29b data/databoxlib/tags/worldgen/biome/is_scrap_wastelands.json
+ae01ff8383d4aecfa0867dac7160af204595f4b8 data/minecraft/tags/worldgen/biome/has_structure/mineshaft_mesa.json

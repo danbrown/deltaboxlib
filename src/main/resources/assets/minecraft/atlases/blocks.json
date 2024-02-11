@@ -1,0 +1,36 @@
+{
+  "sources": [
+    {
+      "type": "single",
+      "resource": "databoxlib:fluid/dense_flow"
+    },
+    {
+      "type": "single",
+      "resource": "databoxlib:fluid/dense_still"
+    },
+    {
+      "type": "single",
+      "resource": "databoxlib:fluid/light_flow"
+    },
+    {
+      "type": "single",
+      "resource": "databoxlib:fluid/light_still"
+    },
+    {
+      "type": "single",
+      "resource": "databoxlib:fluid/default_flow"
+    },
+    {
+      "type": "single",
+      "resource": "databoxlib:fluid/default_still"
+    },
+    {
+      "type": "single",
+      "resource": "databoxlib:fluid/molten_flow"
+    },
+    {
+      "type": "single",
+      "resource": "databoxlib:fluid/molten_still"
+    }
+  ]
+}

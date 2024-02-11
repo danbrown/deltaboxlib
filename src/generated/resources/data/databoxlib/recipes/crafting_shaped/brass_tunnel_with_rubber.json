@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "tag": "forge:ingots/brass"
+    },
+    "E": {
+      "item": "create:electron_tube"
+    },
+    "K": {
+      "tag": "databoxlib:rubber_replacements"
+    }
+  },
+  "pattern": [
+    "E ",
+    "BB",
+    "KK"
+  ],
+  "result": {
+    "count": 2,
+    "item": "create:brass_tunnel"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_polished_norite": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "databoxlib:polished_norite"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "databoxlib:norite_bricks_stairs_from_polished_norite_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_polished_norite",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "databoxlib:norite_bricks_stairs_from_polished_norite_stonecutting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "databoxlib:block/thrusters/thruster_vertical_z",
+  "textures": {
+    "0": "databoxlib:block/thrusters/basic_thruster",
+    "particle": "databoxlib:block/thrusters/basic_thruster"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "databoxlib:pyrite"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "count": 2,
+      "item": "databoxlib:sulphur"
+    },
+    {
+      "chance": 0.33,
+      "item": "databoxlib:sulphur"
+    },
+    {
+      "chance": 0.15,
+      "item": "minecraft:iron_nugget"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "databoxlib:block/polished_olivine",
+    "side": "databoxlib:block/polished_olivine"
+  }
+}

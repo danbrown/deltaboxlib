@@ -1,0 +1,14 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "tag": "create:crushed_raw_iron"
+    }
+  ],
+  "results": [
+    {
+      "count": 9,
+      "item": "minecraft:iron_nugget"
+    }
+  ]
+}

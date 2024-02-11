@@ -1,0 +1,6 @@
+{
+  "parent": "databoxlib:block/thrusters/thruster_item",
+  "textures": {
+    "0": "databoxlib:block/thrusters/scalar_thruster"
+  }
+}

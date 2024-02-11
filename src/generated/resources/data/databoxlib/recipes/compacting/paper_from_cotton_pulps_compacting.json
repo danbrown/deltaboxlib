@@ -1,0 +1,22 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "databoxlib:cotton_pulp"
+    },
+    {
+      "item": "databoxlib:cotton_pulp"
+    },
+    {
+      "item": "databoxlib:cotton_pulp"
+    },
+    {
+      "item": "databoxlib:cotton_pulp"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:paper"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "databoxlib:block/gravity_stabilizer"
+    },
+    "powered=true": {
+      "model": "databoxlib:block/gravity_stabilizer_on"
+    }
+  }
+}

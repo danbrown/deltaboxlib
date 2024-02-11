@@ -1,0 +1,22 @@
+[
+  {
+    "block": "databoxlib:inverted_clutch",
+    "mass": 100.0
+  },
+  {
+    "block": "databoxlib:scalar_thruster",
+    "mass": 100.0
+  },
+  {
+    "block": "databoxlib:resistor",
+    "mass": 100.0
+  },
+  {
+    "block": "databoxlib:antimatter_block",
+    "mass": 0.0
+  },
+  {
+    "block": "databoxlib:basic_thruster",
+    "mass": 100.0
+  }
+]

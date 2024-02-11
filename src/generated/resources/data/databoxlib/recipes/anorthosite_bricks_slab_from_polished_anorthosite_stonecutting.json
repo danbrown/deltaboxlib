@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "databoxlib:polished_anorthosite"
+  },
+  "result": "databoxlib:anorthosite_bricks_slab"
+}

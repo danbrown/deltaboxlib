@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "databoxlib:block/phosphorite",
+    "side": "databoxlib:block/phosphorite",
+    "top": "databoxlib:block/phosphorite"
+  }
+}

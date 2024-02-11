@@ -1,0 +1,62 @@
+{
+  "type": "databoxlib:block_blobs",
+  "config": {
+    "block_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "minecraft:basalt",
+            "Properties": {
+              "axis": "y"
+            }
+          },
+          "weight": 6
+        },
+        {
+          "data": {
+            "Name": "minecraft:deepslate",
+            "Properties": {
+              "axis": "y"
+            }
+          },
+          "weight": 4
+        },
+        {
+          "data": {
+            "Name": "minecraft:smooth_basalt"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "minecraft:polished_basalt",
+            "Properties": {
+              "axis": "y"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    "predicate": [
+      {
+        "type": "minecraft:matching_block_tag",
+        "tag": "minecraft:dirt"
+      },
+      {
+        "type": "minecraft:matching_blocks",
+        "blocks": "minecraft:brown_terracotta"
+      },
+      {
+        "type": "minecraft:matching_blocks",
+        "blocks": "databoxlib:cobbled_brown_slate"
+      },
+      {
+        "type": "minecraft:matching_block_tag",
+        "tag": "databoxlib:is_moon_surface"
+      }
+    ],
+    "size": 3
+  }
+}

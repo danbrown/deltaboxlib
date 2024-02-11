@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "databoxlib:steel_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "databoxlib:steel_ingot"
+  }
+}

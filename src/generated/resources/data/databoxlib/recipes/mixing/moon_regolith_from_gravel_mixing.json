@@ -1,0 +1,17 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "minecraft:gravel"
+    },
+    {
+      "item": "databoxlib:moon_regolith"
+    }
+  ],
+  "results": [
+    {
+      "count": 2,
+      "item": "databoxlib:moon_regolith"
+    }
+  ]
+}

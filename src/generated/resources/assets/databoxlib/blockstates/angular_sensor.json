@@ -1,0 +1,54 @@
+{
+  "variants": {
+    "facing=down,powered=false": {
+      "model": "databoxlib:block/angular_sensor_y",
+      "x": 270,
+      "y": 90
+    },
+    "facing=down,powered=true": {
+      "model": "databoxlib:block/angular_sensor_y_on",
+      "x": 270,
+      "y": 90
+    },
+    "facing=east,powered=false": {
+      "model": "databoxlib:block/angular_sensor_x",
+      "y": 270
+    },
+    "facing=east,powered=true": {
+      "model": "databoxlib:block/angular_sensor_x_on",
+      "y": 270
+    },
+    "facing=north,powered=false": {
+      "model": "databoxlib:block/angular_sensor",
+      "y": 180
+    },
+    "facing=north,powered=true": {
+      "model": "databoxlib:block/angular_sensor",
+      "y": 180
+    },
+    "facing=south,powered=false": {
+      "model": "databoxlib:block/angular_sensor"
+    },
+    "facing=south,powered=true": {
+      "model": "databoxlib:block/angular_sensor"
+    },
+    "facing=up,powered=false": {
+      "model": "databoxlib:block/angular_sensor_y",
+      "x": 90,
+      "y": 90
+    },
+    "facing=up,powered=true": {
+      "model": "databoxlib:block/angular_sensor_y_on",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,powered=false": {
+      "model": "databoxlib:block/angular_sensor_x",
+      "y": 90
+    },
+    "facing=west,powered=true": {
+      "model": "databoxlib:block/angular_sensor_x_on",
+      "y": 90
+    }
+  }
+}

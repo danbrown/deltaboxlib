@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "databoxlib:block/double_agave_bottom"
+    },
+    "half=upper": {
+      "model": "databoxlib:block/double_agave_top"
+    }
+  }
+}

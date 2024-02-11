@@ -1,0 +1,18 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "databoxlib:raw_tungsten"
+    }
+  ],
+  "processingTime": 120,
+  "results": [
+    {
+      "item": "databoxlib:crushed_raw_tungsten"
+    },
+    {
+      "chance": 0.75,
+      "item": "create:experience_nugget"
+    }
+  ]
+}

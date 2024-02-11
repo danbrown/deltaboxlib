@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "databoxlib:stripped_joshua_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "databoxlib:joshua_planks"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_polished_pyrite": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "databoxlib:polished_pyrite"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "databoxlib:pyrite_bricks_from_polished_pyrite_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_polished_pyrite",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "databoxlib:pyrite_bricks_from_polished_pyrite_stonecutting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

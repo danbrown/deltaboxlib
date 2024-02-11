@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cross",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "cross": "databoxlib:block/cotton/budding_cotton_stage0",
+    "particle": "databoxlib:block/cotton/budding_cotton_stage0"
+  }
+}

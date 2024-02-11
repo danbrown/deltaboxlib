@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "databoxlib:block/pyrite_bricks",
+    "side": "databoxlib:block/pyrite_bricks",
+    "top": "databoxlib:block/pyrite_bricks"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "databoxlib:roseate_grains"
+    }
+  ],
+  "results": [
+    {
+      "chance": 0.5,
+      "item": "databoxlib:himalayan_salt"
+    },
+    {
+      "chance": 0.5,
+      "item": "minecraft:clay_ball"
+    }
+  ]
+}

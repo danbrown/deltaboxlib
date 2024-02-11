@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "databoxlib:block/moonslate_slab"
+    },
+    "type=double": {
+      "model": "databoxlib:block/moonslate_slab_double"
+    },
+    "type=top": {
+      "model": "databoxlib:block/moonslate_slab_top"
+    }
+  }
+}

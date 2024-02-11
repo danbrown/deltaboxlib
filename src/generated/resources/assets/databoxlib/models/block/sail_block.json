@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "bottom": "databoxlib:block/sail_block_side",
+    "front": "databoxlib:block/sail_block_front",
+    "side": "databoxlib:block/sail_block_side",
+    "top": "databoxlib:block/sail_block_side"
+  }
+}

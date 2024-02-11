@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "databoxlib:block/himalayan_salt",
+    "side": "databoxlib:block/himalayan_salt",
+    "top": "databoxlib:block/himalayan_salt"
+  }
+}

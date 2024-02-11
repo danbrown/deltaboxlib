@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "bottom": "databoxlib:block/ship_console_side",
+    "front": "databoxlib:block/ship_console_front",
+    "side": "databoxlib:block/ship_console_side",
+    "top": "databoxlib:block/ship_console_side"
+  }
+}

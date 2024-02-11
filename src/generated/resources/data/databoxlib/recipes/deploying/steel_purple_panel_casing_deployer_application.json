@@ -1,0 +1,16 @@
+{
+  "type": "create:deploying",
+  "ingredients": [
+    {
+      "item": "databoxlib:steel_casing"
+    },
+    {
+      "item": "minecraft:amethyst_shard"
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:steel_purple_panel_casing"
+    }
+  ]
+}

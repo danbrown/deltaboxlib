@@ -1,0 +1,18 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "databoxlib:cobbled_red_hematite"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "chance": 0.25,
+      "item": "minecraft:iron_nugget"
+    }
+  ]
+}

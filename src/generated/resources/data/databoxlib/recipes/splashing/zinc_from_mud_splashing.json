@@ -1,0 +1,19 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "minecraft:mud"
+    }
+  ],
+  "results": [
+    {
+      "chance": 0.125,
+      "count": 3,
+      "item": "create:zinc_nugget"
+    },
+    {
+      "chance": 0.5,
+      "item": "minecraft:mangrove_roots"
+    }
+  ]
+}

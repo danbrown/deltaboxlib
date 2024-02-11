@@ -1,0 +1,108 @@
+{
+  "variants": {
+    "axis_along_first=false,burning=false,facing=down": {
+      "model": "databoxlib:block/basic_thruster_horizontal",
+      "x": 270,
+      "y": 90
+    },
+    "axis_along_first=false,burning=false,facing=east": {
+      "model": "databoxlib:block/basic_thruster_horizontal",
+      "y": 270
+    },
+    "axis_along_first=false,burning=false,facing=north": {
+      "model": "databoxlib:block/basic_thruster_vertical_z",
+      "x": 90,
+      "y": 180
+    },
+    "axis_along_first=false,burning=false,facing=south": {
+      "model": "databoxlib:block/basic_thruster_vertical_z",
+      "x": 90
+    },
+    "axis_along_first=false,burning=false,facing=up": {
+      "model": "databoxlib:block/basic_thruster_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,burning=false,facing=west": {
+      "model": "databoxlib:block/basic_thruster_horizontal",
+      "y": 90
+    },
+    "axis_along_first=false,burning=true,facing=down": {
+      "model": "databoxlib:block/basic_thruster_horizontal_burning",
+      "x": 270,
+      "y": 90
+    },
+    "axis_along_first=false,burning=true,facing=east": {
+      "model": "databoxlib:block/basic_thruster_horizontal_burning",
+      "y": 270
+    },
+    "axis_along_first=false,burning=true,facing=north": {
+      "model": "databoxlib:block/basic_thruster_vertical_z_burning",
+      "x": 90,
+      "y": 180
+    },
+    "axis_along_first=false,burning=true,facing=south": {
+      "model": "databoxlib:block/basic_thruster_vertical_z_burning",
+      "x": 90
+    },
+    "axis_along_first=false,burning=true,facing=up": {
+      "model": "databoxlib:block/basic_thruster_horizontal_burning",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=false,burning=true,facing=west": {
+      "model": "databoxlib:block/basic_thruster_horizontal_burning",
+      "y": 90
+    },
+    "axis_along_first=true,burning=false,facing=down": {
+      "model": "databoxlib:block/basic_thruster_horizontal",
+      "x": 270
+    },
+    "axis_along_first=true,burning=false,facing=east": {
+      "model": "databoxlib:block/basic_thruster_vertical_z",
+      "x": 90,
+      "y": 270
+    },
+    "axis_along_first=true,burning=false,facing=north": {
+      "model": "databoxlib:block/basic_thruster_horizontal",
+      "y": 180
+    },
+    "axis_along_first=true,burning=false,facing=south": {
+      "model": "databoxlib:block/basic_thruster_horizontal"
+    },
+    "axis_along_first=true,burning=false,facing=up": {
+      "model": "databoxlib:block/basic_thruster_horizontal",
+      "x": 90
+    },
+    "axis_along_first=true,burning=false,facing=west": {
+      "model": "databoxlib:block/basic_thruster_vertical_z",
+      "x": 90,
+      "y": 90
+    },
+    "axis_along_first=true,burning=true,facing=down": {
+      "model": "databoxlib:block/basic_thruster_horizontal_burning",
+      "x": 270
+    },
+    "axis_along_first=true,burning=true,facing=east": {
+      "model": "databoxlib:block/basic_thruster_vertical_z_burning",
+      "x": 90,
+      "y": 270
+    },
+    "axis_along_first=true,burning=true,facing=north": {
+      "model": "databoxlib:block/basic_thruster_horizontal_burning",
+      "y": 180
+    },
+    "axis_along_first=true,burning=true,facing=south": {
+      "model": "databoxlib:block/basic_thruster_horizontal_burning"
+    },
+    "axis_along_first=true,burning=true,facing=up": {
+      "model": "databoxlib:block/basic_thruster_horizontal_burning",
+      "x": 90
+    },
+    "axis_along_first=true,burning=true,facing=west": {
+      "model": "databoxlib:block/basic_thruster_vertical_z_burning",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

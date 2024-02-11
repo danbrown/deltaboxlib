@@ -1,0 +1,14 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "databoxlib:cobbled_red_hematite"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "item": "minecraft:iron_nugget"
+    }
+  ]
+}

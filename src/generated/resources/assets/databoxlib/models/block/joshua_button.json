@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button",
+  "textures": {
+    "texture": "databoxlib:block/joshua_planks"
+  }
+}

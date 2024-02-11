@@ -1,0 +1,26 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "databoxlib:tungsten_ore"
+    }
+  ],
+  "processingTime": 120,
+  "results": [
+    {
+      "item": "databoxlib:crushed_raw_tungsten"
+    },
+    {
+      "chance": 0.75,
+      "item": "databoxlib:crushed_raw_tungsten"
+    },
+    {
+      "chance": 0.75,
+      "item": "create:experience_nugget"
+    },
+    {
+      "chance": 0.125,
+      "item": "minecraft:cobblestone"
+    }
+  ]
+}

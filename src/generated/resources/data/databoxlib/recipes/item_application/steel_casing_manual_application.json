@@ -1,0 +1,16 @@
+{
+  "type": "create:item_application",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_block"
+    },
+    {
+      "item": "databoxlib:steel_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:steel_casing"
+    }
+  ]
+}

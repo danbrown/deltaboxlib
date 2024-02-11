@@ -1,0 +1,8 @@
+{
+  "parent": "databoxlib:block/steel_trapdoor_bottom",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "particle": "databoxlib:block/steel_trapdoor",
+    "texture": "databoxlib:block/steel_trapdoor"
+  }
+}

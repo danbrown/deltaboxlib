@@ -1,0 +1,7 @@
+{
+  "parent": "databoxlib:block/sticker/wall_r90",
+  "textures": {
+    "particle": "databoxlib:block/stickers/brick_overlay_sticker",
+    "texture": "databoxlib:block/stickers/brick_overlay_sticker"
+  }
+}

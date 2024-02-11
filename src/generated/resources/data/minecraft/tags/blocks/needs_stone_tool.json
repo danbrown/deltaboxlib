@@ -1,0 +1,26 @@
+{
+  "values": [
+    "databoxlib:wall_panel",
+    "databoxlib:hull_panel",
+    "databoxlib:steel_purple_panel_casing",
+    "databoxlib:steel_blue_panel_casing",
+    "databoxlib:steel_orange_panel_casing",
+    "databoxlib:steel_red_panel_casing",
+    "databoxlib:steel_green_panel_casing",
+    "databoxlib:steel_casing",
+    "databoxlib:steel_scaffolding",
+    "databoxlib:steel_bars",
+    "databoxlib:steel_trapdoor",
+    "databoxlib:steel_ladder",
+    "databoxlib:aluminium_ore",
+    "databoxlib:deepslate_aluminium_ore",
+    "databoxlib:raw_aluminium_block",
+    "databoxlib:aluminium_block",
+    "databoxlib:red_hematite_iron_ore",
+    "databoxlib:anorthosite_aluminium_ore",
+    "databoxlib:moonslate_aluminium_ore",
+    "databoxlib:peridot_crystal",
+    "databoxlib:peridot_cluster",
+    "databoxlib:peridot_block"
+  ]
+}

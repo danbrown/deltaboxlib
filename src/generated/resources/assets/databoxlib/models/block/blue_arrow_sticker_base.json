@@ -1,0 +1,7 @@
+{
+  "parent": "databoxlib:block/sticker/base",
+  "textures": {
+    "particle": "databoxlib:block/stickers/blue_arrow_sticker",
+    "texture": "databoxlib:block/stickers/blue_arrow_sticker"
+  }
+}

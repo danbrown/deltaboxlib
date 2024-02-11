@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "polished_asteroid_rock_slab",
+  "key": {
+    "X": {
+      "item": "databoxlib:polished_asteroid_rock"
+    }
+  },
+  "pattern": [
+    "XXX"
+  ],
+  "result": {
+    "count": 6,
+    "item": "databoxlib:polished_asteroid_rock_slab"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,27 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "amount": 1000,
+      "fluidTag": "forge:ink"
+    }
+  ],
+  "results": [
+    {
+      "amount": 1000,
+      "fluid": "databoxlib:glow_ink"
+    }
+  ]
+}

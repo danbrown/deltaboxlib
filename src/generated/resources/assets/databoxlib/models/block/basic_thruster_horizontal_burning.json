@@ -1,0 +1,7 @@
+{
+  "parent": "databoxlib:block/thrusters/thruster_horizontal",
+  "textures": {
+    "0": "databoxlib:block/thrusters/basic_thruster_burning",
+    "particle": "databoxlib:block/thrusters/basic_thruster_burning"
+  }
+}

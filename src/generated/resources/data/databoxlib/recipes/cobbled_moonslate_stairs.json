@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "cobbled_moonslate_stairs",
+  "key": {
+    "X": {
+      "item": "databoxlib:cobbled_moonslate"
+    }
+  },
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "result": {
+    "count": 4,
+    "item": "databoxlib:cobbled_moonslate_stairs"
+  },
+  "show_notification": true
+}

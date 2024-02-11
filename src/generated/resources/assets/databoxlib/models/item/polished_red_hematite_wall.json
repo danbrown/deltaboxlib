@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "databoxlib:block/polished_red_hematite"
+  }
+}

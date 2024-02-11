@@ -1,0 +1,16 @@
+{
+  "type": "create:deploying",
+  "ingredients": [
+    {
+      "item": "databoxlib:steel_casing"
+    },
+    {
+      "item": "minecraft:redstone"
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:steel_red_panel_casing"
+    }
+  ]
+}

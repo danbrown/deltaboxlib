@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "asteroid_rock_stairs",
+  "key": {
+    "X": {
+      "item": "databoxlib:asteroid_rock"
+    }
+  },
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "result": {
+    "count": 4,
+    "item": "databoxlib:asteroid_rock_stairs"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,18 @@
+{
+  "ambientocclusion": false,
+  "render_type": "translucent",
+  "textures": {
+    "particle": "databoxlib:block/ladder",
+    "texture": "databoxlib:block/ladder"
+  },
+  "elements": [
+    {
+      "from": [0, 0.2, 0],
+      "to": [16, 0.2, 16],
+      "faces": {
+        "up": { "uv": [0, 0, 16, 16], "texture": "#texture", "rotation": 270 },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#texture", "rotation": 0 }
+      }
+    }
+  ]
+}

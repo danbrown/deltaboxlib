@@ -1,0 +1,13 @@
+{
+  "values": [
+    "databoxlib:tungsten_ore",
+    "databoxlib:deepslate_tungsten_ore",
+    "databoxlib:aluminium_ore",
+    "databoxlib:deepslate_aluminium_ore",
+    "databoxlib:red_hematite_iron_ore",
+    "databoxlib:anorthosite_aluminium_ore",
+    "databoxlib:anorthosite_tungsten_ore",
+    "databoxlib:moonslate_aluminium_ore",
+    "databoxlib:moonslate_tungsten_ore"
+  ]
+}

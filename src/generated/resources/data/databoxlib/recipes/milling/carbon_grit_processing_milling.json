@@ -1,0 +1,18 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "databoxlib:raw_carbon"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "item": "databoxlib:carbon_grit"
+    },
+    {
+      "chance": 0.5,
+      "item": "minecraft:black_dye"
+    }
+  ]
+}

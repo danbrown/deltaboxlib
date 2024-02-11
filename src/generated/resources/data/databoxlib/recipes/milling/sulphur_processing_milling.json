@@ -1,0 +1,14 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "databoxlib:pyrite"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "item": "databoxlib:sulphur"
+    }
+  ]
+}

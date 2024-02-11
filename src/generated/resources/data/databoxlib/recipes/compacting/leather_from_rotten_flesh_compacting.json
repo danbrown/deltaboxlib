@@ -1,0 +1,23 @@
+{
+  "type": "create:compacting",
+  "heatRequirement": "passiveheated",
+  "ingredients": [
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:leather"
+    }
+  ]
+}

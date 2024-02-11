@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "databoxlib:item/oxygen_bucket"
+  }
+}

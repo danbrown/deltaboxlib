@@ -1,0 +1,18 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "tag": "create:crushed_raw_aluminium"
+    }
+  ],
+  "results": [
+    {
+      "count": 9,
+      "item": "databoxlib:aluminium_nugget"
+    },
+    {
+      "chance": 0.25,
+      "item": "databoxlib:phosphorus_powder"
+    }
+  ]
+}

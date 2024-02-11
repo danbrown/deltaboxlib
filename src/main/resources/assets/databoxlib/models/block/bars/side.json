@@ -1,0 +1,4 @@
+{
+  "parent": "create:block/bars/side",
+  "render_type": "cutout_mipped"
+}

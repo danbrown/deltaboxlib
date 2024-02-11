@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "databoxlib:cathode_tube"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "X": {
+      "item": "minecraft:compass"
+    }
+  },
+  "pattern": [
+    "CXC",
+    "III"
+  ],
+  "result": {
+    "item": "databoxlib:pressure_chamber_cap"
+  },
+  "show_notification": true
+}

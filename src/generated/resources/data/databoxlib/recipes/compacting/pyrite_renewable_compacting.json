@@ -1,0 +1,22 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "tag": "forge:dusts/sulphur"
+    },
+    {
+      "tag": "forge:dusts/sulphur"
+    },
+    {
+      "tag": "forge:nuggets/iron"
+    },
+    {
+      "item": "minecraft:cobblestone"
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:pyrite"
+    }
+  ]
+}

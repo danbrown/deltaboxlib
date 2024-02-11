@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "red_hematite_slab",
+  "key": {
+    "X": {
+      "item": "databoxlib:red_hematite"
+    }
+  },
+  "pattern": [
+    "XXX"
+  ],
+  "result": {
+    "count": 6,
+    "item": "databoxlib:red_hematite_slab"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "tag": "forge:plates/brass"
+    },
+    "C": {
+      "item": "databoxlib:cathode_tube"
+    },
+    "c": {
+      "item": "create:chute"
+    }
+  },
+  "pattern": [
+    " B ",
+    " c ",
+    "CCC"
+  ],
+  "result": {
+    "item": "create:smart_chute"
+  },
+  "show_notification": true
+}

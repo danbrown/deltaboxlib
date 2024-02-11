@@ -1,0 +1,16 @@
+{
+  "type": "create:item_application",
+  "ingredients": [
+    {
+      "item": "databoxlib:steel_casing"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "databoxlib:steel_orange_panel_casing"
+    }
+  ]
+}

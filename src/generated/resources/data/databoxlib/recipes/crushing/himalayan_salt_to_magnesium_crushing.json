@@ -1,0 +1,17 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "databoxlib:himalayan_salt"
+    }
+  ],
+  "processingTime": 60,
+  "results": [
+    {
+      "item": "databoxlib:magnesium_dust"
+    },
+    {
+      "item": "databoxlib:salt"
+    }
+  ]
+}

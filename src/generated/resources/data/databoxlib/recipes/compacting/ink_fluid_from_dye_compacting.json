@@ -1,0 +1,14 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:black_dye"
+    }
+  ],
+  "results": [
+    {
+      "amount": 50,
+      "fluid": "databoxlib:ink"
+    }
+  ]
+}
