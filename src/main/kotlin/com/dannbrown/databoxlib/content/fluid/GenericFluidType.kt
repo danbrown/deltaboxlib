@@ -1,6 +1,7 @@
 package com.dannbrown.databoxlib.content.fluid
 
 import com.dannbrown.databoxlib.lib.LibUtils
+import com.dannbrown.databoxlib.registry.DataboxRegistrate
 import com.mojang.blaze3d.shaders.FogShape
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Camera
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull
 import org.joml.Vector3f
 import java.util.function.Consumer
 
-class GenericFluidType(textureType: FluidVariant, colorOverlay: Long, props: Properties) : FluidType(props) {
+class GenericFluidType(textureType: FluidVariant, colorOverlay: Long, props: Properties, private val registrate: DataboxRegistrate) : FluidType(props) {
   val _colorOverlay: Int = colorOverlay.toInt()
   val _fogColor: Vector3f = Vector3f(((colorOverlay shr 16) and 0xFF) / 255f, ((colorOverlay shr 8) and 0xFF) / 255f, (colorOverlay and 0xFF) / 255f)
   val _textureType: FluidVariant = textureType
@@ -21,15 +22,15 @@ class GenericFluidType(textureType: FluidVariant, colorOverlay: Long, props: Pro
   override fun initializeClient(consumer: Consumer<IClientFluidTypeExtensions?>) {
     consumer.accept(object : IClientFluidTypeExtensions {
       override fun getStillTexture(): ResourceLocation {
-        return LibUtils.resourceLocation( "fluid/" + _textureType + "_still")
+        return LibUtils.resourceLocation( "fluid/" + _textureType + "_still", registrate.modid)
       }
 
       override fun getFlowingTexture(): ResourceLocation {
-        return LibUtils.resourceLocation( "fluid/" + _textureType + "_flow")
+        return LibUtils.resourceLocation( "fluid/" + _textureType + "_flow", registrate.modid)
       }
 
       override fun getOverlayTexture(): ResourceLocation? {
-        return LibUtils.resourceLocation( "block/" + _textureType + "_overlay")
+        return LibUtils.resourceLocation( "block/" + _textureType + "_overlay", registrate.modid)
       }
 
       override fun getTintColor(): Int {

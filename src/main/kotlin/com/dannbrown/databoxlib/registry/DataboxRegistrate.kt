@@ -48,6 +48,9 @@ class DataboxRegistrate protected constructor(modId: String) : AbstractRegistrat
   }
 
   companion object {
+
+
+
     private val TAB_LOOKUP: Map<RegistryEntry<*>, RegistryObject<CreativeModeTab>> = IdentityHashMap()
     fun create(modid: String): DataboxRegistrate {
       return DataboxRegistrate(modid)

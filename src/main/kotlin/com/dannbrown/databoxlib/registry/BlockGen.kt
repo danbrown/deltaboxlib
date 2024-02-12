@@ -10,6 +10,7 @@ import com.dannbrown.databoxlib.datagen.transformers.BlockstatePresets
 import com.dannbrown.databoxlib.datagen.transformers.ItemModelPresets
 import com.dannbrown.databoxlib.datagen.transformers.RecipePresets
 import com.dannbrown.databoxlib.lib.LibUtils
+import com.dannbrown.databoxlib.registry.utils.AssetLookup
 import com.tterrag.registrate.builders.BlockBuilder
 import com.tterrag.registrate.providers.DataGenContext
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider
@@ -119,6 +120,27 @@ class BlockGen<T : Block>(name: String) {
     return this
   }
 
+  /**
+   * Add a custom model to the block, the model file must exist in MOD_ID/models/block/BLOCK_ID.json
+   */
+  fun customStandardModel(): BlockGen<T> {
+    this.checkCurrentBuilder()
+    addBuilder { b ->
+      b.blockstate { c, p -> p.simpleBlock(c.entry, AssetLookup.standardModel(c, p)) }
+    }
+    return this
+  }
+
+  /**
+   * Add a custom model to the block, the model file must exist in MOD_ID/models/block/BLOCK_ID/block.json
+   */
+  fun customPartialModel(): BlockGen<T> {
+    this.checkCurrentBuilder()
+    addBuilder { b ->
+      b.blockstate { c, p -> p.simpleBlock(c.entry, AssetLookup.partialBaseModel(c, p)) }
+    }
+    return this
+  }
 
 
   /**

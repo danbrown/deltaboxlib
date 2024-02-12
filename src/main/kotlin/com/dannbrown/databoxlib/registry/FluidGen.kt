@@ -25,7 +25,7 @@ import org.joml.Vector3f
 import java.util.*
 import java.util.function.Supplier
 
-class FluidGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE) {
+class FluidGen(private val registrate: DataboxRegistrate) {
 
   private fun createFluid_BASE(
     name: String,
@@ -44,8 +44,8 @@ class FluidGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE
     return registrate
       .fluid<ForgeFlowingFluid>(
         name,
-        fluidStillResourceLocation(fluidVariant),
-        fluidFlowResourceLocation(fluidVariant),
+        fluidStillResourceLocation(fluidVariant, registrate),
+        fluidFlowResourceLocation(fluidVariant, registrate),
         ProjectFluidType.create(fogColor, fogDistance, hasAlpha),
       )
       { p: ForgeFlowingFluid.Properties -> SpecialFluid.Flowing(p, fluidProps(FluidPropertiesExtended())) }
@@ -132,12 +132,12 @@ class FluidGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE
 
   // @ UTILS
   // Resource Locations solve
-  private fun fluidStillResourceLocation(variant: FluidVariant): ResourceLocation {
-    return LibUtils.resourceLocation("fluid/" + variant + "_still")
+  private fun fluidStillResourceLocation(variant: FluidVariant, registrate: DataboxRegistrate): ResourceLocation {
+    return LibUtils.resourceLocation("fluid/" + variant + "_still", registrate.modid)
   }
 
-  private fun fluidFlowResourceLocation(variant: FluidVariant): ResourceLocation {
-    return LibUtils.resourceLocation("fluid/" + variant + "_flow")
+  private fun fluidFlowResourceLocation(variant: FluidVariant, registrate: DataboxRegistrate): ResourceLocation {
+    return LibUtils.resourceLocation("fluid/" + variant + "_flow", registrate.modid)
   }
 
   private fun formatTankLang(id: String): String {
