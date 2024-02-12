@@ -36,7 +36,7 @@ object BlockstatePresets {
 
   fun <B : Block> simpleBlock(): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.simpleBlock(c.get())
+      p.cubeAll(c.get())
     }
   }
 
