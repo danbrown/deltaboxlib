@@ -47,6 +47,43 @@ class DataboxRegistrate(modId: String) : AbstractRegistrate<DataboxRegistrate>(m
       typeFactory)
   }
 
+  // @ LANG
+
+  fun addFormulaLang(
+    formula: String,
+    name: String,
+  ) {
+    addRawLang("formula.explore.$formula", name)
+  }
+
+  fun addCreativeTabLang(
+    tab: String,
+    name: String,
+  ) {
+    addRawLang("itemGroup.${modid}.$tab", name)
+  }
+
+  fun addDeathMessageLang(
+    name: String,
+    phrase: String,
+  ) {
+    addRawLang("death.attack.$name", phrase)
+  }
+
+  fun addGogglesLang(
+    name: String,
+    phrase: String,
+  ) {
+    addRawLang("${modid}.gui.goggles.$name", phrase)
+  }
+
+  fun addBiomeLang(
+    name: String,
+    phrase: String,
+  ) {
+    addRawLang("biome.${modid}.$name", phrase)
+  }
+
   companion object {
 
     private val TAB_LOOKUP: Map<RegistryEntry<*>, RegistryObject<CreativeModeTab>> = IdentityHashMap()
