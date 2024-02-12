@@ -19,7 +19,7 @@ import java.util.function.Supplier
 
 
 // This Registrate file is based on CreateRegistrate: https://github.com/Creators-of-Create/Create/blob/mc1.18/dev/src/main/java/com/simibubi/create/foundation/data/CreateRegistrate.java
-class DataboxRegistrate(private val modId: String) : AbstractRegistrate<DataboxRegistrate>(modId) {
+class DataboxRegistrate(modId: String) : AbstractRegistrate<DataboxRegistrate>(modId) {
   var creativeTab: RegistryObject<CreativeModeTab>? = null
     protected set
 

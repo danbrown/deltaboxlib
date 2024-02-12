@@ -1,4 +1,4 @@
-package com.dannbrown.databoxlib.datagen.transformers
+package com.dannbrown.databoxlib.registry.transformers
 
 import com.dannbrown.databoxlib.lib.LibTags
 import net.minecraft.tags.BlockTags

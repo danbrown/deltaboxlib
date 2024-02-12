@@ -1,14 +1,12 @@
 package com.dannbrown.databoxlib.registry
 
 
-import com.dannbrown.databoxlib.DataboxLib
 import com.dannbrown.databoxlib.content.block.FlammableSandBlock
-import com.dannbrown.databoxlib.datagen.transformers.BlockLootPresets
-import com.dannbrown.databoxlib.datagen.transformers.BlockTagPresets
-import com.dannbrown.databoxlib.datagen.transformers.BlockTransformers
-import com.dannbrown.databoxlib.datagen.transformers.BlockstatePresets
-import com.dannbrown.databoxlib.datagen.transformers.ItemModelPresets
-import com.dannbrown.databoxlib.datagen.transformers.RecipePresets
+import com.dannbrown.databoxlib.registry.transformers.BlockLootPresets
+import com.dannbrown.databoxlib.registry.transformers.BlockTagPresets
+import com.dannbrown.databoxlib.registry.transformers.BlockstatePresets
+import com.dannbrown.databoxlib.registry.transformers.ItemModelPresets
+import com.dannbrown.databoxlib.registry.transformers.RecipePresets
 import com.dannbrown.databoxlib.lib.LibUtils
 import com.dannbrown.databoxlib.registry.utils.AssetLookup
 import com.tterrag.registrate.builders.BlockBuilder
@@ -36,7 +34,6 @@ import net.minecraft.world.level.block.SandBlock
 import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.StairBlock
-import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallBlock
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties
 import net.minecraft.world.level.block.state.BlockState
@@ -45,7 +42,7 @@ import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
 import java.util.function.Supplier
 
-class BlockGen<T : Block>(name: String) {
+class BlockGen<T : Block>(name: String, private val registrate: DataboxRegistrate) {
   //  val blocksToReturn = mutableListOf<BlockEntry<T>>()
   private val _name: String = name
   private var _prefix = ""
@@ -61,7 +58,7 @@ class BlockGen<T : Block>(name: String) {
   private var _textureName = name
   private var _noItem = false
   private var _builder: NonNullUnaryOperator<BlockBuilder<T, DataboxRegistrate>> = NonNullUnaryOperator { b: BlockBuilder<T, DataboxRegistrate> -> b }
-  private fun createBlockBase(registerName: String, registrate: DataboxRegistrate): BlockBuilder<T, DataboxRegistrate> {
+  private fun createBlockBase(registerName: String): BlockBuilder<T, DataboxRegistrate> {
     return registrate.block<T>(registerName, _blockFactory)
       .initialProperties { _copyFrom.get() }
       .properties { p -> p.mapColor(if (_color !== null) { _color } else { MapColor.COLOR_GRAY }) }
@@ -429,9 +426,9 @@ class BlockGen<T : Block>(name: String) {
     return this
   }
 
-  fun register(registrate: DataboxRegistrate = DataboxLib.REGISTRATE): BlockEntry<T> {
+  fun register(): BlockEntry<T> {
     this.checkCurrentBuilder()
-    return createBlockBase(fullName(), registrate).transform(_builder)
+    return createBlockBase(fullName()).transform(_builder)
       .register()
   }
 

@@ -1,4 +1,4 @@
-package com.dannbrown.databoxlib.datagen.transformers
+package com.dannbrown.databoxlib.registry.transformers
 
 import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables
 import net.minecraft.advancements.critereon.ItemPredicate

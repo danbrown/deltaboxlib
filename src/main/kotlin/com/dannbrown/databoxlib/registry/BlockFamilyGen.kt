@@ -9,12 +9,12 @@ import com.dannbrown.databoxlib.content.block.FlammableLeavesBlock
 import com.dannbrown.databoxlib.content.block.FlammablePillarBlock
 import com.dannbrown.databoxlib.content.block.FlammableWallBlock
 import com.dannbrown.databoxlib.content.item.GenericSignItem
-import com.dannbrown.databoxlib.datagen.transformers.BlockItemFactory
-import com.dannbrown.databoxlib.datagen.transformers.BlockLootPresets
-import com.dannbrown.databoxlib.datagen.transformers.BlockTagPresets
-import com.dannbrown.databoxlib.datagen.transformers.BlockstatePresets
-import com.dannbrown.databoxlib.datagen.transformers.ItemModelPresets
-import com.dannbrown.databoxlib.datagen.transformers.RecipePresets
+import com.dannbrown.databoxlib.registry.transformers.BlockItemFactory
+import com.dannbrown.databoxlib.registry.transformers.BlockLootPresets
+import com.dannbrown.databoxlib.registry.transformers.BlockTagPresets
+import com.dannbrown.databoxlib.registry.transformers.BlockstatePresets
+import com.dannbrown.databoxlib.registry.transformers.ItemModelPresets
+import com.dannbrown.databoxlib.registry.transformers.RecipePresets
 import com.dannbrown.databoxlib.lib.LibUtils
 import com.dannbrown.databoxlib.datagen.content.BlockFamily
 import com.dannbrown.databoxlib.lib.LibTags
@@ -53,7 +53,7 @@ import net.minecraft.world.level.material.MapColor
 import net.minecraftforge.client.model.generators.ModelFile
 import java.util.function.Supplier
 
-class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
+class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
   private val _name = name
   private var _sharedProps: (BlockBehaviour.Properties) -> BlockBehaviour.Properties = { p: BlockBehaviour.Properties -> p }
   private var _toolType: TagKey<Block>? = null
@@ -135,8 +135,8 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
     return _blockFamily
   }
 
-  fun getRegistrate(): DataboxRegistrate {
-    return registrate
+  fun getGenerator(): BlockGenerator {
+    return generator
   }
 
 
@@ -151,17 +151,17 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
    * Returns a Long block family composed by Normals, Polished, Bricks, Cut, Chiseled variants (stairs, slabs, walls)
    */
   fun longBlockFamily(mainBlock: BlockEntry<out Block>? = null, isRotatedBlock: Boolean = false): BlockFamily {
-    val MATERIAL_TAG = LibTags.modItemTag(registrate.modid, _name + "_blocks")
+    val MATERIAL_TAG = LibTags.modItemTag(generator.registrate.modid, _name + "_blocks")
 
-    DataboxLib.LOGGER.info(registrate.modid)
+    DataboxLib.LOGGER.info(generator.registrate.modid)
 
     if (mainBlock == null) {
       _blockFamily.setVariant(BlockFamily.Type.MAIN) {
-        BlockGen<Block>(_name)
+        generator.create<Block>(_name)
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
           .blockTags(listOf(*BlockTagPresets.caveReplaceableTags().first))
-          .register(registrate)
+          .register()
       }
     }
     else {
@@ -171,7 +171,7 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
     if (!_denyList.contains(BlockFamily.Type.MAIN)) {
       if (!_denyList.contains(BlockFamily.Type.STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
-          BlockGen<StairBlock>(_name)
+          generator.create<StairBlock>(_name)
             .stairsBlock({ _blockFamily.MAIN!!.defaultState }, isRotatedBlock)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -192,13 +192,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                 )
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.SLAB)) {
         _blockFamily.setVariant(BlockFamily.Type.SLAB) {
-          BlockGen<SlabBlock>(_name)
+          generator.create<SlabBlock>(_name)
             .slabBlock(isRotatedBlock)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -220,13 +220,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                 )
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.WALL)) {
         _blockFamily.setVariant(BlockFamily.Type.WALL) {
-          BlockGen<WallBlock>(_name)
+          generator.create<WallBlock>(_name)
             .wallBlock(isRotatedBlock)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -247,14 +247,14 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                 )
               }
             }
-            .register(registrate)
+            .register()
         }
       }
     }
     // start polished chain
     if (!_denyList.contains(BlockFamily.Type.POLISHED)) {
       _blockFamily.setVariant(BlockFamily.Type.POLISHED) {
-        BlockGen<Block>("polished_$_name")
+        generator.create<Block>("polished_$_name")
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
           .recipe { c, p ->
@@ -271,12 +271,12 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               1
             )
           }
-          .register(registrate)
+          .register()
       }
 
       if (!_denyList.contains(BlockFamily.Type.POLISHED_STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.POLISHED_STAIRS) {
-          BlockGen<StairBlock>("polished_$_name")
+          generator.create<StairBlock>("polished_$_name")
             .stairsBlock({ _blockFamily.POLISHED!!.defaultState })
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -307,13 +307,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.POLISHED_SLAB)) {
         _blockFamily.setVariant(BlockFamily.Type.POLISHED_SLAB) {
-          BlockGen<SlabBlock>("polished_$_name")
+          generator.create<SlabBlock>("polished_$_name")
             .slabBlock()
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -347,13 +347,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.POLISHED_WALL)) {
         _blockFamily.setVariant(BlockFamily.Type.POLISHED_WALL) {
-          BlockGen<WallBlock>("polished_$_name")
+          generator.create<WallBlock>("polished_$_name")
             .wallBlock()
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -384,14 +384,14 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
     }
     // start bricks chain
     if (!_denyList.contains(BlockFamily.Type.BRICKS)) {
       _blockFamily.setVariant(BlockFamily.Type.BRICKS) {
-        BlockGen<Block>("${_name}_bricks")
+        generator.create<Block>("${_name}_bricks")
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
           .recipe { c, p ->
@@ -414,12 +414,12 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               1
             )
           }
-          .register(registrate)
+          .register()
       }
 
       if (!_denyList.contains(BlockFamily.Type.BRICK_STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.BRICK_STAIRS) {
-          BlockGen<StairBlock>("${_name}_bricks")
+          generator.create<StairBlock>("${_name}_bricks")
             .stairsBlock({ _blockFamily.BRICKS!!.defaultState })
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -459,13 +459,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.BRICK_SLAB)) {
         _blockFamily.setVariant(BlockFamily.Type.BRICK_SLAB) {
-          BlockGen<SlabBlock>("${_name}_bricks")
+          generator.create<SlabBlock>("${_name}_bricks")
             .slabBlock()
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -508,13 +508,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.BRICK_WALL)) {
         _blockFamily.setVariant(BlockFamily.Type.BRICK_WALL) {
-          BlockGen<WallBlock>("${_name}_bricks")
+          generator.create<WallBlock>("${_name}_bricks")
             .wallBlock()
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -554,14 +554,14 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
     }
     // start chiseled chain
     if (!_denyList.contains(BlockFamily.Type.CHISELED)) {
       _blockFamily.setVariant(BlockFamily.Type.CHISELED) {
-        BlockGen<Block>("chiseled_$_name")
+        generator.create<Block>("chiseled_$_name")
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
           .recipe { c, p ->
@@ -588,13 +588,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                 .asItem())
             }
           }
-          .register(registrate)
+          .register()
       }
     }
     // PILLAR
     if (!_denyList.contains(BlockFamily.Type.PILLAR)) {
       _blockFamily.setVariant(BlockFamily.Type.PILLAR) {
-        BlockGen<RotatedPillarBlock>("${_name}_pillar")
+        generator.create<RotatedPillarBlock>("${_name}_pillar")
           .rotatedPillarBlock("${_name}_pillar_top", "${_name}_pillar_side")
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
@@ -622,7 +622,7 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                 .asItem())
             }
           }
-          .register(registrate)
+          .register()
       }
     }
 
@@ -633,15 +633,15 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
    * Returns a Mineral block family composed by Normals and Polished variants (stairs, slabs, walls)
    */
   fun mineralFamily(mainBlock: BlockEntry<out Block>? = null, isRotatedBlock: Boolean = false): BlockFamily {
-    val MATERIAL_TAG = LibTags.modItemTag(registrate.modid, _name + "_blocks")
+    val MATERIAL_TAG = LibTags.modItemTag(generator.registrate.modid, _name + "_blocks")
 
     if (mainBlock == null) {
       _blockFamily.setVariant(BlockFamily.Type.MAIN) {
-        BlockGen<Block>(_name)
+        generator.create<Block>(_name)
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
           .blockTags(listOf(*BlockTagPresets.caveReplaceableTags().first))
-          .register(registrate)
+          .register()
       }
     }
     else {
@@ -650,7 +650,7 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
 
     if (!_denyList.contains(BlockFamily.Type.STAIRS)) {
       _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
-        BlockGen<StairBlock>(_name)
+        generator.create<StairBlock>(_name)
           .stairsBlock({ _blockFamily.MAIN!!.defaultState }, isRotatedBlock)
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
@@ -671,13 +671,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               )
             }
           }
-          .register(registrate)
+          .register()
       }
     }
 
     if (!_denyList.contains(BlockFamily.Type.SLAB)) {
       _blockFamily.setVariant(BlockFamily.Type.SLAB) {
-        BlockGen<SlabBlock>(_name)
+        generator.create<SlabBlock>(_name)
           .slabBlock(isRotatedBlock)
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
@@ -702,13 +702,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               )
             }
           }
-          .register(registrate)
+          .register()
       }
     }
 
     if (!_denyList.contains(BlockFamily.Type.WALL)) {
       _blockFamily.setVariant(BlockFamily.Type.WALL) {
-        BlockGen<WallBlock>(_name)
+        generator.create<WallBlock>(_name)
           .wallBlock(isRotatedBlock)
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
@@ -729,13 +729,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               )
             }
           }
-          .register(registrate)
+          .register()
       }
     }
     // start polished chain
     if (!_denyList.contains(BlockFamily.Type.POLISHED)) {
       _blockFamily.setVariant(BlockFamily.Type.POLISHED) {
-        BlockGen<Block>("polished_$_name")
+        generator.create<Block>("polished_$_name")
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
           .recipe { c, p ->
@@ -752,12 +752,12 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               1
             )
           }
-          .register(registrate)
+          .register()
       }
 
       if (!_denyList.contains(BlockFamily.Type.POLISHED_STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.POLISHED_STAIRS) {
-          BlockGen<StairBlock>("polished_$_name")
+          generator.create<StairBlock>("polished_$_name")
             .stairsBlock({ _blockFamily.POLISHED!!.defaultState })
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -788,13 +788,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.POLISHED_SLAB)) {
         _blockFamily.setVariant(BlockFamily.Type.POLISHED_SLAB) {
-          BlockGen<SlabBlock>("polished_$_name")
+          generator.create<SlabBlock>("polished_$_name")
             .slabBlock()
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -828,13 +828,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.POLISHED_WALL)) {
         _blockFamily.setVariant(BlockFamily.Type.POLISHED_WALL) {
-          BlockGen<WallBlock>("polished_$_name")
+          generator.create<WallBlock>("polished_$_name")
             .wallBlock()
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -865,14 +865,14 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
     }
     // start bricks chain
     if (!_denyList.contains(BlockFamily.Type.BRICKS)) {
       _blockFamily.setVariant(BlockFamily.Type.BRICKS) {
-        BlockGen<Block>("${_name}_bricks")
+        generator.create<Block>("${_name}_bricks")
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
           .recipe { c, p ->
@@ -895,12 +895,12 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               1
             )
           }
-          .register(registrate)
+          .register()
       }
 
       if (!_denyList.contains(BlockFamily.Type.BRICK_STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.BRICK_STAIRS) {
-          BlockGen<StairBlock>("${_name}_bricks")
+          generator.create<StairBlock>("${_name}_bricks")
             .stairsBlock({ _blockFamily.BRICKS!!.defaultState })
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -940,13 +940,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.BRICK_SLAB)) {
         _blockFamily.setVariant(BlockFamily.Type.BRICK_SLAB) {
-          BlockGen<SlabBlock>("${_name}_bricks")
+          generator.create<SlabBlock>("${_name}_bricks")
             .slabBlock()
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -989,13 +989,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.BRICK_WALL)) {
         _blockFamily.setVariant(BlockFamily.Type.BRICK_WALL) {
-          BlockGen<WallBlock>("${_name}_bricks")
+          generator.create<WallBlock>("${_name}_bricks")
             .wallBlock()
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -1035,7 +1035,7 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
     }
@@ -1047,12 +1047,12 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
    * Returns a SandStone block family composed by
    */
   fun sandstoneFamily(baseBlock: BlockEntry<out Block>): BlockFamily {
-    val MATERIAL_TAG = LibTags.modItemTag(registrate.modid, _name + "_blocks")
+    val MATERIAL_TAG = LibTags.modItemTag(generator.registrate.modid, _name + "_blocks")
     _blockFamily.setVariant(BlockFamily.Type.MAIN) { baseBlock }
 
     if (!_denyList.contains(BlockFamily.Type.SANDSTONE)) {
       _blockFamily.setVariant(BlockFamily.Type.SANDSTONE) {
-        BlockGen<Block>(_name + "_sandstone")
+        generator.create<Block>(_name + "_sandstone")
           .bottomTopBlock()
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
@@ -1065,12 +1065,12 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               })
           }
-          .register(registrate)
+          .register()
       }
 
       if (!_denyList.contains(BlockFamily.Type.SANDSTONE_STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.SANDSTONE_STAIRS) {
-          BlockGen<StairBlock>(_name + "_sandstone")
+          generator.create<StairBlock>(_name + "_sandstone")
             .stairsBlock({ _blockFamily.SANDSTONE!!.defaultState }, true)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -1092,13 +1092,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.SANDSTONE_SLAB)) {
         _blockFamily.setVariant(BlockFamily.Type.SANDSTONE_SLAB) {
-          BlockGen<SlabBlock>(_name + "_sandstone")
+          generator.create<SlabBlock>(_name + "_sandstone")
             .slabBlock(true)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -1120,13 +1120,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
 
       if (!_denyList.contains(BlockFamily.Type.SANDSTONE_WALL)) {
         _blockFamily.setVariant(BlockFamily.Type.SANDSTONE_WALL) {
-          BlockGen<WallBlock>(_name + "_sandstone")
+          generator.create<WallBlock>(_name + "_sandstone")
             .wallBlock()
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -1148,13 +1148,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                   .asItem())
               }
             }
-            .register(registrate)
+            .register()
         }
       }
       // CHISELED
       if (!_denyList.contains(BlockFamily.Type.CHISELED)) {
         _blockFamily.setVariant(BlockFamily.Type.CHISELED) {
-          BlockGen<Block>("chiseled_$_name" + "_sandstone")
+          generator.create<Block>("chiseled_$_name" + "_sandstone")
             .bottomTopBlock(_name + "_sandstone_bottom", _name + "_sandstone_top")
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -1175,13 +1175,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                 )
               }
             }
-            .register(registrate)
+            .register()
         }
       }
       // CUT
       if (!_denyList.contains(BlockFamily.Type.CUT)) {
         _blockFamily.setVariant(BlockFamily.Type.CUT) {
-          BlockGen<Block>("cut_$_name" + "_sandstone")
+          generator.create<Block>("cut_$_name" + "_sandstone")
             .bottomTopBlock(_name + "_sandstone_bottom", _name + "_sandstone_top")
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
@@ -1205,13 +1205,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                 4
               )
             }
-            .register(registrate)
+            .register()
         }
       }
       // SMOOTH
       if (!_denyList.contains(BlockFamily.Type.SMOOTH)) {
         _blockFamily.setVariant(BlockFamily.Type.SMOOTH) {
-          BlockGen<Block>("smooth_$_name" + "_sandstone")
+          generator.create<Block>("smooth_$_name" + "_sandstone")
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .textureName(_name + "_sandstone_top")
             .transform { t ->
@@ -1238,12 +1238,12 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                 200
               )
             }
-            .register(registrate)
+            .register()
         }
 
         if (!_denyList.contains(BlockFamily.Type.SMOOTH_STAIRS)) {
           _blockFamily.setVariant(BlockFamily.Type.SMOOTH_STAIRS) {
-            BlockGen<StairBlock>("smooth_$_name" + "_sandstone")
+            generator.create<StairBlock>("smooth_$_name" + "_sandstone")
               .stairsBlock({ _blockFamily.SMOOTH!!.defaultState })
               .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
               .textureName(_name + "_sandstone_top")
@@ -1266,13 +1266,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                     .asItem())
                 }
               }
-              .register(registrate)
+              .register()
           }
         }
 
         if (!_denyList.contains(BlockFamily.Type.SMOOTH_SLAB)) {
           _blockFamily.setVariant(BlockFamily.Type.SMOOTH_SLAB) {
-            BlockGen<SlabBlock>("smooth_$_name" + "_sandstone")
+            generator.create<SlabBlock>("smooth_$_name" + "_sandstone")
               .slabBlock()
               .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
               .textureName(_name + "_sandstone_top")
@@ -1299,13 +1299,13 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                     .asItem())
                 }
               }
-              .register(registrate)
+              .register()
           }
         }
 
         if (!_denyList.contains(BlockFamily.Type.SMOOTH_WALL)) {
           _blockFamily.setVariant(BlockFamily.Type.SMOOTH_WALL) {
-            BlockGen<WallBlock>("smooth_$_name" + "_sandstone")
+            generator.create<WallBlock>("smooth_$_name" + "_sandstone")
               .wallBlock()
               .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
               .textureName(_name + "_sandstone_top")
@@ -1328,7 +1328,7 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
                     .asItem())
                 }
               }
-              .register(registrate)
+              .register()
           }
         }
       }
@@ -1342,15 +1342,15 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
     grower: AbstractTreeGrower,
     placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
   ): BlockFamily {
-    val LOG_TAG_BLOCK = LibTags.modBlockTag(registrate.modid,_name + "_log_blocks")
-    val LOG_TAG_ITEM = LibTags.modItemTag(registrate.modid, _name + "_log_blocks")
+    val LOG_TAG_BLOCK = LibTags.modBlockTag(generator.registrate.modid,_name + "_log_blocks")
+    val LOG_TAG_ITEM = LibTags.modItemTag(generator.registrate.modid, _name + "_log_blocks")
     val FORGE_LEAVES_TAG_BLOCK = LibTags.forgeBlockTag("leaves")
     val FORGE_LEAVES_TAG_ITEM = LibTags.forgeItemTag("leaves")
     val FORGE_STRIPPED_LOGS_TAG_BLOCK = LibTags.forgeBlockTag("stripped_logs")
     val FORGE_STRIPPED_LOGS_TAG_ITEM = LibTags.forgeItemTag("stripped_logs")
     // Stalks
     _blockFamily.setVariant(BlockFamily.Type.STALK) {
-      BlockGen<FlammableWallBlock>(_name + "_stalk")
+      generator.create<FlammableWallBlock>(_name + "_stalk")
         .wallBlock(true, false)
         .blockFactory { p -> FlammableWallBlock(p) }
         .copyFrom({ Blocks.OAK_LOG })
@@ -1370,11 +1370,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
             .build()
         }
         .noItem()
-        .register(registrate)
+        .register()
     }
 
     _blockFamily.setVariant(BlockFamily.Type.STRIPPED_STALK) {
-      BlockGen<FlammableWallBlock>("stripped_$_name" + "_stalk")
+      generator.create<FlammableWallBlock>("stripped_$_name" + "_stalk")
         .wallBlock(true, false)
         .blockFactory { p -> FlammableWallBlock(p) }
         .copyFrom({ Blocks.STRIPPED_OAK_LOG })
@@ -1392,11 +1392,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
             .tag(LOG_TAG_ITEM)
             .build()
         }
-        .register(registrate)
+        .register()
     }
     // Logs
     _blockFamily.setVariant(BlockFamily.Type.LOG) {
-      BlockGen<FlammablePillarBlock>(_name + "_logs")
+      generator.create<FlammablePillarBlock>(_name + "_logs")
         .rotatedPillarBlock(_name + "_logs_top", _name + "_logs")
         .blockFactory { p -> FlammablePillarBlock(p) }
         .copyFrom({ Blocks.OAK_LOG })
@@ -1407,11 +1407,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
         .recipe { c, p ->
           RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.STALK!!.get()) }, 1)
         }
-        .register(registrate)
+        .register()
     }
 
     _blockFamily.setVariant(BlockFamily.Type.WOOD) {
-      BlockGen<FlammablePillarBlock>(_name + "_wood")
+      generator.create<FlammablePillarBlock>(_name + "_wood")
         .rotatedPillarBlock(_name + "_logs", _name + "_logs")
         .blockFactory { p -> FlammablePillarBlock(p) }
         .copyFrom({ Blocks.OAK_WOOD })
@@ -1422,11 +1422,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
         .recipe { c, p ->
           RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.LOG!!.get()) }, 3)
         }
-        .register(registrate)
+        .register()
     }
     // Stripped Logs
     _blockFamily.setVariant(BlockFamily.Type.STRIPPED_LOG) {
-      BlockGen<FlammablePillarBlock>("stripped_$_name" + "_logs")
+      generator.create<FlammablePillarBlock>("stripped_$_name" + "_logs")
         .rotatedPillarBlock("stripped_$_name" + "_logs_top", "stripped_$_name" + "_logs")
         .blockFactory { p -> FlammablePillarBlock(p) }
         .copyFrom({ Blocks.STRIPPED_OAK_LOG })
@@ -1437,11 +1437,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
         .recipe { c, p ->
           RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.STRIPPED_STALK!!.get()) }, 1)
         }
-        .register(registrate)
+        .register()
     }
 
     _blockFamily.setVariant(BlockFamily.Type.STRIPPED_WOOD) {
-      BlockGen<FlammablePillarBlock>("stripped_$_name" + "_wood")
+      generator.create<FlammablePillarBlock>("stripped_$_name" + "_wood")
         .rotatedPillarBlock("stripped_$_name" + "_logs", "stripped_$_name" + "_logs")
         .blockFactory { p -> FlammablePillarBlock(p) }
         .copyFrom({ Blocks.STRIPPED_OAK_WOOD })
@@ -1452,11 +1452,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
         .recipe { c, p ->
           RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.STRIPPED_LOG!!.get()) }, 3)
         }
-        .register(registrate)
+        .register()
     }
 
     _blockFamily.setVariant(BlockFamily.Type.SAPLING) {
-      BlockGen<GenericSaplingBlock>("$_name" + "_sapling")
+      generator.create<GenericSaplingBlock>("$_name" + "_sapling")
         .blockFactory { p -> GenericSaplingBlock(grower, p, placeOn) }
         .blockTags(listOf(BlockTags.SAPLINGS))
         .itemTags(listOf(ItemTags.SAPLINGS))
@@ -1476,11 +1476,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
             .model(ItemModelPresets.simpleLayerItem(_name + "_sapling"))
             .build()
         }
-        .register(registrate)
+        .register()
     }
 
     _blockFamily.setVariant(BlockFamily.Type.POTTED_SAPLING) {
-      BlockGen<FlowerPotBlock>("potted_$_name" + "_sapling")
+      generator.create<FlowerPotBlock>("potted_$_name" + "_sapling")
         .blockFactory { p ->
           FlowerPotBlock(
             { Blocks.FLOWER_POT as FlowerPotBlock },
@@ -1499,11 +1499,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
             .blockstate(BlockstatePresets.pottedPlantBlock(_name + "_sapling"))
             .loot(BlockLootPresets.pottedPlantLoot { _blockFamily.SAPLING!!.get() })
         }
-        .register(registrate)
+        .register()
     }
 
     _blockFamily.setVariant(BlockFamily.Type.LEAVES) {
-      BlockGen<FlammableLeavesBlock>(_name + "_leaves")
+      generator.create<FlammableLeavesBlock>(_name + "_leaves")
         .blockFactory { p -> FlammableLeavesBlock(p, 60, 30) }
         .color(MapColor.COLOR_GREEN)
         .copyFrom({ Blocks.OAK_LEAVES })
@@ -1523,11 +1523,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
             .blockstate(BlockstatePresets.simpleTransparentBlock(_name + "_leaves"))
             .loot(BlockLootPresets.leavesLoot { _blockFamily.SAPLING!!.get() })
         }
-        .register(registrate)
+        .register()
     }
     // Main Block
     _blockFamily.setVariant(BlockFamily.Type.MAIN) {
-      BlockGen<FlammableBlock>(_name + "_planks")
+      generator.create<FlammableBlock>(_name + "_planks")
         .blockFactory { p -> FlammableBlock(p, 20, 5) }
 //        .fromFamily(Blocks.OAK_PLANKS, sharedProps, accentColor, toolType, toolTier, false)
         .copyFrom({ Blocks.OAK_PLANKS })
@@ -1549,11 +1549,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
             .unlockedBy("has_" + p.safeName(c.get()), RegistrateRecipeProvider.has(c.get()))
             .save(p, LibUtils.resourceLocation("oak_boat_from_" + p.safeName(c.get())))
         }
-        .register(registrate)
+        .register()
     }
     // Stairs
     _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
-      BlockGen<StairBlock>(_name)
+      generator.create<StairBlock>(_name)
         .textureName(_name + "_planks")
 //        .fromFamily(Blocks.OAK_STAIRS, sharedProps, accentColor, toolType, toolTier, false)
         .copyFrom({ Blocks.OAK_STAIRS })
@@ -1567,11 +1567,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               .asItem())
           }
         }
-        .register(registrate)
+        .register()
     }
     // Slab
     _blockFamily.setVariant(BlockFamily.Type.SLAB) {
-      BlockGen<SlabBlock>(_name)
+      generator.create<SlabBlock>(_name)
         .textureName(_name + "_planks")
         .slabBlock(false, true)
 //        .fromFamily(Blocks.OAK_SLAB, sharedProps, accentColor, toolType, toolTier, false)
@@ -1587,11 +1587,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               .asItem())
           }
         }
-        .register(registrate)
+        .register()
     }
     // Fence
     _blockFamily.setVariant(BlockFamily.Type.FENCE) {
-      BlockGen<FenceBlock>(_name)
+      generator.create<FenceBlock>(_name)
         .textureName(_name + "_planks")
         .fenceBlock(true)
         .copyFrom({ Blocks.OAK_FENCE })
@@ -1604,11 +1604,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               .asItem())
           }
         }
-        .register(registrate)
+        .register()
     }
     // Fence Gate
     _blockFamily.setVariant(BlockFamily.Type.FENCE_GATE) {
-      BlockGen<FenceGateBlock>(_name)
+      generator.create<FenceGateBlock>(_name)
         .textureName(_name + "_planks")
         .fenceGateBlock(woodType)
         .copyFrom({ Blocks.OAK_FENCE_GATE })
@@ -1621,11 +1621,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               .asItem())
           }
         }
-        .register(registrate)
+        .register()
     }
     // Pressure Plate
     _blockFamily.setVariant(BlockFamily.Type.PRESSURE_PLATE) {
-      BlockGen<PressurePlateBlock>(_name)
+      generator.create<PressurePlateBlock>(_name)
         .textureName(_name + "_planks")
         .pressurePlateBlock(BlockSetType.OAK)
         .copyFrom({ Blocks.OAK_PRESSURE_PLATE })
@@ -1639,11 +1639,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
               .asItem())
           }
         }
-        .register(registrate)
+        .register()
     }
     // Button
     _blockFamily.setVariant(BlockFamily.Type.BUTTON) {
-      BlockGen<ButtonBlock>(_name)
+      generator.create<ButtonBlock>(_name)
         .textureName(_name + "_planks")
         .buttonBlock(BlockSetType.OAK, true)
         .copyFrom({ Blocks.OAK_BUTTON })
@@ -1658,11 +1658,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
             },
             1)
         }
-        .register(registrate)
+        .register()
     }
     // Door
     _blockFamily.setVariant(BlockFamily.Type.DOOR) {
-      BlockGen<DoorBlock>(_name)
+      generator.create<DoorBlock>(_name)
         .woodenDoorBlock(BlockSetType.OAK)
         .copyFrom({ Blocks.OAK_DOOR })
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
@@ -1677,11 +1677,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
           b
             .loot(BlockLootPresets.doorLoot())
         }
-        .register(registrate)
+        .register()
     }
     // Trapdoor
 //    blockFamily.setVariant(BlockFamily.Type.TRAPDOOR) {
-//      BlockGen<TrapDoorBlock>(name)
+//      generator.create)<TrapDoorBlock>(name)
 //        .woodenTrapdoorBlock({ DataIngredient.items(blockFamily.MAIN!!.get()) }, BlockSetType.OAK)
 //        .copyFrom({ Blocks.OAK_TRAPDOOR })
 //        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
@@ -1690,11 +1690,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
 //          p.sound(SoundType.WOOD)
 //            .noOcclusion()
 //        }
-//        .register(registrate)
+//        .register()
 //    }
     // Sign
     _blockFamily.setVariant(BlockFamily.Type.WALL_SIGN) {
-      BlockGen<GenericWallSignBlock>(_name + "_wall_sign")
+      generator.create<GenericWallSignBlock>(_name + "_wall_sign")
         .noItem()
         .copyFrom({ Blocks.OAK_WALL_SIGN })
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
@@ -1711,11 +1711,11 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
             .blockstate(BlockstatePresets.noBlockState())
             .loot(BlockLootPresets.dropOtherLoot { _blockFamily.SIGN!!.get() })
         }
-        .register(registrate)
+        .register()
     }
 
     _blockFamily.setVariant(BlockFamily.Type.SIGN) {
-      BlockGen<GenericStandingSignBlock>(_name + "_sign")
+      generator.create<GenericStandingSignBlock>(_name + "_sign")
         .blockFactory { p -> GenericStandingSignBlock(p, woodType) }
         .copyFrom({ Blocks.OAK_SIGN })
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
@@ -1749,7 +1749,7 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
             }
             .build()
         }
-        .register(registrate)
+        .register()
     }
     // DONE: BLOCK, LOG, STRIPPED LOG, WOOD, STRIPPED WOOD
     // DONE: STAIRS, SLAB, FENCE, FENCE GATE, BUTTON, PRESSURE PLATE

@@ -1,4 +1,4 @@
-package com.dannbrown.databoxlib.datagen.transformers
+package com.dannbrown.databoxlib.registry.transformers
 
 import com.dannbrown.databoxlib.lib.LibUtils
 import com.dannbrown.databoxlib.registry.utils.AssetLookup
@@ -14,14 +14,12 @@ import net.minecraft.world.level.block.DoublePlantBlock
 import net.minecraft.world.level.block.FenceBlock
 import net.minecraft.world.level.block.FenceGateBlock
 import net.minecraft.world.level.block.HorizontalDirectionalBlock
-import net.minecraft.world.level.block.IronBarsBlock
 import net.minecraft.world.level.block.PressurePlateBlock
 import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.StairBlock
 import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallBlock
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.block.state.properties.AttachFace
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf
 import net.minecraft.world.level.block.state.properties.Property

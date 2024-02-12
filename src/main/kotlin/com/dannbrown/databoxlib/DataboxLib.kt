@@ -17,7 +17,6 @@ class DataboxLib {
 
     // mod registrate instance
     val REGISTRATE: DataboxRegistrate = DataboxRegistrate(MOD_ID)
-
     init {
       val eventBus = FMLJavaModLoadingContext.get().modEventBus
       val forgeEventBus = MinecraftForge.EVENT_BUS

@@ -1,5 +1,6 @@
-package com.dannbrown.databoxlib.datagen.transformers
+package com.dannbrown.databoxlib.registry.transformers
 
+import com.dannbrown.databoxlib.registry.transformers.BlockLootHelpers
 import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer
 import net.minecraft.advancements.critereon.BlockPredicate
