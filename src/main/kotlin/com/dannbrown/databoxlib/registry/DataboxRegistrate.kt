@@ -4,6 +4,7 @@ import com.tterrag.registrate.AbstractRegistrate
 import com.tterrag.registrate.builders.FluidBuilder
 import com.tterrag.registrate.builders.FluidBuilder.FluidTypeFactory
 import com.tterrag.registrate.util.entry.RegistryEntry
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraftforge.api.distmarker.Dist
@@ -13,6 +14,7 @@ import net.minecraftforge.fluids.FluidType
 import net.minecraftforge.fluids.ForgeFlowingFluid
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.registries.RegistryObject
+import java.awt.Component
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -52,36 +54,43 @@ class DataboxRegistrate(modId: String) : AbstractRegistrate<DataboxRegistrate>(m
   fun addFormulaLang(
     formula: String,
     name: String,
-  ) {
-    addRawLang("formula.explore.$formula", name)
+  ) : MutableComponent{
+    return addRawLang("formula.explore.$formula", name)
   }
 
   fun addCreativeTabLang(
     tab: String,
     name: String,
-  ) {
-    addRawLang("itemGroup.${modid}.$tab", name)
+  ) :MutableComponent {
+    return addRawLang("itemGroup.${modid}.$tab", name)
   }
 
   fun addDeathMessageLang(
     name: String,
     phrase: String,
-  ) {
-    addRawLang("death.attack.$name", phrase)
+  ) :MutableComponent {
+    return addRawLang("death.attack.$name", phrase)
   }
 
   fun addGogglesLang(
     name: String,
     phrase: String,
-  ) {
-    addRawLang("${modid}.gui.goggles.$name", phrase)
+  ) :MutableComponent {
+   return  addRawLang("${modid}.gui.goggles.$name", phrase)
   }
 
   fun addBiomeLang(
     name: String,
     phrase: String,
-  ) {
-    addRawLang("biome.${modid}.$name", phrase)
+  ) :MutableComponent {
+    return addRawLang("biome.${modid}.$name", phrase)
+  }
+
+  fun addDimensionLang(
+    name: String,
+    phrase: String,
+  ) :MutableComponent {
+    return addRawLang("dimension.${modid}.$name", phrase)
   }
 
   companion object {
