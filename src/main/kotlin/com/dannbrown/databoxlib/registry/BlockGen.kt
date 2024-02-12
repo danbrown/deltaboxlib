@@ -108,8 +108,8 @@ class BlockGen<T : Block>(name: String, private val registrate: DataboxRegistrat
     _blockFactory = { p -> RotatedPillarBlock(p) as T }
     addBuilder { b ->
       b.blockstate { c, p ->
-        val topTexture = LibUtils.resourceLocation("block/${topTexture.ifEmpty { c.name + "_top" }}")
-        val sideTexture = LibUtils.resourceLocation("block/${sideTexture.ifEmpty { c.name }}")
+        val topTexture = p.modLoc("block/${topTexture.ifEmpty { c.name + "_top" }}")
+        val sideTexture = p.modLoc("block/${sideTexture.ifEmpty { c.name }}")
 
         p.axisBlock(c.get() as RotatedPillarBlock, sideTexture, topTexture)
       }

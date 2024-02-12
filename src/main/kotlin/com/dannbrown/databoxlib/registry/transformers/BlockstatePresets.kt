@@ -72,9 +72,9 @@ object BlockstatePresets {
       p.simpleBlock(c.get(),
         p.models()
           .withExistingParent(c.name, p.mcLoc("block/cube_bottom_top"))
-          .texture("side", LibUtils.resourceLocation("block/$name"))
-          .texture("bottom", LibUtils.resourceLocation("block/$bottomName"))
-          .texture("top", LibUtils.resourceLocation("block/$topName")))
+          .texture("side", p.modLoc("block/$name"))
+          .texture("bottom", p.modLoc("block/$bottomName"))
+          .texture("top", p.modLoc("block/$topName")))
     }
   }
 
@@ -84,9 +84,9 @@ object BlockstatePresets {
       val angleOffset = 180
       val baseModel = p.models()
         .withExistingParent(c.name, p.mcLoc("block/cube_bottom_top"))
-        .texture("side", LibUtils.resourceLocation("block/$name"))
-        .texture("bottom", LibUtils.resourceLocation("block/$bottomName"))
-        .texture("top", LibUtils.resourceLocation("block/$topName"))
+        .texture("side", p.modLoc("block/$name"))
+        .texture("bottom", p.modLoc("block/$bottomName"))
+        .texture("top", p.modLoc("block/$topName"))
 
       p.getVariantBuilder(c.get())
         .forAllStatesExcept({ state ->
@@ -112,9 +112,9 @@ object BlockstatePresets {
       p.simpleBlock(c.get(),
         p.models()
           .withExistingParent(c.name, p.mcLoc("block/cube_bottom_top"))
-          .texture("side", LibUtils.resourceLocation("block/$name"))
-          .texture("bottom", LibUtils.resourceLocation("block/$bottomName"))
-          .texture("top", LibUtils.resourceLocation("block/$topName")))
+          .texture("side", p.modLoc("block/$name"))
+          .texture("bottom", p.modLoc("block/$bottomName"))
+          .texture("top", p.modLoc("block/$topName")))
     }
   }
 
@@ -123,10 +123,10 @@ object BlockstatePresets {
       p.simpleBlock(c.get(),
         p.models()
           .withExistingParent(c.name, p.mcLoc("block/orientable"))
-          .texture("side", LibUtils.resourceLocation("block/$name"))
-          .texture("front", LibUtils.resourceLocation("block/$frontName"))
-          .texture("bottom", LibUtils.resourceLocation("block/$bottomName"))
-          .texture("top", LibUtils.resourceLocation("block/$topName")))
+          .texture("side", p.modLoc("block/$name"))
+          .texture("front", p.modLoc("block/$frontName"))
+          .texture("bottom", p.modLoc("block/$bottomName"))
+          .texture("top", p.modLoc("block/$topName")))
     }
   }
 
@@ -142,10 +142,10 @@ object BlockstatePresets {
             .toInt()
           val model = p.models()
             .withExistingParent(c.name, p.mcLoc("block/orientable"))
-            .texture("side", LibUtils.resourceLocation("block/$name"))
-            .texture("front", LibUtils.resourceLocation("block/$frontName"))
-            .texture("bottom", LibUtils.resourceLocation("block/$bottomName"))
-            .texture("top", LibUtils.resourceLocation("block/$topName"))
+            .texture("side", p.modLoc("block/$name"))
+            .texture("front", p.modLoc("block/$frontName"))
+            .texture("bottom", p.modLoc("block/$bottomName"))
+            .texture("top", p.modLoc("block/$topName"))
 
 
           ConfiguredModel.builder()
@@ -169,10 +169,10 @@ object BlockstatePresets {
             .toInt()
           val model = p.models()
             .withExistingParent(c.name, p.mcLoc("block/orientable"))
-            .texture("side", LibUtils.resourceLocation("block/$name"))
-            .texture("front", LibUtils.resourceLocation("block/$frontName"))
-            .texture("bottom", LibUtils.resourceLocation("block/$bottomName"))
-            .texture("top", LibUtils.resourceLocation("block/$topName"))
+            .texture("side", p.modLoc("block/$name"))
+            .texture("front", p.modLoc("block/$frontName"))
+            .texture("bottom", p.modLoc("block/$bottomName"))
+            .texture("top", p.modLoc("block/$topName"))
 
 
           ConfiguredModel.builder()
@@ -189,7 +189,7 @@ object BlockstatePresets {
       p.simpleBlock(c.get(),
         p.models()
           .withExistingParent(c.name, p.mcLoc("block/carpet"))
-          .texture("wool", LibUtils.resourceLocation("block/$name"))
+          .texture("wool", p.modLoc("block/$name"))
           .renderType("cutout_mipped"))
     }
   }
@@ -262,20 +262,20 @@ object BlockstatePresets {
 
   fun <B : Block> stairsBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.stairsBlock(c.entry as StairBlock, LibUtils.resourceLocation("block/$name"))
+      p.stairsBlock(c.entry as StairBlock, p.modLoc("block/$name"))
     }
   }
 
   fun <B : Block> bottomTopStairsBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.stairsBlock(c.entry as StairBlock, LibUtils.resourceLocation("block/$name"), LibUtils.resourceLocation("block/$name" + "_bottom"), LibUtils.resourceLocation("block/$name" + "_top"))
+      p.stairsBlock(c.entry as StairBlock, p.modLoc("block/$name"), p.modLoc("block/$name" + "_bottom"), p.modLoc("block/$name" + "_top"))
     }
   }
 
   fun <B : Block> slabBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      val mainTexture = LibUtils.resourceLocation("block/$name")
-      val sideTexture = LibUtils.resourceLocation("block/$name")
+      val mainTexture = p.modLoc("block/$name")
+      val sideTexture = p.modLoc("block/$name")
       val bottom = p.models()
         .slab(c.name, sideTexture, mainTexture, mainTexture)
       val top = p.models()
@@ -289,9 +289,9 @@ object BlockstatePresets {
 
   fun <B : Block> bottomTopSlabBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      val topTexture = LibUtils.resourceLocation("block/$name" + "_top")
-      val bottomTexture = LibUtils.resourceLocation("block/$name" + "_bottom")
-      val sideTexture = LibUtils.resourceLocation("block/$name")
+      val topTexture = p.modLoc("block/$name" + "_top")
+      val bottomTexture = p.modLoc("block/$name" + "_bottom")
+      val sideTexture = p.modLoc("block/$name")
       val bottom = p.models()
         .slab(c.name, sideTexture, bottomTexture, topTexture)
       val top = p.models()
@@ -305,9 +305,9 @@ object BlockstatePresets {
 
   fun <B : Block> halfBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      val topTexture = LibUtils.resourceLocation("block/$name")
-      val bottomTexture = LibUtils.resourceLocation("block/$name")
-      val sideTexture = LibUtils.resourceLocation("block/$name")
+      val topTexture = p.modLoc("block/$name")
+      val bottomTexture = p.modLoc("block/$name")
+      val sideTexture = p.modLoc("block/$name")
       val bottom = p.models()
         .slab(c.name, sideTexture, bottomTexture, topTexture)
         .renderType("cutout_mipped")
@@ -317,23 +317,23 @@ object BlockstatePresets {
 
   fun <B : Block> wallBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.wallBlock(c.get() as WallBlock, LibUtils.resourceLocation("block/$name"))
+      p.wallBlock(c.get() as WallBlock, p.modLoc("block/$name"))
     }
   }
 
   fun <B : Block> bottomTopWallBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
       val postModel = p.models()
-        .withExistingParent(c.name, p.modLoc("block/wall_special_post"))
-        .texture("wall", LibUtils.resourceLocation("block/$name"))
-        .texture("bottom", LibUtils.resourceLocation("block/$name" + "_top"))
-        .texture("top", LibUtils.resourceLocation("block/$name" + "_top"))
+        .withExistingParent(c.name, LibUtils.resourceLocation("block/wall_special_post"))
+        .texture("wall", p.modLoc("block/$name"))
+        .texture("bottom", p.modLoc("block/$name" + "_top"))
+        .texture("top", p.modLoc("block/$name" + "_top"))
       val sideModel = p.models()
-        .withExistingParent(c.name + "_side", p.mcLoc("block/template_wall_side"))
-        .texture("wall", LibUtils.resourceLocation("block/$name"))
+        .withExistingParent(c.name + "_side", LibUtils.resourceLocation("block/template_wall_side"))
+        .texture("wall", p.modLoc("block/$name"))
       val tallSideModel = p.models()
-        .withExistingParent(c.name + "_tall_side", p.mcLoc("block/template_wall_side_tall"))
-        .texture("wall", LibUtils.resourceLocation("block/$name"))
+        .withExistingParent(c.name + "_tall_side", LibUtils.resourceLocation("block/template_wall_side_tall"))
+        .texture("wall", p.modLoc("block/$name"))
       val builder = p.getMultipartBuilder(c.get())
         .part()
         .modelFile(postModel)
@@ -378,39 +378,39 @@ object BlockstatePresets {
 
   fun <B : Block> trapdoorBlock(name: String, orientable: Boolean = true): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.trapdoorBlockWithRenderType(c.entry as TrapDoorBlock, name, LibUtils.resourceLocation("block/$name" + "_trapdoor"), orientable, "cutout_mipped")
+      p.trapdoorBlockWithRenderType(c.entry as TrapDoorBlock, name, p.modLoc("block/$name" + "_trapdoor"), orientable, "cutout_mipped")
     }
   }
 
 
   fun <B : Block> fenceBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.fenceBlock(c.get() as FenceBlock, LibUtils.resourceLocation("block/${name}")
+      p.fenceBlock(c.get() as FenceBlock, p.modLoc("block/${name}")
       )
     }
   }
 
   fun <B : Block> fenceGateBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.fenceGateBlock(c.get() as FenceGateBlock, LibUtils.resourceLocation("block/${name}"))
+      p.fenceGateBlock(c.get() as FenceGateBlock, p.modLoc("block/${name}"))
     }
   }
 
   fun <B : Block> pressurePlateBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.pressurePlateBlock(c.get() as PressurePlateBlock, LibUtils.resourceLocation("block/${name}"))
+      p.pressurePlateBlock(c.get() as PressurePlateBlock, p.modLoc("block/${name}"))
     }
   }
 
   fun <B : Block> buttonBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.buttonBlock(c.get() as ButtonBlock, LibUtils.resourceLocation("block/${name}"))
+      p.buttonBlock(c.get() as ButtonBlock, p.modLoc("block/${name}"))
     }
   }
 
   fun <B : Block> doorTransparentBlock(): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.doorBlockWithRenderType(c.get() as DoorBlock, LibUtils.resourceLocation("block/${c.name}" + "_back"), LibUtils.resourceLocation("block/${c.name}" + "_top"), "cutout_mipped")
+      p.doorBlockWithRenderType(c.get() as DoorBlock, p.modLoc("block/${c.name}" + "_back"), p.modLoc("block/${c.name}" + "_top"), "cutout_mipped")
     }
   }
 
@@ -502,11 +502,11 @@ object BlockstatePresets {
             .toInt()
           val model = p.models()
             .withExistingParent(c.name + if (isZed) "" else "_$axis" + if (powered) "_on" else "", p.mcLoc("block/orientable"))
-            .texture("side", LibUtils.resourceLocation("block/${name}_side"))
-            .texture("front", LibUtils.resourceLocation("block/${name}_front_${axis}"))
-            .texture("south", LibUtils.resourceLocation("block/${name}_back${if (powered) "_on" else ""}"))
-            .texture("bottom", LibUtils.resourceLocation("block/${name}_side"))
-            .texture("top", LibUtils.resourceLocation("block/${name}_side"))
+            .texture("side", p.modLoc("block/${name}_side"))
+            .texture("front", p.modLoc("block/${name}_front_${axis}"))
+            .texture("south", p.modLoc("block/${name}_back${if (powered) "_on" else ""}"))
+            .texture("bottom", p.modLoc("block/${name}_side"))
+            .texture("top", p.modLoc("block/${name}_side"))
 
 
           ConfiguredModel.builder()
