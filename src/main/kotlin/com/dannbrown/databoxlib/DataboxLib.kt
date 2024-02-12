@@ -15,10 +15,8 @@ class DataboxLib {
     const val NAME = "Databox Lib"
     val LOGGER = LogManager.getLogger()
 
-
-
     // mod registrate instance
-    val REGISTRATE: DataboxRegistrate = DataboxRegistrate.create(MOD_ID)
+    val REGISTRATE: DataboxRegistrate = DataboxRegistrate(MOD_ID)
 
     init {
       val eventBus = FMLJavaModLoadingContext.get().modEventBus

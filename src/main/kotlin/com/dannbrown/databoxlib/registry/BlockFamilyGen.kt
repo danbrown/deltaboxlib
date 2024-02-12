@@ -53,7 +53,7 @@ import net.minecraft.world.level.material.MapColor
 import net.minecraftforge.client.model.generators.ModelFile
 import java.util.function.Supplier
 
-class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE) {
+class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate) {
   private val _name = name
   private var _sharedProps: (BlockBehaviour.Properties) -> BlockBehaviour.Properties = { p: BlockBehaviour.Properties -> p }
   private var _toolType: TagKey<Block>? = null
@@ -152,6 +152,8 @@ class BlockFamilyGen(name: String, private val registrate: DataboxRegistrate = D
    */
   fun longBlockFamily(mainBlock: BlockEntry<out Block>? = null, isRotatedBlock: Boolean = false): BlockFamily {
     val MATERIAL_TAG = LibTags.modItemTag(registrate.modid, _name + "_blocks")
+
+    DataboxLib.LOGGER.info(registrate.modid)
 
     if (mainBlock == null) {
       _blockFamily.setVariant(BlockFamily.Type.MAIN) {

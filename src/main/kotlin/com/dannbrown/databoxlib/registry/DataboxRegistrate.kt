@@ -19,7 +19,7 @@ import java.util.function.Supplier
 
 
 // This Registrate file is based on CreateRegistrate: https://github.com/Creators-of-Create/Create/blob/mc1.18/dev/src/main/java/com/simibubi/create/foundation/data/CreateRegistrate.java
-class DataboxRegistrate protected constructor(modId: String) : AbstractRegistrate<DataboxRegistrate>(modId) {
+class DataboxRegistrate(private val modId: String) : AbstractRegistrate<DataboxRegistrate>(modId) {
   var creativeTab: RegistryObject<CreativeModeTab>? = null
     protected set
 
@@ -49,12 +49,7 @@ class DataboxRegistrate protected constructor(modId: String) : AbstractRegistrat
 
   companion object {
 
-
-
     private val TAB_LOOKUP: Map<RegistryEntry<*>, RegistryObject<CreativeModeTab>> = IdentityHashMap()
-    fun create(modid: String): DataboxRegistrate {
-      return DataboxRegistrate(modid)
-    }
 
     fun isInCreativeTab(entry: RegistryEntry<*>, tab: RegistryObject<CreativeModeTab>): Boolean {
       return TAB_LOOKUP.get(entry) === tab
