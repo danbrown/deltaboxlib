@@ -1,29 +1,20 @@
-package com.dannbrown.databoxlib.datagen.content
+package com.dannbrown.databoxlib.registry.generators
 
-import com.dannbrown.databoxlib.DataboxLib
 import com.dannbrown.databoxlib.content.fluid.ProjectFluidType
 import com.dannbrown.databoxlib.content.fluid.FluidPropertiesExtended
 import com.dannbrown.databoxlib.content.fluid.FluidVariant
 import com.dannbrown.databoxlib.content.fluid.SpecialFluid
-import com.dannbrown.databoxlib.content.fluid.TintedFluidType
 import com.dannbrown.databoxlib.lib.LibTags
 import com.dannbrown.databoxlib.lib.LibUtils
 import com.dannbrown.databoxlib.registry.DataboxRegistrate
 import com.tterrag.registrate.builders.FluidBuilder
-import com.tterrag.registrate.builders.FluidBuilder.FluidTypeFactory
 import com.tterrag.registrate.util.entry.FluidEntry
 import com.tterrag.registrate.util.nullness.NonNullFunction
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.level.BlockAndTintGetter
-import net.minecraft.world.level.material.FluidState
-import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidType
 import net.minecraftforge.fluids.ForgeFlowingFluid
-import org.joml.Vector3f
 import java.util.*
-import java.util.function.Supplier
 
 class FluidGen(private val registrate: DataboxRegistrate) {
 

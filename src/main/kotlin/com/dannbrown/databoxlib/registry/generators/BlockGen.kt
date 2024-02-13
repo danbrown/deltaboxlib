@@ -1,6 +1,7 @@
-package com.dannbrown.databoxlib.registry
+package com.dannbrown.databoxlib.registry.generators
 
 import com.dannbrown.databoxlib.content.block.FlammableSandBlock
+import com.dannbrown.databoxlib.registry.DataboxRegistrate
 import com.dannbrown.databoxlib.registry.transformers.BlockLootPresets
 import com.dannbrown.databoxlib.registry.transformers.BlockTagPresets
 import com.dannbrown.databoxlib.registry.transformers.BlockstatePresets

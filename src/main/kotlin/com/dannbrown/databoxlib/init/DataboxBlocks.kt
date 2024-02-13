@@ -1,8 +1,7 @@
 package com.dannbrown.databoxlib.init
 
 import com.dannbrown.databoxlib.DataboxLib
-import com.dannbrown.databoxlib.registry.transformers.BlockstatePresets
-import com.dannbrown.databoxlib.registry.BlockGen
+import com.dannbrown.databoxlib.registry.generators.BlockGen
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.Block
 

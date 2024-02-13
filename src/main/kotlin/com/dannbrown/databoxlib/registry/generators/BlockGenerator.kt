@@ -1,5 +1,6 @@
-package com.dannbrown.databoxlib.registry
+package com.dannbrown.databoxlib.registry.generators
 
+import com.dannbrown.databoxlib.registry.DataboxRegistrate
 import net.minecraft.world.level.block.Block
 
 class BlockGenerator(val registrate: DataboxRegistrate) {
@@ -7,7 +8,7 @@ class BlockGenerator(val registrate: DataboxRegistrate) {
     return BlockGen(name, registrate)
   }
 
-  fun createFamily(name: String): BlockFamilyGen{
+  fun createFamily(name: String): BlockFamilyGen {
     return BlockFamilyGen(name, this)
   }
 }

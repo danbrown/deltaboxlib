@@ -1,4 +1,4 @@
-package com.dannbrown.databoxlib.datagen.content
+package com.dannbrown.databoxlib.registry.generators
 
 import com.tterrag.registrate.util.entry.BlockEntry
 import net.minecraft.world.level.block.Block

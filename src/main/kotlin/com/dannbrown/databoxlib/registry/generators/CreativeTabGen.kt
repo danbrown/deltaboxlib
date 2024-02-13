@@ -1,6 +1,7 @@
-package com.dannbrown.databoxlib.registry
+package com.dannbrown.databoxlib.registry.generators
 
 import com.dannbrown.databoxlib.init.DataboxTags
+import com.dannbrown.databoxlib.registry.DataboxRegistrate
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey

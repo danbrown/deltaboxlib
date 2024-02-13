@@ -1,9 +1,9 @@
-package com.dannbrown.databoxlib.registry
+package com.dannbrown.databoxlib.registry.datagen
 
 import com.dannbrown.databoxlib.DataboxLib
 import com.dannbrown.databoxlib.lib.LibObjects
 import com.dannbrown.databoxlib.lib.LibUtils
-import com.dannbrown.databoxlib.registry.RecipeProvider.GeneratedRecipe
+import com.dannbrown.databoxlib.registry.datagen.DataboxRecipeProvider.GeneratedRecipe
 import net.minecraft.advancements.critereon.ItemPredicate
 import net.minecraft.data.CachedOutput
 import net.minecraft.data.DataGenerator
@@ -32,7 +32,7 @@ import kotlin.reflect.KClass
 
 // class based on https://github.com/Creators-of-Create/Create/blob/mc1.19/0.5.1/src/main/java/com/simibubi/create/foundation/data/recipe/ProcessingRecipeGen.java
 // the goal is to be able to create custom processing recipes
-abstract class RecipeProvider(output: PackOutput, private val modId: String) : RecipeProvider(output) {
+abstract class DataboxRecipeProvider(output: PackOutput, private val modId: String) : RecipeProvider(output) {
   val all: MutableList<GeneratedRecipe> = ArrayList()
 
   override fun buildRecipes(recipeConsumer: Consumer<FinishedRecipe>) {

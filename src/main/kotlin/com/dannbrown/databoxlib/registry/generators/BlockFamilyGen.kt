@@ -1,4 +1,4 @@
-package com.dannbrown.databoxlib.registry
+package com.dannbrown.databoxlib.registry.generators
 
 import com.dannbrown.databoxlib.content.block.GenericSaplingBlock
 import com.dannbrown.databoxlib.content.block.GenericStandingSignBlock
@@ -15,7 +15,6 @@ import com.dannbrown.databoxlib.registry.transformers.BlockstatePresets
 import com.dannbrown.databoxlib.registry.transformers.ItemModelPresets
 import com.dannbrown.databoxlib.registry.transformers.RecipePresets
 import com.dannbrown.databoxlib.lib.LibUtils
-import com.dannbrown.databoxlib.datagen.content.BlockFamily
 import com.dannbrown.databoxlib.lib.LibTags
 import com.tterrag.registrate.providers.RegistrateRecipeProvider
 import com.tterrag.registrate.util.DataIngredient

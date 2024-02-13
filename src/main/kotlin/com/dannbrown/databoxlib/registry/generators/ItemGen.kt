@@ -1,4 +1,4 @@
-package com.dannbrown.databoxlib.datagen.content
+package com.dannbrown.databoxlib.registry.generators
 
 import com.dannbrown.databoxlib.DataboxLib
 import com.dannbrown.databoxlib.lib.LibTags

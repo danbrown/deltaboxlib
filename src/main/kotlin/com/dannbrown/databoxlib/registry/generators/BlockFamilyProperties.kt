@@ -1,4 +1,4 @@
-package com.dannbrown.databoxlib.registry
+package com.dannbrown.databoxlib.registry.generators
 
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.Block
@@ -14,6 +14,6 @@ interface BlockFamilyProperties {
   val color: MapColor
   val accentColor: MapColor
   val copyFrom: Supplier<Block>
-  val denyList: MutableList<com.dannbrown.databoxlib.datagen.content.BlockFamily.Type>
-  val blockFamily: com.dannbrown.databoxlib.datagen.content.BlockFamily
+  val denyList: MutableList<BlockFamily.Type>
+  val blockFamily: BlockFamily
 }
