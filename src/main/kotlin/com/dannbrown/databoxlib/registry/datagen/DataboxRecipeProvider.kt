@@ -2,7 +2,6 @@ package com.dannbrown.databoxlib.registry.datagen
 
 import com.dannbrown.databoxlib.DataboxLib
 import com.dannbrown.databoxlib.lib.LibObjects
-import com.dannbrown.databoxlib.lib.LibUtils
 import com.dannbrown.databoxlib.registry.datagen.DataboxRecipeProvider.GeneratedRecipe
 import net.minecraft.advancements.critereon.ItemPredicate
 import net.minecraft.data.CachedOutput
@@ -59,12 +58,13 @@ abstract class DataboxRecipeProvider(output: PackOutput, private val modId: Stri
       prefix: String,
       suffix: String
     ): ResourceLocation {
-      return LibUtils.resourceLocation(
+      return ResourceLocation(
+				modId,
         recipeType + "/" + prefix + LibObjects.getKeyOrThrow(
           result.get()
             .asItem()
         ).path + suffix,
-        modId
+        
       )
     }
 

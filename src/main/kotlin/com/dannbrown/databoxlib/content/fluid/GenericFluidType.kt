@@ -1,6 +1,5 @@
 package com.dannbrown.databoxlib.content.fluid
 
-import com.dannbrown.databoxlib.lib.LibUtils
 import com.dannbrown.databoxlib.registry.DataboxRegistrate
 import com.mojang.blaze3d.shaders.FogShape
 import com.mojang.blaze3d.systems.RenderSystem
@@ -22,15 +21,15 @@ class GenericFluidType(textureType: FluidVariant, colorOverlay: Long, props: Pro
   override fun initializeClient(consumer: Consumer<IClientFluidTypeExtensions?>) {
     consumer.accept(object : IClientFluidTypeExtensions {
       override fun getStillTexture(): ResourceLocation {
-        return LibUtils.resourceLocation( "fluid/" + _textureType + "_still", registrate.modid)
+        return ResourceLocation(registrate.modid,  "fluid/" + _textureType + "_still")
       }
 
       override fun getFlowingTexture(): ResourceLocation {
-        return LibUtils.resourceLocation( "fluid/" + _textureType + "_flow", registrate.modid)
+        return ResourceLocation(registrate.modid,  "fluid/" + _textureType + "_flow")
       }
 
       override fun getOverlayTexture(): ResourceLocation? {
-        return LibUtils.resourceLocation( "block/" + _textureType + "_overlay", registrate.modid)
+        return ResourceLocation(registrate.modid,  "block/" + _textureType + "_overlay")
       }
 
       override fun getTintColor(): Int {

@@ -5,7 +5,6 @@ import com.dannbrown.databoxlib.content.fluid.FluidPropertiesExtended
 import com.dannbrown.databoxlib.content.fluid.FluidVariant
 import com.dannbrown.databoxlib.content.fluid.SpecialFluid
 import com.dannbrown.databoxlib.lib.LibTags
-import com.dannbrown.databoxlib.lib.LibUtils
 import com.dannbrown.databoxlib.registry.DataboxRegistrate
 import com.tterrag.registrate.builders.FluidBuilder
 import com.tterrag.registrate.util.entry.FluidEntry
@@ -124,11 +123,11 @@ class FluidGen(private val registrate: DataboxRegistrate) {
   // @ UTILS
   // Resource Locations solve
   private fun fluidStillResourceLocation(variant: FluidVariant, registrate: DataboxRegistrate): ResourceLocation {
-    return LibUtils.resourceLocation("fluid/" + variant + "_still", registrate.modid)
+    return ResourceLocation(registrate.modid, "fluid/" + variant + "_still")
   }
 
   private fun fluidFlowResourceLocation(variant: FluidVariant, registrate: DataboxRegistrate): ResourceLocation {
-    return LibUtils.resourceLocation("fluid/" + variant + "_flow", registrate.modid)
+    return ResourceLocation(registrate.modid, "fluid/" + variant + "_flow")
   }
 
   private fun formatTankLang(id: String): String {

@@ -1,6 +1,6 @@
 package com.dannbrown.databoxlib.registry.transformers
 
-import com.dannbrown.databoxlib.lib.LibUtils
+import net.minecraft.resources.ResourceLocation
 import com.tterrag.registrate.providers.DataGenContext
 import com.tterrag.registrate.providers.RegistrateRecipeProvider
 import com.tterrag.registrate.util.DataIngredient
@@ -76,7 +76,7 @@ object RecipePresets {
       .unlockedBy("has_" + p.safeName(ingredient.get()),
         ingredient.get()
           .getCritereon(p))
-      .save(p, LibUtils.resourceLocation("crafting/" + c.name + "_from_" + p.safeName(ingredient.get())))
+      .save(p, ResourceLocation("crafting/" + c.name + "_from_" + p.safeName(ingredient.get())))
   }
 
   fun <B : Block> directConversionRecipe(c: DataGenContext<Block, B>, p: RegistrateRecipeProvider, ingredient: Supplier<DataIngredient>, result: Supplier<ItemLike>, amount: Int = 1
@@ -86,7 +86,7 @@ object RecipePresets {
       .unlockedBy("has_" + p.safeName(ingredient.get()),
         ingredient.get()
           .getCritereon(p))
-      .save(p, LibUtils.resourceLocation("crafting/" + p.safeName(result.get()) + "_from_" + p.safeName(ingredient.get())))
+      .save(p, ResourceLocation("crafting/" + p.safeName(result.get()) + "_from_" + p.safeName(ingredient.get())))
   }
 
   fun <B : Block> slabStonecuttingRecipe(c: DataGenContext<Block, B>, p: RegistrateRecipeProvider, ingredient: Supplier<DataIngredient>

@@ -14,7 +14,7 @@ import com.dannbrown.databoxlib.registry.transformers.BlockTagPresets
 import com.dannbrown.databoxlib.registry.transformers.BlockstatePresets
 import com.dannbrown.databoxlib.registry.transformers.ItemModelPresets
 import com.dannbrown.databoxlib.registry.transformers.RecipePresets
-import com.dannbrown.databoxlib.lib.LibUtils
+import net.minecraft.resources.ResourceLocation
 import com.dannbrown.databoxlib.lib.LibTags
 import com.tterrag.registrate.providers.RegistrateRecipeProvider
 import com.tterrag.registrate.util.DataIngredient
@@ -1543,7 +1543,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
             .pattern("X X")
             .pattern("XXX")
             .unlockedBy("has_" + p.safeName(c.get()), RegistrateRecipeProvider.has(c.get()))
-            .save(p, LibUtils.resourceLocation("oak_boat_from_" + p.safeName(c.get())))
+            .save(p, ResourceLocation("oak_boat_from_" + p.safeName(c.get())))
         }
         .register()
     }
