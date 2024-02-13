@@ -6,4 +6,8 @@ class BlockGenerator(val registrate: DataboxRegistrate) {
   fun  <T: Block> create(name: String): BlockGen<T> {
     return BlockGen(name, registrate)
   }
+
+  fun createFamily(name: String): BlockFamilyGen{
+    return BlockFamilyGen(name, this)
+  }
 }

@@ -23,7 +23,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraft.world.item.crafting.SimpleCookingSerializer
 import net.minecraft.world.level.ItemLike
 import net.minecraftforge.fluids.FluidType
-import net.minecraftforge.registries.IForgeRegistry
 import java.io.IOException
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -70,7 +69,7 @@ abstract class RecipeProvider(output: PackOutput, private val modId: String) : R
     }
 
 
-    fun registerSingle(doRun: Boolean, gen: DataGenerator, generator: KClass<out RecipeProvider>) {
+    fun registerGenerators(doRun: Boolean, gen: DataGenerator, vararg generators: KClass<out RecipeProvider>) {
       gen.addProvider(doRun, object : DataProvider {
         override fun getName(): String {
           return "Explore's Processing Recipes"
@@ -78,14 +77,15 @@ abstract class RecipeProvider(output: PackOutput, private val modId: String) : R
 
         @Throws(IOException::class)
         override fun run(dc: CachedOutput): CompletableFuture<*> {
-          try {
-            val generatorInstance = generator.java.getDeclaredConstructor(DataGenerator::class.java)
-              .newInstance(gen)
-            generatorInstance.run(dc)
-          } catch (e: Exception) {
-            e.printStackTrace()
+          for (generator in generators) {
+            try {
+              val generatorInstance = generator.java.getDeclaredConstructor(DataGenerator::class.java)
+                .newInstance(gen)
+              generatorInstance.run(dc)
+            } catch (e: Exception) {
+              e.printStackTrace()
+            }
           }
-
           return CompletableFuture.completedFuture(null)
         }
       })
