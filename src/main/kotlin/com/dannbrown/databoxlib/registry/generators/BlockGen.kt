@@ -399,8 +399,8 @@ class BlockGen<T : Block>(name: String, private val registrate: DataboxRegistrat
     this._copyFrom = copyFrom
     addBuilder { b -> b.properties { p -> props(p) } }
     this._color = color
-    this._toolTier = tier
     this._toolType = tool
+    this._toolTier = tier
     this._correctToolForDrops = correctToolForDrops
     return this
   }
