@@ -1,24 +1,25 @@
 package com.dannbrown.databoxlib.registry
 
+import com.dannbrown.databoxlib.DataboxLib
 import com.tterrag.registrate.AbstractRegistrate
 import com.tterrag.registrate.builders.FluidBuilder
 import com.tterrag.registrate.builders.FluidBuilder.FluidTypeFactory
+import com.tterrag.registrate.providers.RegistrateDataProvider
 import com.tterrag.registrate.util.entry.RegistryEntry
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions
+import net.minecraftforge.data.event.GatherDataEvent
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.fluids.FluidType
 import net.minecraftforge.fluids.ForgeFlowingFluid
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.registries.RegistryObject
-import java.awt.Component
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
-
 
 // This Registrate file is based on CreateRegistrate: https://github.com/Creators-of-Create/Create/blob/mc1.18/dev/src/main/java/com/simibubi/create/foundation/data/CreateRegistrate.java
 class DataboxRegistrate(modId: String) : AbstractRegistrate<DataboxRegistrate>(modId) {

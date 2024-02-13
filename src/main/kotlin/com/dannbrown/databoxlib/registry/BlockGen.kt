@@ -1,13 +1,11 @@
 package com.dannbrown.databoxlib.registry
 
-
 import com.dannbrown.databoxlib.content.block.FlammableSandBlock
 import com.dannbrown.databoxlib.registry.transformers.BlockLootPresets
 import com.dannbrown.databoxlib.registry.transformers.BlockTagPresets
 import com.dannbrown.databoxlib.registry.transformers.BlockstatePresets
 import com.dannbrown.databoxlib.registry.transformers.ItemModelPresets
 import com.dannbrown.databoxlib.registry.transformers.RecipePresets
-import com.dannbrown.databoxlib.lib.LibUtils
 import com.dannbrown.databoxlib.registry.utils.AssetLookup
 import com.tterrag.registrate.builders.BlockBuilder
 import com.tterrag.registrate.providers.DataGenContext

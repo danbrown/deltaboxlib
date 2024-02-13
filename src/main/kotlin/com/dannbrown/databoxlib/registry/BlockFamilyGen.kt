@@ -1,6 +1,5 @@
 package com.dannbrown.databoxlib.registry
 
-import com.dannbrown.databoxlib.DataboxLib
 import com.dannbrown.databoxlib.content.block.GenericSaplingBlock
 import com.dannbrown.databoxlib.content.block.GenericStandingSignBlock
 import com.dannbrown.databoxlib.content.block.GenericWallSignBlock
@@ -152,8 +151,6 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
    */
   fun longBlockFamily(mainBlock: BlockEntry<out Block>? = null, isRotatedBlock: Boolean = false): BlockFamily {
     val MATERIAL_TAG = LibTags.modItemTag(generator.registrate.modid, _name + "_blocks")
-
-    DataboxLib.LOGGER.info(generator.registrate.modid)
 
     if (mainBlock == null) {
       _blockFamily.setVariant(BlockFamily.Type.MAIN) {
@@ -1530,7 +1527,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
       generator.create<FlammableBlock>(_name + "_planks")
         .blockFactory { p -> FlammableBlock(p, 20, 5) }
 //        .fromFamily(Blocks.OAK_PLANKS, sharedProps, accentColor, toolType, toolTier, false)
-        .copyFrom({ Blocks.OAK_PLANKS })
+        .copyFrom { Blocks.OAK_PLANKS }
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .blockTags(listOf(BlockTags.PLANKS))
         .itemTags(listOf(ItemTags.PLANKS))
@@ -1717,7 +1714,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     _blockFamily.setVariant(BlockFamily.Type.SIGN) {
       generator.create<GenericStandingSignBlock>(_name + "_sign")
         .blockFactory { p -> GenericStandingSignBlock(p, woodType) }
-        .copyFrom({ Blocks.OAK_SIGN })
+        .copyFrom { Blocks.OAK_SIGN }
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .color(_accentColor)
         .noItem()
@@ -1737,7 +1734,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
             .tag(BlockTags.STANDING_SIGNS, BlockTags.SIGNS)
             .blockstate { c, p ->
               val signModel: ModelFile = p.models()
-                .sign(c.name, LibUtils.resourceLocation("block/${_name + "_planks"}"))
+                .sign(c.name, p.modLoc("block/${_name + "_planks"}"))
               p.simpleBlock(c.get() as StandingSignBlock, signModel)
               p.simpleBlock(_blockFamily.WALL_SIGN!!.get() as WallSignBlock, signModel)
             }
@@ -1745,7 +1742,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
             .tag(ItemTags.SIGNS)
             .model { c, p ->
               p.withExistingParent(c.name, p.mcLoc("item/generated"))
-                .texture("layer0", LibUtils.resourceLocation("item/${c.name}"))
+                .texture("layer0", p.modLoc("item/${c.name}"))
             }
             .build()
         }

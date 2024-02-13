@@ -1,6 +1,5 @@
 package com.dannbrown.databoxlib.registry.transformers
 
-import com.dannbrown.databoxlib.lib.LibUtils
 import com.dannbrown.databoxlib.registry.utils.AssetLookup
 import com.tterrag.registrate.providers.DataGenContext
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider
@@ -324,15 +323,15 @@ object BlockstatePresets {
   fun <B : Block> bottomTopWallBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
       val postModel = p.models()
-        .withExistingParent(c.name, LibUtils.resourceLocation("block/wall_special_post"))
+        .withExistingParent(c.name, p.modLoc("block/wall_special_post"))
         .texture("wall", p.modLoc("block/$name"))
         .texture("bottom", p.modLoc("block/$name" + "_top"))
         .texture("top", p.modLoc("block/$name" + "_top"))
       val sideModel = p.models()
-        .withExistingParent(c.name + "_side", LibUtils.resourceLocation("block/template_wall_side"))
+        .withExistingParent(c.name + "_side", p.mcLoc("block/template_wall_side"))
         .texture("wall", p.modLoc("block/$name"))
       val tallSideModel = p.models()
-        .withExistingParent(c.name + "_tall_side", LibUtils.resourceLocation("block/template_wall_side_tall"))
+        .withExistingParent(c.name + "_tall_side", p.mcLoc("block/template_wall_side_tall"))
         .texture("wall", p.modLoc("block/$name"))
       val builder = p.getMultipartBuilder(c.get())
         .part()

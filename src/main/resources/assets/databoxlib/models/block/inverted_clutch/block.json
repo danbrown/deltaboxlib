@@ -1,0 +1,8 @@
+{
+	"parent": "create:block/gearshift/block",
+	"render_type": "minecraft:cutout",
+	"textures": {
+		"0": "explore:block/inverted_clutch/inverted_clutch_off",
+		"particle": "explore:block/inverted_clutch/inverted_clutch_off"
+	}
+}

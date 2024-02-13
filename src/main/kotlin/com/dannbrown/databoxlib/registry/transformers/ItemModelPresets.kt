@@ -1,6 +1,5 @@
 package com.dannbrown.databoxlib.registry.transformers
 
-import com.dannbrown.databoxlib.lib.LibUtils
 import com.tterrag.registrate.providers.DataGenContext
 import com.tterrag.registrate.providers.RegistrateItemModelProvider
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer
@@ -29,13 +28,13 @@ object ItemModelPresets {
 
   fun <B : Item> wallItem(name: String): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
     return NonNullBiConsumer { c, p ->
-      p.wallInventory(c.name, LibUtils.resourceLocation("block/$name"))
+      p.wallInventory(c.name, p.modLoc("block/$name"))
     }
   }
 
   fun <B : Item> bottomTopWallItem(name: String): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
     return NonNullBiConsumer { c, p ->
-      p.withExistingParent(c.name, LibUtils.resourceLocation("block/wall_inventory_special_top"))
+      p.withExistingParent(c.name, p.modLoc("block/wall_inventory_special_top"))
         .texture("wall", p.modLoc("block/$name"))
         .texture("down", p.modLoc("block/$name" + "_top"))
         .texture("top", p.modLoc("block/$name" + "_top"))
@@ -71,33 +70,33 @@ object ItemModelPresets {
 
   fun <B : Item> fenceItem(name: String): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
     return NonNullBiConsumer { c, p ->
-      p.fenceInventory(c.name, LibUtils.resourceLocation("block/${name}"))
+      p.fenceInventory(c.name, p.modLoc("block/${name}"))
     }
   }
 
   fun <B : Item> pressurePlateItem(name: String): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
     return NonNullBiConsumer { c, p ->
-      p.pressurePlate(c.name, LibUtils.resourceLocation("block/${name}"))
+      p.pressurePlate(c.name, p.modLoc("block/${name}"))
     }
   }
 
   fun <B : Item> buttonItem(name: String): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
     return NonNullBiConsumer { c, p ->
-      p.buttonInventory(c.name, LibUtils.resourceLocation("block/${name}"))
+      p.buttonInventory(c.name, p.modLoc("block/${name}"))
     }
   }
 
   fun <B : Item> doorItem(): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
     return NonNullBiConsumer { c, p ->
       p.withExistingParent(c.name, p.mcLoc("item/generated"))
-        .texture("layer0", LibUtils.resourceLocation("item/${c.name}"))
+        .texture("layer0", p.modLoc("item/${c.name}"))
     }
   }
 
   fun <B : Item> thrusterItem(name: String? = null): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
     return NonNullBiConsumer { c, p ->
       p.withExistingParent(c.name, p.modLoc("block/thrusters/thruster_item"))
-        .texture("0", LibUtils.resourceLocation("block/thrusters/${c.name}"))
+        .texture("0", p.modLoc("block/thrusters/${c.name}"))
     }
   }
 }

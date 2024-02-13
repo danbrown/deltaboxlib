@@ -1,0 +1,4 @@
+{
+  "parent": "create:block/bars/cap",
+  "render_type": "cutout_mipped"
+}

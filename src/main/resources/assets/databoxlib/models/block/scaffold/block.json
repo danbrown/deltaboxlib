@@ -1,0 +1,4 @@
+{
+  "parent": "create:block/scaffold/block",
+  "render_type": "cutout"
+}

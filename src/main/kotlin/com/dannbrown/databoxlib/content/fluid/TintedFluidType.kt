@@ -18,13 +18,6 @@ import java.util.function.Consumer
 abstract class TintedFluidType(properties: Properties, private val stillTexture: ResourceLocation, private val flowingTexture: ResourceLocation) : FluidType(properties) {
   override fun initializeClient(consumer: Consumer<IClientFluidTypeExtensions>) {
     consumer.accept(object : IClientFluidTypeExtensions {
-      override fun getStillTexture(): ResourceLocation {
-        return stillTexture
-      }
-
-      override fun getFlowingTexture(): ResourceLocation {
-        return flowingTexture
-      }
 
       override fun getTintColor(stack: FluidStack): Int {
         return this@TintedFluidType.getTintColor(stack)
