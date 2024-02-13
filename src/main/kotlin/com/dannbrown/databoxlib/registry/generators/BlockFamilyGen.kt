@@ -1543,7 +1543,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
             .pattern("X X")
             .pattern("XXX")
             .unlockedBy("has_" + p.safeName(c.get()), RegistrateRecipeProvider.has(c.get()))
-            .save(p, ResourceLocation("oak_boat_from_" + p.safeName(c.get())))
+            .save(p, p.safeId(ResourceLocation("oak_boat_from_" + p.safeName(c.get()))))
         }
         .register()
     }

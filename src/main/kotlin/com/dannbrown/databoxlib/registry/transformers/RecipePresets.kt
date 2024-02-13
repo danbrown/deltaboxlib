@@ -25,7 +25,7 @@ object RecipePresets {
       .unlockedBy("has_ingredient",
         ingredient.get()
           .getCritereon(p))
-      .save({ t: FinishedRecipe -> p.accept(t) }, recipePrefix + "_from_block")
+      .save({ t: FinishedRecipe -> p.accept(t) }, p.safeId(ResourceLocation(recipePrefix + "_from_block")))
   }
 
   fun <B : Block> simpleStonecuttingRecipe(c: DataGenContext<Block, B>, p: RegistrateRecipeProvider, ingredient: Supplier<DataIngredient>, amount: Int = 1
@@ -76,7 +76,7 @@ object RecipePresets {
       .unlockedBy("has_" + p.safeName(ingredient.get()),
         ingredient.get()
           .getCritereon(p))
-      .save(p, ResourceLocation("crafting/" + c.name + "_from_" + p.safeName(ingredient.get())))
+      .save(p, p.safeId(ResourceLocation("crafting/" + c.name + "_from_" + p.safeName(ingredient.get()))))
   }
 
   fun <B : Block> directConversionRecipe(c: DataGenContext<Block, B>, p: RegistrateRecipeProvider, ingredient: Supplier<DataIngredient>, result: Supplier<ItemLike>, amount: Int = 1
@@ -86,7 +86,7 @@ object RecipePresets {
       .unlockedBy("has_" + p.safeName(ingredient.get()),
         ingredient.get()
           .getCritereon(p))
-      .save(p, ResourceLocation("crafting/" + p.safeName(result.get()) + "_from_" + p.safeName(ingredient.get())))
+      .save(p, p.safeId(ResourceLocation("crafting/" + p.safeName(result.get()) + "_from_" + p.safeName(ingredient.get()))))
   }
 
   fun <B : Block> slabStonecuttingRecipe(c: DataGenContext<Block, B>, p: RegistrateRecipeProvider, ingredient: Supplier<DataIngredient>
@@ -101,7 +101,7 @@ object RecipePresets {
       .requires(asIngredient)
       .requires(asIngredient)
       .unlockedBy("has_" + c.name, asIngredient.getCritereon(p))
-      .save(p, c.name + "_recycling") // ProjectContent.MOD_ID + ":" + c.name
+      .save(p, p.safeId(ResourceLocation("crafting/" + c.name + "_to_" + p.safeName(ingredient.get()) + "_recycle")))
   }
 
   fun <B : Block> slabToChiseledRecipe(c: DataGenContext<Block, B>, p: RegistrateRecipeProvider, ingredient: Supplier<DataIngredient>
@@ -201,14 +201,14 @@ object RecipePresets {
       .unlockedBy("has_ingredient",
         ingredient.get()
           .getCritereon(p))
-      .save({ t: FinishedRecipe -> p.accept(t) }, recipePrefix + "_from_materials")
+      .save({ t: FinishedRecipe -> p.accept(t) }, p.safeId(ResourceLocation(recipePrefix + "_from_materials")))
 
     ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ingotItem.get(), 9)
       .requires(c.get())
       .unlockedBy("has_ingredient",
         ingredient.get()
           .getCritereon(p))
-      .save({ t: FinishedRecipe -> p.accept(t) }, recipePrefix + "_to_materials")
+      .save({ t: FinishedRecipe -> p.accept(t) }, p.safeId(ResourceLocation(recipePrefix + "_to_materials")))
   }
 
   fun <B : Block> smallStorageBlockRecipe(c: DataGenContext<Block, B>, p: RegistrateRecipeProvider, ingotItem: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>
@@ -222,14 +222,14 @@ object RecipePresets {
       .unlockedBy("has_ingredient",
         ingredient.get()
           .getCritereon(p))
-      .save({ t: FinishedRecipe -> p.accept(t) }, recipePrefix + "_from_materials")
+      .save({ t: FinishedRecipe -> p.accept(t) }, p.safeId(ResourceLocation(recipePrefix + "_from_materials")))
 
     ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ingotItem.get(), 4)
       .requires(c.get())
       .unlockedBy("has_ingredient",
         ingredient.get()
           .getCritereon(p))
-      .save({ t: FinishedRecipe -> p.accept(t) }, recipePrefix + "_to_materials")
+      .save({ t: FinishedRecipe -> p.accept(t) }, p.safeId(ResourceLocation(recipePrefix + "_to_materials")))
   }
 
   fun <B : Block> ladderStonecuttingRecipe(c: DataGenContext<Block, B>, p: RegistrateRecipeProvider, ingredient: Supplier<DataIngredient>
