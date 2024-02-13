@@ -258,9 +258,9 @@ tasks.named('build').configure {
     doLast {
         delete fileTree(dir: '../files', include: "${mod_id}-*")
         copy {
-            from 'build/files'
+            from 'build/libs'
             into '../files'
-            include "${mod_id}-${mod_version}-all.jar"
+            include "${mod_id}-${mod_version}.jar"
         }
     }
 }

@@ -88,6 +88,14 @@ object LibTags {
     return modTag(modId, ForgeRegistries.ITEMS, path)
   }
 
+  fun modBiomeTag(modId: String, path: String): TagKey<Biome> {
+    return modTag(modId, ForgeRegistries.BIOMES, path)
+  }
+
+  fun modEntityTag(modId: String, path: String): TagKey<EntityType<*>> {
+    return modTag(modId, ForgeRegistries.ENTITY_TYPES, path)
+  }
+
   fun modFluidTag(modId: String, path: String): TagKey<Fluid> {
     return modTag(modId, ForgeRegistries.FLUIDS, path)
   }
