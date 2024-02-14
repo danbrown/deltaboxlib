@@ -56,7 +56,7 @@ class DataboxRegistrate(modId: String) : AbstractRegistrate<DataboxRegistrate>(m
     formula: String,
     name: String,
   ) : MutableComponent{
-    return addRawLang("formula.explore.$formula", name)
+    return addRawLang("formula.${modid}.$formula", name)
   }
 
   fun addCreativeTabLang(

@@ -2,7 +2,7 @@
 	"parent": "create:block/clutch/block",
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"0": "explore:block/inverted_clutch/inverted_clutch_on",
-		"particle": "explore:block/inverted_clutch/inverted_clutch_on"
+		"0": "discover:block/inverted_clutch/inverted_clutch_on",
+		"particle": "discover:block/inverted_clutch/inverted_clutch_on"
 	}
 }

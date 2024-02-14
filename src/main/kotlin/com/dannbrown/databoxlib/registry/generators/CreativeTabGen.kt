@@ -36,7 +36,7 @@ class CreativeTabGen(private val REGISTER: DeferredRegister<CreativeModeTab>,pri
         for (entry in registrate.getAll(Registries.BLOCK)) {
           val block = entry.get()
           if (block.asItem() === Items.AIR) continue // avoid fluids and blocks without items
-          if (block.asItem().defaultInstance.tags.anyMatch { item: TagKey<Item> -> DataboxTags.ITEM.EXCLUDE_FROM_CREATIVE == item }) continue // avoid items with the tag "explore:exclude_from_creative"
+          if (block.asItem().defaultInstance.tags.anyMatch { item: TagKey<Item> -> DataboxTags.ITEM.EXCLUDE_FROM_CREATIVE == item }) continue // avoid items with the tag "databoxlib:exclude_from_creative"
           output.accept(ItemStack(block.asItem()))
         }
     }

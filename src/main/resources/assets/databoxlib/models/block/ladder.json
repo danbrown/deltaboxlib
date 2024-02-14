@@ -1,8 +1,8 @@
 {
   "ambientocclusion": false,
   "textures": {
-    "particle": "explore:block/ladder",
-    "texture": "explore:block/ladder"
+    "particle": "discover:block/ladder",
+    "texture": "discover:block/ladder"
   },
   "elements": [
     {

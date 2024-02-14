@@ -72,7 +72,7 @@ abstract class DataboxRecipeProvider(output: PackOutput, private val modId: Stri
     fun registerGenerators(doRun: Boolean, gen: DataGenerator, vararg generators: KClass<out RecipeProvider>) {
       gen.addProvider(doRun, object : DataProvider {
         override fun getName(): String {
-          return "Explore's Processing Recipes"
+          return "DataboxLib's Processing Recipes"
         }
 
         @Throws(IOException::class)

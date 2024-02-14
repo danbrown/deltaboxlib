@@ -2,8 +2,8 @@
   "ambientocclusion": false,
   "render_type": "translucent",
   "textures": {
-    "particle": "explore:block/ladder",
-    "texture": "explore:block/ladder"
+    "particle": "discover:block/ladder",
+    "texture": "discover:block/ladder"
   },
   "elements": [
     {

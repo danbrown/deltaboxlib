@@ -1,8 +1,8 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "explore:block/pressure_chamber/gauge",
-    "particle": "explore:block/pressure_chamber/gauge"
+    "0": "discover:block/pressure_chamber/gauge",
+    "particle": "discover:block/pressure_chamber/gauge"
   },
   "elements": [
     {

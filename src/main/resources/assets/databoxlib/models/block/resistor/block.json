@@ -2,7 +2,7 @@
 	"parent": "create:block/gearshift/block",
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"0": "explore:block/resistor/resistor_15",
-		"particle": "explore:block/resistor/resistor_15"
+		"0": "discover:block/resistor/resistor_15",
+		"particle": "discover:block/resistor/resistor_15"
 	}
 }

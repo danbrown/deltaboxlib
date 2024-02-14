@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "3": "explore:block/pressure_chamber/pressure_chamber_top",
+    "3": "discover:block/pressure_chamber/pressure_chamber_top",
     "4": "create:block/basin",
-    "6": "explore:block/pressure_chamber/pressure_chamber",
+    "6": "discover:block/pressure_chamber/pressure_chamber",
     "particle": "create:block/basin"
   },
   "elements": [

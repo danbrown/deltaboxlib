@@ -3,7 +3,7 @@
 	"parent": "block/block",
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"0": "explore:block/resistor/resistor_15",
+		"0": "discover:block/resistor/resistor_15",
 		"1": "create:block/gearbox",
 		"4": "create:block/funnel/andesite_funnel_frame",
 		"particle": "create:block/axis",

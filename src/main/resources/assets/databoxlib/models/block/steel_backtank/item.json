@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"0": "explore:block/steel_backtank",
-		"particle": "explore:block/steel_backtank"
+		"0": "discover:block/steel_backtank",
+		"particle": "discover:block/steel_backtank"
 	},
 	"elements": [
 		{

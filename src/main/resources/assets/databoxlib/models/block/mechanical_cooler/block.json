@@ -3,9 +3,9 @@
   "render_type": "translucent",
   "texture_size": [64, 64],
   "textures": {
-    "0": "explore:block/mechanical_cooler/zinc",
-    "1": "explore:block/mechanical_cooler/cooler",
-    "particle": "explore:block/mechanical_cooler/zinc"
+    "0": "discover:block/mechanical_cooler/zinc",
+    "1": "discover:block/mechanical_cooler/cooler",
+    "particle": "discover:block/mechanical_cooler/zinc"
   },
   "elements": [
     {

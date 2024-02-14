@@ -2,8 +2,8 @@
   "parent": "minecraft:block/block",
   "render_type": "translucent",
   "textures": {
-    "particle": "explore:block/silica_gel",
-    "texture": "explore:block/silica_gel"
+    "particle": "discover:block/silica_gel",
+    "texture": "discover:block/silica_gel"
   },
   "elements": [
     {

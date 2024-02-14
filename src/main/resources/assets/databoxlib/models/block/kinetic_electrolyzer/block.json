@@ -2,9 +2,9 @@
   "credit": "Made with Blockbench",
   "texture_size": [32, 32],
   "textures": {
-    "0": "explore:block/kinetic_electrolyzer/base",
-    "1": "explore:block/kinetic_electrolyzer/copper",
-    "2": "explore:block/kinetic_electrolyzer/zinc",
+    "0": "discover:block/kinetic_electrolyzer/base",
+    "1": "discover:block/kinetic_electrolyzer/copper",
+    "2": "discover:block/kinetic_electrolyzer/zinc",
     "particle": "create:block/andesite_casing"
   },
   "elements": [

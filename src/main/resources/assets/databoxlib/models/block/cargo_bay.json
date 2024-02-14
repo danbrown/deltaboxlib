@@ -2,11 +2,11 @@
   "credit": "Made with Blockbench",
   "parent": "block/block",
   "textures": {
-    "0": "explore:block/cargo_bay/cargo_bottom_small",
-    "1": "explore:block/cargo_bay/cargo_front_small",
-    "2": "explore:block/cargo_bay/cargo_side_small",
-    "3": "explore:block/cargo_bay/cargo_top_small",
-    "particle": "explore:block/cargo_bay/cargo_top_small"
+    "0": "discover:block/cargo_bay/cargo_bottom_small",
+    "1": "discover:block/cargo_bay/cargo_front_small",
+    "2": "discover:block/cargo_bay/cargo_side_small",
+    "3": "discover:block/cargo_bay/cargo_top_small",
+    "particle": "discover:block/cargo_bay/cargo_top_small"
   },
   "elements": [
     {
