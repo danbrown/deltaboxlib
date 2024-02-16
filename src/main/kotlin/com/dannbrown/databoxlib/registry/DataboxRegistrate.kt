@@ -1,17 +1,16 @@
 package com.dannbrown.databoxlib.registry
 
-import com.dannbrown.databoxlib.DataboxLib
 import com.tterrag.registrate.AbstractRegistrate
 import com.tterrag.registrate.builders.FluidBuilder
 import com.tterrag.registrate.builders.FluidBuilder.FluidTypeFactory
-import com.tterrag.registrate.providers.RegistrateDataProvider
 import com.tterrag.registrate.util.entry.RegistryEntry
+import com.tterrag.registrate.util.nullness.NonNullConsumer
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.level.block.Block
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions
-import net.minecraftforge.data.event.GatherDataEvent
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.fluids.FluidType
 import net.minecraftforge.fluids.ForgeFlowingFluid
@@ -94,6 +93,15 @@ class DataboxRegistrate(modId: String) : AbstractRegistrate<DataboxRegistrate>(m
     return addRawLang("dimension.${modid}.$name", phrase)
   }
 
+  fun addWorldPresetLang(
+    name: String,
+    phrase: String,
+  ) :MutableComponent {
+    return addRawLang("generator.${modid}.$name", phrase)
+  }
+
+
+
   companion object {
 
     private val TAB_LOOKUP: Map<RegistryEntry<*>, RegistryObject<CreativeModeTab>> = IdentityHashMap()
@@ -123,5 +131,7 @@ class DataboxRegistrate(modId: String) : AbstractRegistrate<DataboxRegistrate>(m
     protected fun onClient(toRun: Supplier<Runnable>) {
       DistExecutor.unsafeRunWhenOn(Dist.CLIENT, toRun)
     }
+
+
   }
 }
