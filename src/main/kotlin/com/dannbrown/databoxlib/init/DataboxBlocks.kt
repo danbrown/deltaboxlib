@@ -10,9 +10,9 @@ object DataboxBlocks {
     DataboxLib.LOGGER.info("Registering blocks")
   }
 
-  val SAMPLE_BLOCK2 = BlockGen<Block>("adamantium_block", DataboxLib.REGISTRATE)
-    .oreBlock({Items.IRON_INGOT}, "basalt", false)
-    .properties { it.strength(1.0f, 1.0f) }
-    .register()
+//  val SAMPLE_BLOCK2 = BlockGen<Block>("adamantium_block", DataboxLib.REGISTRATE)
+//    .oreBlock({Items.IRON_INGOT}, "basalt", false)
+//    .properties { it.strength(1.0f, 1.0f) }
+//    .register()
 
 }
