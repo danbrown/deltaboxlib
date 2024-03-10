@@ -33,7 +33,7 @@ object BlockstatePresets {
 
   fun <B : Block> simpleBlock(): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.cubeAll(c.get())
+      p.simpleBlock(c.get())
     }
   }
 
@@ -462,29 +462,6 @@ object BlockstatePresets {
     }
   }
 
-  fun <B : Block> resistorBlock(): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
-    return NonNullBiConsumer { c, p ->
-      p.getVariantBuilder(c.entry)
-        .forAllStatesExcept({ state: BlockState ->
-          val axis = state.getValue(BlockStateProperties.AXIS)
-          val powerLevel = state.getValue(BlockStateProperties.POWER)
-          val powerLevelSuffix = if (powerLevel == 0) "" else "_${powerLevel}"
-//          val model = p.models()
-//            .cubeAll(c.name + powerLevelSuffix, p.modLoc("block/${c.name}" + powerLevelSuffix))
-          val model = p.models()
-            .withExistingParent(c.name + powerLevelSuffix, p.modLoc("block/resistor/block"))
-            .texture("0", p.modLoc("block/resistor/${c.name}" + powerLevelSuffix))
-            .texture("particle", p.modLoc("block/resistor/${c.name}" + powerLevelSuffix))
-
-          ConfiguredModel.builder()
-            .modelFile(model.apply({ state }))
-            .uvLock(false)
-            .rotationX(if (axis === Direction.Axis.Y) 0 else 90)
-            .rotationY(if (axis === Direction.Axis.X) 90 else if (axis === Direction.Axis.Z) 180 else 0)
-            .build()
-        }, BlockStateProperties.WATERLOGGED)
-    }
-  }
 
   // Angular sensor
   fun <B : Block> angularSensor(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {

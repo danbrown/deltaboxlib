@@ -39,6 +39,13 @@ class CreativeTabGen(private val REGISTER: DeferredRegister<CreativeModeTab>,pri
           if (block.asItem().defaultInstance.tags.anyMatch { itemTag: TagKey<Item> -> DataboxTags.ITEM.EXCLUDE_FROM_CREATIVE == itemTag }) continue // avoid items with the tag "databoxlib:exclude_from_creative"
           output.accept(ItemStack(block.asItem()))
         }
+
+      for (entry in registrate.getAll(Registries.ITEM)) {
+        val item = entry.get()
+        if (item === Items.AIR) continue // avoid fluids and blocks without items
+        if (item.defaultInstance.tags.anyMatch { itemTag: TagKey<Item> -> DataboxTags.ITEM.EXCLUDE_FROM_CREATIVE == itemTag }) continue // avoid items with the tag "databoxlib:exclude_from_creative"
+        output.accept(ItemStack(item))
+      }
     }
   }
 
