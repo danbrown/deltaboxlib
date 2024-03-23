@@ -27,6 +27,13 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 import java.util.function.Supplier
 
 object BlockLootPresets {
+
+  fun <B : Block> noLoot(): NonNullBiConsumer<RegistrateBlockLootTables, B> {
+    return NonNullBiConsumer { lt, b ->
+      lt.add(b, LootTable.lootTable())
+    }
+  }
+
   fun <B : Block> pottedPlantLoot(item: Supplier<ItemLike>): NonNullBiConsumer<RegistrateBlockLootTables, B> {
     return NonNullBiConsumer { lt, b ->
       lt.add(b, lt.createPotFlowerItemTable(item.get()))

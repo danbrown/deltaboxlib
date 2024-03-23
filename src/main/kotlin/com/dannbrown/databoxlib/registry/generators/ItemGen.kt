@@ -3,6 +3,7 @@ package com.dannbrown.databoxlib.registry.generators
 import com.dannbrown.databoxlib.DataboxLib
 import com.dannbrown.databoxlib.lib.LibTags
 import com.dannbrown.databoxlib.registry.DataboxRegistrate
+import com.dannbrown.databoxlib.registry.transformers.ItemModelPresets
 import com.tterrag.registrate.providers.RegistrateRecipeProvider
 import com.tterrag.registrate.util.DataIngredient
 import com.tterrag.registrate.util.entry.ItemEntry
@@ -22,6 +23,17 @@ class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE)
   ): ItemEntry<Item> {
     return registrate.item<Item>(name, itemFactory)
       .tag(*tags)
+      .register()
+  }
+
+  fun handheldItem(
+    name: String,
+    itemFactory: (Item.Properties) -> Item = { p: Item.Properties -> Item(p) },
+    vararg tags: TagKey<Item>
+  ): ItemEntry<Item> {
+    return registrate.item<Item>(name, itemFactory)
+      .tag(*tags)
+      .model(ItemModelPresets.handheldItem())
       .register()
   }
 

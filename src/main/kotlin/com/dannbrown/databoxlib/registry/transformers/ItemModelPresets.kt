@@ -6,6 +6,22 @@ import com.tterrag.registrate.util.nullness.NonNullBiConsumer
 import net.minecraft.world.item.Item
 
 object ItemModelPresets {
+
+  fun <B : Item> simpleItem(name: String? = null): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
+    return NonNullBiConsumer { c, p ->
+      p.withExistingParent(c.name, p.mcLoc("item/generated"))
+        .texture("layer0", p.modLoc("item/" + (name ?: c.name)))
+    }
+  }
+
+  fun <B : Item> handheldItem(name: String? = null): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
+    return NonNullBiConsumer { c, p ->
+      p.withExistingParent(c.name, p.mcLoc("item/handheld"))
+        .texture("layer0", p.modLoc("item/" + (name ?: c.name)))
+    }
+  }
+
+
   fun <B : Item> simpleLayerItem(name: String? = null): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
     return NonNullBiConsumer { c, p ->
       p.withExistingParent(c.name, p.mcLoc("item/generated"))
