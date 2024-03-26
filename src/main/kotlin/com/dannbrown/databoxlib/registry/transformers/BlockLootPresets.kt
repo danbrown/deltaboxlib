@@ -7,12 +7,14 @@ import net.minecraft.advancements.critereon.BlockPredicate
 import net.minecraft.advancements.critereon.LocationPredicate
 import net.minecraft.advancements.critereon.StatePropertiesPredicate
 import net.minecraft.core.BlockPos
+import net.minecraft.util.StringRepresentable
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.DoublePlantBlock
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf
+import net.minecraft.world.level.block.state.properties.Property
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
@@ -61,6 +63,41 @@ object BlockLootPresets {
           .asItem())
     }
   }
+
+  fun <B : Block> dropItselfOtherConditionLoot(other: Supplier<ItemLike>, property: Property<Int>, value: Int): NonNullBiConsumer<RegistrateBlockLootTables, B>  {
+    return NonNullBiConsumer { lt, b ->
+      // drop itself if hasProperty equal value, drop other if not
+      val pool1 = LootPool.lootPool()
+        .setRolls(ConstantValue.exactly(1.0f))
+        .name("pool1")
+        .`when`(LootItemBlockStatePropertyCondition.hasBlockStateProperties(b)
+          .setProperties(StatePropertiesPredicate.Builder.properties()
+            .hasProperty(property, value)
+          )
+        )
+        .add(LootItem.lootTableItem(b))
+
+      // inverted
+      val pool2 = LootPool.lootPool()
+        .setRolls(ConstantValue.exactly(1.0f))
+        .name("pool2")
+        .`when`(LootItemBlockStatePropertyCondition.hasBlockStateProperties(b)
+          .setProperties(StatePropertiesPredicate.Builder.properties()
+            .hasProperty(property, value)
+          )
+          .invert()
+        )
+        .add(LootItem.lootTableItem(other.get()))
+
+      lt.add(b,
+        LootTable.lootTable()
+          .withPool(pool1)
+          .withPool(pool2)
+      )
+    }
+  }
+
+
 
   fun <B : Block> dropSelfSilkLoot(other: Supplier<ItemLike>): NonNullBiConsumer<RegistrateBlockLootTables, B> {
     return NonNullBiConsumer { lt, b ->
