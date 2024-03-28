@@ -1,6 +1,7 @@
 package com.dannbrown.databoxlib.registry.generators
 
 import com.dannbrown.databoxlib.content.block.FlammableSandBlock
+import com.dannbrown.databoxlib.lib.LibLang
 import com.dannbrown.databoxlib.registry.DataboxRegistrate
 import com.dannbrown.databoxlib.registry.transformers.BlockLootPresets
 import com.dannbrown.databoxlib.registry.transformers.BlockTagPresets
@@ -65,6 +66,7 @@ class BlockGen<T : Block>(name: String, private val registrate: DataboxRegistrat
       .transform(if (this._toolType != null) { p -> p.tag(this._toolType) } else { p -> p })
       .transform(if (this._toolTier != null) { p -> p.tag(this._toolTier) } else { p -> p })
       .tag(*_blockTags.toTypedArray())
+      .lang(LibLang.asName(registerName))
       .transform(if (this._noItem) { b -> b }
       else { b ->
         b.item()

@@ -1,5 +1,7 @@
 package com.dannbrown.databoxlib.registry
 
+import com.dannbrown.databoxlib.DataboxLib
+import com.dannbrown.databoxlib.lib.LibLang
 import com.tterrag.registrate.AbstractRegistrate
 import com.tterrag.registrate.builders.FluidBuilder
 import com.tterrag.registrate.builders.FluidBuilder.FluidTypeFactory
@@ -56,6 +58,21 @@ class DataboxRegistrate(modId: String) : AbstractRegistrate<DataboxRegistrate>(m
     name: String,
   ) : MutableComponent{
     return addRawLang("formula.${modid}.$formula", name)
+  }
+
+  fun addItemTooltipLang(
+    itemId: String,
+    phrase: String,
+    mId: String = modid,
+  ) :MutableComponent {
+    return addRawLang(LibLang.getTooltipKey(mId, itemId), phrase)
+  }
+
+  fun addGenericTooltipLang(
+    itemId: String,
+    phrase: String,
+  ) :MutableComponent {
+    return addRawLang(LibLang.getTooltipKey(null, itemId), phrase)
   }
 
   fun addCreativeTabLang(

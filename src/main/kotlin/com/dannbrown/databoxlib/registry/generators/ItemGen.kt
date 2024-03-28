@@ -1,6 +1,7 @@
 package com.dannbrown.databoxlib.registry.generators
 
 import com.dannbrown.databoxlib.DataboxLib
+import com.dannbrown.databoxlib.lib.LibLang
 import com.dannbrown.databoxlib.lib.LibTags
 import com.dannbrown.databoxlib.registry.DataboxRegistrate
 import com.dannbrown.databoxlib.registry.transformers.ItemModelPresets
@@ -23,6 +24,7 @@ class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE)
   ): ItemEntry<Item> {
     return registrate.item<Item>(name, itemFactory)
       .tag(*tags)
+      .lang(LibLang.asName(name))
       .register()
   }
 
@@ -34,6 +36,7 @@ class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE)
     return registrate.item<Item>(name, itemFactory)
       .tag(*tags)
       .model(ItemModelPresets.handheldItem())
+      .lang(LibLang.asName(name))
       .register()
   }
 
@@ -48,8 +51,8 @@ class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE)
       .tag(LibTags.modItemTag("create","plates"))
       .tag(LibTags.modItemTag("create","plates/$name"))
       .tag(*tags)
-      .recipe { c, p ->
-      }
+      .recipe { c, p -> }
+      .lang(LibLang.asName(name))
       .register()
   }
 
@@ -62,6 +65,7 @@ class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE)
       .tag(LibTags.forgeItemTag("raw_materials"))
       .tag(LibTags.forgeItemTag("raw_materials/$name"))
       .tag(*tags)
+      .lang(LibLang.asName(name))
       .register()
   }
 
@@ -74,6 +78,7 @@ class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE)
       .tag(LibTags.modItemTag("create", "crushed_raw_materials"))
       .tag(LibTags.modItemTag("create","crushed_raw_$name"))
       .tag(*tags)
+      .lang(LibLang.asName(name))
       .register()
   }
 
@@ -87,6 +92,7 @@ class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE)
       .tag(LibTags.forgeItemTag("dusts"))
       .tag(dustTagKey.get())
       .tag(*tags)
+      .lang(LibLang.asName(name))
       .register()
   }
 
@@ -108,6 +114,7 @@ class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE)
       .tag(LibTags.forgeItemTag("ingots"))
       .tag(ingotTagKey.get())
       .tag(*tags)
+      .lang(LibLang.asName(name))
       .register()
   }
 
@@ -121,6 +128,7 @@ class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE)
       .tag(LibTags.forgeItemTag("gems"))
       .tag(ingotTagKey.get())
       .tag(*tags)
+      .lang(LibLang.asName(name))
       .register()
   }
 
@@ -168,6 +176,7 @@ class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE)
       .tag(LibTags.forgeItemTag("nuggets"))
       .tag(nuggetTagKey.get())
       .tag(*tags)
+      .lang(LibLang.asName(name))
       .register()
   }
 
