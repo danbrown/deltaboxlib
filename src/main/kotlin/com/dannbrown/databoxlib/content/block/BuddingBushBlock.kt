@@ -30,7 +30,7 @@ import java.util.function.Supplier
  * A bush which grows, representing the earlier stage of another plant.
  * Once mature, a budding bush can "grow past" it, and turn into something different.
  */
-open class BuddingBushBlock(properties: Properties?, private val seedItem: Supplier<ItemLike>) : BushBlock(properties) {
+open class BuddingBushBlock(properties: Properties, private val seedItem: Supplier<ItemLike>) : BushBlock(properties) {
   override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
     return SHAPE_BY_AGE[state.getValue(AGE)]
   }

@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.CropBlock
 import net.minecraft.world.level.block.DoublePlantBlock
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf
 import net.minecraft.world.level.block.state.properties.Property
@@ -122,9 +123,36 @@ object BlockLootPresets {
     }
   }
 
-  fun <B : Block> dropCropLoot(cropItem: Supplier<Item>, seedItem: Supplier<Item>, chance: Float = 0.5f): NonNullBiConsumer<RegistrateBlockLootTables, B> {
+  fun <B : Block> dropCropLoot(cropItem: Supplier<Item>, seedItem: Supplier<Item>?, chance: Float = 0.5f, multiplier: Int = 1): NonNullBiConsumer<RegistrateBlockLootTables, B> {
     return NonNullBiConsumer { lt, b ->
-      lt.add(b, lt.createCropDrops(b, cropItem.get(), seedItem.get(), LootItemRandomChanceCondition.randomChance(chance)))
+      val dropGrownCondition = LootItemRandomChanceCondition.randomChance(chance)
+        .and(LootItemBlockStatePropertyCondition.hasBlockStateProperties(b).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CropBlock.AGE, 7)))
+
+      val itemBuilder = LootItem.lootTableItem(cropItem.get())
+        .`when`(dropGrownCondition)
+
+      if (seedItem !== null) {
+        itemBuilder.otherwise(LootItem.lootTableItem(seedItem.get()))
+      }
+
+      val lootBuilder = LootTable.lootTable().withPool(
+        LootPool.lootPool().add(
+          itemBuilder
+        ).setRolls(ConstantValue.exactly(multiplier.toFloat()))
+      )
+
+      if (seedItem !== null) {
+        lootBuilder.withPool(
+          LootPool.lootPool()
+            .`when`(dropGrownCondition)
+            .apply(ApplyBonusCount.addBonusBinomialDistributionCount(Enchantments.BLOCK_FORTUNE, 0.5714286f, 3))
+            .add(LootItem.lootTableItem(seedItem.get()))
+        )
+      }
+
+      lt.add(b, lt.applyExplosionDecay(b,lootBuilder))
+
+//      lt.add(b, lt.createCropDrops(b, cropItem.get(), seedItem.get(), LootItemRandomChanceCondition.randomChance(chance)))
     }
   }
 
