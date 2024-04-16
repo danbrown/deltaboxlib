@@ -123,10 +123,10 @@ object BlockLootPresets {
     }
   }
 
-  fun <B : Block> dropCropLoot(cropItem: Supplier<Item>, seedItem: Supplier<Item>?, chance: Float = 0.5f, multiplier: Int = 1): NonNullBiConsumer<RegistrateBlockLootTables, B> {
+  fun <B : Block> dropCropLoot(cropItem: Supplier<Item>, seedItem: Supplier<Item>?, chance: Float = 0.5f, multiplier: Int = 1, age: Int = 7): NonNullBiConsumer<RegistrateBlockLootTables, B> {
     return NonNullBiConsumer { lt, b ->
       val dropGrownCondition = LootItemRandomChanceCondition.randomChance(chance)
-        .and(LootItemBlockStatePropertyCondition.hasBlockStateProperties(b).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CropBlock.AGE, 7)))
+        .and(LootItemBlockStatePropertyCondition.hasBlockStateProperties(b).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CropBlock.AGE, age)))
 
       val itemBuilder = LootItem.lootTableItem(cropItem.get())
         .`when`(dropGrownCondition)
@@ -190,7 +190,6 @@ object BlockLootPresets {
                 .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
                 .build())
               .build()), BlockPos(0, -1, 0))))
-
       lt.add(b, pool)
     }
   }

@@ -2,7 +2,9 @@ package com.dannbrown.databoxlib.content.block
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
@@ -19,8 +21,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf
 import net.minecraft.world.level.material.FluidState
 import net.minecraft.world.level.material.Fluids
 
-class SimplePlantBlock(properties: Properties?) : DoublePlantBlock(properties), SimpleWaterloggedBlock {
-  //  val item = item
+class SimplePlantBlock(props: Properties) : DoublePlantBlock(props), SimpleWaterloggedBlock {
   init {
     registerDefaultState(stateDefinition.any()
       .setValue(HALF, DoubleBlockHalf.LOWER)
@@ -50,11 +51,13 @@ class SimplePlantBlock(properties: Properties?) : DoublePlantBlock(properties), 
 
   fun canGrow(ground: Block): Boolean {
     return ground === Blocks.DIRT || ground is GrassBlock || ground is SandBlock || ground === Blocks.GRAVEL || ground === Blocks.CLAY
-  } //  override fun getCloneItemStack(blockGetter: BlockGetter, blockPos: BlockPos, blockState: BlockState): ItemStack {
-  //    return ItemStack(item)
-  //  }
-  override fun neighborChanged(state: BlockState, world: Level, pos: BlockPos, blockIn: Block, fromPos: BlockPos, isMoving: Boolean
-  ) {
+  }
+
+    override fun getCloneItemStack(blockGetter: BlockGetter, blockPos: BlockPos, blockState: BlockState): ItemStack {
+      return ItemStack(this.asItem())
+    }
+
+  override fun neighborChanged(state: BlockState, world: Level, pos: BlockPos, blockIn: Block, fromPos: BlockPos, isMoving: Boolean) {
     if (!canSurvive(state, world, pos)) {
       if (state.getValue(WATERLOGGED)) {
         world.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState())
