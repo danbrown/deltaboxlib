@@ -5,6 +5,7 @@ import com.dannbrown.databoxlib.lib.LibLang
 import com.dannbrown.databoxlib.lib.LibTags
 import com.dannbrown.databoxlib.registry.DataboxRegistrate
 import com.dannbrown.databoxlib.registry.transformers.ItemModelPresets
+import com.tterrag.registrate.AbstractRegistrate
 import com.tterrag.registrate.providers.RegistrateRecipeProvider
 import com.tterrag.registrate.util.DataIngredient
 import com.tterrag.registrate.util.entry.ItemEntry
@@ -16,7 +17,7 @@ import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
 import java.util.function.Supplier
 
-class ItemGen(private val registrate: DataboxRegistrate = DataboxLib.REGISTRATE) {
+class ItemGen(val registrate: AbstractRegistrate<*> = DataboxLib.REGISTRATE) {
   fun simpleItem(
     name: String,
     itemFactory: (Item.Properties) -> Item = { p: Item.Properties -> Item(p) },

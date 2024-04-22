@@ -100,9 +100,9 @@ object BlockLootPresets {
 
 
 
-  fun <B : Block> dropSelfSilkLoot(other: Supplier<ItemLike>): NonNullBiConsumer<RegistrateBlockLootTables, B> {
+  fun <B : Block> dropSelfSilkLoot(other: Supplier<ItemLike>, count: Float = 1f): NonNullBiConsumer<RegistrateBlockLootTables, B> {
     return NonNullBiConsumer { lt, b ->
-      lt.add(b, RegistrateBlockLootTables.createSilkTouchDispatchTable(b, lt.applyExplosionDecay(b, LootItem.lootTableItem(other.get()))))
+      lt.add(b, RegistrateBlockLootTables.createSilkTouchDispatchTable(b, lt.applyExplosionDecay(b, LootItem.lootTableItem(other.get()).apply(SetItemCountFunction.setCount(ConstantValue.exactly(count))))))
     }
   }
 

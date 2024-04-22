@@ -78,13 +78,15 @@ class DataboxRegistrate(modId: String) : AbstractRegistrate<DataboxRegistrate>(m
   fun addCreativeTabLang(
     tab: String,
     name: String,
+    _modid: String = modid,
   ) :MutableComponent {
-    return addRawLang("itemGroup.${modid}.$tab", name)
+    return addRawLang("itemGroup.${_modid}.$tab", name)
   }
 
   fun addDeathMessageLang(
     name: String,
     phrase: String,
+    _modid: String = modid,
   ) :MutableComponent {
     return addRawLang("death.attack.$name", phrase)
   }
@@ -92,29 +94,33 @@ class DataboxRegistrate(modId: String) : AbstractRegistrate<DataboxRegistrate>(m
   fun addGogglesLang(
     name: String,
     phrase: String,
+    _modid: String = modid,
   ) :MutableComponent {
-   return  addRawLang("${modid}.gui.goggles.$name", phrase)
+   return  addRawLang("${_modid}.gui.goggles.$name", phrase)
   }
 
   fun addBiomeLang(
     name: String,
     phrase: String,
+    _modid: String = modid,
   ) :MutableComponent {
-    return addRawLang("biome.${modid}.$name", phrase)
+    return addRawLang("biome.${_modid}.$name", phrase)
   }
 
   fun addDimensionLang(
     name: String,
     phrase: String,
+    _modid: String = modid,
   ) :MutableComponent {
-    return addRawLang("dimension.${modid}.$name", phrase)
+    return addRawLang("dimension.${_modid}.$name", phrase)
   }
 
   fun addWorldPresetLang(
     name: String,
     phrase: String,
+    _modid: String = modid,
   ) :MutableComponent {
-    return addRawLang("generator.${modid}.$name", phrase)
+    return addRawLang("generator.${_modid}.$name", phrase)
   }
 
 
