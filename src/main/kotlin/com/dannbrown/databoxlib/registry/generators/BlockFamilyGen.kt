@@ -1452,11 +1452,11 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     }
 
     _blockFamily.setVariant(BlockFamily.Type.SAPLING) {
-      generator.create<GenericSaplingBlock>("$_name" + "_sapling")
+      generator.create<GenericSaplingBlock>(_name + "_sapling")
         .blockFactory { p -> GenericSaplingBlock(grower, p, placeOn) }
         .blockTags(listOf(BlockTags.SAPLINGS))
         .itemTags(listOf(ItemTags.SAPLINGS))
-        .copyFrom({ Blocks.OAK_SAPLING })
+        .copyFrom { Blocks.OAK_SAPLING }
         .properties { p ->
           p.mapColor(_accentColor)
             .sound(SoundType.GRASS)

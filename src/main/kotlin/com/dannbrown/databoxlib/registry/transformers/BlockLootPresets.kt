@@ -106,14 +106,13 @@ object BlockLootPresets {
     }
   }
 
-  fun <B : Block> dropSelfSilkShearsOtherLoot(other: Supplier<ItemLike>, chance: Float = 1f): NonNullBiConsumer<RegistrateBlockLootTables, B> {
+  fun <B : Block> dropSelfSilkShearsOtherLoot(other: Supplier<ItemLike>, chance: Float = 1f, multiplier: Int = 1): NonNullBiConsumer<RegistrateBlockLootTables, B> {
     return NonNullBiConsumer { lt, b ->
       lt.add(b,
-        BlockLootHelpers.createShearsDispatchTable(b,
-          lt.applyExplosionDecay(b,
-            LootItem.lootTableItem(other.get())
-              .`when`(LootItemRandomChanceCondition.randomChance(chance))
-              .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE, 2)))))
+        BlockLootHelpers.createShearsDispatchTable(b, lt.applyExplosionDecay(b, LootItem.lootTableItem(other.get())
+          .`when`(LootItemRandomChanceCondition.randomChance(chance))
+          .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE, 2))))
+          .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(multiplier.toFloat()))))
     }
   }
 
