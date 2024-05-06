@@ -35,6 +35,7 @@ object ItemModelPresets {
     }
   }
 
+
   fun <B : Item> tallPlantBottomItem(name: String, customItem: Boolean = true): NonNullBiConsumer<DataGenContext<Item, B>, RegistrateItemModelProvider> {
     return NonNullBiConsumer { c, p ->
       p.withExistingParent(c.name, p.mcLoc("item/generated"))

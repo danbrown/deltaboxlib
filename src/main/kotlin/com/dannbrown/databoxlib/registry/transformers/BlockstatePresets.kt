@@ -47,6 +47,17 @@ object BlockstatePresets {
     }
   }
 
+  fun <B : Block> leavesBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
+    return NonNullBiConsumer { c, p ->
+      p.simpleBlock(
+        c.get(), p.models()
+          .withExistingParent(c.name, p.mcLoc("block/leaves"))
+          .texture("all", p.modLoc("block/$name"))
+          .renderType("cutout_mipped")
+      )
+    }
+  }
+
   /**
    * Add a custom model to the block, the model file must exist in MOD_ID/models/block/BLOCK_ID.json
    */

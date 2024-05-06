@@ -10,8 +10,8 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraftforge.common.IForgeShearable
 
-class FlammableLeavesBlock(props: Properties, flammability: Int = 20, fireSpread: Int = 5): LeavesBlock(props),
-  SimpleWaterloggedBlock, IForgeShearable {
+open class FlammableLeavesBlock(props: Properties, flammability: Int = 20, fireSpread: Int = 5): LeavesBlock(props),
+                                                                                                 SimpleWaterloggedBlock, IForgeShearable {
   val flammability = flammability
   val fireSpread = fireSpread
   override fun isFlammable(state: BlockState?, level: BlockGetter?, pos: BlockPos?, direction: Direction?): Boolean {
