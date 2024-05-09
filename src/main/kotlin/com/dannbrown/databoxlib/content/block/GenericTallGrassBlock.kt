@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.BonemealableBlock
 import net.minecraft.world.level.block.DoublePlantBlock
@@ -19,7 +20,7 @@ import java.util.function.Supplier
 
 
 open class GenericTallGrassBlock(
-  private val plantBlock: Supplier<out DoublePlantBlock>,
+  private val plantBlock: Supplier<out Block>,
   properties: Properties,
   private val placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
 ) : SimpleSproutBlock(properties), BonemealableBlock {

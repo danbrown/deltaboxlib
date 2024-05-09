@@ -22,7 +22,7 @@ abstract class DataboxDispenserBehaviors {
   companion object{
     val LOGGER = LogManager.getLogger()
   }
-  private fun <T : ThrowableItemProjectile> registerThrowableBehavior(item: Supplier<ItemLike>, projectileClass: KClass<T>) {
+  fun <T : ThrowableItemProjectile> registerThrowableBehavior(item: Supplier<ItemLike>, projectileClass: KClass<T>) {
     DispenserBlock.registerBehavior(item.get(), object : AbstractProjectileDispenseBehavior() {
       override fun getProjectile(
         level: Level,
