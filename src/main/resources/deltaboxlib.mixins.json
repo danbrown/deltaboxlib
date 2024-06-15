@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.dannbrown.deltaboxlib.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "deltaboxlib.mixins.refmap.json",
+  "mixins": ["event.MinecraftServerMixin", "tooltip.ItemMixin"],
+  "client": ["event.MinecraftMixin"],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
