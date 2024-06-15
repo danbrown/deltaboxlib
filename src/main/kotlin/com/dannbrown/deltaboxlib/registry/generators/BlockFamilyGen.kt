@@ -56,8 +56,8 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
   private var _sharedProps: (BlockBehaviour.Properties) -> BlockBehaviour.Properties = { p: BlockBehaviour.Properties -> p }
   private var _toolType: TagKey<Block>? = null
   private var _toolTier: TagKey<Block>? = null
-  private var _color: MapColor = MapColor.COLOR_GRAY
-  private var _accentColor: MapColor = MapColor.COLOR_GRAY
+  private var _color: MapColor? = null
+  private var _accentColor: MapColor? = null
   private var _copyFrom: Supplier<Block> = Supplier { Blocks.STONE }
   private val _denyList = mutableListOf<BlockFamily.Type>()
   private val _blockFamily: BlockFamily = BlockFamily()
@@ -99,11 +99,11 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
   }
 
   fun getColor(): MapColor {
-    return _color
+    return _color?: MapColor.COLOR_GRAY
   }
 
   fun getAccentColor(): MapColor {
-    return _accentColor
+    return _accentColor?: MapColor.COLOR_GRAY
   }
 
   fun getCopyFrom(): Supplier<Block> {
@@ -1662,7 +1662,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .woodenDoorBlock(BlockSetType.OAK)
         .copyFrom({ Blocks.OAK_DOOR })
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-        .color(_accentColor)
+        .color(_accentColor!!)
         .recipe { c, p ->
           RecipePresets.doorCraftingRecipe(c, p) {
             DataIngredient.items(_blockFamily.MAIN!!.get()
@@ -1695,7 +1695,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .copyFrom({ Blocks.OAK_WALL_SIGN })
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .blockFactory { p -> GenericWallSignBlock(p, woodType) { _blockFamily.SIGN!!.get() } }
-        .color(_accentColor)
+        .color(_accentColor!!)
         .properties { p ->
           p.strength(1.0F)
             .sound(SoundType.WOOD)
@@ -1715,7 +1715,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .blockFactory { p -> GenericStandingSignBlock(p, woodType) }
         .copyFrom { Blocks.OAK_SIGN }
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-        .color(_accentColor)
+        .color(_accentColor!!)
         .noItem()
         .recipe { c, p ->
           RecipePresets.signCraftingRecipe(c, p) {

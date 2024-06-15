@@ -393,7 +393,7 @@ class BlockGen<T : Block>(name: String, private val registrate: DeltaboxRegistra
   fun fromFamily(
     copyFrom: Supplier<Block>,
     props: (Properties) -> Properties = { p: Properties -> p },
-    color: MapColor,
+    color: MapColor? = null,
     tool: TagKey<Block>? = null,
     tier: TagKey<Block>? = null,
     correctToolForDrops: Boolean = true,
