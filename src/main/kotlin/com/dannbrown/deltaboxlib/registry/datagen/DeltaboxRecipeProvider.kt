@@ -4,9 +4,8 @@ import com.dannbrown.deltaboxlib.DeltaboxLib
 import com.dannbrown.deltaboxlib.lib.LibObjects
 import com.dannbrown.deltaboxlib.lib.LibTags
 import com.dannbrown.deltaboxlib.registry.datagen.DeltaboxRecipeProvider.GeneratedRecipe
-import com.dannbrown.deltaboxlib.registry.generators.BlockFamily
+import com.google.common.collect.Sets
 import com.tterrag.registrate.util.DataIngredient
-import com.tterrag.registrate.util.entry.BlockEntry
 import net.minecraft.advancements.critereon.ItemPredicate
 import net.minecraft.data.CachedOutput
 import net.minecraft.data.DataGenerator
@@ -25,7 +24,6 @@ import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraft.world.item.crafting.SimpleCookingSerializer
 import net.minecraft.world.level.ItemLike
-import net.minecraft.world.level.block.Block
 import net.minecraftforge.fluids.FluidType
 import java.io.IOException
 import java.util.concurrent.CompletableFuture
@@ -33,6 +31,8 @@ import java.util.function.Consumer
 import java.util.function.Supplier
 import java.util.function.UnaryOperator
 import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.primaryConstructor
 
 // class based on https://github.com/Creators-of-Create/Create/blob/mc1.19/0.5.1/src/main/java/com/simibubi/create/foundation/data/recipe/ProcessingRecipeGen.java
 // the goal is to be able to create custom processing recipes
@@ -74,7 +74,7 @@ abstract class DeltaboxRecipeProvider(output: PackOutput, private val modId: Str
     }
 
 
-    fun registerGenerators(doRun: Boolean, gen: DataGenerator, vararg generators: KClass<out RecipeProvider>) {
+    fun registerGenerators(doRun: Boolean, gen: DataGenerator, vararg generators: KClass<out DeltaboxRecipeProvider>) {
       gen.addProvider(doRun, object : DataProvider {
         override fun getName(): String {
           return "DeltaboxLib's Processing Recipes"
@@ -82,19 +82,37 @@ abstract class DeltaboxRecipeProvider(output: PackOutput, private val modId: Str
 
         @Throws(IOException::class)
         override fun run(dc: CachedOutput): CompletableFuture<*> {
+          val list: MutableList<CompletableFuture<*>> = java.util.ArrayList()
           for (generator in generators) {
             try {
-              val generatorInstance = generator.java.getDeclaredConstructor(DataGenerator::class.java)
-                .newInstance(gen)
-              generatorInstance.run(dc)
+              val generatorInstance = generator.primaryConstructor?.call(gen)
+              if (generatorInstance is DeltaboxRecipeProvider) {
+                list.add(generatorInstance.run(dc))
+              }
             } catch (e: Exception) {
               e.printStackTrace()
             }
           }
-          return CompletableFuture.completedFuture(null)
+          return CompletableFuture.completedFuture(true)
         }
       })
     }
+    // ----
+  }
+
+  override fun run(pOutput: CachedOutput): CompletableFuture<*> {
+    val set: MutableSet<ResourceLocation> = Sets.newHashSet()
+    val list: MutableList<CompletableFuture<*>> = java.util.ArrayList()
+    this.buildRecipes { finishedRecipe: FinishedRecipe ->
+      check(set.add(finishedRecipe.id)) { "Duplicate recipe " + finishedRecipe.id }
+      list.add(DataProvider.saveStable(pOutput, finishedRecipe.serializeRecipe(), recipePathProvider.json(finishedRecipe.id)))
+      val jsonObject = finishedRecipe.serializeAdvancement()
+      if (jsonObject != null) {
+        val saveAdvancementFuture = saveAdvancement(pOutput, finishedRecipe, jsonObject)
+        if (saveAdvancementFuture != null) list.add(saveAdvancementFuture)
+      }
+    }
+    return CompletableFuture.allOf(*list.toTypedArray())
   }
 
   // generator
