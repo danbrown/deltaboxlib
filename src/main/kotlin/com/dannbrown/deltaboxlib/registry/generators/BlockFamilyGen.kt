@@ -16,6 +16,7 @@ import com.dannbrown.deltaboxlib.registry.transformers.ItemModelPresets
 import com.dannbrown.deltaboxlib.registry.transformers.RecipePresets
 import net.minecraft.resources.ResourceLocation
 import com.dannbrown.deltaboxlib.lib.LibTags
+import com.dannbrown.deltaboxlib.registry.generators.family.LongBlockFamilySet
 import com.tterrag.registrate.providers.RegistrateRecipeProvider
 import com.tterrag.registrate.util.DataIngredient
 import com.tterrag.registrate.util.entry.BlockEntry
@@ -61,6 +62,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
   private var _copyFrom: Supplier<Block> = Supplier { Blocks.STONE }
   private val _denyList = mutableListOf<BlockFamily.Type>()
   private val _blockFamily: BlockFamily = BlockFamily()
+
   fun sharedProps(props: (BlockBehaviour.Properties) -> BlockBehaviour.Properties = { p: BlockBehaviour.Properties -> p }): BlockFamilyGen {
     _sharedProps = { p -> props(p) }
     return this
@@ -145,484 +147,21 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     return functionToExecute(this)
   }
 
-  /**
-   * Returns a Long block family composed by Normals, Polished, Bricks, Cut, Chiseled variants (stairs, slabs, walls)
-   */
+
   fun longBlockFamily(mainBlock: BlockEntry<out Block>? = null, isRotatedBlock: Boolean = false): BlockFamily {
-    val MATERIAL_TAG = LibTags.modItemTag(generator.registrate.modid, _name + "_blocks")
-
-    if (mainBlock == null) {
-      _blockFamily.setVariant(BlockFamily.Type.MAIN) {
-        generator.create<Block>(_name)
-          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-          .itemTags(listOf(MATERIAL_TAG))
-          .blockTags(listOf(*BlockTagPresets.caveReplaceableTags().first))
-          .register()
-      }
-    }
-    else {
-      _blockFamily.setVariant(BlockFamily.Type.MAIN) { mainBlock }
-    }
-
-    if (!_denyList.contains(BlockFamily.Type.MAIN)) {
-      if (!_denyList.contains(BlockFamily.Type.STAIRS)) {
-        _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
-          generator.create<StairBlock>(_name)
-            .stairsBlock({ _blockFamily.MAIN!!.defaultState }, isRotatedBlock)
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.stairsCraftingRecipe(c, p) {
-                DataIngredient.items(
-                  _blockFamily.MAIN!!.get()
-                    .asItem()
-                )
-              }
-            }
-            .register()
-        }
-      }
-
-      if (!_denyList.contains(BlockFamily.Type.SLAB)) {
-        _blockFamily.setVariant(BlockFamily.Type.SLAB) {
-          generator.create<SlabBlock>(_name)
-            .slabBlock(isRotatedBlock)
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
-                    .asItem())
-                },
-                2
-              )
-
-              RecipePresets.slabCraftingRecipe(c, p) {
-                DataIngredient.items(
-                  _blockFamily.MAIN!!.get()
-                    .asItem()
-                )
-              }
-            }
-            .register()
-        }
-      }
-
-      if (!_denyList.contains(BlockFamily.Type.WALL)) {
-        _blockFamily.setVariant(BlockFamily.Type.WALL) {
-          generator.create<WallBlock>(_name)
-            .wallBlock(isRotatedBlock)
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.wallCraftingRecipe(c, p) {
-                DataIngredient.items(
-                  _blockFamily.MAIN!!.get()
-                    .asItem()
-                )
-              }
-            }
-            .register()
-        }
-      }
-    }
-    // start polished chain
-    if (!_denyList.contains(BlockFamily.Type.POLISHED)) {
-      _blockFamily.setVariant(BlockFamily.Type.POLISHED) {
-        generator.create<Block>("polished_$_name")
-          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-          .itemTags(listOf(MATERIAL_TAG))
-          .recipe { c, p ->
-            RecipePresets.polishedCraftingRecipe(
-              c,
-              p,
-              { DataIngredient.items(_blockFamily.MAIN!!.get()) },
-              4
-            )
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              { DataIngredient.items(_blockFamily.MAIN!!.get()) },
-              1
-            )
-          }
-          .register()
-      }
-
-      if (!_denyList.contains(BlockFamily.Type.POLISHED_STAIRS)) {
-        _blockFamily.setVariant(BlockFamily.Type.POLISHED_STAIRS) {
-          generator.create<StairBlock>("polished_$_name")
-            .stairsBlock({ _blockFamily.POLISHED!!.defaultState })
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.stairsCraftingRecipe(
-                c,
-                p
-              ) {
-                DataIngredient.items(_blockFamily.POLISHED!!.get()
-                  .asItem())
-              }
-            }
-            .register()
-        }
-      }
-
-      if (!_denyList.contains(BlockFamily.Type.POLISHED_SLAB)) {
-        _blockFamily.setVariant(BlockFamily.Type.POLISHED_SLAB) {
-          generator.create<SlabBlock>("polished_$_name")
-            .slabBlock()
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c, p,
-                {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
-                    .asItem())
-                },
-                2
-              )
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
-                    .asItem())
-                },
-                2
-              )
-              RecipePresets.slabRecycleRecipe(c, p) {
-                _blockFamily.POLISHED!!.get()
-                  .asItem()
-              }
-              RecipePresets.slabCraftingRecipe(
-                c,
-                p
-              ) {
-                DataIngredient.items(_blockFamily.POLISHED!!.get()
-                  .asItem())
-              }
-            }
-            .register()
-        }
-      }
-
-      if (!_denyList.contains(BlockFamily.Type.POLISHED_WALL)) {
-        _blockFamily.setVariant(BlockFamily.Type.POLISHED_WALL) {
-          generator.create<WallBlock>("polished_$_name")
-            .wallBlock()
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.wallCraftingRecipe(
-                c,
-                p
-              ) {
-                DataIngredient.items(_blockFamily.POLISHED!!.get()
-                  .asItem())
-              }
-            }
-            .register()
-        }
-      }
-    }
-    // start bricks chain
-    if (!_denyList.contains(BlockFamily.Type.BRICKS)) {
-      _blockFamily.setVariant(BlockFamily.Type.BRICKS) {
-        generator.create<Block>("${_name}_bricks")
-          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-          .itemTags(listOf(MATERIAL_TAG))
-          .recipe { c, p ->
-            RecipePresets.polishedCraftingRecipe(
-              c,
-              p,
-              { DataIngredient.items(_blockFamily.POLISHED!!.get()) },
-              4
-            )
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              { DataIngredient.items(_blockFamily.MAIN!!.get()) },
-              1
-            )
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              { DataIngredient.items(_blockFamily.POLISHED!!.get()) },
-              1
-            )
-          }
-          .register()
-      }
-
-      if (!_denyList.contains(BlockFamily.Type.BRICK_STAIRS)) {
-        _blockFamily.setVariant(BlockFamily.Type.BRICK_STAIRS) {
-          generator.create<StairBlock>("${_name}_bricks")
-            .stairsBlock({ _blockFamily.BRICKS!!.defaultState })
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.BRICKS!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.stairsCraftingRecipe(
-                c,
-                p
-              ) {
-                DataIngredient.items(_blockFamily.BRICKS!!.get()
-                  .asItem())
-              }
-            }
-            .register()
-        }
-      }
-
-      if (!_denyList.contains(BlockFamily.Type.BRICK_SLAB)) {
-        _blockFamily.setVariant(BlockFamily.Type.BRICK_SLAB) {
-          generator.create<SlabBlock>("${_name}_bricks")
-            .slabBlock()
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c, p,
-                {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
-                    .asItem())
-                },
-                2
-              )
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
-                    .asItem())
-                },
-                2
-              )
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.BRICKS!!.get()
-                    .asItem())
-                },
-                2
-              )
-              RecipePresets.slabRecycleRecipe(c, p) {
-                _blockFamily.BRICKS!!.get()
-                  .asItem()
-              }
-              RecipePresets.slabCraftingRecipe(
-                c,
-                p
-              ) {
-                DataIngredient.items(_blockFamily.BRICKS!!.get()
-                  .asItem())
-              }
-            }
-            .register()
-        }
-      }
-
-      if (!_denyList.contains(BlockFamily.Type.BRICK_WALL)) {
-        _blockFamily.setVariant(BlockFamily.Type.BRICK_WALL) {
-          generator.create<WallBlock>("${_name}_bricks")
-            .wallBlock()
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.BRICKS!!.get()
-                    .asItem())
-                },
-                1
-              )
-              RecipePresets.wallCraftingRecipe(
-                c,
-                p
-              ) {
-                DataIngredient.items(_blockFamily.BRICKS!!.get()
-                  .asItem())
-              }
-            }
-            .register()
-        }
-      }
-    }
-    // start chiseled chain
-    if (!_denyList.contains(BlockFamily.Type.CHISELED)) {
-      _blockFamily.setVariant(BlockFamily.Type.CHISELED) {
-        generator.create<Block>("chiseled_$_name")
-          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-          .itemTags(listOf(MATERIAL_TAG))
-          .recipe { c, p ->
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              {
-                DataIngredient.items(_blockFamily.MAIN!!.get()
-                  .asItem())
-              },
-              1
-            )
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              {
-                DataIngredient.items(_blockFamily.POLISHED!!.get()
-                  .asItem())
-              },
-              1
-            )
-            RecipePresets.slabToChiseledRecipe(c, p) {
-              DataIngredient.items(_blockFamily.SLAB!!.get()
-                .asItem())
-            }
-          }
-          .register()
-      }
-    }
-    // PILLAR
-    if (!_denyList.contains(BlockFamily.Type.PILLAR)) {
-      _blockFamily.setVariant(BlockFamily.Type.PILLAR) {
-        generator.create<RotatedPillarBlock>("${_name}_pillar")
-          .rotatedPillarBlock("${_name}_pillar_top", "${_name}_pillar_side")
-          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-          .itemTags(listOf(MATERIAL_TAG))
-          .recipe { c, p ->
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              {
-                DataIngredient.items(_blockFamily.MAIN!!.get()
-                  .asItem())
-              },
-              1
-            )
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              {
-                DataIngredient.items(_blockFamily.POLISHED!!.get()
-                  .asItem())
-              },
-              1
-            )
-            RecipePresets.slabToChiseledRecipe(c, p) {
-              DataIngredient.items(_blockFamily.MAIN!!.get()
-                .asItem())
-            }
-          }
-          .register()
-      }
-    }
-
-    return _blockFamily
+    return LongBlockFamilySet(
+      generator,
+      _name,
+      _sharedProps,
+      _toolType,
+      _toolTier,
+      _color,
+      _accentColor,
+      _copyFrom,
+      _denyList,
+      mainBlock,
+      isRotatedBlock
+    ).getFamily()
   }
 
   /**
@@ -647,7 +186,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     if (!_denyList.contains(BlockFamily.Type.STAIRS)) {
       _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
         generator.create<StairBlock>(_name)
-          .stairsBlock({ _blockFamily.MAIN!!.defaultState }, isRotatedBlock)
+          .stairsBlock({ _blockFamily.blocks[BlockFamily.Type.MAIN]!!.defaultState }, isRotatedBlock)
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
           .recipe { c, p ->
@@ -655,14 +194,14 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
               c,
               p,
               {
-                DataIngredient.items(_blockFamily.MAIN!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                   .asItem())
               },
               1
             )
             RecipePresets.stairsCraftingRecipe(c, p) {
               DataIngredient.items(
-                _blockFamily.MAIN!!.get()
+                _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                   .asItem()
               )
             }
@@ -682,18 +221,18 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
               c,
               p,
               {
-                DataIngredient.items(_blockFamily.MAIN!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                   .asItem())
               },
               2
             )
             RecipePresets.slabRecycleRecipe(c, p) {
-              _blockFamily.MAIN!!.get()
+              _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                 .asItem()
             }
             RecipePresets.slabCraftingRecipe(c, p) {
               DataIngredient.items(
-                _blockFamily.MAIN!!.get()
+                _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                   .asItem()
               )
             }
@@ -713,14 +252,14 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
               c,
               p,
               {
-                DataIngredient.items(_blockFamily.MAIN!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                   .asItem())
               },
               1
             )
             RecipePresets.wallCraftingRecipe(c, p) {
               DataIngredient.items(
-                _blockFamily.MAIN!!.get()
+                _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                   .asItem()
               )
             }
@@ -738,13 +277,13 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
             RecipePresets.polishedCraftingRecipe(
               c,
               p,
-              { DataIngredient.items(_blockFamily.MAIN!!.get()) },
+              { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) },
               4
             )
             RecipePresets.simpleStonecuttingRecipe(
               c,
               p,
-              { DataIngredient.items(_blockFamily.MAIN!!.get()) },
+              { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) },
               1
             )
           }
@@ -754,7 +293,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
       if (!_denyList.contains(BlockFamily.Type.POLISHED_STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.POLISHED_STAIRS) {
           generator.create<StairBlock>("polished_$_name")
-            .stairsBlock({ _blockFamily.POLISHED!!.defaultState })
+            .stairsBlock({ _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.defaultState })
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
             .recipe { c, p ->
@@ -762,7 +301,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                     .asItem())
                 },
                 1
@@ -771,7 +310,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
                     .asItem())
                 },
                 1
@@ -780,7 +319,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p
               ) {
-                DataIngredient.items(_blockFamily.POLISHED!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
                   .asItem())
               }
             }
@@ -798,7 +337,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
               RecipePresets.simpleStonecuttingRecipe(
                 c, p,
                 {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                     .asItem())
                 },
                 2
@@ -807,20 +346,20 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
                     .asItem())
                 },
                 2
               )
               RecipePresets.slabRecycleRecipe(c, p) {
-                _blockFamily.POLISHED!!.get()
+                _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
                   .asItem()
               }
               RecipePresets.slabCraftingRecipe(
                 c,
                 p
               ) {
-                DataIngredient.items(_blockFamily.POLISHED!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
                   .asItem())
               }
             }
@@ -839,7 +378,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                     .asItem())
                 },
                 1
@@ -848,7 +387,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
                     .asItem())
                 },
                 1
@@ -857,7 +396,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p
               ) {
-                DataIngredient.items(_blockFamily.POLISHED!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
                   .asItem())
               }
             }
@@ -875,19 +414,19 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
             RecipePresets.polishedCraftingRecipe(
               c,
               p,
-              { DataIngredient.items(_blockFamily.POLISHED!!.get()) },
+              { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()) },
               4
             )
             RecipePresets.simpleStonecuttingRecipe(
               c,
               p,
-              { DataIngredient.items(_blockFamily.MAIN!!.get()) },
+              { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) },
               1
             )
             RecipePresets.simpleStonecuttingRecipe(
               c,
               p,
-              { DataIngredient.items(_blockFamily.POLISHED!!.get()) },
+              { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()) },
               1
             )
           }
@@ -897,7 +436,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
       if (!_denyList.contains(BlockFamily.Type.BRICK_STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.BRICK_STAIRS) {
           generator.create<StairBlock>("${_name}_bricks")
-            .stairsBlock({ _blockFamily.BRICKS!!.defaultState })
+            .stairsBlock({ _blockFamily.blocks[BlockFamily.Type.BRICKS]!!.defaultState })
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
             .recipe { c, p ->
@@ -905,7 +444,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                     .asItem())
                 },
                 1
@@ -914,7 +453,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.BRICKS!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.get()
                     .asItem())
                 },
                 1
@@ -923,7 +462,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
                     .asItem())
                 },
                 1
@@ -932,7 +471,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p
               ) {
-                DataIngredient.items(_blockFamily.BRICKS!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.get()
                   .asItem())
               }
             }
@@ -950,7 +489,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
               RecipePresets.simpleStonecuttingRecipe(
                 c, p,
                 {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                     .asItem())
                 },
                 2
@@ -959,7 +498,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
                     .asItem())
                 },
                 2
@@ -968,20 +507,20 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.BRICKS!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.get()
                     .asItem())
                 },
                 2
               )
               RecipePresets.slabRecycleRecipe(c, p) {
-                _blockFamily.BRICKS!!.get()
+                _blockFamily.blocks[BlockFamily.Type.BRICKS]!!.get()
                   .asItem()
               }
               RecipePresets.slabCraftingRecipe(
                 c,
                 p
               ) {
-                DataIngredient.items(_blockFamily.BRICKS!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.get()
                   .asItem())
               }
             }
@@ -1000,7 +539,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.MAIN!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                     .asItem())
                 },
                 1
@@ -1009,7 +548,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.POLISHED!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
                     .asItem())
                 },
                 1
@@ -1018,7 +557,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.BRICKS!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.get()
                     .asItem())
                 },
                 1
@@ -1027,7 +566,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p
               ) {
-                DataIngredient.items(_blockFamily.BRICKS!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.get()
                   .asItem())
               }
             }
@@ -1057,7 +596,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
               c,
               p,
               {
-                DataIngredient.items(_blockFamily.MAIN!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                   .asItem())
               })
           }
@@ -1067,7 +606,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
       if (!_denyList.contains(BlockFamily.Type.SANDSTONE_STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.SANDSTONE_STAIRS) {
           generator.create<StairBlock>(_name + "_sandstone")
-            .stairsBlock({ _blockFamily.SANDSTONE!!.defaultState }, true)
+            .stairsBlock({ _blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.defaultState }, true)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .itemTags(listOf(MATERIAL_TAG))
             .recipe { c, p ->
@@ -1075,7 +614,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.SANDSTONE!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.get()
                     .asItem())
                 },
                 1
@@ -1084,7 +623,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p
               ) {
-                DataIngredient.items(_blockFamily.SANDSTONE!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.get()
                   .asItem())
               }
             }
@@ -1103,7 +642,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.SANDSTONE!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.get()
                     .asItem())
                 },
                 2
@@ -1112,7 +651,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p
               ) {
-                DataIngredient.items(_blockFamily.SANDSTONE!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.get()
                   .asItem())
               }
             }
@@ -1131,7 +670,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.SANDSTONE!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.get()
                     .asItem())
                 },
                 1
@@ -1140,7 +679,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p
               ) {
-                DataIngredient.items(_blockFamily.SANDSTONE!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.get()
                   .asItem())
               }
             }
@@ -1159,14 +698,14 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.SANDSTONE!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.get()
                     .asItem())
                 },
                 1
               )
               RecipePresets.slabToChiseledRecipe(c, p) {
                 DataIngredient.items(
-                  _blockFamily.SANDSTONE_SLAB!!.get()
+                  _blockFamily.blocks[BlockFamily.Type.SANDSTONE_SLAB]!!.get()
                     .asItem()
                 )
               }
@@ -1186,7 +725,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.SANDSTONE!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.get()
                     .asItem())
                 },
                 1
@@ -1195,7 +734,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.SANDSTONE!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.get()
                     .asItem())
                 },
                 4
@@ -1226,7 +765,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
             .itemTags(listOf(MATERIAL_TAG))
             .recipe { c, p ->
               p.smelting(
-                DataIngredient.items(_blockFamily.SANDSTONE!!.get()
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SANDSTONE]!!.get()
                   .asItem()),
                 RecipeCategory.BUILDING_BLOCKS,
                 { c.get() },
@@ -1240,7 +779,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         if (!_denyList.contains(BlockFamily.Type.SMOOTH_STAIRS)) {
           _blockFamily.setVariant(BlockFamily.Type.SMOOTH_STAIRS) {
             generator.create<StairBlock>("smooth_$_name" + "_sandstone")
-              .stairsBlock({ _blockFamily.SMOOTH!!.defaultState })
+              .stairsBlock({ _blockFamily.blocks[BlockFamily.Type.SMOOTH]!!.defaultState })
               .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
               .textureName(_name + "_sandstone_top")
               .itemTags(listOf(MATERIAL_TAG))
@@ -1249,7 +788,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                   c,
                   p,
                   {
-                    DataIngredient.items(_blockFamily.SMOOTH!!.get()
+                    DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SMOOTH]!!.get()
                       .asItem())
                   },
                   1
@@ -1258,7 +797,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                   c,
                   p
                 ) {
-                  DataIngredient.items(_blockFamily.SMOOTH!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SMOOTH]!!.get()
                     .asItem())
                 }
               }
@@ -1278,20 +817,20 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                   c,
                   p,
                   {
-                    DataIngredient.items(_blockFamily.SMOOTH!!.get()
+                    DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SMOOTH]!!.get()
                       .asItem())
                   },
                   2
                 )
                 RecipePresets.slabRecycleRecipe(c, p) {
-                  _blockFamily.SMOOTH!!.get()
+                  _blockFamily.blocks[BlockFamily.Type.SMOOTH]!!.get()
                     .asItem()
                 }
                 RecipePresets.slabCraftingRecipe(
                   c,
                   p
                 ) {
-                  DataIngredient.items(_blockFamily.SMOOTH!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SMOOTH]!!.get()
                     .asItem())
                 }
               }
@@ -1311,7 +850,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                   c,
                   p,
                   {
-                    DataIngredient.items(_blockFamily.SMOOTH!!.get()
+                    DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SMOOTH]!!.get()
                       .asItem())
                   },
                   1
@@ -1320,7 +859,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
                   c,
                   p
                 ) {
-                  DataIngredient.items(_blockFamily.SMOOTH!!.get()
+                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SMOOTH]!!.get()
                     .asItem())
                 }
               }
@@ -1401,7 +940,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .blockTags(listOf(BlockTags.LOGS, LOG_TAG_BLOCK, BlockTags.LOGS_THAT_BURN))
         .itemTags(listOf(ItemTags.LOGS, LOG_TAG_ITEM, ItemTags.LOGS_THAT_BURN))
         .recipe { c, p ->
-          RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.STALK!!.get()) }, 1)
+          RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.STALK]!!.get()) }, 1)
         }
         .register()
     }
@@ -1416,7 +955,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .blockTags(listOf(BlockTags.LOGS, LOG_TAG_BLOCK, BlockTags.LOGS_THAT_BURN))
         .itemTags(listOf(ItemTags.LOGS, LOG_TAG_ITEM, ItemTags.LOGS_THAT_BURN))
         .recipe { c, p ->
-          RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.LOG!!.get()) }, 3)
+          RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.LOG]!!.get()) }, 3)
         }
         .register()
     }
@@ -1431,7 +970,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .blockTags(listOf(BlockTags.LOGS, LOG_TAG_BLOCK, FORGE_STRIPPED_LOGS_TAG_BLOCK, BlockTags.LOGS_THAT_BURN))
         .itemTags(listOf(ItemTags.LOGS, LOG_TAG_ITEM, FORGE_STRIPPED_LOGS_TAG_ITEM, ItemTags.LOGS_THAT_BURN))
         .recipe { c, p ->
-          RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.STRIPPED_STALK!!.get()) }, 1)
+          RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.STRIPPED_STALK]!!.get()) }, 1)
         }
         .register()
     }
@@ -1446,7 +985,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .blockTags(listOf(BlockTags.LOGS, LOG_TAG_BLOCK, FORGE_STRIPPED_LOGS_TAG_BLOCK, BlockTags.LOGS_THAT_BURN))
         .itemTags(listOf(ItemTags.LOGS, LOG_TAG_ITEM, FORGE_STRIPPED_LOGS_TAG_ITEM, ItemTags.LOGS_THAT_BURN))
         .recipe { c, p ->
-          RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.STRIPPED_LOG!!.get()) }, 3)
+          RecipePresets.polishedCraftingRecipe(c, p, { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get()) }, 3)
         }
         .register()
     }
@@ -1480,7 +1019,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .blockFactory { p ->
           FlowerPotBlock(
             { Blocks.FLOWER_POT as FlowerPotBlock },
-            { _blockFamily.SAPLING!!.get() },
+            { _blockFamily.blocks[BlockFamily.Type.SAPLING]!!.get() },
             p
           )
         }
@@ -1493,7 +1032,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .transform { t ->
           t
             .blockstate(BlockstatePresets.pottedPlantBlock(_name + "_sapling"))
-            .loot(BlockLootPresets.pottedPlantLoot { _blockFamily.SAPLING!!.get() })
+            .loot(BlockLootPresets.pottedPlantLoot { _blockFamily.blocks[BlockFamily.Type.SAPLING]!!.get() })
         }
         .register()
     }
@@ -1517,7 +1056,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .transform { t ->
           t
             .blockstate(BlockstatePresets.simpleTransparentBlock(_name + "_leaves"))
-            .loot(BlockLootPresets.leavesLoot { _blockFamily.SAPLING!!.get() })
+            .loot(BlockLootPresets.leavesLoot { _blockFamily.blocks[BlockFamily.Type.SAPLING]!!.get() })
         }
         .register()
     }
@@ -1531,12 +1070,12 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .blockTags(listOf(BlockTags.PLANKS))
         .itemTags(listOf(ItemTags.PLANKS))
         .recipe { c, p ->
-          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.STALK!!.get()) }, 1)
-          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.STRIPPED_STALK!!.get()) }, 1)
-          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.LOG!!.get()) }, 4)
-          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.STRIPPED_LOG!!.get()) }, 4)
-          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.WOOD!!.get()) }, 4)
-          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.STRIPPED_WOOD!!.get()) }, 4)
+          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.STALK]!!.get()) }, 1)
+          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.STRIPPED_STALK]!!.get()) }, 1)
+          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.LOG]!!.get()) }, 4)
+          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get()) }, 4)
+          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.WOOD]!!.get()) }, 4)
+          RecipePresets.directShapelessRecipe(c, p, { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.STRIPPED_WOOD]!!.get()) }, 4)
           // make the boat as oak, as I am sleep-deprived and bored enough to not do it
           ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, Items.OAK_BOAT, 1)
             .define('X', c.get())
@@ -1554,12 +1093,12 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
 //        .fromFamily(Blocks.OAK_STAIRS, sharedProps, accentColor, toolType, toolTier, false)
         .copyFrom({ Blocks.OAK_STAIRS })
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-        .stairsBlock({ _blockFamily.MAIN!!.defaultState }, false, true)
+        .stairsBlock({ _blockFamily.blocks[BlockFamily.Type.MAIN]!!.defaultState }, false, true)
         .blockTags(listOf(BlockTags.STAIRS, BlockTags.WOODEN_STAIRS))
         .itemTags(listOf(ItemTags.STAIRS, ItemTags.WOODEN_STAIRS))
         .recipe { c, p ->
           RecipePresets.stairsCraftingRecipe(c, p) {
-            DataIngredient.items(_blockFamily.MAIN!!.get()
+            DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
               .asItem())
           }
         }
@@ -1575,11 +1114,11 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .recipe { c, p ->
           RecipePresets.slabRecycleRecipe(c, p) {
-            _blockFamily.MAIN!!.get()
+            _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
               .asItem()
           }
           RecipePresets.slabCraftingRecipe(c, p) {
-            DataIngredient.items(_blockFamily.MAIN!!.get()
+            DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
               .asItem())
           }
         }
@@ -1596,7 +1135,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .itemTags(listOf(ItemTags.FENCES, ItemTags.WOODEN_FENCES))
         .recipe { c, p ->
           RecipePresets.fenceCraftingRecipe(c, p) {
-            DataIngredient.items(_blockFamily.MAIN!!.get()
+            DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
               .asItem())
           }
         }
@@ -1613,7 +1152,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .itemTags(listOf(ItemTags.FENCE_GATES))
         .recipe { c, p ->
           RecipePresets.fenceGateCraftingRecipe(c, p) {
-            DataIngredient.items(_blockFamily.MAIN!!.get()
+            DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
               .asItem())
           }
         }
@@ -1631,7 +1170,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .itemTags(listOf(ItemTags.WOODEN_PRESSURE_PLATES))
         .recipe { c, p ->
           RecipePresets.pressurePlateCraftingRecipe(c, p) {
-            DataIngredient.items(_blockFamily.MAIN!!.get()
+            DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
               .asItem())
           }
         }
@@ -1649,7 +1188,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
           RecipePresets.directShapelessRecipe(c,
             p,
             {
-              DataIngredient.items(_blockFamily.MAIN!!.get()
+              DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
                 .asItem())
             },
             1)
@@ -1665,7 +1204,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .color(_accentColor!!)
         .recipe { c, p ->
           RecipePresets.doorCraftingRecipe(c, p) {
-            DataIngredient.items(_blockFamily.MAIN!!.get()
+            DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
               .asItem())
           }
         }
@@ -1678,7 +1217,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     // Trapdoor
 //    blockFamily.setVariant(BlockFamily.Type.TRAPDOOR) {
 //      generator.create)<TrapDoorBlock>(name)
-//        .woodenTrapdoorBlock({ DataIngredient.items(blockFamily.MAIN!!.get()) }, BlockSetType.OAK)
+//        .woodenTrapdoorBlock({ DataIngredient.items(blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) }, BlockSetType.OAK)
 //        .copyFrom({ Blocks.OAK_TRAPDOOR })
 //        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
 //        .color(accentColor)
@@ -1694,7 +1233,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .noItem()
         .copyFrom({ Blocks.OAK_WALL_SIGN })
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-        .blockFactory { p -> GenericWallSignBlock(p, woodType) { _blockFamily.SIGN!!.get() } }
+        .blockFactory { p -> GenericWallSignBlock(p, woodType) { _blockFamily.blocks[BlockFamily.Type.SIGN]!!.get() } }
         .color(_accentColor!!)
         .properties { p ->
           p.strength(1.0F)
@@ -1705,7 +1244,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .transform { t ->
           t
             .blockstate(BlockstatePresets.noBlockState())
-            .loot(BlockLootPresets.dropOtherLoot { _blockFamily.SIGN!!.get() })
+            .loot(BlockLootPresets.dropOtherLoot { _blockFamily.blocks[BlockFamily.Type.SIGN]!!.get() })
         }
         .register()
     }
@@ -1719,7 +1258,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
         .noItem()
         .recipe { c, p ->
           RecipePresets.signCraftingRecipe(c, p) {
-            DataIngredient.items(_blockFamily.MAIN!!.get()
+            DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
               .asItem())
           }
         }
@@ -1735,9 +1274,9 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
               val signModel: ModelFile = p.models()
                 .sign(c.name, p.modLoc("block/${_name + "_planks"}"))
               p.simpleBlock(c.get() as StandingSignBlock, signModel)
-              p.simpleBlock(_blockFamily.WALL_SIGN!!.get() as WallSignBlock, signModel)
+              p.simpleBlock(_blockFamily.blocks[BlockFamily.Type.WALL_SIGN]!!.get() as WallSignBlock, signModel)
             }
-            .item { b, p -> GenericSignItem(p.stacksTo(16), b, _blockFamily.WALL_SIGN!!.get()) }
+            .item { b, p -> GenericSignItem(p.stacksTo(16), b, _blockFamily.blocks[BlockFamily.Type.WALL_SIGN]!!.get()) }
             .tag(ItemTags.SIGNS)
             .model { c, p ->
               p.withExistingParent(c.name, p.mcLoc("item/generated"))
