@@ -2,8 +2,10 @@ package com.dannbrown.deltaboxlib.registry.datagen
 
 import com.dannbrown.deltaboxlib.DeltaboxLib
 import com.dannbrown.deltaboxlib.lib.LibObjects
+import com.dannbrown.deltaboxlib.lib.LibTags
 import com.dannbrown.deltaboxlib.registry.datagen.DeltaboxRecipeProvider.GeneratedRecipe
 import com.dannbrown.deltaboxlib.registry.generators.BlockFamily
+import com.tterrag.registrate.util.DataIngredient
 import com.tterrag.registrate.util.entry.BlockEntry
 import net.minecraft.advancements.critereon.ItemPredicate
 import net.minecraft.data.CachedOutput
@@ -432,5 +434,94 @@ abstract class DeltaboxRecipeProvider(output: PackOutput, private val modId: Str
     }
   }
 
+  fun oreRecipes(
+    name: String,
+    ingot: ItemLike?,
+    block: ItemLike?,
+    nugget: ItemLike?,
+    dust: ItemLike?,
+    plate: ItemLike?,
+    rawIngot: ItemLike?,
+    crushedRaw: ItemLike?,
+    rawBlock: ItemLike?,
+    ores: List<OreBlockProcessor>?,
+  ) {
+    val hasOres = ores != null && ores.isNotEmpty()
+    // smelt the raw ore into ingots
+    if (ingot != null && rawIngot != null) {
+      val SMELT_RAW = cooking({
+        DataIngredient.tag(LibTags.forgeItemTag("raw_materials/$name"))
+      },
+        { ingot }) { b ->
+        b
+          .suffix("_from_raw")
+          .comboOreSmelting(200, 0.5f)
+      }
+    }
+    // smelt the raw block into a block
+    if (block != null && rawBlock != null) {
+      val SMELT_RAW_BLOCK = cooking({
+        DataIngredient.tag(LibTags.forgeItemTag("storage_blocks/raw_$name"))
+      },
+        { block }) { b ->
+        b
+          .suffix("_from_raw_block")
+          .comboOreSmelting(400, 4.5f)
+      }
+    }
+    // smelt the ores into ingots
+    if (ingot != null && hasOres) {
+      val SMELT_ORE = cooking({
+        DataIngredient.tag(LibTags.forgeItemTag("ores/$name"))
+      },
+        { ingot }) { b ->
+        b
+          .suffix("_from_ore")
+          .comboOreSmelting(200, 1f)
+      }
+    }
+    // smelt the crushed raw ore into ingots
+    if (ingot != null && crushedRaw != null) {
+      val SMELT_CRUSHED = cooking({
+        DataIngredient.items(crushedRaw)
+      },
+        { ingot }) { b ->
+        b
+          .suffix("_from_crushed_raw")
+          .comboOreSmelting(200, 1f)
+      }
+    }
+
+    // smelt the dust into ingots
+    if (ingot != null && dust != null) {
+      val SMELT_DUST = cooking({
+        DataIngredient.tag(LibTags.forgeItemTag("dusts/$name"))
+      },
+        { ingot }) { b ->
+        b
+          .suffix("_from_dust")
+          .comboOreSmelting(200, 0.5f)
+      }
+    }
+
+
+    // smelt the plate into nuggets
+    if (nugget != null && plate != null) {
+      val SMELT_PLATE = cooking({
+        DataIngredient.tag(LibTags.forgeItemTag("plates/$name"))
+      },
+        { nugget }) { b ->
+        b
+          .suffix("_from_plate")
+          .comboOreSmelting(200, 0.5f)
+      }
+    }
+  }
+
+  class OreBlockProcessor(oreBlock: ItemLike, stoneBlock: ItemLike, multiplier: Int) {
+    val oreBlock = oreBlock
+    val stoneBlock = stoneBlock
+    val multiplier = multiplier
+  }
 
 }

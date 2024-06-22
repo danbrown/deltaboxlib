@@ -10,7 +10,6 @@ import com.tterrag.registrate.util.entry.BlockEntry
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.RotatedPillarBlock
 import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.StairBlock
 import net.minecraft.world.level.block.WallBlock
@@ -19,9 +18,9 @@ import net.minecraft.world.level.material.MapColor
 import java.util.function.Supplier
 
 /**
- * Returns a Long block family composed by Normals, Polished, Bricks, Cut, Chiseled variants (stairs, slabs, walls)
+ * Returns a Mineral block family composed by Normals and Polished variants (stairs, slabs, walls)
  */
-class LongBlockFamilySet(
+class MineralBlockFamilySet(
   private val generator: BlockGenerator,
   private val _name: String,
   private val _sharedProps: (BlockBehaviour.Properties) -> BlockBehaviour.Properties = { p: BlockBehaviour.Properties -> p },
@@ -34,7 +33,7 @@ class LongBlockFamilySet(
   mainBlock: BlockEntry<out Block>? = null,
   isRotatedBlock: Boolean = false
 ): AbstractBlockFamilySet() {
-  init {
+  init{
     val MATERIAL_TAG = LibTags.modItemTag(generator.registrate.modid, _name + "_blocks")
 
     if (mainBlock == null) {
@@ -50,87 +49,88 @@ class LongBlockFamilySet(
       _blockFamily.setVariant(BlockFamily.Type.MAIN) { mainBlock }
     }
 
-    if (!_denyList.contains(BlockFamily.Type.MAIN)) {
-      if (!_denyList.contains(BlockFamily.Type.STAIRS)) {
-        _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
-          generator.create<StairBlock>(_name)
-            .stairsBlock({ _blockFamily.blocks[BlockFamily.Type.MAIN]!!.defaultState }, isRotatedBlock)
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
-                    .asItem())
-                },
-                1
+    if (!_denyList.contains(BlockFamily.Type.STAIRS)) {
+      _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
+        generator.create<StairBlock>(_name)
+          .stairsBlock({ _blockFamily.blocks[BlockFamily.Type.MAIN]!!.defaultState }, isRotatedBlock)
+          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+          .itemTags(listOf(MATERIAL_TAG))
+          .recipe { c, p ->
+            RecipePresets.simpleStonecuttingRecipe(
+              c,
+              p,
+              {
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  .asItem())
+              },
+              1
+            )
+            RecipePresets.stairsCraftingRecipe(c, p) {
+              DataIngredient.items(
+                _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  .asItem()
               )
-              RecipePresets.stairsCraftingRecipe(c, p) {
-                DataIngredient.items(
-                  _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
-                    .asItem()
-                )
-              }
             }
-            .register()
-        }
+          }
+          .register()
       }
+    }
 
-      if (!_denyList.contains(BlockFamily.Type.SLAB)) {
-        _blockFamily.setVariant(BlockFamily.Type.SLAB) {
-          generator.create<SlabBlock>(_name)
-            .slabBlock(isRotatedBlock)
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
-                    .asItem())
-                },
-                2
-              )
-
-              RecipePresets.slabCraftingRecipe(c, p) {
-                DataIngredient.items(
-                  _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
-                    .asItem()
-                )
-              }
+    if (!_denyList.contains(BlockFamily.Type.SLAB)) {
+      _blockFamily.setVariant(BlockFamily.Type.SLAB) {
+        generator.create<SlabBlock>(_name)
+          .slabBlock(isRotatedBlock)
+          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+          .itemTags(listOf(MATERIAL_TAG))
+          .recipe { c, p ->
+            RecipePresets.simpleStonecuttingRecipe(
+              c,
+              p,
+              {
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  .asItem())
+              },
+              2
+            )
+            RecipePresets.slabRecycleRecipe(c, p) {
+              _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                .asItem()
             }
-            .register()
-        }
+            RecipePresets.slabCraftingRecipe(c, p) {
+              DataIngredient.items(
+                _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  .asItem()
+              )
+            }
+          }
+          .register()
       }
+    }
 
-      if (!_denyList.contains(BlockFamily.Type.WALL)) {
-        _blockFamily.setVariant(BlockFamily.Type.WALL) {
-          generator.create<WallBlock>(_name)
-            .wallBlock(isRotatedBlock)
-            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(listOf(MATERIAL_TAG))
-            .recipe { c, p ->
-              RecipePresets.simpleStonecuttingRecipe(
-                c,
-                p,
-                {
-                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
-                    .asItem())
-                },
-                1
+    if (!_denyList.contains(BlockFamily.Type.WALL)) {
+      _blockFamily.setVariant(BlockFamily.Type.WALL) {
+        generator.create<WallBlock>(_name)
+          .wallBlock(isRotatedBlock)
+          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+          .itemTags(listOf(MATERIAL_TAG))
+          .recipe { c, p ->
+            RecipePresets.simpleStonecuttingRecipe(
+              c,
+              p,
+              {
+                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  .asItem())
+              },
+              1
+            )
+            RecipePresets.wallCraftingRecipe(c, p) {
+              DataIngredient.items(
+                _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  .asItem()
               )
-              RecipePresets.wallCraftingRecipe(c, p) {
-                DataIngredient.items(
-                  _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
-                    .asItem()
-                )
-              }
             }
-            .register()
-        }
+          }
+          .register()
       }
     }
     // start polished chain
@@ -440,73 +440,6 @@ class LongBlockFamilySet(
         }
       }
     }
-    // start chiseled chain
-    if (!_denyList.contains(BlockFamily.Type.CHISELED)) {
-      _blockFamily.setVariant(BlockFamily.Type.CHISELED) {
-        generator.create<Block>("chiseled_$_name")
-          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-          .itemTags(listOf(MATERIAL_TAG))
-          .recipe { c, p ->
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              {
-                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
-                  .asItem())
-              },
-              1
-            )
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              {
-                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
-                  .asItem())
-              },
-              1
-            )
-            RecipePresets.slabToChiseledRecipe(c, p) {
-              DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.SLAB]!!.get()
-                .asItem())
-            }
-          }
-          .register()
-      }
-    }
-    // PILLAR
-    if (!_denyList.contains(BlockFamily.Type.PILLAR)) {
-      _blockFamily.setVariant(BlockFamily.Type.PILLAR) {
-        generator.create<RotatedPillarBlock>("${_name}_pillar")
-          .rotatedPillarBlock("${_name}_pillar_top", "${_name}_pillar_side")
-          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-          .itemTags(listOf(MATERIAL_TAG))
-          .recipe { c, p ->
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              {
-                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
-                  .asItem())
-              },
-              1
-            )
-            RecipePresets.simpleStonecuttingRecipe(
-              c,
-              p,
-              {
-                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.get()
-                  .asItem())
-              },
-              1
-            )
-            RecipePresets.slabToChiseledRecipe(c, p) {
-              DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
-                .asItem())
-            }
-          }
-          .register()
-      }
-    }
-  }
 
+  }
 }
