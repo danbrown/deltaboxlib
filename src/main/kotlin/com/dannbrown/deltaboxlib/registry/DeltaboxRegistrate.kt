@@ -18,6 +18,8 @@ import net.minecraftforge.fluids.FluidType
 import net.minecraftforge.fluids.ForgeFlowingFluid
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.registries.RegistryObject
+import oshi.util.tuples.Quartet
+import oshi.util.tuples.Quintet
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -81,6 +83,25 @@ class DeltaboxRegistrate(modId: String) : AbstractRegistrate<DeltaboxRegistrate>
     _modid: String = modid,
   ) :MutableComponent {
     return addRawLang("itemGroup.${_modid}.$tab", name)
+  }
+
+  fun addPotionLang(
+    name: String,
+    phrase: String,
+  ) :Quartet<MutableComponent, MutableComponent, MutableComponent, MutableComponent> {
+    val potion = addRawLang("item.${"minecraft"}.potion.effect.$name", "Potion of $phrase")
+    val splash = addRawLang("item.${"minecraft"}.splash_potion.effect.$name", "Splash Potion of $phrase")
+    val lingering = addRawLang("item.${"minecraft"}.lingering_potion.effect.$name", "Lingering Potion of $phrase")
+    val arrow = addRawLang("item.${"minecraft"}.tipped_arrow.effect.$name", "Arrow of $phrase")
+    return Quartet(potion, splash, lingering, arrow)
+  }
+
+  fun addEffectLang(
+    name: String,
+    phrase: String,
+    _modid: String = modid,
+  ) :MutableComponent {
+    return addRawLang("effect.${_modid}.$name", phrase)
   }
 
   fun addDeathMessageLang(
