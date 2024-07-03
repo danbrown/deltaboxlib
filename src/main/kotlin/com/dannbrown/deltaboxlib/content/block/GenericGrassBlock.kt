@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
@@ -20,6 +21,7 @@ class GenericGrassBlock(
   private val placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null,
   private val isSticky: Boolean = false,
   private val isHarmful: Boolean = false,
+  private val isBonemealable: Boolean = false,
 ) : BushBlock(props), IForgeShearable, BonemealableBlock {
 
   override fun mayPlaceOn(blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos): Boolean {
@@ -51,7 +53,7 @@ class GenericGrassBlock(
     blockState: BlockState,
     isClient: Boolean
   ): Boolean {
-    return false
+    return isBonemealable
   }
 
   override fun isBonemealSuccess(
@@ -60,7 +62,7 @@ class GenericGrassBlock(
     blockPos: BlockPos,
     blockState: BlockState
   ): Boolean {
-    return false
+    return isBonemealable
   }
 
   override fun performBonemeal(
@@ -69,7 +71,10 @@ class GenericGrassBlock(
     blockPos: BlockPos,
     blockState: BlockState
   ) {
-
+    if (isBonemealable) {
+      // drop one of the block
+      popResource(serverLevel, blockPos, ItemStack(this.asItem()))
+    }
   }
 
   companion object {
