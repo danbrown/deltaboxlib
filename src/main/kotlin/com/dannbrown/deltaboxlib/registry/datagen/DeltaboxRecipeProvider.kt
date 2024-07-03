@@ -73,7 +73,6 @@ abstract class DeltaboxRecipeProvider(output: PackOutput, private val modId: Str
       )
     }
 
-
     fun registerGenerators(doRun: Boolean, gen: DataGenerator, vararg generators: KClass<out DeltaboxRecipeProvider>) {
       gen.addProvider(doRun, object : DataProvider {
         override fun getName(): String {

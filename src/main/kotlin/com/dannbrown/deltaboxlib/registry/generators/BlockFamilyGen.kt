@@ -47,8 +47,8 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
   }
 
   fun color(
-    color: MapColor = MapColor.COLOR_GRAY,
-    accentColor: MapColor = MapColor.COLOR_GRAY
+    color: MapColor,
+    accentColor: MapColor? = null
   ): BlockFamilyGen {
     this._color = color
     this._accentColor = accentColor
@@ -65,12 +65,12 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     return this
   }
 
-  fun getColor(): MapColor {
-    return _color?: MapColor.COLOR_GRAY
+  fun getColor(): MapColor? {
+    return _color
   }
 
-  fun getAccentColor(): MapColor {
-    return _accentColor?: MapColor.COLOR_GRAY
+  fun getAccentColor(): MapColor? {
+    return _accentColor
   }
 
   fun getCopyFrom(): Supplier<Block> {
