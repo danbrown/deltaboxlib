@@ -13,7 +13,6 @@ import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.IForgeRegistry
 
 object LibObjects {
-  // registry argument for easier porting to 1.19
   fun <V> getKeyOrThrow(registry: IForgeRegistry<V>, value: V): ResourceLocation {
     val key = registry.getKey(value) ?: throw IllegalArgumentException("Could not get key for value $value!")
     return key

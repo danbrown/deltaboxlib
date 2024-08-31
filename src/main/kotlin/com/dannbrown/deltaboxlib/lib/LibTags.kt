@@ -12,12 +12,8 @@ import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.IForgeRegistry
 
 object LibTags {
-  fun <T> optionalTag(
-    registry: IForgeRegistry<T>,
-    id: ResourceLocation
-  ): TagKey<T> {
-    return registry.tags()!!
-      .createOptionalTagKey(id, emptySet())
+  fun <T> optionalTag(registry: IForgeRegistry<T>, id: ResourceLocation): TagKey<T> {
+    return registry.tags()!!.createOptionalTagKey(id, emptySet())
   }
 
   // VANILLA
@@ -50,29 +46,29 @@ object LibTags {
     return forgeTag(ForgeRegistries.FLUIDS, path)
   }
 
-  // DATABOX
-  fun <T> databoxTag(registry: IForgeRegistry<T>, path: String): TagKey<T> {
+  // DELTABOX
+  fun <T> deltaboxTag(registry: IForgeRegistry<T>, path: String): TagKey<T> {
     return optionalTag(registry, ResourceLocation(DeltaboxLib.MOD_ID, path))
   }
 
-  fun databoxBlockTag(path: String): TagKey<Block> {
-    return databoxTag(ForgeRegistries.BLOCKS, path)
+  fun deltaboxBlockTag(path: String): TagKey<Block> {
+    return deltaboxTag(ForgeRegistries.BLOCKS, path)
   }
 
-  fun databoxItemTag(path: String): TagKey<Item> {
-    return databoxTag(ForgeRegistries.ITEMS, path)
+  fun deltaboxItemTag(path: String): TagKey<Item> {
+    return deltaboxTag(ForgeRegistries.ITEMS, path)
   }
 
-  fun databoxFluidTag(path: String): TagKey<Fluid> {
-    return databoxTag(ForgeRegistries.FLUIDS, path)
+  fun deltaboxFluidTag(path: String): TagKey<Fluid> {
+    return deltaboxTag(ForgeRegistries.FLUIDS, path)
   }
 
-  fun databoxBiomeTag(path: String): TagKey<Biome> {
-    return databoxTag(ForgeRegistries.BIOMES, path)
+  fun deltaboxBiomeTag(path: String): TagKey<Biome> {
+    return deltaboxTag(ForgeRegistries.BIOMES, path)
   }
 
-  fun databoxEntityTag(path: String): TagKey<EntityType<*>> {
-    return databoxTag(ForgeRegistries.ENTITY_TYPES, path)
+  fun deltaboxEntityTag(path: String): TagKey<EntityType<*>> {
+    return deltaboxTag(ForgeRegistries.ENTITY_TYPES, path)
   }
 
   // ANY MOD

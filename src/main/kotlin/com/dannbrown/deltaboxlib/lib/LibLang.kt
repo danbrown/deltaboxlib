@@ -8,16 +8,16 @@ import net.minecraft.network.chat.contents.TranslatableContents
 
 class LibLang {
   companion object {
+    val CONNECTING_WORDS = setOf("of", "the", "and", "in", "on", "at", "to", "with", "by", "for", "as", "or", "nor", "but", "so", "yet", "a", "an")
+
     fun asId(name: String): String {
       return name.lowercase().replace(" ", "_")
     }
 
     fun asName(id: String): String {
-      val connectingWords = setOf("of", "the", "and", "in", "on", "at", "to", "with", "by", "for", "as", "or", "nor", "but", "so", "yet", "a", "an")
-
       return id.split("_")
         .joinToString(" ") { word ->
-          if (word.lowercase() in connectingWords) {
+          if (word.lowercase() in CONNECTING_WORDS) {
             word.lowercase()
           } else {
             word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
@@ -26,6 +26,7 @@ class LibLang {
         .replace("  ", " ")
         .replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
     }
+
     fun nonPluralId(name: String): String {
       val asId = asId(name)
       return if (asId.endsWith("s")) asId.substring(0, asId.length - 1) else asId

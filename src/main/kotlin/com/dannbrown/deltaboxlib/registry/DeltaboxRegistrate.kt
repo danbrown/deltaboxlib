@@ -96,6 +96,15 @@ class DeltaboxRegistrate(modId: String) : AbstractRegistrate<DeltaboxRegistrate>
     return Quartet(potion, splash, lingering, arrow)
   }
 
+  fun addAdvancementLang(
+    name: String,
+    title: String,
+    description: String,
+    _modid: String = modid,
+  ) :Pair<MutableComponent, MutableComponent> {
+    return Pair(addRawLang("advancements.${_modid}.$name.title", title), addRawLang("advancements.${_modid}.$name.description", description))
+  }
+
   fun addEffectLang(
     name: String,
     phrase: String,
