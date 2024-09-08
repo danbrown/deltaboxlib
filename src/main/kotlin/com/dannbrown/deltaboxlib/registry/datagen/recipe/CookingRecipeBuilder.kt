@@ -29,7 +29,6 @@ class CookingRecipeBuilder(private val modId: String, private val ingredient: Su
   private val COOKING_TIME_MODIFIER = 1.0f
   private val allRecipes: MutableMap<ResourceLocation, RecipeBuilder> = HashMap()
 
-
   fun apply(builder: UnaryOperator<CookingRecipeBuilder>): CookingRecipeBuilder {
     return builder.apply(this)
   }

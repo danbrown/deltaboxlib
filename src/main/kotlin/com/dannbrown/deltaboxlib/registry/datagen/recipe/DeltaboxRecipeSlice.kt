@@ -11,7 +11,7 @@ import java.util.function.Consumer
 import java.util.function.Supplier
 import java.util.function.UnaryOperator
 
-abstract class DeltaBoxRecipeSlice(private val modId: String) {
+abstract class DeltaboxRecipeSlice(private val modId: String) {
   val all: MutableList<ResourceLocation> = mutableListOf()
 
   abstract fun addRecipes(recipeConsumer: Consumer<FinishedRecipe>)

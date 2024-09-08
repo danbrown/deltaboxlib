@@ -20,7 +20,7 @@ import java.util.function.Supplier
 
 // class based on https://github.com/Creators-of-Create/Create/blob/mc1.19/0.5.1/src/main/java/com/simibubi/create/foundation/data/recipe/ProcessingRecipeGen.java
 // the goal is to be able to create custom processing recipes
-class DeltaboxRecipeProvider(private val output: PackOutput, private val slices: List<DeltaBoxRecipeSlice>) : RecipeProvider(output), IConditionBuilder {
+class DeltaboxRecipeProvider(private val output: PackOutput, private val slices: List<DeltaboxRecipeSlice>) : RecipeProvider(output), IConditionBuilder {
   override fun buildRecipes(recipeConsumer: Consumer<FinishedRecipe>) {
     for(slice in slices) {
       slice.addRecipes(recipeConsumer)
@@ -67,9 +67,4 @@ class DeltaboxRecipeProvider(private val output: PackOutput, private val slices:
     }
     // ----
   }
-
-
-
-
-
 }
