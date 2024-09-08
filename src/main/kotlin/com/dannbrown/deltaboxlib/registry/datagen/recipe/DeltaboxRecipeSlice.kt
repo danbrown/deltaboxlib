@@ -23,9 +23,9 @@ abstract class DeltaboxRecipeSlice(private val modId: String) {
     ingredient: Supplier<Ingredient>,
     result: Supplier<ItemLike>,
     builder: UnaryOperator<CookingRecipeBuilder> = UnaryOperator.identity()
-  ): MutableMap<ResourceLocation, RecipeBuilder> {
+  ): Set<ResourceLocation> {
     val allRecipes = CookingRecipeBuilder(modId, ingredient, result).apply(builder).getRecipes(recipeConsumer)
-    all.addAll(allRecipes.keys)
+    all.addAll(allRecipes)
     return allRecipes
   }
 
@@ -34,9 +34,9 @@ abstract class DeltaboxRecipeSlice(private val modId: String) {
     result: Supplier<ItemLike>,
     amount: Int = 1,
     builder: UnaryOperator<StandardRecipeBuilder> = UnaryOperator.identity()
-  ): MutableMap<ResourceLocation, RecipeBuilder> {
+  ): Set<ResourceLocation> {
     val allRecipes = StandardRecipeBuilder(modId, result, amount).apply(builder).getRecipes(recipeConsumer)
-    all.addAll(allRecipes.keys)
+    all.addAll(allRecipes)
     return allRecipes
   }
 

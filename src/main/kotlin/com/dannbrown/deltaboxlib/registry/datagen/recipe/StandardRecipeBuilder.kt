@@ -5,6 +5,7 @@ import net.minecraft.advancements.critereon.ItemPredicate
 import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.RecipeBuilder
 import net.minecraft.data.recipes.RecipeCategory
+import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.data.recipes.ShapelessRecipeBuilder
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Items
@@ -41,24 +42,25 @@ class StandardRecipeBuilder(private val modId: String, private val result: Suppl
   }
 
   // SHAPED
-  fun shaped(): StandardRecipeBuilder {
-    return shaped(amount, prefix, suffix)
+  fun shaped(builder: UnaryOperator<ShapedRecipeBuilder> = UnaryOperator.identity()): StandardRecipeBuilder {
+    return shaped(amount, prefix, suffix, builder)
   }
 
   fun shaped(
     amount: Int,
+    builder: UnaryOperator<ShapedRecipeBuilder> = UnaryOperator.identity(),
   ): StandardRecipeBuilder {
-    return shaped(amount, prefix, suffix)
+    return shaped(amount, prefix, suffix, builder)
   }
 
   fun shaped(
     amount: Int,
     prefix: String,
     suffix: String,
-    builder: UnaryOperator<ShapelessRecipeBuilder> = UnaryOperator.identity(),
+    builder: UnaryOperator<ShapedRecipeBuilder> = UnaryOperator.identity(),
   ): StandardRecipeBuilder {
 
-    val _builder = builder.apply( ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, result.get(), amount))
+    val _builder = builder.apply( ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result.get(), amount))
 
     if (unlockedBy != null) {
       _builder.unlockedBy("has_item", RegistrateRecipeProvider.inventoryTrigger(unlockedBy!!.get()))
@@ -108,11 +110,11 @@ class StandardRecipeBuilder(private val modId: String, private val result: Suppl
     return this
   }
 
-  override fun getRecipes(consumer: Consumer<FinishedRecipe>): MutableMap<ResourceLocation, RecipeBuilder> {
+  override fun getRecipes(consumer: Consumer<FinishedRecipe>): Set<ResourceLocation> {
     for ((key, value) in allRecipes) {
       value.save(consumer, key)
     }
-    return allRecipes
+    return allRecipes.keys
   }
 }
 

@@ -29,7 +29,7 @@ class DeltaboxRecipeProvider(private val output: PackOutput, private val slices:
   }
 
   abstract class DeltaBoxRecipeBuilder {
-    abstract fun getRecipes(consumer: Consumer<FinishedRecipe>): MutableMap<ResourceLocation, RecipeBuilder>
+    abstract fun getRecipes(consumer: Consumer<FinishedRecipe>): Set<ResourceLocation>
   }
 
   companion object {
@@ -44,27 +44,5 @@ class DeltaboxRecipeProvider(private val output: PackOutput, private val slices:
     ): ResourceLocation {
       return ResourceLocation(modId, recipeType + "/" + prefix + LibObjects.getKeyOrThrow(result.get().asItem()).path + suffix)
     }
-
-    fun registerGenerators(doRun: Boolean, gen: DataGenerator, vararg generators: DeltaboxRecipeProvider) {
-      gen.addProvider(doRun, object : DataProvider {
-        override fun getName(): String {
-          return "DeltaboxLib's Processing Recipes"
-        }
-
-        @Throws(IOException::class)
-        override fun run(dc: CachedOutput): CompletableFuture<*> {
-          val list: MutableList<CompletableFuture<*>> = java.util.ArrayList()
-          for (generator in generators) {
-            try {
-              list.add(generator.run(dc))
-            } catch (e: Exception) {
-              e.printStackTrace()
-            }
-          }
-          return CompletableFuture.completedFuture(list)
-        }
-      })
-    }
-    // ----
   }
 }

@@ -147,10 +147,10 @@ class CookingRecipeBuilder(private val modId: String, private val ingredient: Su
     return this
   }
 
-  override fun getRecipes(consumer: Consumer<FinishedRecipe>): MutableMap<ResourceLocation, RecipeBuilder> {
+  override fun getRecipes(consumer: Consumer<FinishedRecipe>): Set<ResourceLocation> {
     for ((key, value) in allRecipes) {
       value.save(consumer, key)
     }
-    return allRecipes
+    return allRecipes.keys
   }
 }
