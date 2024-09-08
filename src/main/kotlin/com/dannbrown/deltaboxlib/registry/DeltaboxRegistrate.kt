@@ -25,10 +25,10 @@ import java.util.function.Consumer
 import java.util.function.Supplier
 
 // This Registrate file is based on CreateRegistrate: https://github.com/Creators-of-Create/Create/blob/mc1.18/dev/src/main/java/com/simibubi/create/foundation/data/CreateRegistrate.java
+// its goal is to expand the Registrate API to include more features and make it easier to use
 class DeltaboxRegistrate(modId: String) : AbstractRegistrate<DeltaboxRegistrate>(modId) {
   var creativeTab: RegistryObject<CreativeModeTab>? = null
     protected set
-
 
   fun setCreativeTab(tab: RegistryObject<CreativeModeTab>): DeltaboxRegistrate {
     creativeTab = tab
@@ -39,22 +39,17 @@ class DeltaboxRegistrate(modId: String) : AbstractRegistrate<DeltaboxRegistrate>
     return super.registerEventListeners(bus)
   }
 
-
-
   /* Fluids */
   fun standardFluid(name: String): FluidBuilder<ForgeFlowingFluid.Flowing, DeltaboxRegistrate> {
     return fluid(name, ResourceLocation(modid, "fluid/" + name + "_still"), ResourceLocation(modid, "fluid/" + name + "_flow"))
   }
 
-  fun standardFluid(name: String,
-                    typeFactory: FluidTypeFactory
+  fun standardFluid(name: String, typeFactory: FluidTypeFactory
   ): FluidBuilder<ForgeFlowingFluid.Flowing, DeltaboxRegistrate> {
-    return fluid(name, ResourceLocation(modid, "fluid/" + name + "_still"), ResourceLocation(modid, "fluid/" + name + "_flow"),
-      typeFactory)
+    return fluid(name, ResourceLocation(modid, "fluid/" + name + "_still"), ResourceLocation(modid, "fluid/" + name + "_flow"), typeFactory)
   }
 
   // @ LANG
-
   fun addFormulaLang(
     formula: String,
     name: String,
@@ -153,7 +148,14 @@ class DeltaboxRegistrate(modId: String) : AbstractRegistrate<DeltaboxRegistrate>
     return addRawLang("generator.${_modid}.$name", phrase)
   }
 
-
+  fun addPaintingVariantLang(
+    name: String,
+    phrase: String,
+    author: String,
+    _modid: String = modid,
+  ) :Pair<MutableComponent, MutableComponent> {
+    return Pair(addRawLang("painting.${_modid}.$name.title", phrase), addRawLang("painting.${_modid}.$name.author", author))
+  }
 
   companion object {
 
@@ -163,9 +165,7 @@ class DeltaboxRegistrate(modId: String) : AbstractRegistrate<DeltaboxRegistrate>
       return TAB_LOOKUP.get(entry) === tab
     }
 
-    fun defaultFluidType(properties: FluidType.Properties, stillTexture: ResourceLocation,
-                         flowingTexture: ResourceLocation
-    ): FluidType {
+    fun defaultFluidType(properties: FluidType.Properties, stillTexture: ResourceLocation, flowingTexture: ResourceLocation): FluidType {
       return object : FluidType(properties) {
         override fun initializeClient(consumer: Consumer<IClientFluidTypeExtensions>) {
           consumer.accept(object : IClientFluidTypeExtensions {
@@ -184,7 +184,5 @@ class DeltaboxRegistrate(modId: String) : AbstractRegistrate<DeltaboxRegistrate>
     protected fun onClient(toRun: Supplier<Runnable>) {
       DistExecutor.unsafeRunWhenOn(Dist.CLIENT, toRun)
     }
-
-
   }
 }
