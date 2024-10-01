@@ -420,7 +420,7 @@ object BlockstatePresets {
 
   fun <B : Block> doorTransparentBlock(): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
-      p.doorBlockWithRenderType(c.get() as DoorBlock, p.modLoc("block/${c.name}" + "_back"), p.modLoc("block/${c.name}" + "_top"), "cutout_mipped")
+      p.doorBlockWithRenderType(c.get() as DoorBlock, p.modLoc("block/${c.name}" + "_bottom"), p.modLoc("block/${c.name}" + "_top"), "cutout_mipped")
     }
   }
 
