@@ -44,6 +44,7 @@ import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.StairBlock
 import net.minecraft.world.level.block.StandingSignBlock
+import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallHangingSignBlock
 import net.minecraft.world.level.block.WallSignBlock
 import net.minecraft.world.level.block.entity.BlockEntityType
@@ -366,18 +367,14 @@ class WoodBlockFamilySet(
         .register()
     }
     // Trapdoor
-//    blockFamily.setVariant(BlockFamily.Type.TRAPDOOR) {
-//      generator.create)<TrapDoorBlock>(name)
-//        .woodenTrapdoorBlock({ DataIngredient.items(blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) }, BlockSetType.OAK)
-//        .copyFrom({ Blocks.OAK_TRAPDOOR })
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(accentColor)
-//        .properties { p ->
-//          p.sound(SoundType.WOOD)
-//            .noOcclusion()
-//        }
-//        .register()
-//    }
+    _blockFamily.setVariant(BlockFamily.Type.TRAPDOOR) {
+      generator.create<TrapDoorBlock>(_name)
+        .woodenTrapdoorBlock({ DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) }, BlockSetType.OAK)
+        .copyFrom { Blocks.OAK_TRAPDOOR }
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor!!)
+        .register()
+    }
     // Wall Sign
     _blockFamily.setVariant(BlockFamily.Type.WALL_SIGN) {
       generator.create<GenericWallSignBlock>(_name + "_wall_sign")

@@ -5,6 +5,7 @@ import com.dannbrown.deltaboxlib.lib.LibLang
 import com.dannbrown.deltaboxlib.registry.DeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registry.transformers.BlockLootPresets
 import com.dannbrown.deltaboxlib.registry.transformers.BlockTagPresets
+import com.dannbrown.deltaboxlib.registry.transformers.BlockTransformers
 import com.dannbrown.deltaboxlib.registry.transformers.BlockstatePresets
 import com.dannbrown.deltaboxlib.registry.transformers.ItemModelPresets
 import com.dannbrown.deltaboxlib.registry.transformers.RecipePresets
@@ -34,6 +35,7 @@ import net.minecraft.world.level.block.SandBlock
 import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.StairBlock
+import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallBlock
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties
 import net.minecraft.world.level.block.state.BlockState
@@ -197,22 +199,31 @@ class BlockGen<T : Block>(name: String, private val registrate: DeltaboxRegistra
 
 
   // Trapdoors
-//  fun woodenTrapdoorBlock(ingredient: Supplier<DataIngredient>, blockSetType: BlockSetType, orientable: Boolean = true, addSuffix: Boolean = true
-//  ): BlockGen<T> {
-//    this.checkCurrentBuilder()
-//    _blockFactory = { p -> TrapDoorBlock(p, blockSetType) as T }
-//    _copyFrom = Supplier {Blocks.OAK_TRAPDOOR }
-//    if (addSuffix) _suffix += "_trapdoor"
-//    addBuilder { b ->
-//      b.transform(BlockTransformers.trapdoor(_textureName, "wooden", orientable))
-//        .recipe { c, p -> RecipePresets.trapdoorCraftingRecipe(c, p, ingredient) }
-//        .properties { p ->
-//          p.sound(SoundType.WOOD)
-//            .noOcclusion()
-//        }
-//    }
-//    return this
-//  }
+  fun woodenTrapdoorBlock(ingredient: Supplier<DataIngredient>, blockSetType: BlockSetType, orientable: Boolean = true, addSuffix: Boolean = true): BlockGen<T> {
+    this.checkCurrentBuilder()
+    _blockFactory = { p -> TrapDoorBlock(p, blockSetType) as T }
+    _copyFrom = Supplier {Blocks.OAK_TRAPDOOR }
+    if (addSuffix) _suffix += "_trapdoor"
+
+    var tags =  BlockTagPresets.woodenTrapdoorTags()
+
+    addBuilder { b ->
+      b
+        .properties { p ->
+          p.sound(SoundType.WOOD)
+            .noOcclusion()
+        }
+        .blockstate(BlockstatePresets.trapdoorBlock(_textureName, orientable))
+        .tag(*tags.first)
+        .item()
+        .tag(*tags.second)
+        .model(ItemModelPresets.trapdoorItem(_textureName))
+        .build()
+        .recipe { c, p -> RecipePresets.trapdoorCraftingRecipe(c, p, ingredient) }
+
+    }
+    return this
+  }
 
   // @ BOTTOM TOP BLOCK
   fun bottomTopBlock(bottomName: String = "", topName: String = "", sideName: String = ""): BlockGen<T> {
