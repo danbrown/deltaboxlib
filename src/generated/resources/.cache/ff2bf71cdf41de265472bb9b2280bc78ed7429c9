@@ -1,0 +1,4 @@
+// 1.20.1	2024-10-01T22:18:01.183859	Registrate Provider for deltaboxlib [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+02303e72c6151ae723d94f8c8b22c179984ac972 assets/deltaboxlib/lang/en_ud.json
+ecda32d979e4bc1578e4e712b3e3c60cfc105a40 assets/deltaboxlib/lang/en_us.json
+841a2335f2b256b4ee41c276047cc351c35a5414 assets/deltaboxlib/models/item/arboria_icon.json
