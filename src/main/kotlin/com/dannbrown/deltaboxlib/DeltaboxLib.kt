@@ -2,12 +2,11 @@ package com.dannbrown.deltaboxlib
 
 import com.dannbrown.arboria.ArboriaContent
 import com.dannbrown.deltaboxlib.registry.DeltaboxRegistrate
-import com.dannbrown.deltaboxlib.sample.datagen.ModDatagen
+import com.dannbrown.deltaboxlib.sample.datagen.SampleDatagen
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.data.event.GatherDataEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.IEventBus
-import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import org.apache.logging.log4j.LogManager
@@ -38,7 +37,7 @@ class DeltaboxLib {
 
       // register all registrate event listeners
       REGISTRATE.registerEventListeners(modBus)
-      modBus.addListener(EventPriority.LOWEST) { event: GatherDataEvent -> ModDatagen.gatherData(event) }
+      modBus.addListener(EventPriority.LOWEST) { event: GatherDataEvent -> SampleDatagen.gatherData(event) }
     }
   }
 }

@@ -1,6 +1,6 @@
 package com.dannbrown.deltaboxlib.sample.datagen
 
-import com.dannbrown.deltaboxlib.sample.datagen.lang.ModLangGen
+import com.dannbrown.deltaboxlib.sample.datagen.lang.SampleLangGen
 import com.dannbrown.deltaboxlib.DeltaboxLib
 import com.dannbrown.deltaboxlib.registry.datagen.DatagenRootInterface
 import net.minecraft.core.HolderLookup
@@ -10,7 +10,7 @@ import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider
 import net.minecraftforge.data.event.GatherDataEvent
 import java.util.concurrent.CompletableFuture
 
-class ModDatagen(output: PackOutput, future: CompletableFuture<HolderLookup.Provider>) : DatapackBuiltinEntriesProvider(output, future, BUILDER, modIds){
+class SampleDatagen(output: PackOutput, future: CompletableFuture<HolderLookup.Provider>) : DatapackBuiltinEntriesProvider(output, future, BUILDER, modIds){
   companion object: DatagenRootInterface{
     override val modIds: MutableSet<String> = mutableSetOf(
       DeltaboxLib.MOD_ID
@@ -23,9 +23,9 @@ class ModDatagen(output: PackOutput, future: CompletableFuture<HolderLookup.Prov
       val lookupProvider = event.lookupProvider
       val existingFileHelper = event.existingFileHelper
       // Builder generators above
-      generator.addProvider(event.includeServer(), ModDatagen(packOutput, lookupProvider))
+      generator.addProvider(event.includeServer(), SampleDatagen(packOutput, lookupProvider))
       // Langs
-      ModLangGen.addStaticLangs(event.includeClient())
+      SampleLangGen.addStaticLangs(event.includeClient())
     }
   }
 }
