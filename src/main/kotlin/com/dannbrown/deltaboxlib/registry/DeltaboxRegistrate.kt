@@ -57,6 +57,13 @@ class DeltaboxRegistrate(modId: String) : AbstractRegistrate<DeltaboxRegistrate>
     return addRawLang("formula.${modid}.$formula", name)
   }
 
+  fun addEntityLang(
+    name: String,
+    phrase: String,
+  ) :MutableComponent {
+    return addRawLang("entity.${modid}.$name", phrase)
+  }
+
   fun addItemTooltipLang(
     itemId: String,
     phrase: String,

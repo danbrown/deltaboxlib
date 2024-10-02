@@ -21,12 +21,13 @@ class CreativeTabGen(private val REGISTER: DeferredRegister<CreativeModeTab>,pri
   fun createTab(name: String,
                 icon: () -> ItemStack,
                 before: ResourceKey<CreativeModeTab>?,
-                displayItems: CreativeModeTab.DisplayItemsGenerator
+                displayItems: CreativeModeTab.DisplayItemsGenerator,
+                title: String? = null
   ): RegistryObject<CreativeModeTab> {
     return REGISTER.register(name) {
       CreativeModeTab.builder()
         .withTabsBefore(before)
-        .title(Component.translatable("itemGroup.${modId}.$name"))
+        .title(if (title != null) Component.literal(title) else Component.translatable("itemGroup.${modId}.$name"))
         .icon(icon)
         .displayItems(displayItems)
         .build()
