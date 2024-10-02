@@ -21,6 +21,10 @@ object ArboriaContent {
   val ITEMS = ItemGen(DeltaboxLib.REGISTRATE)
   val ICON = ITEMS.simpleItem("${MOD_ID}_icon")
 
+  fun init(){
+    // just to make sure the class is loaded
+  }
+
   fun isArboriaInstalled(): Boolean {
     return ModList.get().mods.any { it.modId.startsWith(MOD_ID) } // all arboria mods start with "arboria"
   }
@@ -35,13 +39,8 @@ object ArboriaContent {
   // creative tab
   val CREATIVE_TAB_KEY = "${MOD_ID}_tab"
 
-  val TABS: DeferredRegister<CreativeModeTab> = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, DeltaboxLib.MOD_ID)
-  fun register(modBus: IEventBus) {
-    TABS.register(modBus)
-  }
-
   val MOD_TAB: RegistryObject<CreativeModeTab> =
-    CreativeTabGen(TABS, DeltaboxLib.MOD_ID).createTab(
+    CreativeTabGen(DeltaboxLib.TABS, DeltaboxLib.MOD_ID).createTab(
       CREATIVE_TAB_KEY,
       { ItemStack(ICON) },
       CreativeModeTabs.SPAWN_EGGS,

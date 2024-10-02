@@ -34,6 +34,22 @@ class CreativeTabGen(private val REGISTER: DeferredRegister<CreativeModeTab>,pri
     }
   }
 
+  @Deprecated("Use the other createTab method", ReplaceWith("createTab(name, icon, before, displayItems, title)"))
+  fun createTab(name: String,
+                icon: () -> ItemStack,
+                before: ResourceKey<CreativeModeTab>?,
+                displayItems: CreativeModeTab.DisplayItemsGenerator
+  ): RegistryObject<CreativeModeTab> {
+    return REGISTER.register(name) {
+      CreativeModeTab.builder()
+        .withTabsBefore(before)
+        .title(Component.translatable("itemGroup.${modId}.$name"))
+        .icon(icon)
+        .displayItems(displayItems)
+        .build()
+    }
+  }
+
   companion object{
     // Utility method to display all items in the creative tab
     fun displayAllRegistrate(registrate: DeltaboxRegistrate, parameters: CreativeModeTab.ItemDisplayParameters, output:CreativeModeTab.Output) {

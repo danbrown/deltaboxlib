@@ -3,12 +3,15 @@ package com.dannbrown.deltaboxlib
 import com.dannbrown.arboria.ArboriaContent
 import com.dannbrown.deltaboxlib.registry.DeltaboxRegistrate
 import com.dannbrown.deltaboxlib.sample.datagen.SampleDatagen
+import net.minecraft.core.registries.Registries
+import net.minecraft.world.item.CreativeModeTab
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.data.event.GatherDataEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
+import net.minecraftforge.registries.DeferredRegister
 import org.apache.logging.log4j.LogManager
 
 @Mod(DeltaboxLib.MOD_ID)
@@ -20,6 +23,8 @@ class DeltaboxLib {
 
     // mod registrate instance
     val REGISTRATE: DeltaboxRegistrate = DeltaboxRegistrate(MOD_ID)
+    val TABS: DeferredRegister<CreativeModeTab> = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID)
+
     init {
       val eventBus = FMLJavaModLoadingContext.get().modEventBus
       val forgeEventBus = MinecraftForge.EVENT_BUS
@@ -32,7 +37,7 @@ class DeltaboxLib {
 
       // register arboria if it is installed
       if(ArboriaContent.isArboriaInstalled()) {
-        ArboriaContent.register(modBus)
+        TABS.register(modBus)
       }
 
       // register all registrate event listeners
