@@ -195,23 +195,19 @@ class WoodBlockFamilySet(
       generator.create<FlammableLeavesBlock>(_name + "_leaves")
         .blockFactory { p -> FlammableLeavesBlock(p, 60, 30) }
         .color(MapColor.COLOR_GREEN)
-        .copyFrom({ Blocks.OAK_LEAVES })
+        .copyFrom { Blocks.OAK_LEAVES }
         .properties { p ->
-          p
-            .randomTicks()
+          p.randomTicks()
             .noOcclusion()
             .isSuffocating { s, b, p -> false }
             .isViewBlocking { s, b, p -> false }
             .isRedstoneConductor { s, b, p -> false }
             .ignitedByLava()
         }
-        .blockTags(listOf(BlockTags.LEAVES, FORGE_LEAVES_TAG_BLOCK))
+        .blockTags(listOf(BlockTags.LEAVES, FORGE_LEAVES_TAG_BLOCK, BlockTags.MINEABLE_WITH_HOE))
         .itemTags(listOf(ItemTags.LEAVES, FORGE_LEAVES_TAG_ITEM))
-        .transform { t ->
-          t
-            .blockstate(BlockstatePresets.simpleTransparentBlock(_name + "_leaves"))
-            .loot(BlockLootPresets.leavesLoot { _blockFamily.blocks[BlockFamily.Type.SAPLING]!!.get() })
-        }
+        .loot(BlockLootPresets.leavesLoot { _blockFamily.blocks[BlockFamily.Type.SAPLING]!!.get() })
+        .blockstate(BlockstatePresets.leavesBlock(_name + "_leaves"))
         .register()
     }
     // Main Block

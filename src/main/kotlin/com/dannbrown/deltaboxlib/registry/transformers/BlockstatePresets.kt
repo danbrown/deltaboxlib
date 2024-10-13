@@ -218,6 +218,33 @@ object BlockstatePresets {
     }
   }
 
+  fun <B : Block> simpleCarpetBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
+    return NonNullBiConsumer { c, p ->
+      p.getVariantBuilder(c.get())
+        .partialState()
+        .setModels(*ConfiguredModel.builder()
+          .modelFile(p.models()
+            .withExistingParent(c.name, p.mcLoc("block/carpet"))
+            .texture("wool", p.modLoc("block/$name"))
+            .texture("particle", p.modLoc("block/$name")))
+          .build())
+    }
+  }
+
+  fun <B : Block> simpleRootBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
+    return NonNullBiConsumer { c, p ->
+      p.getVariantBuilder(c.get())
+        .partialState()
+        .setModels(*ConfiguredModel.builder()
+          .modelFile(p.models()
+            .withExistingParent(c.name, p.mcLoc("block/mangrove_roots"))
+            .texture("side", p.modLoc("block/${name}_side"))
+            .texture("top", p.modLoc("block/${name}_top"))
+            .renderType("cutout_mipped"))
+          .build())
+    }
+  }
+
   fun <B : Block> pottedPlantBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
       p.getVariantBuilder(c.get())
