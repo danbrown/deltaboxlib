@@ -9,6 +9,7 @@ import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
 import com.dannbrown.deltaboxlib.content.block.GenericStandingSignBlock
 import com.dannbrown.deltaboxlib.content.block.GenericWallHangingSignBlock
 import com.dannbrown.deltaboxlib.content.block.GenericWallSignBlock
+import com.dannbrown.deltaboxlib.content.block.StripableFlammablePillarBlock
 import com.dannbrown.deltaboxlib.content.blockEntity.GenericHangingSignBlockEntity
 import com.dannbrown.deltaboxlib.content.blockEntity.GenericSignBlockEntity
 import com.dannbrown.deltaboxlib.content.item.GenericHangingSignItem
@@ -23,6 +24,7 @@ import com.dannbrown.deltaboxlib.registry.transformers.ItemModelPresets
 import com.dannbrown.deltaboxlib.registry.transformers.RecipePresets
 import com.tterrag.registrate.providers.RegistrateRecipeProvider
 import com.tterrag.registrate.util.DataIngredient
+import com.tterrag.registrate.util.entry.BlockEntry
 import net.minecraft.core.BlockPos
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.ShapedRecipeBuilder
@@ -55,6 +57,7 @@ import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
 import net.minecraftforge.client.model.generators.ModelFile
+import org.jline.utils.Log
 import java.util.function.Supplier
 
 /**
@@ -84,28 +87,23 @@ class WoodBlockFamilySet(
     val FORGE_STRIPPED_LOGS_TAG_BLOCK = LibTags.forgeBlockTag("stripped_logs")
     val FORGE_STRIPPED_LOGS_TAG_ITEM = LibTags.forgeItemTag("stripped_logs")
     // Logs
-    _blockFamily.setVariant(BlockFamily.Type.LOG) {
-      generator.create<FlammablePillarBlock>(_name + "_log")
-        .rotatedPillarBlock(_name + "_log_top", _name + "_log")
-        .blockFactory { p -> FlammablePillarBlock(p) }
-        .copyFrom({ Blocks.OAK_LOG })
-        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .fromFamily(Blocks.OAK_LOG, sharedProps, color, toolType, toolTier, false)
-        .blockTags(listOf(BlockTags.LOGS, LOG_TAG_BLOCK, BlockTags.LOGS_THAT_BURN))
-        .itemTags(listOf(ItemTags.LOGS, LOG_TAG_ITEM, ItemTags.LOGS_THAT_BURN))
-        .recipe { c, p ->
 
-        }
-        .register()
+    _blockFamily.setVariant(BlockFamily.Type.LOG) { generator.create<StripableFlammablePillarBlock>(_name + "_log")
+      .rotatedPillarBlock(_name + "_log_top", _name + "_log")
+      .blockFactory { p -> StripableFlammablePillarBlock(p) { _blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get() } }
+      .copyFrom { Blocks.OAK_LOG }
+      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+      .blockTags(listOf(BlockTags.LOGS, LOG_TAG_BLOCK, BlockTags.LOGS_THAT_BURN))
+      .itemTags(listOf(ItemTags.LOGS, LOG_TAG_ITEM, ItemTags.LOGS_THAT_BURN))
+      .register()
     }
 
     _blockFamily.setVariant(BlockFamily.Type.WOOD) {
-      generator.create<FlammablePillarBlock>(_name + "_wood")
+      generator.create<StripableFlammablePillarBlock>(_name + "_wood")
         .rotatedPillarBlock(_name + "_log", _name + "_log")
-        .blockFactory { p -> FlammablePillarBlock(p) }
-        .copyFrom({ Blocks.OAK_WOOD })
+        .blockFactory { p -> StripableFlammablePillarBlock(p) { _blockFamily.blocks[BlockFamily.Type.STRIPPED_WOOD]!!.get() } }
+        .copyFrom { Blocks.OAK_WOOD }
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-        //        .fromFamily(Blocks.OAK_WOOD, sharedProps, accentColor, toolType, toolTier, false)
         .blockTags(listOf(BlockTags.LOGS, LOG_TAG_BLOCK, BlockTags.LOGS_THAT_BURN))
         .itemTags(listOf(ItemTags.LOGS, LOG_TAG_ITEM, ItemTags.LOGS_THAT_BURN))
         .recipe { c, p ->
