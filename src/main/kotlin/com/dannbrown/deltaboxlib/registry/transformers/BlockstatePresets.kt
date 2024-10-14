@@ -245,6 +245,21 @@ object BlockstatePresets {
     }
   }
 
+  fun <B : Block> simpleBushBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
+    return NonNullBiConsumer { c, p ->
+      p.getVariantBuilder(c.get())
+        .partialState()
+        .setModels(*ConfiguredModel.builder()
+          .modelFile(p.models()
+            .withExistingParent(c.name, p.mcLoc("block/template_azalea"))
+            .texture("side", p.modLoc("block/${name}_side"))
+            .texture("top", p.modLoc("block/${name}_top"))
+            .texture("plant", p.modLoc("block/${name}_plant"))
+            .renderType("cutout_mipped"))
+          .build())
+    }
+  }
+
   fun <B : Block> pottedPlantBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
       p.getVariantBuilder(c.get())
@@ -254,6 +269,21 @@ object BlockstatePresets {
             .withExistingParent(c.name, p.mcLoc("block/flower_pot_cross"))
             .texture("plant", p.modLoc("block/$name"))
             .texture("particle", p.modLoc("block/$name"))
+            .renderType("cutout_mipped"))
+          .build())
+    }
+  }
+
+  fun <B : Block> pottedBushBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
+    return NonNullBiConsumer { c, p ->
+      p.getVariantBuilder(c.get())
+        .partialState()
+        .setModels(*ConfiguredModel.builder()
+          .modelFile(p.models()
+            .withExistingParent(c.name, p.mcLoc("block/template_potted_azalea_bush"))
+            .texture("plant", p.modLoc("block/${name}_plant"))
+            .texture("side", p.modLoc("block/${name}_side"))
+            .texture("top", p.modLoc("block/${name}_top"))
             .renderType("cutout_mipped"))
           .build())
     }
