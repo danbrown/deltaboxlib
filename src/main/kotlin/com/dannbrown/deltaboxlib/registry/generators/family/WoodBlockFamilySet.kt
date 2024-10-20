@@ -3,28 +3,19 @@ package com.dannbrown.deltaboxlib.registry.generators.family
 import com.dannbrown.deltaboxlib.content.block.FlammableBlock
 import com.dannbrown.deltaboxlib.content.block.FlammableLeavesBlock
 import com.dannbrown.deltaboxlib.content.block.FlammablePillarBlock
-import com.dannbrown.deltaboxlib.content.block.FlammableWallBlock
-import com.dannbrown.deltaboxlib.content.block.GenericHangingSignBlock
 import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
-import com.dannbrown.deltaboxlib.content.block.GenericStandingSignBlock
-import com.dannbrown.deltaboxlib.content.block.GenericWallHangingSignBlock
-import com.dannbrown.deltaboxlib.content.block.GenericWallSignBlock
 import com.dannbrown.deltaboxlib.content.block.StripableFlammablePillarBlock
-import com.dannbrown.deltaboxlib.content.blockEntity.GenericHangingSignBlockEntity
-import com.dannbrown.deltaboxlib.content.blockEntity.GenericSignBlockEntity
 import com.dannbrown.deltaboxlib.content.item.GenericHangingSignItem
 import com.dannbrown.deltaboxlib.content.item.GenericSignItem
 import com.dannbrown.deltaboxlib.lib.LibTags
 import com.dannbrown.deltaboxlib.registry.generators.BlockFamily
 import com.dannbrown.deltaboxlib.registry.generators.BlockGenerator
-import com.dannbrown.deltaboxlib.registry.transformers.BlockItemFactory
 import com.dannbrown.deltaboxlib.registry.transformers.BlockLootPresets
 import com.dannbrown.deltaboxlib.registry.transformers.BlockstatePresets
 import com.dannbrown.deltaboxlib.registry.transformers.ItemModelPresets
 import com.dannbrown.deltaboxlib.registry.transformers.RecipePresets
 import com.tterrag.registrate.providers.RegistrateRecipeProvider
 import com.tterrag.registrate.util.DataIngredient
-import com.tterrag.registrate.util.entry.BlockEntry
 import net.minecraft.core.BlockPos
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.ShapedRecipeBuilder
@@ -37,6 +28,7 @@ import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.ButtonBlock
+import net.minecraft.world.level.block.CeilingHangingSignBlock
 import net.minecraft.world.level.block.DoorBlock
 import net.minecraft.world.level.block.FenceBlock
 import net.minecraft.world.level.block.FenceGateBlock
@@ -49,7 +41,6 @@ import net.minecraft.world.level.block.StandingSignBlock
 import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallHangingSignBlock
 import net.minecraft.world.level.block.WallSignBlock
-import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.grower.AbstractTreeGrower
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
@@ -57,7 +48,6 @@ import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
 import net.minecraftforge.client.model.generators.ModelFile
-import org.jline.utils.Log
 import java.util.function.Supplier
 
 /**
@@ -73,8 +63,6 @@ class WoodBlockFamilySet(
   private val _accentColor: MapColor? = null,
   private val _copyFrom: Supplier<Block> = Supplier { Blocks.STONE },
   private val _denyList: List<BlockFamily.Type> = mutableListOf(),
-  private val signType: Supplier<BlockEntityType<GenericSignBlockEntity>>,
-  private val hangingSignType: Supplier<BlockEntityType<GenericHangingSignBlockEntity>>,
   woodType: WoodType,
   grower: AbstractTreeGrower,
   placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
@@ -371,9 +359,9 @@ class WoodBlockFamilySet(
     }
     // Wall Sign
     _blockFamily.setVariant(BlockFamily.Type.WALL_SIGN) {
-      generator.create<GenericWallSignBlock>(_name + "_wall_sign")
+      generator.create<WallSignBlock>(_name + "_wall_sign")
         .copyFrom { Blocks.OAK_WALL_SIGN }
-        .blockFactory { p -> GenericWallSignBlock(signType, p, woodType) { _blockFamily.blocks[BlockFamily.Type.SIGN]!!.get() } }
+        .blockFactory { p -> WallSignBlock(p, woodType) }
         .properties { p -> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
         .color(_accentColor!!)
         .blockTags(listOf(BlockTags.WALL_SIGNS, BlockTags.SIGNS))
@@ -390,13 +378,14 @@ class WoodBlockFamilySet(
 
     // Sign
     _blockFamily.setVariant(BlockFamily.Type.SIGN) {
-      generator.create<GenericStandingSignBlock>(_name + "_sign")
+      generator.create<StandingSignBlock>(_name + "_sign")
         .copyFrom { Blocks.OAK_SIGN }
-        .blockFactory { p -> GenericStandingSignBlock(signType, p, woodType) }
+        .blockFactory { p -> StandingSignBlock(p, woodType) }
         .properties { p-> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .color(_accentColor!!)
         .blockTags(listOf(BlockTags.STANDING_SIGNS, BlockTags.SIGNS))
+        .itemTags(listOf(ItemTags.SIGNS))
         .recipe { c, p ->
           RecipePresets.signCraftingRecipe(c, p) { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem()) }
         }
@@ -408,7 +397,6 @@ class WoodBlockFamilySet(
         .transform { b ->
           b
             .item { block, p -> GenericSignItem(p.stacksTo(16), block, _blockFamily.blocks[BlockFamily.Type.WALL_SIGN]!!.get()) }
-            .tag(ItemTags.SIGNS)
             .model { c, p ->
               p.withExistingParent(c.name, p.mcLoc("item/generated"))
                 .texture("layer0", p.modLoc("item/${c.name}"))
@@ -420,9 +408,9 @@ class WoodBlockFamilySet(
 
     // Hanging Wall Sign
     _blockFamily.setVariant(BlockFamily.Type.WALL_HANGING_SIGN) {
-      generator.create<GenericWallHangingSignBlock>(_name + "_hanging_wall_sign")
+      generator.create<WallHangingSignBlock>(_name + "_hanging_wall_sign")
         .copyFrom { Blocks.OAK_WALL_HANGING_SIGN }
-        .blockFactory { p -> GenericWallHangingSignBlock(hangingSignType, p, woodType) { _blockFamily.blocks[BlockFamily.Type.HANGING_SIGN]!!.get() } }
+        .blockFactory { p -> WallHangingSignBlock(p, woodType) }
         .properties { p -> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
         .color(_accentColor!!)
         .blockTags(listOf(BlockTags.ALL_HANGING_SIGNS, BlockTags.WALL_HANGING_SIGNS))
@@ -439,13 +427,14 @@ class WoodBlockFamilySet(
 
     // Sign
     _blockFamily.setVariant(BlockFamily.Type.HANGING_SIGN) {
-      generator.create<GenericHangingSignBlock>(_name + "_hanging_sign")
+      generator.create<CeilingHangingSignBlock>(_name + "_hanging_sign")
         .copyFrom { Blocks.OAK_HANGING_SIGN }
-        .blockFactory { p -> GenericHangingSignBlock(hangingSignType, p, woodType) }
+        .blockFactory { p -> CeilingHangingSignBlock(p, woodType) }
         .properties { p-> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .color(_accentColor!!)
         .blockTags(listOf(BlockTags.ALL_HANGING_SIGNS, BlockTags.CEILING_HANGING_SIGNS))
+        .itemTags(listOf(ItemTags.HANGING_SIGNS))
         .recipe { c, p ->
           ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, c.get(), 6)
             .define('C', Blocks.CHAIN)
@@ -458,13 +447,12 @@ class WoodBlockFamilySet(
         }
         .blockstate { c, p ->
           val signModel: ModelFile = p.models().sign(c.name, p.modLoc("block/${_name + "_planks"}"))
-          p.simpleBlock(c.get() as GenericHangingSignBlock, signModel)
+          p.simpleBlock(c.get() as CeilingHangingSignBlock, signModel)
           p.simpleBlock(_blockFamily.blocks[BlockFamily.Type.WALL_HANGING_SIGN]!!.get() as WallHangingSignBlock, signModel)
         }
         .transform { b ->
           b
             .item { block, p -> GenericHangingSignItem(p.stacksTo(16), block, _blockFamily.blocks[BlockFamily.Type.WALL_HANGING_SIGN]!!.get()) }
-            .tag(ItemTags.HANGING_SIGNS)
             .model { c, p ->
               p.withExistingParent(c.name, p.mcLoc("item/generated"))
                 .texture("layer0", p.modLoc("item/${c.name}"))

@@ -6,11 +6,11 @@
   "refmap": "deltaboxlib.mixins.refmap.json",
   "mixins": [
     "event.MinecraftServerMixin",
+    "sign.BlockEntityTypeMixin",
     "tooltip.ItemMixin"
   ],
   "client": [
-    "event.MinecraftMixin",
-    "sign.LocalPlayerMixin"
+    "event.MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1

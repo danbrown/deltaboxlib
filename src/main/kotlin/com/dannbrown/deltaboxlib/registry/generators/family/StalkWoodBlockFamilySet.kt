@@ -1,52 +1,18 @@
 package com.dannbrown.deltaboxlib.registry.generators.family
 
-import com.dannbrown.deltaboxlib.content.block.FlammableBlock
-import com.dannbrown.deltaboxlib.content.block.FlammableLeavesBlock
-import com.dannbrown.deltaboxlib.content.block.FlammablePillarBlock
-import com.dannbrown.deltaboxlib.content.block.FlammableWallBlock
-import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
-import com.dannbrown.deltaboxlib.content.block.GenericStandingSignBlock
-import com.dannbrown.deltaboxlib.content.block.GenericWallSignBlock
-import com.dannbrown.deltaboxlib.content.item.GenericSignItem
-import com.dannbrown.deltaboxlib.lib.LibTags
+
 import com.dannbrown.deltaboxlib.registry.generators.BlockFamily
 import com.dannbrown.deltaboxlib.registry.generators.BlockGenerator
-import com.dannbrown.deltaboxlib.registry.transformers.BlockItemFactory
-import com.dannbrown.deltaboxlib.registry.transformers.BlockLootPresets
-import com.dannbrown.deltaboxlib.registry.transformers.BlockstatePresets
-import com.dannbrown.deltaboxlib.registry.transformers.ItemModelPresets
-import com.dannbrown.deltaboxlib.registry.transformers.RecipePresets
-import com.tterrag.registrate.providers.RegistrateRecipeProvider
-import com.tterrag.registrate.util.DataIngredient
 import net.minecraft.core.BlockPos
-import net.minecraft.data.recipes.RecipeCategory
-import net.minecraft.data.recipes.ShapedRecipeBuilder
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.tags.BlockTags
-import net.minecraft.tags.ItemTags
 import net.minecraft.tags.TagKey
-import net.minecraft.world.item.Items
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.ButtonBlock
-import net.minecraft.world.level.block.DoorBlock
-import net.minecraft.world.level.block.FenceBlock
-import net.minecraft.world.level.block.FenceGateBlock
-import net.minecraft.world.level.block.FlowerPotBlock
-import net.minecraft.world.level.block.PressurePlateBlock
-import net.minecraft.world.level.block.SlabBlock
-import net.minecraft.world.level.block.SoundType
-import net.minecraft.world.level.block.StairBlock
-import net.minecraft.world.level.block.StandingSignBlock
-import net.minecraft.world.level.block.WallSignBlock
 import net.minecraft.world.level.block.grower.AbstractTreeGrower
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
-import net.minecraftforge.client.model.generators.ModelFile
 import java.util.function.Supplier
 
 /**

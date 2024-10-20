@@ -1,11 +1,8 @@
 package com.dannbrown.deltaboxlib.registry.generators
 
-import com.dannbrown.deltaboxlib.content.blockEntity.GenericHangingSignBlockEntity
-import com.dannbrown.deltaboxlib.content.blockEntity.GenericSignBlockEntity
 import com.dannbrown.deltaboxlib.registry.generators.family.LongBlockFamilySet
 import com.dannbrown.deltaboxlib.registry.generators.family.MineralBlockFamilySet
 import com.dannbrown.deltaboxlib.registry.generators.family.SandstoneBlockFamilySet
-import com.dannbrown.deltaboxlib.registry.generators.family.StalkWoodBlockFamilySet
 import com.dannbrown.deltaboxlib.registry.generators.family.WoodBlockFamilySet
 import com.tterrag.registrate.util.entry.BlockEntry
 import net.minecraft.core.BlockPos
@@ -13,7 +10,6 @@ import net.minecraft.tags.TagKey
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.grower.AbstractTreeGrower
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
@@ -187,8 +183,6 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
   fun woodFamily(
     woodType: WoodType,
     grower: AbstractTreeGrower,
-    signType: Supplier<BlockEntityType<GenericSignBlockEntity>>,
-    hangingSignType: Supplier<BlockEntityType<GenericHangingSignBlockEntity>>,
     placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
   ): BlockFamily {
     return WoodBlockFamilySet(
@@ -201,8 +195,6 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
       _accentColor,
       _copyFrom,
       _denyList,
-      signType,
-      hangingSignType,
       woodType,
       grower,
       placeOn
