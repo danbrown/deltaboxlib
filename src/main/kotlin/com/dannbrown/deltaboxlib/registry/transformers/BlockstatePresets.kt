@@ -515,6 +515,139 @@ object BlockstatePresets {
     }
   }
 
+  fun <B: Block> simpleMultifaceBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
+    return NonNullBiConsumer { c, p ->
+      val model = p.models()
+        .getBuilder(name)
+        .ao(true)
+        // texture
+        .texture("particle", p.modLoc("block/${name}"))
+        .texture("face", p.modLoc("block/${name}"))
+        // texture elements
+        .element()
+        .from(0f, 0f, 0.1f)
+        .to(16f, 16f, 0.1f)
+        .face(Direction.NORTH).uvs(16f, 0f, 0f, 16f).texture("#face").end()
+        .face(Direction.SOUTH).uvs(0f, 0f, 16f, 16f).texture("#face").end()
+        .end()
+        // transparent elements
+        .renderType("translucent")
+
+
+      p.getMultipartBuilder(c.get())
+        // north
+        .part().modelFile(model)
+        .addModel()
+        .condition(BlockStateProperties.NORTH, true)
+        .end()
+        // east
+        .part().modelFile(model)
+        .addModel()
+        .condition(BlockStateProperties.DOWN, false)
+        .condition(BlockStateProperties.EAST, false)
+        .condition(BlockStateProperties.NORTH, false)
+        .condition(BlockStateProperties.SOUTH, false)
+        .condition(BlockStateProperties.UP, false)
+        .condition(BlockStateProperties.WEST, false)
+        .end()
+        // east
+        .part().modelFile(model)
+        .rotationY(90)
+        .uvLock(true)
+        .addModel()
+        .condition(BlockStateProperties.EAST, true)
+        .end()
+        // east
+        .part().modelFile(model)
+        .rotationY(90)
+        .uvLock(true)
+        .addModel()
+        .condition(BlockStateProperties.DOWN, false)
+        .condition(BlockStateProperties.EAST, false)
+        .condition(BlockStateProperties.NORTH, false)
+        .condition(BlockStateProperties.SOUTH, false)
+        .condition(BlockStateProperties.UP, false)
+        .condition(BlockStateProperties.WEST, false)
+        .end()
+        // south
+        .part().modelFile(model)
+        .rotationY(180)
+        .uvLock(true)
+        .addModel()
+        .condition(BlockStateProperties.SOUTH, true)
+        .end()
+        // south
+        .part().modelFile(model)
+        .rotationY(180)
+        .uvLock(true)
+        .addModel()
+        .condition(BlockStateProperties.DOWN, false)
+        .condition(BlockStateProperties.EAST, false)
+        .condition(BlockStateProperties.NORTH, false)
+        .condition(BlockStateProperties.SOUTH, false)
+        .condition(BlockStateProperties.UP, false)
+        .condition(BlockStateProperties.WEST, false)
+        .end()
+        // west
+        .part().modelFile(model)
+        .rotationY(270)
+        .uvLock(true)
+        .addModel()
+        .condition(BlockStateProperties.WEST, true)
+        .end()
+        // west
+        .part().modelFile(model)
+        .rotationY(270)
+        .uvLock(true)
+        .addModel()
+        .condition(BlockStateProperties.DOWN, false)
+        .condition(BlockStateProperties.EAST, false)
+        .condition(BlockStateProperties.NORTH, false)
+        .condition(BlockStateProperties.SOUTH, false)
+        .condition(BlockStateProperties.UP, false)
+        .condition(BlockStateProperties.WEST, false)
+        .end()
+        // up
+        .part().modelFile(model)
+        .rotationX(270)
+        .uvLock(true)
+        .addModel()
+        .condition(BlockStateProperties.UP, true)
+        .end()
+        // up
+        .part().modelFile(model)
+        .rotationX(270)
+        .uvLock(true)
+        .addModel()
+        .condition(BlockStateProperties.DOWN, false)
+        .condition(BlockStateProperties.EAST, false)
+        .condition(BlockStateProperties.NORTH, false)
+        .condition(BlockStateProperties.SOUTH, false)
+        .condition(BlockStateProperties.UP, false)
+        .condition(BlockStateProperties.WEST, false)
+        .end()
+        // down
+        .part().modelFile(model)
+        .rotationX(90)
+        .uvLock(true)
+        .addModel()
+        .condition(BlockStateProperties.DOWN, true)
+        .end()
+        // down
+        .part().modelFile(model)
+        .rotationX(90)
+        .uvLock(true)
+        .addModel()
+        .condition(BlockStateProperties.DOWN, false)
+        .condition(BlockStateProperties.EAST, false)
+        .condition(BlockStateProperties.NORTH, false)
+        .condition(BlockStateProperties.SOUTH, false)
+        .condition(BlockStateProperties.UP, false)
+        .condition(BlockStateProperties.WEST, false)
+        .end()
+    }
+  }
+
 
   fun <B : Block> poweredBlock(): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->

@@ -162,7 +162,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     ).getFamily()
   }
 
-  fun bricksBlockFamily(mainBlock: Supplier<out Block>, polishedBlock: Supplier<out Block>): BlockFamily {
+  fun stoneBricksBlockFamily(mainBlock: Supplier<out Block>, polishedBlock: Supplier<out Block>): BlockFamily {
     return StoneBricksBlockFamilySet(
       generator,
       _name,

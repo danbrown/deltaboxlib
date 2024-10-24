@@ -69,6 +69,16 @@ object RecipePresets {
       .save(p, p.safeId(c.get()))
   }
 
+  fun <B: Block> simpleCarpetRecipe(c: DataGenContext<Block, B>, p: RegistrateRecipeProvider, ingredient: Supplier<DataIngredient>) {
+    ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, c.get(), 3)
+      .define('X', ingredient.get())
+      .pattern("XX")
+      .unlockedBy("has_" + p.safeName(ingredient.get()),
+        ingredient.get()
+          .getCritereon(p))
+      .save(p, p.safeId(c.get()))
+  }
+
   fun <B : Block> directShapelessRecipe(c: DataGenContext<Block, B>, p: RegistrateRecipeProvider, ingredient: Supplier<DataIngredient>, amount: Int = 1
   ) {
     ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, c.get(), amount)
