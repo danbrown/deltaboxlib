@@ -3,6 +3,7 @@ package com.dannbrown.deltaboxlib.registry.generators.family
 import com.dannbrown.deltaboxlib.lib.LibTags
 import com.dannbrown.deltaboxlib.registry.generators.BlockFamily
 import com.dannbrown.deltaboxlib.registry.generators.BlockGenerator
+import com.dannbrown.deltaboxlib.registry.transformers.BlockTagPresets
 import com.dannbrown.deltaboxlib.registry.transformers.RecipePresets
 import com.tterrag.registrate.util.DataIngredient
 import com.tterrag.registrate.util.entry.BlockEntry
@@ -30,11 +31,21 @@ class SandstoneBlockFamilySet(
   private val _accentColor: MapColor? = null,
   private val _copyFrom: Supplier<Block> = Supplier { Blocks.STONE },
   private val _denyList: List<BlockFamily.Type> = mutableListOf(),
-  baseBlock: BlockEntry<out Block>
+  private var mainBlock: Supplier<out Block>? = null
 ): AbstractBlockFamilySet() {
   init{
     val MATERIAL_TAG = LibTags.modItemTag(generator.registrate.modid, _name + "_blocks")
-    _blockFamily.setVariant(BlockFamily.Type.MAIN) { baseBlock }
+
+    if (mainBlock == null) {
+      _blockFamily.setVariant(BlockFamily.Type.MAIN) {
+        generator.create<Block>(_name)
+          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+          .itemTags(listOf(MATERIAL_TAG))
+          .blockTags(listOf())
+          .register()
+      }
+      mainBlock = _blockFamily.blocks[BlockFamily.Type.MAIN]!!
+    }
 
     if (!_denyList.contains(BlockFamily.Type.SANDSTONE)) {
       _blockFamily.setVariant(BlockFamily.Type.SANDSTONE) {
@@ -47,8 +58,7 @@ class SandstoneBlockFamilySet(
               c,
               p,
               {
-                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
-                  .asItem())
+                DataIngredient.items(mainBlock!!.get().asItem())
               })
           }
           .register()

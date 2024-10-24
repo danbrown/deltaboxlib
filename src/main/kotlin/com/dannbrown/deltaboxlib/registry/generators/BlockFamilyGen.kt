@@ -1,13 +1,16 @@
 package com.dannbrown.deltaboxlib.registry.generators
 
+import com.dannbrown.deltaboxlib.registry.generators.family.BricksBlockFamilySet
 import com.dannbrown.deltaboxlib.registry.generators.family.LongBlockFamilySet
 import com.dannbrown.deltaboxlib.registry.generators.family.MineralBlockFamilySet
 import com.dannbrown.deltaboxlib.registry.generators.family.SandstoneBlockFamilySet
+import com.dannbrown.deltaboxlib.registry.generators.family.StoneBricksBlockFamilySet
 import com.dannbrown.deltaboxlib.registry.generators.family.WoodBlockFamilySet
 import com.tterrag.registrate.util.entry.BlockEntry
 import net.minecraft.core.BlockPos
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.grower.AbstractTreeGrower
@@ -112,7 +115,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     return functionToExecute(this)
   }
 
-  fun longBlockFamily(mainBlock: BlockEntry<out Block>? = null, isRotatedBlock: Boolean = false): BlockFamily {
+  fun longBlockFamily(mainBlock: Supplier<out Block>? = null, isRotatedBlock: Boolean = false): BlockFamily {
     return LongBlockFamilySet(
       generator,
       _name,
@@ -128,7 +131,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     ).getFamily()
   }
 
-  fun mineralFamily(mainBlock: BlockEntry<out Block>? = null, isRotatedBlock: Boolean = false): BlockFamily {
+  fun mineralFamily(mainBlock: Supplier<out Block>? = null, isRotatedBlock: Boolean = false): BlockFamily {
     return MineralBlockFamilySet(
       generator,
       _name,
@@ -144,7 +147,7 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     ).getFamily()
   }
 
-  fun sandstoneFamily(baseBlock: BlockEntry<out Block>): BlockFamily {
+  fun sandstoneFamily(baseBlock: Supplier<out Block>): BlockFamily {
     return SandstoneBlockFamilySet(
       generator,
       _name,
@@ -159,26 +162,37 @@ class BlockFamilyGen(name: String, private val generator: BlockGenerator) {
     ).getFamily()
   }
 
-//  fun stalkWoodFamily(
-//    woodType: WoodType,
-//    grower: AbstractTreeGrower,
-//    placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
-//  ): BlockFamily {
-//    return StalkWoodBlockFamilySet(
-//      generator,
-//      _name,
-//      _sharedProps,
-//      _toolType,
-//      _toolTier,
-//      _color,
-//      _accentColor,
-//      _copyFrom,
-//      _denyList,
-//      woodType,
-//      grower,
-//      placeOn
-//    ).getFamily()
-//  }
+  fun bricksBlockFamily(mainBlock: Supplier<out Block>, polishedBlock: Supplier<out Block>): BlockFamily {
+    return StoneBricksBlockFamilySet(
+      generator,
+      _name,
+      _sharedProps,
+      _toolType,
+      _toolTier,
+      _color,
+      _accentColor,
+      _copyFrom,
+      _denyList,
+      mainBlock,
+      polishedBlock
+    ).getFamily()
+  }
+
+  fun bricksBlockFamily(mainBlock: Supplier<out ItemLike>): BlockFamily {
+    return BricksBlockFamilySet(
+      generator,
+      _name,
+      _sharedProps,
+      _toolType,
+      _toolTier,
+      _color,
+      _accentColor,
+      _copyFrom,
+      _denyList,
+      mainBlock,
+    ).getFamily()
+  }
+
 
   fun woodFamily(
     woodType: WoodType,

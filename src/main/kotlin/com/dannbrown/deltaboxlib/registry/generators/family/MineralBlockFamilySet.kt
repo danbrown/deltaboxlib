@@ -30,7 +30,7 @@ class MineralBlockFamilySet(
   private val _accentColor: MapColor? = null,
   private val _copyFrom: Supplier<Block> = Supplier { Blocks.STONE },
   private val _denyList: List<BlockFamily.Type> = mutableListOf(),
-  mainBlock: BlockEntry<out Block>? = null,
+  private var mainBlock: Supplier<out Block>? = null,
   isRotatedBlock: Boolean = false
 ): AbstractBlockFamilySet() {
   init{
@@ -44,15 +44,13 @@ class MineralBlockFamilySet(
           .blockTags(listOf(*BlockTagPresets.caveReplaceableTags().first))
           .register()
       }
-    }
-    else {
-      _blockFamily.setVariant(BlockFamily.Type.MAIN) { mainBlock }
+      mainBlock = _blockFamily.blocks[BlockFamily.Type.MAIN]!!
     }
 
     if (!_denyList.contains(BlockFamily.Type.STAIRS)) {
       _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
         generator.create<StairBlock>(_name)
-          .stairsBlock({ _blockFamily.blocks[BlockFamily.Type.MAIN]!!.defaultState }, isRotatedBlock)
+          .stairsBlock({ mainBlock!!.get().defaultBlockState() }, isRotatedBlock)
           .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
           .itemTags(listOf(MATERIAL_TAG))
           .recipe { c, p ->
@@ -60,14 +58,14 @@ class MineralBlockFamilySet(
               c,
               p,
               {
-                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                DataIngredient.items(mainBlock!!.get()
                   .asItem())
               },
               1
             )
             RecipePresets.stairsCraftingRecipe(c, p) {
               DataIngredient.items(
-                _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                mainBlock!!.get()
                   .asItem()
               )
             }
@@ -87,18 +85,18 @@ class MineralBlockFamilySet(
               c,
               p,
               {
-                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                DataIngredient.items(mainBlock!!.get()
                   .asItem())
               },
               2
             )
             RecipePresets.slabRecycleRecipe(c, p) {
-              _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+              mainBlock!!.get()
                 .asItem()
             }
             RecipePresets.slabCraftingRecipe(c, p) {
               DataIngredient.items(
-                _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                mainBlock!!.get()
                   .asItem()
               )
             }
@@ -118,14 +116,14 @@ class MineralBlockFamilySet(
               c,
               p,
               {
-                DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                DataIngredient.items(mainBlock!!.get()
                   .asItem())
               },
               1
             )
             RecipePresets.wallCraftingRecipe(c, p) {
               DataIngredient.items(
-                _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                mainBlock!!.get()
                   .asItem()
               )
             }
@@ -143,13 +141,13 @@ class MineralBlockFamilySet(
             RecipePresets.polishedCraftingRecipe(
               c,
               p,
-              { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) },
+              { DataIngredient.items(mainBlock!!.get()) },
               4
             )
             RecipePresets.simpleStonecuttingRecipe(
               c,
               p,
-              { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) },
+              { DataIngredient.items(mainBlock!!.get()) },
               1
             )
           }
@@ -167,7 +165,7 @@ class MineralBlockFamilySet(
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  DataIngredient.items(mainBlock!!.get()
                     .asItem())
                 },
                 1
@@ -203,7 +201,7 @@ class MineralBlockFamilySet(
               RecipePresets.simpleStonecuttingRecipe(
                 c, p,
                 {
-                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  DataIngredient.items(mainBlock!!.get()
                     .asItem())
                 },
                 2
@@ -244,7 +242,7 @@ class MineralBlockFamilySet(
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  DataIngredient.items(mainBlock!!.get()
                     .asItem())
                 },
                 1
@@ -286,7 +284,7 @@ class MineralBlockFamilySet(
             RecipePresets.simpleStonecuttingRecipe(
               c,
               p,
-              { DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) },
+              { DataIngredient.items(mainBlock!!.get()) },
               1
             )
             RecipePresets.simpleStonecuttingRecipe(
@@ -310,7 +308,7 @@ class MineralBlockFamilySet(
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  DataIngredient.items(mainBlock!!.get()
                     .asItem())
                 },
                 1
@@ -355,7 +353,7 @@ class MineralBlockFamilySet(
               RecipePresets.simpleStonecuttingRecipe(
                 c, p,
                 {
-                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  DataIngredient.items(mainBlock!!.get()
                     .asItem())
                 },
                 2
@@ -405,7 +403,7 @@ class MineralBlockFamilySet(
                 c,
                 p,
                 {
-                  DataIngredient.items(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()
+                  DataIngredient.items(mainBlock!!.get()
                     .asItem())
                 },
                 1
