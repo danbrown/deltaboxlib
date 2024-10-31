@@ -139,6 +139,14 @@ class DeltaboxRegistrate(modId: String) : AbstractRegistrate<DeltaboxRegistrate>
     return addRawLang("biome.${_modid}.$name", phrase)
   }
 
+  fun addSoundLang(
+    name: String,
+    phrase: String,
+    _modid: String = modid,
+  ) :MutableComponent {
+    return addRawLang("sound.${_modid}.$name", phrase)
+  }
+
   fun addDimensionLang(
     name: String,
     phrase: String,
