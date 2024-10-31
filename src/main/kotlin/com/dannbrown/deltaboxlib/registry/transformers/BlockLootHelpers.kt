@@ -25,8 +25,9 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 object BlockLootHelpers {
   val HAS_SHEARS = MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.SHEARS))
   val HAS_SILK_TOUCH = MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))
+  val HAS_SHEARS_OR_SILK_TOUCH = HAS_SHEARS.or(HAS_SILK_TOUCH)
 
-  fun createSelfDropDispatchTable(pBlock: Block, pConditionBuilder: LootItemCondition.Builder, pAlternativeBuilder: LootPoolEntryContainer.Builder<*>
+  fun createSelfDropDispatchTable(pBlock: ItemLike, pConditionBuilder: LootItemCondition.Builder, pAlternativeBuilder: LootPoolEntryContainer.Builder<*>
   ): LootTable.Builder {
     return LootTable.lootTable()
       .withPool(LootPool.lootPool()
@@ -36,7 +37,7 @@ object BlockLootHelpers {
           .otherwise(pAlternativeBuilder)))
   }
 
-  fun createSelfDropDispatchTable(pBlock: Block, pConditionBuilder: LootItemCondition.Builder): LootTable.Builder {
+  fun createSelfDropDispatchTable(pBlock: ItemLike, pConditionBuilder: LootItemCondition.Builder): LootTable.Builder {
     return LootTable.lootTable()
       .withPool(LootPool.lootPool()
         .setRolls(ConstantValue.exactly(1.0f))
@@ -44,12 +45,16 @@ object BlockLootHelpers {
           .`when`(pConditionBuilder)))
   }
 
-  fun createShearsDispatchTable(pBlock: Block, pBuilder: LootPoolEntryContainer.Builder<*>): LootTable.Builder {
+  fun createShearsDispatchTable(pBlock: ItemLike, pBuilder: LootPoolEntryContainer.Builder<*>): LootTable.Builder {
     return createSelfDropDispatchTable(pBlock, HAS_SHEARS, pBuilder)
   }
 
-  fun createShearsDispatchTable(pBlock: Block): LootTable.Builder {
+  fun createShearsDispatchTable(pBlock: ItemLike): LootTable.Builder {
     return createSelfDropDispatchTable(pBlock, HAS_SHEARS)
+  }
+
+  fun createSilkShearsDispatchTable(pBlock: ItemLike): LootTable.Builder {
+    return createSelfDropDispatchTable(pBlock, HAS_SHEARS_OR_SILK_TOUCH)
   }
 
   fun <T> createSinglePropConditionTable(pItem: ItemLike, pBlock: Block, pProperty: Property<T>, pValue: T, count: Float = 1f, lt: RegistrateBlockLootTables): LootTable.Builder where T : Comparable<T>, T : StringRepresentable {

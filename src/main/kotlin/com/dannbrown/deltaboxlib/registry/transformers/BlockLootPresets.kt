@@ -99,12 +99,14 @@ object BlockLootPresets {
   }
 
 
-
-  fun <B : Block> dropSelfSilkLoot(other: Supplier<ItemLike>, count: Float = 1f): NonNullBiConsumer<RegistrateBlockLootTables, B> {
+  // drop just the other item with silk touch
+  fun <B : Block> dropSelfSilkLoot(count: Float = 1f): NonNullBiConsumer<RegistrateBlockLootTables, B> {
     return NonNullBiConsumer { lt, b ->
-      lt.add(b, RegistrateBlockLootTables.createSilkTouchDispatchTable(b, lt.applyExplosionDecay(b, LootItem.lootTableItem(other.get()).apply(SetItemCountFunction.setCount(ConstantValue.exactly(count))))))
+      lt.add(b, BlockLootHelpers.createShearsDispatchTable(b, lt.applyExplosionDecay(b, LootItem.lootTableItem(b).apply(SetItemCountFunction.setCount(ConstantValue.exactly(count)))))
+        .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f))))
     }
   }
+
 
   // drop just the other item with silk touch
   fun <B : Block> dropSilkLoot(other: Supplier<ItemLike>, count: Float = 1f): NonNullBiConsumer<RegistrateBlockLootTables, B> {
@@ -121,6 +123,8 @@ object BlockLootPresets {
     }
   }
 
+
+
   fun <B : Block> dropSelfSilkShearsOtherLoot(other: Supplier<ItemLike>, chance: Float = 1f, multiplier: Int = 1): NonNullBiConsumer<RegistrateBlockLootTables, B> {
     return NonNullBiConsumer { lt, b ->
       lt.add(b,
@@ -131,9 +135,33 @@ object BlockLootPresets {
     }
   }
 
+  fun <B : Block> dropOtherSilkShearsLootNoFortune(other: Supplier<ItemLike>, chance: Float = 1f, multiplier: Int = 1): NonNullBiConsumer<RegistrateBlockLootTables, B> {
+    return NonNullBiConsumer { lt, b ->
+      lt.add(b,
+        BlockLootHelpers.createShearsDispatchTable(other.get(), lt.applyExplosionDecay(b, LootItem.lootTableItem(other.get())
+          .`when`(LootItemRandomChanceCondition.randomChance(chance))))
+          .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(multiplier.toFloat()))))
+    }
+  }
+
+  fun <B : Block> dropSelfSilkShearsLootNoFortune(chance: Float = 1f, multiplier: Int = 1): NonNullBiConsumer<RegistrateBlockLootTables, B> {
+    return NonNullBiConsumer { lt, b ->
+      lt.add(b,
+        BlockLootHelpers.createShearsDispatchTable(b, lt.applyExplosionDecay(b, LootItem.lootTableItem(b)
+          .`when`(LootItemRandomChanceCondition.randomChance(chance))))
+          .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(multiplier.toFloat()))))
+    }
+  }
+
   fun <B : Block> dropSelfSilkShearsLoot(): NonNullBiConsumer<RegistrateBlockLootTables, B> {
     return NonNullBiConsumer { lt, b ->
-      lt.add(b, BlockLootHelpers.createShearsDispatchTable(b))
+      lt.add(b, BlockLootHelpers.createSilkShearsDispatchTable(b))
+    }
+  }
+
+  fun <B : Block> dropOtherSilkShearsLoot(other: Supplier<ItemLike>): NonNullBiConsumer<RegistrateBlockLootTables, B> {
+    return NonNullBiConsumer { lt, b ->
+      lt.add(b, BlockLootHelpers.createSilkShearsDispatchTable(other.get()))
     }
   }
 
