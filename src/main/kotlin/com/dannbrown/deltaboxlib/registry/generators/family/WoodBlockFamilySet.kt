@@ -47,6 +47,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
+import net.minecraft.world.level.material.PushReaction
 import net.minecraftforge.client.model.generators.ModelFile
 import java.util.function.Supplier
 
@@ -177,25 +178,28 @@ class WoodBlockFamilySet(
         .register()
     }
 
-    _blockFamily.setVariant(BlockFamily.Type.LEAVES) {
-      generator.create<FlammableLeavesBlock>(_name + "_leaves")
-        .blockFactory { p -> FlammableLeavesBlock(p, 60, 30) }
-        .color(MapColor.COLOR_GREEN)
-        .copyFrom { Blocks.OAK_LEAVES }
-        .properties { p ->
-          p.randomTicks()
-            .noOcclusion()
-            .isSuffocating { s, b, p -> false }
-            .isViewBlocking { s, b, p -> false }
-            .isRedstoneConductor { s, b, p -> false }
-            .ignitedByLava()
+    if(!_denyList.contains(BlockFamily.Type.LEAVES)) {
+        _blockFamily.setVariant(BlockFamily.Type.LEAVES) {
+          generator.create<FlammableLeavesBlock>(_name + "_leaves")
+            .blockFactory { p -> FlammableLeavesBlock(p, 60, 30) }
+            .color(_accentColor!!)
+            .copyFrom { Blocks.OAK_LEAVES }
+            .properties { p ->
+              p.randomTicks()
+                .noOcclusion()
+                .isSuffocating { s, b, p -> false }
+                .isViewBlocking { s, b, p -> false }
+                .isRedstoneConductor { s, b, p -> false }
+                .pushReaction(PushReaction.DESTROY)
+                .ignitedByLava()
+            }
+            .blockTags(listOf(BlockTags.LEAVES, FORGE_LEAVES_TAG_BLOCK, BlockTags.MINEABLE_WITH_HOE))
+            .itemTags(listOf(ItemTags.LEAVES, FORGE_LEAVES_TAG_ITEM))
+            .loot(BlockLootPresets.leavesLoot { _blockFamily.blocks[BlockFamily.Type.SAPLING]!!.get() })
+            .blockstate(BlockstatePresets.leavesBlock(_name + "_leaves"))
+            .register()
         }
-        .blockTags(listOf(BlockTags.LEAVES, FORGE_LEAVES_TAG_BLOCK, BlockTags.MINEABLE_WITH_HOE))
-        .itemTags(listOf(ItemTags.LEAVES, FORGE_LEAVES_TAG_ITEM))
-        .loot(BlockLootPresets.leavesLoot { _blockFamily.blocks[BlockFamily.Type.SAPLING]!!.get() })
-        .blockstate(BlockstatePresets.leavesBlock(_name + "_leaves"))
-        .register()
-    }
+      }
     // Main Block
     _blockFamily.setVariant(BlockFamily.Type.MAIN) {
       generator.create<FlammableBlock>(_name + "_planks")

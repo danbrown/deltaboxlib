@@ -218,6 +218,21 @@ object BlockstatePresets {
     }
   }
 
+  fun <B : Block> emissiveCrossBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
+    return NonNullBiConsumer { c, p ->
+      p.getVariantBuilder(c.get())
+        .partialState()
+        .setModels(*ConfiguredModel.builder()
+          .modelFile(p.models()
+            .withExistingParent(c.name, p.mcLoc("block/cross_emissive"))
+            .texture("cross", p.modLoc("block/$name"))
+            .texture("cross_emissive", p.modLoc("block/${name}_emissive"))
+            .texture("particle", p.modLoc("block/$name"))
+            .renderType("cutout_mipped"))
+          .build())
+    }
+  }
+
   fun <B : Block> simpleCarpetBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
     return NonNullBiConsumer { c, p ->
       p.getVariantBuilder(c.get())
