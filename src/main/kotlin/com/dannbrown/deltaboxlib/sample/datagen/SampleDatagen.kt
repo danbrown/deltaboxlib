@@ -3,6 +3,8 @@ package com.dannbrown.deltaboxlib.sample.datagen
 import com.dannbrown.deltaboxlib.sample.datagen.lang.SampleLangGen
 import com.dannbrown.deltaboxlib.DeltaboxLib
 import com.dannbrown.deltaboxlib.registry.datagen.DatagenRootInterface
+import com.dannbrown.deltaboxlib.registry.recipes.BrewingCodec
+import com.dannbrown.deltaboxlib.registry.recipes.BrewingGenerator
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.RegistrySetBuilder
 import net.minecraft.data.PackOutput
@@ -24,6 +26,8 @@ class SampleDatagen(output: PackOutput, future: CompletableFuture<HolderLookup.P
       val existingFileHelper = event.existingFileHelper
       // Builder generators above
       generator.addProvider(event.includeServer(), SampleDatagen(packOutput, lookupProvider))
+      // brewing
+      generator.addProvider(event.includeServer(), BrewingGenerator(DeltaboxLib.MOD_ID, generator, BrewingCodec.RECIPES))
       // Langs
       SampleLangGen.addStaticLangs(event.includeClient())
     }

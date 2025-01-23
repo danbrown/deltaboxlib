@@ -2,17 +2,24 @@ package com.dannbrown.deltaboxlib
 
 import com.dannbrown.arboria.ArboriaContent
 import com.dannbrown.deltaboxlib.registry.DeltaboxRegistrate
+import com.dannbrown.deltaboxlib.registry.recipes.BrewingCodec
+import com.dannbrown.deltaboxlib.registry.recipes.BrewingDeserializer
+import com.dannbrown.deltaboxlib.registry.recipes.BrewingGenerator
 import com.dannbrown.deltaboxlib.sample.datagen.SampleDatagen
 import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.data.event.GatherDataEvent
+import net.minecraftforge.event.AddReloadListenerEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import net.minecraftforge.registries.DeferredRegister
 import org.apache.logging.log4j.LogManager
+import java.util.function.BiConsumer
 
 @Mod(DeltaboxLib.MOD_ID)
 class DeltaboxLib {
@@ -43,6 +50,12 @@ class DeltaboxLib {
       // register all registrate event listeners
       REGISTRATE.registerEventListeners(modBus)
       modBus.addListener(EventPriority.LOWEST) { event: GatherDataEvent -> SampleDatagen.gatherData(event) }
+      forgeEventBus.addListener(EventPriority.HIGH) { event: AddReloadListenerEvent -> onServerReloadListeners(event) }
+    }
+
+    private fun onServerReloadListeners(event: AddReloadListenerEvent) {
+      val registry = BiConsumer<ResourceLocation, PreparableReloadListener> { id, listener -> event.addListener(listener) }
+      registry.accept(ResourceLocation(MOD_ID, BrewingGenerator.PATH), BrewingDeserializer())
     }
   }
 }
