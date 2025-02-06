@@ -205,10 +205,10 @@ tasks.processResources {
         "mod_issue_tracker" to mod.issue_tracker,
         "mod_discord" to mod.discord,
         "target_minecraft" to mcDep,
-        "target_loader" to stonecutter.project.property("deps.target_loader").toString(),
-        "target_forge" to stonecutter.project.property("deps.target_forge").toString(),
-        "target_flk" to stonecutter.project.property("deps.flk").toString(),
-        "target_kff" to stonecutter.project.property("deps.kff").toString(),
+        "target_loader" to property("deps.target_loader").toString(),
+        "target_forge" to property("deps.target_forge").toString(),
+        "target_flk" to property("deps.flk").toString(),
+        "target_kff" to property("deps.kff").toString(),
     )
 
     if(isFabric) {
