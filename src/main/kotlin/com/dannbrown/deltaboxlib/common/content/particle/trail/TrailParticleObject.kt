@@ -10,7 +10,7 @@ import net.minecraft.network.FriendlyByteBuf
 
 /*? if <1.21 {*/
 class TrailParticleObject(pOverrideLimiter: Boolean) : ParticleType<TrailParticleOption>(pOverrideLimiter, TrailParticleOption.DESERIALIZER), ParticleOptions {
-  /*?} elif {*/
+  /*?} else {*/
 /*import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 
@@ -31,7 +31,7 @@ class TrailParticleObject(pOverrideLimiter: Boolean) : ParticleType<TrailParticl
     return BuiltInRegistries.PARTICLE_TYPE.getKey(this).toString()
   }
 
-  /*?} elif {*/
+  /*?} else {*/
   /*override fun codec(): MapCodec<TrailParticleOption> {
     return TrailParticleOption.CODEC
   }
