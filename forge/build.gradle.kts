@@ -46,22 +46,34 @@ dependencies {
     shadowCommon(project(":common", "transformProductionForge")) { isTransitive = false }
 
     // Kotlin For Forge
-    implementation("thedarkcolour:kotlinforforge:${rootProject.property("kotlin_for_forge_version")}")
+    implementation("thedarkcolour:kotlinforforge:${rootProject.property("kff_version")}")
 }
 
 tasks.processResources {
-    inputs.property("group", rootProject.property("maven_group"))
+    inputs.property("group", rootProject.property("mod_group"))
     inputs.property("version", project.version)
 
     filesMatching("META-INF/mods.toml") {
         expand(mapOf(
-            "group" to rootProject.property("maven_group"),
-            "version" to project.version,
+        "minecraft_version"           to project.property("minecraft_version"),
+        "minecraft_version_range"     to project.property("minecraft_version_range_forge"),
+        "forge_version"               to project.property("forge_version"),
+        "forge_version_range"         to project.property("forge_version_range"),
+        "kff_version_range"           to project.property("kff_version_range"),
+        "architectury_version"        to project.property("architectury_version"),
+        "architectury_version_range"  to project.property("architectury_version_range_forge"),
+        "fabric_kotlin_version_range" to project.property("fabric_kotlin_version_range"),
+        "fabric_loader_version_range" to project.property("fabric_loader_version_range"),
+        "java_version_range"          to project.property("java_version_range"),
 
-            "mod_id" to rootProject.property("mod_id"),
-            "minecraft_version" to rootProject.property("minecraft_version"),
-            "architectury_version" to rootProject.property("architectury_version"),
-            "kotlin_for_forge_version" to rootProject.property("kotlin_for_forge_version")
+        "mod_id"                      to project.property("mod_id"),
+        "mod_name"                    to project.property("mod_name"),
+        "mod_license"                 to project.property("mod_license"),
+        "mod_version"                 to project.property("mod_version"),
+        "mod_authors"                 to project.property("mod_authors"),
+        "mod_description"             to project.property("mod_description"),
+        "mod_source"                  to project.property("mod_source"),
+        "pack_format_number"          to project.property("pack_format_number"),
         ))
     }
 }

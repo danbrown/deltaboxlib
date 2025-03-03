@@ -35,10 +35,10 @@ allprojects {
     apply(plugin = "architectury-plugin")
     apply(plugin = "maven-publish")
 
-    base.archivesName.set(rootProject.property("archives_base_name").toString())
-    //base.archivesBaseName = rootProject.property("archives_base_name").toString()
+    base.archivesName.set(rootProject.property("mod_id").toString())
+    //base.archivesBaseName = rootProject.property("mod_id").toString()
     version = rootProject.property("mod_version").toString()
-    group = rootProject.property("maven_group").toString()
+    group = rootProject.property("mod_group").toString()
 
     repositories {
         // Add repositories to retrieve artifacts from in here.

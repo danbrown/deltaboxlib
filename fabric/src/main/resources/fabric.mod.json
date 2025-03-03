@@ -1,35 +1,36 @@
 {
   "schemaVersion": 1,
   "id": "${mod_id}",
-  "version": "${version}",
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
-    "Me!"
+    "${mod_authors}"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "${mod_source}"
   },
-  "license": "Insert License Here",
-  "icon": "assets/deltaboxlib/icon.png",
+  "license": "${mod_license}",
+  "icon": "assets/${mod_id}/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       {
         "adapter": "kotlin",
-        "value": "com.dannbrown.deltaboxlib.fabric.init.DeltaboxLibModFabric"
+        "value": "com.dannbrown.${mod_id}.fabric.init.DeltaboxLibModFabric"
       }
+    ],
+    "fabric-datagen": [
+      "com.dannbrown.${mod_id}.fabric.init.DeltaboxLibDatagenFabric"
     ]
   },
   "mixins": [
-    "deltaboxlib.mixins.json",
-    "deltaboxlib-common.mixins.json"
+    "${mod_id}.mixins.json"
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=${minecraft_version}",
-    "architectury": ">=${architectury_version}",
-    "fabric-language-kotlin": ">=${fabric_kotlin_version}"
+    "minecraft": "${minecraft_version_range}",
+    "fabric-language-kotlin": "${fabric_kotlin_version_range}",
+    "architectury": "${architectury_version_range}"
   }
 }
