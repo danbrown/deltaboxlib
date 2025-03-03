@@ -14,7 +14,7 @@ import java.util.function.Supplier
 
 class RegistrateItemModelGenerator(val output: BiConsumer<ResourceLocation, Supplier<JsonElement>>) : ItemModelGenerators(output) {
   private fun build(item: Item, modelTemplate: ModelTemplate) {
-    modelTemplate.create(ModelLocationUtils.getModelLocation(item), TextureMapping., this.output)
+    modelTemplate.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(item), this.output)
   }
 
   fun flatItem(item: Item) {
