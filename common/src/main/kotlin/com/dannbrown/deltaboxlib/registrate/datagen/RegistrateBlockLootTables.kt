@@ -1,0 +1,72 @@
+package com.dannbrown.deltaboxlib.registrate.datagen
+
+import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
+import net.minecraft.data.CachedOutput
+import net.minecraft.data.DataProvider
+import net.minecraft.data.loot.BlockLootSubProvider
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.flag.FeatureFlags
+import net.minecraft.world.level.ItemLike
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.storage.loot.BuiltInLootTables
+import net.minecraft.world.level.storage.loot.LootTable
+import java.util.concurrent.CompletableFuture
+import java.util.function.BiConsumer
+import java.util.function.Function
+import java.util.function.Supplier
+
+abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistrate) : BlockLootSubProvider(setOf(), FeatureFlags.REGISTRY.allFlags()), DataProvider {
+  override fun generate(biConsumer: BiConsumer<ResourceLocation, LootTable.Builder>) {
+    generate()
+
+    for ((identifier, value) in map) {
+      if (identifier == BuiltInLootTables.EMPTY) {
+        continue
+      }
+
+      biConsumer.accept(identifier, value)
+    }
+  }
+
+  public override fun add(b: Block, lt: LootTable.Builder) {
+    super.add(b, lt)
+  }
+
+  public override fun add(block: Block, function: Function<Block, LootTable.Builder>) {
+    super.add(block, function)
+  }
+
+  public override fun dropSelf(block: Block) {
+    super.dropSelf(block)
+  }
+
+  public override fun dropOther(block: Block, itemLike: ItemLike) {
+    super.dropOther(block, itemLike)
+  }
+
+  public override fun createSlabItemTable(block: Block): LootTable.Builder {
+    return super.createSlabItemTable(block)
+  }
+
+  public override fun createSingleItemTable(itemLike: ItemLike): LootTable.Builder {
+    return super.createSingleItemTable(itemLike)
+  }
+
+  public override fun createDoorTable(block: Block): LootTable.Builder {
+    return super.createDoorTable(block)
+  }
+
+  // new functions
+  fun noLoot(block: Supplier<Block>) {
+    add(block.get(), LootTable.lootTable())
+  }
+
+  // Should be overridden by implementation
+  override fun run(cachedOutput: CachedOutput): CompletableFuture<*> {
+    throw UnsupportedOperationException("Unsupported")
+  }
+
+  override fun getName(): String {
+    throw UnsupportedOperationException("Unsupported")
+  }
+}
