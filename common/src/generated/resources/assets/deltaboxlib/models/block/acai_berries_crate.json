@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "deltaboxlib:block/crate_bottom",
+    "side": "deltaboxlib:block/acai_berries_crate_side",
+    "top": "deltaboxlib:block/acai_berries_crate_top"
+  }
+}

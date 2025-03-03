@@ -24,6 +24,11 @@ object DeltaboxLibMod {
       .noItem()
       .register()
 
+    val ACAI_CRATE = REGISTRATE
+      .block("acai_berries_crate")
+      .blockstate({ ctx, block -> ctx.bottomTopBlock(block.get(), "crate_bottom") })
+      .register()
+
     val ADAMANTIUM_INGOT: Supplier<Item> = REGISTRATE
       .item("adamantium_ingot")
       .register()
