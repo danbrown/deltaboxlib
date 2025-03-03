@@ -3,6 +3,7 @@ package com.dannbrown.deltaboxlib.fabric.registrate.datagen
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLootTableProvider
 import net.fabricmc.fabric.impl.datagen.loot.FabricLootTableProviderImpl
 import net.minecraft.data.CachedOutput
@@ -13,7 +14,18 @@ object RegistrateDatagenFabric {
   fun buildDatagenResources(pack: FabricDataGenerator.Pack, registrate: AbstractDeltaboxRegistrate) {
 
     // Block Loot Tables
-    pack.addProvider { dataOutput, _ ->
+    pack.addProvider(blockLootTableFactory(registrate))
+
+    // Block Models
+    // Item Models
+    // Tags
+    // Recipes
+
+    // ----
+  }
+
+  private fun blockLootTableFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.Factory<FabricLootTableProvider> {
+    return FabricDataGenerator.Pack.Factory { dataOutput ->
       object : RegistrateBlockLootTables(registrate), FabricLootTableProvider {
         override fun generate() {
           for (block in registrate.blockRegistry.entries) {
@@ -31,6 +43,6 @@ object RegistrateDatagenFabric {
         }
       }
     }
-    // ----
   }
+  // ----
 }
