@@ -16,18 +16,12 @@ import java.util.function.Function
 import java.util.function.Supplier
 
 abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistrate) : BlockLootSubProvider(setOf(), FeatureFlags.REGISTRY.allFlags()), DataProvider {
-  override fun generate(biConsumer: BiConsumer<ResourceLocation, LootTable.Builder>) {
-    generate()
-
-    for ((identifier, value) in map) {
-      if (identifier == BuiltInLootTables.EMPTY) {
-        continue
-      }
-
-      biConsumer.accept(identifier, value)
-    }
+  // new functions for Registrate
+  fun noLoot(block: Supplier<Block>) {
+    add(block.get(), LootTable.lootTable())
   }
 
+  // functions from BlockLootSubProvider that need to be public
   public override fun add(b: Block, lt: LootTable.Builder) {
     super.add(b, lt)
   }
@@ -48,17 +42,17 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     return super.createSlabItemTable(block)
   }
 
-  public override fun createSingleItemTable(itemLike: ItemLike): LootTable.Builder {
-    return super.createSingleItemTable(itemLike)
-  }
-
   public override fun createDoorTable(block: Block): LootTable.Builder {
     return super.createDoorTable(block)
   }
 
-  // new functions
-  fun noLoot(block: Supplier<Block>) {
-    add(block.get(), LootTable.lootTable())
+  // generate function to hold on fabric
+  override fun generate(biConsumer: BiConsumer<ResourceLocation, LootTable.Builder>) {
+    generate()
+    for ((identifier, value) in map) {
+      if (identifier == BuiltInLootTables.EMPTY) continue
+      biConsumer.accept(identifier, value)
+    }
   }
 
   // Should be overridden by implementation

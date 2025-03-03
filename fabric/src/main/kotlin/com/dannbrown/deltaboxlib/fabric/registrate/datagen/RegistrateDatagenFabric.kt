@@ -1,12 +1,18 @@
 package com.dannbrown.deltaboxlib.fabric.registrate.datagen
 
+import com.dannbrown.deltaboxlib.mixin.registrate.BlockModelGeneratorsMixin
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
+import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockModelGenerator
+import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateItemModelGenerator
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLootTableProvider
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.fabricmc.fabric.impl.datagen.loot.FabricLootTableProviderImpl
 import net.minecraft.data.CachedOutput
+import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.ItemModelGenerators
+import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import java.util.concurrent.CompletableFuture
 
@@ -15,9 +21,8 @@ object RegistrateDatagenFabric {
 
     // Block Loot Tables
     pack.addProvider(blockLootTableFactory(registrate))
-
-    // Block Models
-    // Item Models
+    // Models
+    pack.addProvider(modelsFactory(registrate))
     // Tags
     // Recipes
 
@@ -44,5 +49,28 @@ object RegistrateDatagenFabric {
       }
     }
   }
+
+  private fun modelsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.Factory<FabricModelProvider> {
+    return FabricDataGenerator.Pack.Factory { dataOutput ->
+      object : FabricModelProvider(dataOutput) {
+        override fun generateBlockStateModels(modelGenerators: BlockModelGenerators) {
+          val registrateBlockModelGenerator = RegistrateBlockModelGenerator(modelGenerators.blockStateOutput, modelGenerators.modelOutput, modelGenerators.skippedAutoModelsOutput)
+          for (block in registrate.blockRegistry.entries) {
+            block.blockstateFactory?.invoke(registrateBlockModelGenerator, block.blockInstance!!)
+            println("Generated blockstate for ${block.blockInstance!!.get().name}")
+          }
+        }
+        override fun generateItemModels(modelGenerators: ItemModelGenerators) {
+          val registrateItemModelGenerator = RegistrateItemModelGenerator(modelGenerators.output)
+          for (item in registrate.itemRegistry.entries) {
+            item.itemModelFactory?.invoke(registrateItemModelGenerator, item.itemInstance!!)
+            println("Generated item model for ${item.itemInstance!!.get().descriptionId}")
+          }
+        }
+      }
+    }
+  }
+
+
   // ----
 }

@@ -1,0 +1,7 @@
+// 1.20.1	2025-03-03T16:37:29.839743	Deltabox Lib/Model Definitions
+b676e064afb6924e57a9465f4bcf2153fd43c030 assets/deltaboxlib/models/block/second_block.json
+b853217759d400dece151d31a6e3c965e82b0b63 assets/deltaboxlib/models/item/adamantium_block.json
+b47ba9037d146b0124a187e02cd01cfb1e28905f assets/deltaboxlib/blockstates/adamantium_block.json
+0e1d14f720c6988288291bde3f9835f1d92f97c2 assets/deltaboxlib/models/item/adamantium_ingot.json
+5e1e8d83c9a9f87fd806f5d04590fb05bd377a53 assets/deltaboxlib/blockstates/second_block.json
+23a8685a9bcb4601733e6a6349ad622219de3c2d assets/deltaboxlib/models/block/adamantium_block.json

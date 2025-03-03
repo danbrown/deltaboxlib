@@ -2,6 +2,8 @@ package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
+import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockModelGenerator
+import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
@@ -18,7 +20,9 @@ class BlockBuilder(val _registrate: AbstractDeltaboxRegistrate, val blockId: Str
   protected var noItem: Boolean = false
   protected var itemBuilder: ItemBuilder = _registrate.item(blockId, this).factory { props -> BlockItem(blockInstance!!.get(), props) }
 
-  var lootTableFactory: ((RegistrateBlockLootTables, Supplier<Block>) -> Unit)? = { loot, block -> loot.dropSelf(block.get()) }
+  var lootTableFactory: ((RegistrateBlockLootTables, Supplier<Block>) -> Unit)? = { lt, b -> lt.dropSelf(b.get()) }
+  var blockstateFactory: ((RegistrateBlockModelGenerator, Supplier<Block>) -> Unit)? = { g, b -> g.createGenericCube(b.get()) }
+
   var blockInstance: Supplier<Block>? = null
 
   fun factory(_factoryFunction: Function<BlockBehaviour.Properties, Block>): BlockBuilder {

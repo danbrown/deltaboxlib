@@ -1,6 +1,8 @@
 package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
+import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateItemModelGenerator
+import net.minecraft.data.models.ItemModelGenerators
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
@@ -10,6 +12,13 @@ import java.util.function.Supplier
 
 class ItemBuilder : AbstractBuilder {
   protected lateinit var blockBuilder: BlockBuilder
+  protected val itemId: String
+  protected var props: Item.Properties = Item.Properties()
+  protected var itemFactory: Supplier<Item> = Supplier { Item(props) }
+
+  var itemModelFactory: ((RegistrateItemModelGenerator, Supplier<Item>) -> Unit)? = { g, i -> g.flatItem(i.get()) }
+
+  var itemInstance: Supplier<Item>? = null
 
   constructor(_registrate: AbstractDeltaboxRegistrate, _itemId: String) : super(_registrate) {
     itemId = _itemId
@@ -20,10 +29,7 @@ class ItemBuilder : AbstractBuilder {
     itemId = _itemId
   }
 
-  protected val itemId: String
-  protected var props: Item.Properties = Item.Properties()
-  protected var itemFactory: Supplier<Item> = Supplier { Item(props) }
-  protected var itemInstance: Supplier<Item>? = null
+
 
   fun factory(_factoryFunction: Function<Item.Properties, Item>): ItemBuilder {
     this.itemFactory = Supplier { _factoryFunction.apply(props) }
@@ -49,7 +55,7 @@ class ItemBuilder : AbstractBuilder {
   }
 
   fun register(): Supplier<Item> {
-    val item: Supplier<Item> = this.registrate.itemRegistry.register(itemId, itemFactory)
+    val item: Supplier<Item> = this.registrate.itemRegistry.register(itemId, itemFactory, this)
     itemInstance = item
     return item
   }

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "deltaboxlib:block/adamantium_block_down",
+    "east": "deltaboxlib:block/adamantium_block_east",
+    "north": "deltaboxlib:block/adamantium_block_north",
+    "particle": "deltaboxlib:block/adamantium_block_particle",
+    "south": "deltaboxlib:block/adamantium_block_south",
+    "up": "deltaboxlib:block/adamantium_block_up",
+    "west": "deltaboxlib:block/adamantium_block_west"
+  }
+}

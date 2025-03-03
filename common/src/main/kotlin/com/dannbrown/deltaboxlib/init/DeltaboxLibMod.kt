@@ -2,6 +2,7 @@ package com.dannbrown.deltaboxlib.init
 
 import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import java.util.function.Supplier
@@ -21,6 +22,10 @@ object DeltaboxLibMod {
     val SECOND_BLOCK: Supplier<Block> = REGISTRATE
       .block("second_block")
       .noItem()
+      .register()
+
+    val ADAMANTIUM_INGOT: Supplier<Item> = REGISTRATE
+      .item("adamantium_ingot")
       .register()
 
     fun init() {
