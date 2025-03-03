@@ -34,8 +34,8 @@ object RegistrateDatagenFabric {
       object : RegistrateBlockLootTables(registrate), FabricLootTableProvider {
         override fun generate() {
           for (block in registrate.blockRegistry.entries) {
-            block.lootTableFactory?.invoke(this, block.blockInstance!!)
-            println("Generated loot table for ${block.blockInstance!!.get().name}")
+            block.lootTableFactory.invoke(this, block.blockInstance)
+            println("Generated loot table for ${block.blockInstance.get().name}")
           }
         }
 
@@ -56,15 +56,15 @@ object RegistrateDatagenFabric {
         override fun generateBlockStateModels(modelGenerators: BlockModelGenerators) {
           val registrateBlockModelGenerator = RegistrateBlockModelGenerator(modelGenerators.blockStateOutput, modelGenerators.modelOutput, modelGenerators.skippedAutoModelsOutput)
           for (block in registrate.blockRegistry.entries) {
-            block.blockstateFactory?.invoke(registrateBlockModelGenerator, block.blockInstance!!)
-            println("Generated blockstate for ${block.blockInstance!!.get().name}")
+            block.blockstateFactory.invoke(registrateBlockModelGenerator, block.blockInstance)
+            println("Generated blockstate for ${block.blockInstance.get().name}")
           }
         }
         override fun generateItemModels(modelGenerators: ItemModelGenerators) {
           val registrateItemModelGenerator = RegistrateItemModelGenerator(modelGenerators.output)
           for (item in registrate.itemRegistry.entries) {
-            item.itemModelFactory?.invoke(registrateItemModelGenerator, item.itemInstance!!)
-            println("Generated item model for ${item.itemInstance!!.get().descriptionId}")
+            item.itemModelFactory.invoke(registrateItemModelGenerator, item.itemInstance)
+            println("Generated item model for ${item.itemInstance.get().descriptionId}")
           }
         }
       }

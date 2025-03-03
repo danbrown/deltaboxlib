@@ -3,6 +3,7 @@ package com.dannbrown.deltaboxlib.registrate.builders
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockModelGenerator
+import com.dannbrown.deltaboxlib.registrate.util.NonNullBiConsumer
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.BlockItem
@@ -20,10 +21,10 @@ class BlockBuilder(val _registrate: AbstractDeltaboxRegistrate, val blockId: Str
   protected var noItem: Boolean = false
   protected var itemBuilder: ItemBuilder = _registrate.item(blockId, this).factory { props -> BlockItem(blockInstance!!.get(), props) }
 
-  var lootTableFactory: ((RegistrateBlockLootTables, Supplier<Block>) -> Unit)? = { lt, b -> lt.dropSelf(b.get()) }
-  var blockstateFactory: ((RegistrateBlockModelGenerator, Supplier<Block>) -> Unit)? = { g, b -> g.createGenericCube(b.get()) }
+  var lootTableFactory: NonNullBiConsumer<RegistrateBlockLootTables, Supplier<Block>> = { lt, b -> lt.dropSelf(b.get()) }
+  var blockstateFactory: NonNullBiConsumer<RegistrateBlockModelGenerator, Supplier<Block>> = { g, b -> g.createGenericCube(b.get()) }
 
-  var blockInstance: Supplier<Block>? = null
+  lateinit var blockInstance: Supplier<Block>
 
   fun factory(_factoryFunction: Function<BlockBehaviour.Properties, Block>): BlockBuilder {
     this.blockFactory = Supplier { _factoryFunction.apply(props) }
@@ -47,7 +48,7 @@ class BlockBuilder(val _registrate: AbstractDeltaboxRegistrate, val blockId: Str
 
   fun noItem(): BlockBuilder {
     this.noItem = true // disables default block item creation
-    lootTableFactory = null
+    lootTableFactory = { lt, b -> lt.noLoot(b) }
     return this
   }
 

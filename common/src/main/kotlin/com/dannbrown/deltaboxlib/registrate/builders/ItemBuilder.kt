@@ -2,7 +2,7 @@ package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateItemModelGenerator
-import net.minecraft.data.models.ItemModelGenerators
+import com.dannbrown.deltaboxlib.registrate.util.NonNullBiConsumer
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
@@ -16,9 +16,9 @@ class ItemBuilder : AbstractBuilder {
   protected var props: Item.Properties = Item.Properties()
   protected var itemFactory: Supplier<Item> = Supplier { Item(props) }
 
-  var itemModelFactory: ((RegistrateItemModelGenerator, Supplier<Item>) -> Unit)? = { g, i -> g.flatItem(i.get()) }
+  var itemModelFactory: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>> = { g, i -> g.flatItem(i.get()) }
 
-  var itemInstance: Supplier<Item>? = null
+  lateinit var itemInstance: Supplier<Item>
 
   constructor(_registrate: AbstractDeltaboxRegistrate, _itemId: String) : super(_registrate) {
     itemId = _itemId
