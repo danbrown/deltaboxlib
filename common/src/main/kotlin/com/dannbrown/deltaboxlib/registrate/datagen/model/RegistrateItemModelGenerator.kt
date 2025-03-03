@@ -1,12 +1,9 @@
-package com.dannbrown.deltaboxlib.registrate.datagen
+package com.dannbrown.deltaboxlib.registrate.datagen.model
 
 import com.google.gson.JsonElement
 import net.minecraft.data.models.ItemModelGenerators
 import net.minecraft.data.models.model.ModelLocationUtils
-import net.minecraft.data.models.model.ModelTemplate
-import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureMapping
-import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block

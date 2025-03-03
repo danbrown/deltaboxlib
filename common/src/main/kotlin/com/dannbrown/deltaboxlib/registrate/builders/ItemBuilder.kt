@@ -1,7 +1,7 @@
 package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
-import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateItemModelGenerator
+import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateItemModelGenerator
 import com.dannbrown.deltaboxlib.registrate.util.NonNullBiConsumer
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item

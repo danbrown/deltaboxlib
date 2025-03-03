@@ -2,9 +2,8 @@ package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
-import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockModelGenerator
+import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateBlockModelGenerator
 import com.dannbrown.deltaboxlib.registrate.util.NonNullBiConsumer
-import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item

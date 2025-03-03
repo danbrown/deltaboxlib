@@ -1,4 +1,4 @@
-package com.dannbrown.deltaboxlib.registrate.datagen
+package com.dannbrown.deltaboxlib.registrate.datagen.model
 
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.data.models.model.ModelTemplate
@@ -12,7 +12,7 @@ object RegistrateModelTemplates {
   val FLAT_HANDHELD_ITEM = create(DeltaboxUtil.resourceLocation("minecraft", "item/handheld"), TextureSlot.LAYER0)
 
   // BLOCK
-  val CUBE_ALL = create(DeltaboxUtil.resourceLocation("minecraft", "block/cube_all"), TextureSlot.ALL)
+  val CUBE_ALL = create(DeltaboxUtil.resourceLocation("minecraft", "block/cube_all"), RegistrateTextureSlots.ALL_SLOT)
   val CROSS = create(DeltaboxUtil.resourceLocation("minecraft", "block/cross"), TextureSlot.CROSS)
   val POTTED_FLOWER = create(DeltaboxUtil.resourceLocation("minecraft","block/flower_pot_cross"), TextureSlot.PLANT)
 

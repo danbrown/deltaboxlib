@@ -1,10 +1,9 @@
 package com.dannbrown.deltaboxlib.fabric.registrate.datagen
 
-import com.dannbrown.deltaboxlib.mixin.registrate.BlockModelGeneratorsMixin
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
-import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockModelGenerator
-import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateItemModelGenerator
+import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateBlockModelGenerator
+import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateItemModelGenerator
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
@@ -12,7 +11,6 @@ import net.fabricmc.fabric.impl.datagen.loot.FabricLootTableProviderImpl
 import net.minecraft.data.CachedOutput
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.ItemModelGenerators
-import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import java.util.concurrent.CompletableFuture
 
