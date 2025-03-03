@@ -3,6 +3,7 @@ package com.dannbrown.deltaboxlib.registrate.builders
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateBlockModelGenerator
+import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.dannbrown.deltaboxlib.registrate.util.NonNullBiConsumer
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.BlockItem
@@ -18,6 +19,7 @@ class BlockBuilder(val _registrate: AbstractDeltaboxRegistrate, val blockId: Str
   protected var props: BlockBehaviour.Properties = BlockBehaviour.Properties.copy(Blocks.STONE)
   protected var blockFactory: Supplier<Block> = Supplier { Block(props) }
   protected var noItem: Boolean = false
+  protected var blockName: String = DeltaboxUtil.asName(blockId)
   protected var itemBuilder: ItemBuilder = defaultItemBuilder()
 
   var lootTableFactory: NonNullBiConsumer<RegistrateBlockLootTables, Supplier<Block>> = { lt, b -> lt.dropSelf(b.get()) }
@@ -67,12 +69,22 @@ class BlockBuilder(val _registrate: AbstractDeltaboxRegistrate, val blockId: Str
     return this
   }
 
+  fun lang(langKey: String): BlockBuilder {
+    this.blockName = langKey
+    return this
+  }
+
   @SafeVarargs
   fun tag(vararg tag: TagKey<Block>): BlockBuilder {
     for (blockTagKey in tag) {
       // TODO
     }
     return this
+  }
+
+  // for registrate
+  fun getName(): String {
+    return blockName
   }
 
   fun register(): Supplier<Block> {

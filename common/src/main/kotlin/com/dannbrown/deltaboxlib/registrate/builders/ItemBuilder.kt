@@ -2,6 +2,7 @@ package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateItemModelGenerator
+import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.dannbrown.deltaboxlib.registrate.util.NonNullBiConsumer
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
@@ -10,24 +11,19 @@ import java.util.function.BiFunction
 import java.util.function.Function
 import java.util.function.Supplier
 
-class ItemBuilder : AbstractBuilder {
+class ItemBuilder(_registrate: AbstractDeltaboxRegistrate, val itemId: String) : AbstractBuilder(_registrate) {
   protected lateinit var blockBuilder: BlockBuilder
-  protected val itemId: String
   protected var props: Item.Properties = Item.Properties()
   protected var itemFactory: Supplier<Item> = Supplier { Item(props) }
+  protected var itemName = DeltaboxUtil.asName(itemId)
 
   var itemModelFactory: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>> = { g, i -> g.flatItem(i.get()) }
 
   lateinit var itemInstance: Supplier<Item>
 
-  constructor(_registrate: AbstractDeltaboxRegistrate, _itemId: String) : super(_registrate) {
-    itemId = _itemId
-  }
-
-  constructor(_registrate: AbstractDeltaboxRegistrate, _blockBuilder: BlockBuilder, _itemId: String) : super(_registrate) {
+  constructor(_registrate: AbstractDeltaboxRegistrate, _blockBuilder: BlockBuilder, _itemId: String) : this(_registrate, _itemId) {
     blockBuilder = _blockBuilder
     itemModelFactory = { g, i -> g.blockItem(blockBuilder.blockInstance.get()) } // it item deviates from block, the default model is a block model
-    itemId = _itemId
   }
 
   fun factory(_factoryFunction: Function<Item.Properties, Item>): ItemBuilder {
@@ -50,12 +46,22 @@ class ItemBuilder : AbstractBuilder {
     return this
   }
 
+  fun lang(langKey: String): ItemBuilder {
+    this.itemName = langKey
+    return this
+  }
+
   @SafeVarargs
   fun tag(vararg tag: TagKey<Item>): ItemBuilder {
     for (itemTagKey in tag) {
       // this.registrate.itemTags(itemTagKey, itemInstance)
     }
     return this
+  }
+
+  // for registrate
+  fun getName(): String {
+    return itemName
   }
 
   fun register(): Supplier<Item> {

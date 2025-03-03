@@ -6,6 +6,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 
 object DeltaboxUtil {
+  // @ ResourceLocation related
   fun resourceLocation(namespace: String, path: String): ResourceLocation{
     return ResourceLocation(namespace, path) // example: resourceLocation("minecraft", "block") -> "minecraft:block"
   }
@@ -44,5 +45,38 @@ object DeltaboxUtil {
 
   fun getItemModId(item: Item): String {
     return BuiltInRegistries.ITEM.getKey(item).namespace
+  }
+
+  fun getBlockId(block: Block): String {
+    return BuiltInRegistries.BLOCK.getKey(block).path
+  }
+
+  fun getItemId(item: Item): String {
+    return BuiltInRegistries.ITEM.getKey(item).path
+  }
+
+  // @ Lang related
+  val CONNECTING_WORDS = setOf("of", "the", "and", "in", "on", "at", "to", "with", "by", "for", "as", "or", "nor", "but", "so", "yet", "a", "an")
+
+  fun asId(name: String): String {
+    return name.lowercase().replace(" ", "_")
+  }
+
+  fun asName(id: String): String {
+    return id.split("_")
+      .joinToString(" ") { word ->
+        if (word.lowercase() in CONNECTING_WORDS) {
+          word.lowercase()
+        } else {
+          word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+        }
+      }
+      .replace("  ", " ")
+      .replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+  }
+
+  fun nonPluralId(name: String): String {
+    val asId = asId(name)
+    return if (asId.endsWith("s")) asId.substring(0, asId.length - 1) else asId
   }
 }

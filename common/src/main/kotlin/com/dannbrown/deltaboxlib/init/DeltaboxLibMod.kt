@@ -26,6 +26,7 @@ object DeltaboxLibMod {
 
     val ACAI_CRATE = REGISTRATE
       .block("acai_berries_crate")
+      .lang("Acai Berries Crate AHA")
       .blockstate({ ctx, block -> ctx.bottomTopBlock(block.get(), "crate_bottom") })
       .register()
 
