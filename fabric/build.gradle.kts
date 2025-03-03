@@ -15,6 +15,22 @@ architectury {
 
 loom {
     accessWidenerPath.set(project(":common").loom.accessWidenerPath)
+
+    val common = project(":common")
+
+    runs {
+        create("datagen") {
+            client()
+
+            name("Minecraft Data")
+            vmArg("-Dfabric-api.datagen")
+            vmArg("-Dfabric-api.datagen.output-dir=${common.file("src/generated/resources")}")
+            vmArg("-Dfabric-api.datagen.modid=${project.property("mod_id")}")
+            vmArg("-Dporting_lib.datagen.existing_resources=${common.file("src/main/resources")}")
+
+            environmentVariable("DATAGEN", "TRUE")
+        }
+    }
 }
 
 val common: Configuration by configurations.creating
