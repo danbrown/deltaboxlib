@@ -19,12 +19,18 @@ class BlockBuilder(val _registrate: AbstractDeltaboxRegistrate, val blockId: Str
   protected var props: BlockBehaviour.Properties = BlockBehaviour.Properties.copy(Blocks.STONE)
   protected var blockFactory: Supplier<Block> = Supplier { Block(props) }
   protected var noItem: Boolean = false
-  protected var itemBuilder: ItemBuilder = _registrate.item(blockId, this).factory { props -> BlockItem(blockInstance!!.get(), props) }
+  protected var itemBuilder: ItemBuilder = defaultItemBuilder()
 
   var lootTableFactory: NonNullBiConsumer<RegistrateBlockLootTables, Supplier<Block>> = { lt, b -> lt.dropSelf(b.get()) }
-  var blockstateFactory: NonNullBiConsumer<RegistrateBlockModelGenerator, Supplier<Block>> = { g, b -> g.createGenericCube(b.get()) }
+  var blockstateFactory: NonNullBiConsumer<RegistrateBlockModelGenerator, Supplier<Block>> = { g, b -> g.cubeAll(b.get()) }
 
   lateinit var blockInstance: Supplier<Block>
+
+  private fun defaultItemBuilder(): ItemBuilder {
+    return _registrate.item(blockId, this)
+      .factory { props -> BlockItem(blockInstance.get(), props) }
+      .model({ g, i -> g.blockItem(blockInstance.get()) })
+  }
 
   fun factory(_factoryFunction: Function<BlockBehaviour.Properties, Block>): BlockBuilder {
     this.blockFactory = Supplier { _factoryFunction.apply(props) }
@@ -52,8 +58,13 @@ class BlockBuilder(val _registrate: AbstractDeltaboxRegistrate, val blockId: Str
     return this
   }
 
-  fun loot(_lootFactory: (RegistrateBlockLootTables, Supplier<Block>) -> Unit): BlockBuilder {
+  fun loot(_lootFactory: NonNullBiConsumer<RegistrateBlockLootTables, Supplier<Block>>): BlockBuilder {
     this.lootTableFactory = _lootFactory
+    return this
+  }
+
+  fun blockstate(_blockstateFactory: NonNullBiConsumer<RegistrateBlockModelGenerator, Supplier<Block>>): BlockBuilder {
+    this.blockstateFactory = _blockstateFactory
     return this
   }
 

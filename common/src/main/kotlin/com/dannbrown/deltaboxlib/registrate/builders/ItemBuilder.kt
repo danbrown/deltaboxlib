@@ -26,10 +26,9 @@ class ItemBuilder : AbstractBuilder {
 
   constructor(_registrate: AbstractDeltaboxRegistrate, _blockBuilder: BlockBuilder, _itemId: String) : super(_registrate) {
     blockBuilder = _blockBuilder
+    itemModelFactory = { g, i -> g.blockItem(blockBuilder.blockInstance.get()) } // it item deviates from block, the default model is a block model
     itemId = _itemId
   }
-
-
 
   fun factory(_factoryFunction: Function<Item.Properties, Item>): ItemBuilder {
     this.itemFactory = Supplier { _factoryFunction.apply(props) }
@@ -43,6 +42,11 @@ class ItemBuilder : AbstractBuilder {
 
   fun properties(_factoryFunction: Function<Item.Properties, Item.Properties>): ItemBuilder {
     this.props = _factoryFunction.apply(props)
+    return this
+  }
+
+  fun model(_factoryFunction: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>>): ItemBuilder {
+    this.itemModelFactory = _factoryFunction
     return this
   }
 

@@ -1,12 +1,6 @@
 {
-  "parent": "minecraft:block/cube",
+  "parent": "minecraft:block/cube_all",
   "textures": {
-    "down": "deltaboxlib:block/second_block_down",
-    "east": "deltaboxlib:block/second_block_east",
-    "north": "deltaboxlib:block/second_block_north",
-    "particle": "deltaboxlib:block/second_block_particle",
-    "south": "deltaboxlib:block/second_block_south",
-    "up": "deltaboxlib:block/second_block_up",
-    "west": "deltaboxlib:block/second_block_west"
+    "all": "deltaboxlib:block/second_block"
   }
 }

@@ -53,6 +53,7 @@ object RegistrateDatagenFabric {
   private fun modelsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.Factory<FabricModelProvider> {
     return FabricDataGenerator.Pack.Factory { dataOutput ->
       object : FabricModelProvider(dataOutput) {
+
         override fun generateBlockStateModels(modelGenerators: BlockModelGenerators) {
           val registrateBlockModelGenerator = RegistrateBlockModelGenerator(modelGenerators.blockStateOutput, modelGenerators.modelOutput, modelGenerators.skippedAutoModelsOutput)
           for (block in registrate.blockRegistry.entries) {

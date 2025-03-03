@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "deltaboxlib:item/adamantium_block"
-  }
+  "parent": "deltaboxlib:block/adamantium_block"
 }

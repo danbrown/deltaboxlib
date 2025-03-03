@@ -1,24 +1,22 @@
 package com.dannbrown.deltaboxlib.registrate.datagen
 
+import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.data.models.model.ModelTemplate
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.resources.ResourceLocation
 import java.util.*
 
 object RegistrateModelTemplates {
-  fun create(vararg textureSlots: TextureSlot): ModelTemplate {
-    return ModelTemplate(Optional.empty(), Optional.empty(), *textureSlots)
-  }
+  // ITEM
+  val FLAT_ITEM = create(DeltaboxUtil.resourceLocation("minecraft", "item/generated"), TextureSlot.LAYER0)
+  val FLAT_HANDHELD_ITEM = create(DeltaboxUtil.resourceLocation("minecraft", "item/handheld"), TextureSlot.LAYER0)
 
-  fun create(string: String, vararg textureSlots: TextureSlot): ModelTemplate {
-    return ModelTemplate(Optional.of(ResourceLocation("minecraft", "block/$string")), Optional.empty(), *textureSlots)
-  }
+  // BLOCK
+  val CUBE_ALL = create(DeltaboxUtil.resourceLocation("minecraft", "block/cube_all"), TextureSlot.ALL)
+  val CROSS = create(DeltaboxUtil.resourceLocation("minecraft", "block/cross"), TextureSlot.CROSS)
+  val POTTED_FLOWER = create(DeltaboxUtil.resourceLocation("minecraft","block/flower_pot_cross"), TextureSlot.PLANT)
 
-  fun createItem(string: String, vararg textureSlots: TextureSlot): ModelTemplate {
-    return ModelTemplate(Optional.of(ResourceLocation("minecraft", "item/$string")), Optional.empty(), *textureSlots)
-  }
-
-  fun create(string: String, string2: String, vararg textureSlots: TextureSlot): ModelTemplate {
-    return ModelTemplate(Optional.of(ResourceLocation("minecraft", "block/$string")), Optional.of(string2), *textureSlots)
+  fun create(parent: ResourceLocation, vararg textureSlots: TextureSlot): ModelTemplate {
+    return ModelTemplate(Optional.of(parent), Optional.empty(), *textureSlots)
   }
 }
