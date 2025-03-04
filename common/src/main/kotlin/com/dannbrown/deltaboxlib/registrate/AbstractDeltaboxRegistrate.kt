@@ -3,14 +3,17 @@ package com.dannbrown.deltaboxlib.registrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilder
 import com.dannbrown.deltaboxlib.registrate.builders.ItemBuilder
 import com.dannbrown.deltaboxlib.registrate.builders.LangBuilder
-import com.dannbrown.deltaboxlib.registrate.registry.BlockRegistry
-import com.dannbrown.deltaboxlib.registrate.registry.ItemRegistry
-import com.dannbrown.deltaboxlib.registrate.registry.LangRegistry
+import com.dannbrown.deltaboxlib.registrate.registry.*
 
 abstract class AbstractDeltaboxRegistrate(val modId: String) {
-  var blockRegistry: BlockRegistry = BlockRegistry(modId)
-  var itemRegistry: ItemRegistry = ItemRegistry(modId)
-  var langRegistry: LangRegistry = LangRegistry(modId)
+  val blockRegistry: BlockRegistry = BlockRegistry(modId)
+  val itemRegistry: ItemRegistry = ItemRegistry(modId)
+  val langRegistry: LangRegistry = LangRegistry(modId)
+  val flammableBlockRegistry: FlammableBlockRegistry = FlammableBlockRegistry()
+  val strippableBlockRegistry: StrippableBlockRegistry = StrippableBlockRegistry()
+  val pottedBlockRegistry: PottedBlockRegistry = PottedBlockRegistry()
+  val cutoutRenderRegistry: CutoutRenderRegistry = CutoutRenderRegistry()
+
 
   fun block(blockId: String): BlockBuilder {
     return BlockBuilder(this, blockId)

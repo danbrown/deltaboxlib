@@ -37,8 +37,8 @@ object RegistrateDatagenFabric {
       object : RegistrateBlockLootTables(registrate), FabricLootTableProvider {
         override fun generate() {
           for (block in registrate.blockRegistry.entries) {
-            block.lootTableFactory.invoke(this, block.blockInstance)
-            println("Generated loot table for ${block.blockInstance.get().descriptionId}")
+            block.lootTableFactory.invoke(this, block.getBlock())
+            println("Generated loot table for ${block.getBlock().get().descriptionId}")
           }
         }
 
@@ -64,16 +64,16 @@ object RegistrateDatagenFabric {
             modelGenerators.skippedAutoModelsOutput
           )
           for (block in registrate.blockRegistry.entries) {
-            block.blockstateFactory.invoke(registrateBlockModelGenerator, block.blockInstance)
-            println("Generated blockstate for ${block.blockInstance.get().descriptionId}")
+            block.blockstateFactory.invoke(registrateBlockModelGenerator, block.getBlock())
+            println("Generated blockstate for ${block.getBlock().get().descriptionId}")
           }
         }
 
         override fun generateItemModels(modelGenerators: ItemModelGenerators) {
           val registrateItemModelGenerator = RegistrateItemModelGenerator(modelGenerators.output)
           for (item in registrate.itemRegistry.entries) {
-            item.itemModelFactory.invoke(registrateItemModelGenerator, item.itemInstance)
-            println("Generated item model for ${item.itemInstance.get().descriptionId}")
+            item.itemModelFactory.invoke(registrateItemModelGenerator, item.getItem())
+            println("Generated item model for ${item.getItem().get().descriptionId}")
           }
         }
       }
@@ -98,22 +98,26 @@ object RegistrateDatagenFabric {
           // Blocks
           for (block in registrate.blockRegistry.entries) {
             try {
-              builder.add(block.blockInstance.get(), block.getName())
+              builder.add(block.getBlock().get(), block.getName())
             } catch (e: Exception) {
-              println("Failed to generate translation for ${block.blockInstance.get().name}, it is a possible duplicate")
+              println("Failed to generate translation for ${block.getBlock().get().name}, it is a possible duplicate")
             } finally {
-              println("Generated translation for ${block.blockInstance.get().name}")
+              println("Generated translation for ${block.getBlock().get().name}")
             }
           }
           // Items
           for (item in registrate.itemRegistry.entries) {
             try {
-              builder.add(item.itemInstance.get(), item.getName())
+              builder.add(item.getItem().get(), item.getName())
             } catch (e: Exception) {
-              if (item.itemInstance.get() is BlockItem) continue
-              println("Failed to generate translation for ${item.itemInstance.get().descriptionId}, it is a possible duplicate")
+              if (item.getItem().get() is BlockItem) continue
+              println(
+                "Failed to generate translation for ${
+                  item.getItem().get().descriptionId
+                }, it is a possible duplicate"
+              )
             } finally {
-              println("Generated translation for ${item.itemInstance.get().descriptionId}")
+              println("Generated translation for ${item.getItem().get().descriptionId}")
             }
           }
         }

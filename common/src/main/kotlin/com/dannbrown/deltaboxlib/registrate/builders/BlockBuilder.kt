@@ -1,10 +1,10 @@
 package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
-import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
-import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateBlockModelGenerator
+import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
+import com.dannbrown.deltaboxlib.registrate.types.BlockLootTableFactory
+import com.dannbrown.deltaboxlib.registrate.types.BlockstateFactory
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
-import com.dannbrown.deltaboxlib.registrate.util.NonNullBiConsumer
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
@@ -12,29 +12,46 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockBehaviour
 import java.util.function.BiFunction
-import java.util.function.Function
 import java.util.function.Supplier
 
-class BlockBuilder(val _registrate: AbstractDeltaboxRegistrate, val blockId: String) : AbstractBuilder(_registrate) {
+class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) : AbstractBuilder(registrate) {
+  protected val ctx: BlockBuilderContext = BlockBuilderContext(registrate, this)
   protected var props: BlockBehaviour.Properties = BlockBehaviour.Properties.copy(Blocks.STONE)
   protected var blockFactory: Supplier<Block> = Supplier { Block(props) }
-  protected var noItem: Boolean = false
   protected var blockName: String = DeltaboxUtil.asName(blockId)
   protected var itemBuilder: ItemBuilder = defaultItemBuilder()
+  protected lateinit var blockInstance: Supplier<Block>
 
-  var lootTableFactory: NonNullBiConsumer<RegistrateBlockLootTables, Supplier<Block>> = { lt, b -> lt.dropSelf(b.get()) }
-  var blockstateFactory: NonNullBiConsumer<RegistrateBlockModelGenerator, Supplier<Block>> = { g, b -> g.cubeAll(b.get()) }
+  var lootTableFactory: BlockLootTableFactory = defaultLootTableFactory()
+  var blockstateFactory: BlockstateFactory = defaultBlockstateFactory()
 
-  lateinit var blockInstance: Supplier<Block>
-
+  // @ Default factories
   private fun defaultItemBuilder(): ItemBuilder {
-    return _registrate.item(blockId, this)
+    return registrate.item(blockId, this)
       .factory { props -> BlockItem(blockInstance.get(), props) }
       .model({ g, i -> g.blockItem(blockInstance.get()) })
   }
 
-  fun factory(_factoryFunction: Function<BlockBehaviour.Properties, Block>): BlockBuilder {
-    this.blockFactory = Supplier { _factoryFunction.apply(props) }
+  private fun defaultLootTableFactory(): BlockLootTableFactory {
+    return { lt, b -> lt.dropSelf(b.get()) }
+  }
+
+  private fun defaultBlockstateFactory(): BlockstateFactory {
+    return { g, b -> g.cubeAll(b.get()) }
+  }
+
+  // @ Get Functions
+  fun getBlock(): Supplier<Block> {
+    return blockInstance
+  }
+
+  fun getName(): String {
+    return blockName
+  }
+
+  // @ Builder Functions
+  fun factory(_factoryFunction: BiFunction<BlockBuilderContext, BlockBehaviour.Properties, Block>): BlockBuilder {
+    this.blockFactory = Supplier { _factoryFunction.apply(ctx, props) }
     return this
   }
 
@@ -43,34 +60,56 @@ class BlockBuilder(val _registrate: AbstractDeltaboxRegistrate, val blockId: Str
     return this
   }
 
-  fun properties(_factoryFunction: Function<BlockBehaviour.Properties, BlockBehaviour.Properties>): BlockBuilder {
-    this.props = _factoryFunction.apply(props)
+  fun properties(_factoryFunction: BiFunction<BlockBuilderContext, BlockBehaviour.Properties, BlockBehaviour.Properties>): BlockBuilder {
+    this.props = _factoryFunction.apply(ctx, props)
     return this
   }
 
   fun item(_factoryFunction: BiFunction<Item.Properties, Block, Item>): ItemBuilder {
-    this.noItem = true // disables default block item creation, but returns a new item builder
+    this.ctx.noItem = true // disables default block item creation, but returns a new item builder
     return registrate.item(blockId, this).factory(_factoryFunction)
   }
 
   fun noItem(): BlockBuilder {
-    this.noItem = true // disables default block item creation
+    this.ctx.noItem = true // disables default block item creation
     lootTableFactory = { lt, b -> lt.noLoot(b) }
     return this
   }
 
-  fun loot(_lootFactory: NonNullBiConsumer<RegistrateBlockLootTables, Supplier<Block>>): BlockBuilder {
+  fun loot(_lootFactory: BlockLootTableFactory): BlockBuilder {
     this.lootTableFactory = _lootFactory
     return this
   }
 
-  fun blockstate(_blockstateFactory: NonNullBiConsumer<RegistrateBlockModelGenerator, Supplier<Block>>): BlockBuilder {
+  fun blockstate(_blockstateFactory: BlockstateFactory): BlockBuilder {
     this.blockstateFactory = _blockstateFactory
     return this
   }
 
   fun lang(langKey: String): BlockBuilder {
     this.blockName = langKey
+    return this
+  }
+
+  fun flammable(burnChance: Int = 20, spreadChance: Int = 5): BlockBuilder {
+    this.ctx.flammabilityBurnChance = burnChance
+    this.ctx.flammabilitySpreadChance = spreadChance
+    this.registrate.flammableBlockRegistry.addFlammableBlock(asEntry(), burnChance, spreadChance)
+    return this
+  }
+
+  fun strippable(otherBlock: BlockEntry): BlockBuilder {
+    this.registrate.strippableBlockRegistry.addStrippableBlock(asEntry(), otherBlock)
+    return this
+  }
+
+  fun potted(otherBlock: BlockEntry): BlockBuilder {
+    this.registrate.pottedBlockRegistry.addPottedBlock(asEntry(), otherBlock)
+    return this
+  }
+
+  fun cutoutRender(): BlockBuilder {
+    this.registrate.cutoutRenderRegistry.addCutoutRender(asEntry())
     return this
   }
 
@@ -82,15 +121,14 @@ class BlockBuilder(val _registrate: AbstractDeltaboxRegistrate, val blockId: Str
     return this
   }
 
-  // for registrate
-  fun getName(): String {
-    return blockName
+  // @ Registering
+  private fun asEntry(): BlockEntry {
+    return BlockEntry(this)
   }
 
-  fun register(): Supplier<Block> {
-    val block = registrate.blockRegistry.register(blockId, blockFactory, this)
-    blockInstance = block
-    if (!noItem) itemBuilder.build()
-    return block
+  fun register(): BlockEntry {
+    blockInstance = registrate.blockRegistry.register(blockId, blockFactory, this)
+    if (!this.ctx.noItem) itemBuilder.build()
+    return asEntry()
   }
 }

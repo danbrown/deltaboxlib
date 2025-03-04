@@ -11,17 +11,17 @@ object DeltaboxLibMod {
   const val MOD_ID = "deltaboxlib"
   var REGISTRATE = DeltaboxRegistrate(MOD_ID)
 
-  val ADAMANTIUM_BLOCK: Supplier<Block> = REGISTRATE
+  val ADAMANTIUM_BLOCK = REGISTRATE
     .block("adamantium_block")
     .copyFrom { Blocks.OAK_PLANKS }
-    .factory { props -> Block(props) }
-    .loot({ loot, block -> loot.dropSelf(block.get()) })
-    .item({ a, b -> BlockItem(b, a.food(FoodProperties.Builder().fast().build())) })
+    .factory { c, p -> Block(p) }
+    .loot { loot, block -> loot.dropSelf(block.get()) }
+    .item { a, b -> BlockItem(b, a.food(FoodProperties.Builder().fast().build())) }
     .build()
     .register()
-  val SECOND_BLOCK: Supplier<Block> = REGISTRATE
+
+  val SECOND_BLOCK = REGISTRATE
     .block("second_block")
-    .noItem()
     .register()
 
   val ACAI_CRATE = REGISTRATE
@@ -30,7 +30,7 @@ object DeltaboxLibMod {
     .blockstate({ ctx, block -> ctx.bottomTopBlock(block.get(), "crate_bottom") })
     .register()
 
-  val ADAMANTIUM_INGOT: Supplier<Item> = REGISTRATE
+  val ADAMANTIUM_INGOT = REGISTRATE
     .item("adamantium_ingot")
     .register()
 
