@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+
 plugins {
     id("com.github.johnrengelman.shadow")
 }
@@ -48,6 +50,8 @@ dependencies {
     // Kotlin For Forge
     implementation("thedarkcolour:kotlinforforge:${rootProject.property("kff_version")}")
 }
+
+archivesName.set("${rootProject.property("mod_id")}-${project.name}")
 
 tasks.processResources {
     inputs.property("group", rootProject.property("mod_group"))

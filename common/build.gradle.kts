@@ -1,12 +1,15 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+
 architectury {
     common(rootProject.property("enabled_platforms").toString().split(","))
 }
 
 loom {
-    accessWidenerPath.set(file("src/main/resources/deltaboxlib.accesswidener"))
+    accessWidenerPath.set(file("src/main/resources/${rootProject.property("mod_id")}.accesswidener"))
 }
 
 sourceSets.main.get().resources.srcDir("src/generated/resources")
+archivesName.set("${rootProject.property("mod_id")}-${project.name}")
 
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies

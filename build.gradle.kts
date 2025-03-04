@@ -17,7 +17,6 @@ subprojects {
 
     val loom = project.extensions.getByName<LoomGradleExtensionAPI>("loom")
 
-
     dependencies {
         "minecraft"("com.mojang:minecraft:${project.property("minecraft_version")}")
         // The following line declares the mojmap mappings, you may use other mappings as well
@@ -63,4 +62,23 @@ allprojects {
     java {
         withSourcesJar()
     }
+}
+
+tasks.register<Copy>("collectJars") {
+    val deps = listOf("common", "fabric", "forge").map { project(":$it").tasks.getByName("remapJar") }
+    dependsOn(deps)
+
+    val modId = rootProject.property("mod_id")
+    val modVersion = rootProject.property("mod_version")
+    val jarPattern = Regex("$modId-(common|fabric|forge)-$modVersion\\.jar")
+
+    from(deps.map { "${project(it.project.path).buildDir}/libs" }) {
+        include { it.file.name.matches(jarPattern) }
+    }
+    into(rootProject.projectDir.parentFile.resolve("libs"))
+}
+
+
+tasks.named("assemble").configure {
+    dependsOn("collectJars")
 }

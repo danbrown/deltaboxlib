@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+
 plugins {
     id("com.github.johnrengelman.shadow")
 }
@@ -58,6 +60,8 @@ dependencies {
     // Fabric Kotlin
     modImplementation("net.fabricmc:fabric-language-kotlin:${rootProject.property("fabric_kotlin_version")}")
 }
+
+archivesName.set("${rootProject.property("mod_id")}-${project.name}")
 
 tasks.processResources {
     inputs.property("group", rootProject.property("mod_group"))
