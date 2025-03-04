@@ -10,7 +10,7 @@ import java.util.function.Supplier
 
 object DeltaboxLibMod {
     const val MOD_ID = "deltaboxlib"
-    var REGISTRATE = DeltaboxRegistrate()
+    var REGISTRATE = DeltaboxRegistrate(MOD_ID)
 
     val ADAMANTIUM_BLOCK: Supplier<Block> = REGISTRATE
       .block("adamantium_block")
