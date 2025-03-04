@@ -1,4 +1,5 @@
-// 1.20.1	2025-03-04T14:16:06.156127	Deltabox Lib/Block Loot Tables
+// 1.20.1	2025-03-04T19:27:22.819478	Deltabox Lib/Block Loot Tables
+339bfe096e2b2390bc74db6a253a8c0e39de2536 data/deltaboxlib/loot_tables/blocks/flammable_block.json
 4ae3e8ae6bb1ca2ca8ea6bfe6ce948b3846d0812 data/deltaboxlib/loot_tables/blocks/acai_berries_crate.json
 9cd1cb773b4283b05cedb53a421b7c6bb987801d data/deltaboxlib/loot_tables/blocks/second_block.json
 d2df2660b62a39097f0b42c676863520380d1315 data/deltaboxlib/loot_tables/blocks/adamantium_block.json

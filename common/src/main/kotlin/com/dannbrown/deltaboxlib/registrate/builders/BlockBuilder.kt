@@ -1,6 +1,7 @@
 package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
+import com.dannbrown.deltaboxlib.registrate.helpers.StripHelper
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import com.dannbrown.deltaboxlib.registrate.types.BlockLootTableFactory
 import com.dannbrown.deltaboxlib.registrate.types.BlockstateFactory

@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.init
 
+import com.dannbrown.deltaboxlib.content.block.FlammableBlock
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.BlockItem
@@ -15,7 +16,7 @@ object DeltaboxLibMod {
 
   val ADAMANTIUM_BLOCK = REGISTRATE
     .block("adamantium_block")
-    .copyFrom { Blocks.OAK_PLANKS }
+    .copyFrom { Blocks.STONE }
     .factory { c, p -> RotatedPillarBlock(p) }
     .loot { loot, block -> loot.dropSelf(block.get()) }
     .item { a, b -> BlockItem(b, a.food(FoodProperties.Builder().fast().build())) }
@@ -38,6 +39,11 @@ object DeltaboxLibMod {
 
   val ADAMANTIUM_INGOT = REGISTRATE
     .item("adamantium_ingot")
+    .register()
+
+  val FLAMMABLE_BLOCK = REGISTRATE.block("flammable_block")
+    .factory { c, p -> FlammableBlock(p, c.flammabilityBurnChance, c.flammabilitySpreadChance) }
+    .flammable()
     .register()
 
   val LANGS = REGISTRATE
