@@ -1,4 +1,4 @@
-package com.dannbrown.deltaboxlib.fabric.registrate.datagen
+package com.dannbrown.deltaboxlib.fabric.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables

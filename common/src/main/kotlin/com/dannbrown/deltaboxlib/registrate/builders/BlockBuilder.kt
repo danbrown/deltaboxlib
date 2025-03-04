@@ -45,6 +45,10 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
     return blockInstance
   }
 
+  fun getContext(): BlockBuilderContext {
+    return ctx
+  }
+
   fun getName(): String {
     return blockName
   }
@@ -72,7 +76,8 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
 
   fun noItem(): BlockBuilder {
     this.ctx.noItem = true // disables default block item creation
-    lootTableFactory = { lt, b -> lt.noLoot(b) }
+    lootTableFactory =
+      { lt, b -> lt.noLoot(b) } // remove loot as it doesn't have an item to drop, this can be replaced to drop other stuff
     return this
   }
 
