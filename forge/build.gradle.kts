@@ -51,7 +51,7 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge:${rootProject.property("kff_version")}")
 }
 
-archivesName.set("${rootProject.property("mod_id")}-${project.name}")
+archivesName.set("${rootProject.property("mod_id")}-${rootProject.property("minecraft_version")}-${project.name}")
 
 tasks.processResources {
     inputs.property("group", rootProject.property("mod_group"))
