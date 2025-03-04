@@ -12,7 +12,6 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   var itemRegistry: ItemRegistry = ItemRegistry(modId)
   var langRegistry: LangRegistry = LangRegistry(modId)
 
-
   fun block(blockId: String): BlockBuilder {
     return BlockBuilder(this, blockId)
   }

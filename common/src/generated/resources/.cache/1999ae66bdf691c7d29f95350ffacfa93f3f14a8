@@ -1,10 +1,10 @@
-// 1.20.1	2025-03-03T21:00:55.618267	Deltabox Lib/Model Definitions
+// 1.20.1	2025-03-04T11:56:19.501928	Deltabox Lib/Model Definitions
 4fce1987836ba32b3ccdadd3f83dd9d433d96edd assets/deltaboxlib/models/block/second_block.json
-6ffeb72a586bbfd2351397c45ef4ab41ab4947b4 assets/deltaboxlib/blockstates/acai_berries_crate.json
 4cf9a2f37d5ec43c866937ac4b666ab5faff26ad assets/deltaboxlib/models/item/adamantium_block.json
+6ffeb72a586bbfd2351397c45ef4ab41ab4947b4 assets/deltaboxlib/blockstates/acai_berries_crate.json
 b47ba9037d146b0124a187e02cd01cfb1e28905f assets/deltaboxlib/blockstates/adamantium_block.json
 0e1d14f720c6988288291bde3f9835f1d92f97c2 assets/deltaboxlib/models/item/adamantium_ingot.json
 5e1e8d83c9a9f87fd806f5d04590fb05bd377a53 assets/deltaboxlib/blockstates/second_block.json
-0c62ff9cbd62c41fd6aa102b61c4d3b9737666fb assets/deltaboxlib/models/item/acai_berries_crate.json
 46169e9d9491d4f8a2c01e20a4fbf91e177e0b02 assets/deltaboxlib/models/block/acai_berries_crate.json
+0c62ff9cbd62c41fd6aa102b61c4d3b9737666fb assets/deltaboxlib/models/item/acai_berries_crate.json
 af4e5fdd38c7b2f93f16c67a9badac29fccb3092 assets/deltaboxlib/models/block/adamantium_block.json
