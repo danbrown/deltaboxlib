@@ -9,11 +9,6 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val blockRegistry: BlockRegistry = BlockRegistry(modId)
   val itemRegistry: ItemRegistry = ItemRegistry(modId)
   val langRegistry: LangRegistry = LangRegistry(modId)
-  val flammableBlockRegistry: FlammableBlockRegistry = FlammableBlockRegistry()
-  val strippableBlockRegistry: StrippableBlockRegistry = StrippableBlockRegistry()
-  val pottedBlockRegistry: PottedBlockRegistry = PottedBlockRegistry()
-  val cutoutRenderRegistry: CutoutRenderRegistry = CutoutRenderRegistry()
-
 
   fun block(blockId: String): BlockBuilder {
     return BlockBuilder(this, blockId)

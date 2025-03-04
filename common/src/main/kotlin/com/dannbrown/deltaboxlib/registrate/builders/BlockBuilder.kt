@@ -94,22 +94,21 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
   fun flammable(burnChance: Int = 20, spreadChance: Int = 5): BlockBuilder {
     this.ctx.flammabilityBurnChance = burnChance
     this.ctx.flammabilitySpreadChance = spreadChance
-    this.registrate.flammableBlockRegistry.addFlammableBlock(asEntry(), burnChance, spreadChance)
     return this
   }
 
   fun strippable(otherBlock: BlockEntry): BlockBuilder {
-    this.registrate.strippableBlockRegistry.addStrippableBlock(asEntry(), otherBlock)
+    this.ctx.strippableOther = otherBlock
     return this
   }
 
   fun potted(otherBlock: BlockEntry): BlockBuilder {
-    this.registrate.pottedBlockRegistry.addPottedBlock(asEntry(), otherBlock)
+    this.ctx.pottedOther = otherBlock
     return this
   }
 
   fun cutoutRender(): BlockBuilder {
-    this.registrate.cutoutRenderRegistry.addCutoutRender(asEntry())
+    this.ctx.hasCutoutRender = true
     return this
   }
 
