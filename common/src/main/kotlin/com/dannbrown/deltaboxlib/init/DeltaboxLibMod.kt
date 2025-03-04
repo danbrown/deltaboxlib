@@ -5,6 +5,7 @@ import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import org.apache.commons.codec.language.bm.Languages.LanguageSet
 import java.util.function.Supplier
 
 object DeltaboxLibMod {
@@ -32,6 +33,11 @@ object DeltaboxLibMod {
 
     val ADAMANTIUM_INGOT: Supplier<Item> = REGISTRATE
       .item("adamantium_ingot")
+      .register()
+
+    val LANGS = REGISTRATE
+      .langs()
+      .genericTooltip("flint", "It's a Delta!")
       .register()
 
     fun init() {

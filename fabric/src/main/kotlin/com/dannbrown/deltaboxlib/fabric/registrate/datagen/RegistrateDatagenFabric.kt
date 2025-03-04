@@ -80,18 +80,36 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.Factory { dataOutput ->
       object : FabricLanguageProvider(dataOutput, "en_us") {
         override fun generateTranslations(builder: TranslationBuilder) {
-          for (block in registrate.blockRegistry.entries) {
-            builder.add(block.blockInstance.get(), block.getName())
-            println("Generated translation for ${block.blockInstance.get().name}")
+          // Langs
+          for (lang in registrate.langRegistry.langEntries) {
+            try{
+              builder.add(lang.key, lang.value)
+            } catch (e: Exception) {
+              println("Failed to generate translation for ${lang.key}, it is a possible duplicate")
+            } finally {
+              println("Generated translation for ${lang.key}")
+            }
           }
+          // Blocks
+          for (block in registrate.blockRegistry.entries) {
+            try{
+              builder.add(block.blockInstance.get(), block.getName())
+            } catch (e: Exception) {
+              println("Failed to generate translation for ${block.blockInstance.get().name}, it is a possible duplicate")
+            } finally {
+              println("Generated translation for ${block.blockInstance.get().name}")
+            }
+          }
+          // Items
           for (item in registrate.itemRegistry.entries) {
             try{
               builder.add(item.itemInstance.get(), item.getName())
             } catch (e: Exception) {
               if (item.itemInstance.get() is BlockItem) continue
               println("Failed to generate translation for ${item.itemInstance.get().descriptionId}, it is a possible duplicate")
+            } finally {
+              println("Generated translation for ${item.itemInstance.get().descriptionId}")
             }
-            println("Generated translation for ${item.itemInstance.get().descriptionId}")
           }
         }
       }
