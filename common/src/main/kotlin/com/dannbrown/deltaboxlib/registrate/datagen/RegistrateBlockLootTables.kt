@@ -15,7 +15,8 @@ import java.util.function.BiConsumer
 import java.util.function.Function
 import java.util.function.Supplier
 
-abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistrate) : BlockLootSubProvider(setOf(), FeatureFlags.REGISTRY.allFlags()), DataProvider {
+abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistrate) :
+  BlockLootSubProvider(setOf(), FeatureFlags.REGISTRY.allFlags()), DataProvider {
   // new functions for Registrate
   fun noLoot(block: Supplier<Block>) {
     add(block.get(), LootTable.lootTable())

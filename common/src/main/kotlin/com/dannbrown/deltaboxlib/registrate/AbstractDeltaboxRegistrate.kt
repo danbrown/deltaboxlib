@@ -32,30 +32,4 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     blockRegistry.build()
     itemRegistry.build()
   }
-
-//  // test
-//  private val createModeTabs = DeferredRegister.create(MOD_ID, Registries.CREATIVE_MODE_TAB)
-//  private val items = DeferredRegister.create(MOD_ID, Registries.ITEM)
-//  // test
-
-  // @ Block Tags
-//  @SafeVarargs
-//  fun blockTags(tag: TagKey<Block>, vararg tags: TagKey<Block>) {
-//    tagRegistry.blockTags(tag, tags)
-//  }
-//
-//  @SafeVarargs
-//  fun blockTags(tag: TagKey<Block>, vararg blocks: Supplier<Block>) {
-//    tagRegistry.blockTags(tag, blocks)
-//  }
-//
-//  @SafeVarargs
-//  fun itemTags(tag: TagKey<Item>, vararg tags: TagKey<Item>) {
-//    tagRegistry.itemTags(tag, tags)
-//  }
-//
-//  @SafeVarargs
-//  fun itemTags(tag: TagKey<Item>, vararg items: Supplier<Item>) {
-//    tagRegistry.itemTags(tag, items)
-//  }
 }

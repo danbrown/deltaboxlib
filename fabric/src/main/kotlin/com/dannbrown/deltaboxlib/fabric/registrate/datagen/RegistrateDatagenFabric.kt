@@ -58,12 +58,17 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.Factory { dataOutput ->
       object : FabricModelProvider(dataOutput) {
         override fun generateBlockStateModels(modelGenerators: BlockModelGenerators) {
-          val registrateBlockModelGenerator = RegistrateBlockModelGenerator(modelGenerators.blockStateOutput, modelGenerators.modelOutput, modelGenerators.skippedAutoModelsOutput)
+          val registrateBlockModelGenerator = RegistrateBlockModelGenerator(
+            modelGenerators.blockStateOutput,
+            modelGenerators.modelOutput,
+            modelGenerators.skippedAutoModelsOutput
+          )
           for (block in registrate.blockRegistry.entries) {
             block.blockstateFactory.invoke(registrateBlockModelGenerator, block.blockInstance)
             println("Generated blockstate for ${block.blockInstance.get().descriptionId}")
           }
         }
+
         override fun generateItemModels(modelGenerators: ItemModelGenerators) {
           val registrateItemModelGenerator = RegistrateItemModelGenerator(modelGenerators.output)
           for (item in registrate.itemRegistry.entries) {
@@ -82,7 +87,7 @@ object RegistrateDatagenFabric {
         override fun generateTranslations(builder: TranslationBuilder) {
           // Langs
           for (lang in registrate.langRegistry.langEntries) {
-            try{
+            try {
               builder.add(lang.key, lang.value)
             } catch (e: Exception) {
               println("Failed to generate translation for ${lang.key}, it is a possible duplicate")
@@ -92,7 +97,7 @@ object RegistrateDatagenFabric {
           }
           // Blocks
           for (block in registrate.blockRegistry.entries) {
-            try{
+            try {
               builder.add(block.blockInstance.get(), block.getName())
             } catch (e: Exception) {
               println("Failed to generate translation for ${block.blockInstance.get().name}, it is a possible duplicate")
@@ -102,7 +107,7 @@ object RegistrateDatagenFabric {
           }
           // Items
           for (item in registrate.itemRegistry.entries) {
-            try{
+            try {
               builder.add(item.itemInstance.get(), item.getName())
             } catch (e: Exception) {
               if (item.itemInstance.get() is BlockItem) continue

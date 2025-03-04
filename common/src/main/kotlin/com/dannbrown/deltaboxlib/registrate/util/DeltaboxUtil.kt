@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.Block
 
 object DeltaboxUtil {
   // @ ResourceLocation related
-  fun resourceLocation(namespace: String, path: String): ResourceLocation{
+  fun resourceLocation(namespace: String, path: String): ResourceLocation {
     return ResourceLocation(namespace, path) // example: resourceLocation("minecraft", "block") -> "minecraft:block"
   }
 
@@ -16,7 +16,10 @@ object DeltaboxUtil {
   }
 
   fun resourceLocation(namespace: String, path: String, string: String): ResourceLocation {
-    return ResourceLocation(namespace, path).withPath { string2: String -> "$string2$string" } // example: resourceLocation("minecraft", "block/", "stone") -> "minecraft:block/stone"
+    return ResourceLocation(
+      namespace,
+      path
+    ).withPath { string2: String -> "$string2$string" } // example: resourceLocation("minecraft", "block/", "stone") -> "minecraft:block/stone"
   }
 
   fun getBlockTexture(block: Block): ResourceLocation {
@@ -56,7 +59,26 @@ object DeltaboxUtil {
   }
 
   // @ Lang related
-  val CONNECTING_WORDS = setOf("of", "the", "and", "in", "on", "at", "to", "with", "by", "for", "as", "or", "nor", "but", "so", "yet", "a", "an")
+  val CONNECTING_WORDS = setOf(
+    "of",
+    "the",
+    "and",
+    "in",
+    "on",
+    "at",
+    "to",
+    "with",
+    "by",
+    "for",
+    "as",
+    "or",
+    "nor",
+    "but",
+    "so",
+    "yet",
+    "a",
+    "an"
+  )
 
   fun asId(name: String): String {
     return name.lowercase().replace(" ", "_")

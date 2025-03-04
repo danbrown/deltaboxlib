@@ -15,7 +15,7 @@ import java.util.List;
 
 @Mixin(Item.class)
 public abstract class ItemMixin {
-  @Inject(method = { "appendHoverText" }, at = { @At("HEAD") }, require = 1)
+  @Inject(method = {"appendHoverText"}, at = {@At("HEAD")}, require = 1)
   protected void deltaboxlib$appendHoverText(ItemStack itemStack, net.minecraft.world.level.Level level, List<Component> list, TooltipFlag tooltipFlag, CallbackInfo ci) {
     // create or get an item description id, get the last key and add as suffix to
     String itemDescription = itemStack.getDescriptionId();

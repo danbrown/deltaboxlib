@@ -17,14 +17,27 @@ import java.util.function.BiConsumer
 import java.util.function.Consumer
 import java.util.function.Supplier
 
-class RegistrateBlockModelGenerator(consumer: Consumer<BlockStateGenerator>, biConsumer: BiConsumer<ResourceLocation, Supplier<JsonElement>>, consumer2: Consumer<Item>) : BlockModelGenerators(consumer, biConsumer, consumer2) {
+class RegistrateBlockModelGenerator(
+  consumer: Consumer<BlockStateGenerator>,
+  biConsumer: BiConsumer<ResourceLocation, Supplier<JsonElement>>,
+  consumer2: Consumer<Item>
+) : BlockModelGenerators(consumer, biConsumer, consumer2) {
   fun noBlockState() {
     // do nothing
   }
 
   fun cubeAll(block: Block, texture: String = "") {
-    val location = RegistrateModelTemplates.CUBE_ALL.create(ModelLocationUtils.getModelLocation(block), TextureMapping().put(RegistrateTextureSlots.ALL_SLOT, optionalTexture(block, texture)), this.modelOutput)
-    this.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, location)))
+    val location = RegistrateModelTemplates.CUBE_ALL.create(
+      ModelLocationUtils.getModelLocation(block),
+      TextureMapping().put(RegistrateTextureSlots.ALL_SLOT, optionalTexture(block, texture)),
+      this.modelOutput
+    )
+    this.blockStateOutput.accept(
+      MultiVariantGenerator.multiVariant(
+        block,
+        Variant.variant().with(VariantProperties.MODEL, location)
+      )
+    )
   }
 
   fun bottomTopBlock(block: Block, bottomTexture: String = "", topTexture: String = "", sideTexture: String = "") {
@@ -34,27 +47,49 @@ class RegistrateBlockModelGenerator(consumer: Consumer<BlockStateGenerator>, biC
         .put(TextureSlot.BOTTOM, optionalTexture(block, bottomTexture, "_bottom", "block/"))
         .put(TextureSlot.TOP, optionalTexture(block, topTexture, "_top", "block/"))
         .put(TextureSlot.SIDE, optionalTexture(block, sideTexture, "_side", "block/")),
-      this.modelOutput)
-    this.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, location)))
+      this.modelOutput
+    )
+    this.blockStateOutput.accept(
+      MultiVariantGenerator.multiVariant(
+        block,
+        Variant.variant().with(VariantProperties.MODEL, location)
+      )
+    )
   }
 
   fun crossBlock(block: Block, crossTexture: String = "") {
     val location = RegistrateModelTemplates.CROSS.create(
       ModelLocationUtils.getModelLocation(block),
       TextureMapping().put(TextureSlot.CROSS, optionalTexture(block, crossTexture, "", "item/")),
-      this.modelOutput)
-    this.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, location)))
+      this.modelOutput
+    )
+    this.blockStateOutput.accept(
+      MultiVariantGenerator.multiVariant(
+        block,
+        Variant.variant().with(VariantProperties.MODEL, location)
+      )
+    )
   }
 
   fun flowerPotPlant(plant: Block, pottedPlant: Block) {
-    val location = RegistrateModelTemplates.POTTED_FLOWER.create(pottedPlant, TextureMapping.plant(plant), this.modelOutput)
-    this.blockStateOutput.accept(MultiVariantGenerator.multiVariant(pottedPlant, Variant.variant().with(VariantProperties.MODEL, location)))
+    val location =
+      RegistrateModelTemplates.POTTED_FLOWER.create(pottedPlant, TextureMapping.plant(plant), this.modelOutput)
+    this.blockStateOutput.accept(
+      MultiVariantGenerator.multiVariant(
+        pottedPlant,
+        Variant.variant().with(VariantProperties.MODEL, location)
+      )
+    )
   }
 
   // utils
 
   // returns the path of a texture rather it is given or it uses the block id with an optional suffix
   fun optionalTexture(block: Block, texture: String, suffix: String = "", path: String = "block/"): ResourceLocation {
-    return if (texture.isEmpty()) TextureMapping.getBlockTexture(block, suffix) else DeltaboxUtil.resourceLocation(DeltaboxUtil.getBlockModId(block), path, texture)
+    return if (texture.isEmpty()) TextureMapping.getBlockTexture(block, suffix) else DeltaboxUtil.resourceLocation(
+      DeltaboxUtil.getBlockModId(block),
+      path,
+      texture
+    )
   }
 }

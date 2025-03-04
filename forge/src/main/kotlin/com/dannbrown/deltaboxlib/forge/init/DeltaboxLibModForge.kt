@@ -7,9 +7,9 @@ import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 @Mod(DeltaboxLibMod.MOD_ID)
 object DeltaboxLibModForge {
-    init {
-        // Submit our event bus to let architectury register our content on the right time
-        EventBuses.registerModEventBus(DeltaboxLibMod.MOD_ID, MOD_BUS)
-        DeltaboxLibMod.init()
-    }
+  init {
+    // Submit our event bus to let architectury register our content on the right time
+    EventBuses.registerModEventBus(DeltaboxLibMod.MOD_ID, MOD_BUS)
+    DeltaboxLibMod.init()
+  }
 }

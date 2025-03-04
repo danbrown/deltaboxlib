@@ -19,7 +19,7 @@ class LangRegistry(modId: String) {
 
   companion object {
     fun getTooltipKey(modId: String?, itemId: String): String {
-      return "tooltip." + DeltaboxLibMod.MOD_ID + (if(modId !== null) ".$modId" else "") + "." + itemId
+      return "tooltip." + DeltaboxLibMod.MOD_ID + (if (modId !== null) ".$modId" else "") + "." + itemId
     }
 
     fun translateDirect(key: String): MutableComponent {

@@ -13,9 +13,14 @@ object RegistrateModelTemplates {
 
   // BLOCK
   val CUBE_ALL = create(DeltaboxUtil.resourceLocation("minecraft", "block/cube_all"), RegistrateTextureSlots.ALL_SLOT)
-  val BOTTOM_TOP = create(DeltaboxUtil.resourceLocation("minecraft", "block/cube_bottom_top"), TextureSlot.BOTTOM, TextureSlot.TOP, TextureSlot.SIDE)
+  val BOTTOM_TOP = create(
+    DeltaboxUtil.resourceLocation("minecraft", "block/cube_bottom_top"),
+    TextureSlot.BOTTOM,
+    TextureSlot.TOP,
+    TextureSlot.SIDE
+  )
   val CROSS = create(DeltaboxUtil.resourceLocation("minecraft", "block/cross"), TextureSlot.CROSS)
-  val POTTED_FLOWER = create(DeltaboxUtil.resourceLocation("minecraft","block/flower_pot_cross"), TextureSlot.PLANT)
+  val POTTED_FLOWER = create(DeltaboxUtil.resourceLocation("minecraft", "block/flower_pot_cross"), TextureSlot.PLANT)
 
   fun create(parent: ResourceLocation, vararg textureSlots: TextureSlot): ModelTemplate {
     return ModelTemplate(Optional.of(parent), Optional.empty(), *textureSlots)
