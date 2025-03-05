@@ -2,6 +2,7 @@ package com.dannbrown.deltaboxlib.fabric.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
+import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateRecipes
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateBlockModelGenerator
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateItemModelGenerator
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
@@ -9,17 +10,20 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.fabricmc.fabric.impl.datagen.loot.FabricLootTableProviderImpl
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.CachedOutput
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.ItemModelGenerators
+import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 object RegistrateDatagenFabric {
   fun buildDatagenResources(pack: FabricDataGenerator.Pack, registrate: AbstractDeltaboxRegistrate) {
@@ -34,7 +38,7 @@ object RegistrateDatagenFabric {
     pack.addProvider(blockTagsFactory(registrate))
     pack.addProvider(itemTagsFactory(registrate))
     // Recipes
-
+    pack.addProvider(recipesFactory(registrate))
     // ----
   }
 
@@ -132,6 +136,7 @@ object RegistrateDatagenFabric {
     }
   }
 
+  // BLOCK TAGS
   private fun blockTagsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricTagProvider.BlockTagProvider> {
     return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
       object : FabricTagProvider.BlockTagProvider(dataOutput, registriesFuture) {
@@ -147,6 +152,7 @@ object RegistrateDatagenFabric {
     }
   }
 
+  // ITEM TAGS
   private fun itemTagsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricTagProvider.ItemTagProvider> {
     return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
       object : FabricTagProvider.ItemTagProvider(dataOutput, registriesFuture) {
@@ -156,6 +162,18 @@ object RegistrateDatagenFabric {
             items.forEach { entry ->
               builder.add(entry.get())
             }
+          }
+        }
+      }
+    }
+  }
+
+  private fun recipesFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.Factory<FabricRecipeProvider> {
+    return FabricDataGenerator.Pack.Factory { dataOutput ->
+      object : FabricRecipeProvider(dataOutput) {
+        override fun buildRecipes(exporter: Consumer<FinishedRecipe>) {
+          registrate.recipeRegistry.getRecipes().forEach { factory ->
+            factory.invoke(RegistrateRecipes(registrate, exporter))
           }
         }
       }

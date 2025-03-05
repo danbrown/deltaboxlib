@@ -3,7 +3,9 @@ package com.dannbrown.deltaboxlib.registrate.util
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
+import java.util.function.Supplier
 
 object DeltaboxUtil {
   // @ ResourceLocation related
@@ -56,6 +58,11 @@ object DeltaboxUtil {
 
   fun getItemId(item: Item): String {
     return BuiltInRegistries.ITEM.getKey(item).path
+  }
+
+  fun getItemId(item: Supplier<ItemLike>): String {
+    val names = item.get().asItem().descriptionId.split(".")
+    return names[names.size - 1]
   }
 
   // @ Lang related

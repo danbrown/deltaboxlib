@@ -4,7 +4,7 @@ import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 
-class TagRegistry {
+class TagRegistry(modId: String) {
   private val BLOCK_TAGS: MutableMap<TagKey<Block>, MutableList<BlockEntry>> = mutableMapOf()
   private val ITEM_TAGS: MutableMap<TagKey<Item>, MutableList<ItemEntry>> = mutableMapOf()
 

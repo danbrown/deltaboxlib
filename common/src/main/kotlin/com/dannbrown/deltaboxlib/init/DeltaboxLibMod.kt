@@ -3,12 +3,14 @@ package com.dannbrown.deltaboxlib.init
 import com.dannbrown.deltaboxlib.content.block.FlammableBlock
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
+import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.BlockTags
 import net.minecraft.tags.ItemTags
 import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.RotatedPillarBlock
@@ -43,7 +45,7 @@ object DeltaboxLibMod {
     .item()
     .tag(ItemTags.NON_FLAMMABLE_WOOD, ItemTags.WART_BLOCKS)
     .build()
-    .blockstate({ ctx, block -> ctx.bottomTopBlock(block.get(), "crate_bottom") })
+    .blockstate { ctx, block -> ctx.bottomTopBlock(block.get(), "crate_bottom") }
     .register()
 
   val ADAMANTIUM_INGOT = REGISTRATE
@@ -69,6 +71,24 @@ object DeltaboxLibMod {
     .add(ADAMANTIUM_BLOCK.getItemEntry())
     .add(FLAMMABLE_BLOCK.getItemEntry())
     .add(ItemEntry.from(Items.ACACIA_LOG))
+
+  val RECIPES = REGISTRATE.recipe { r ->
+    r.directShapelessRecipe(
+      { Blocks.STONE },
+      { Ingredient.of(Blocks.END_STONE) },
+      RecipeCategory.BUILDING_BLOCKS,
+      4,
+      "_from_wood"
+    )
+
+    r.directShapelessRecipe(
+      { Blocks.OAK_BUTTON },
+      { Ingredient.of(Items.STICK) },
+      RecipeCategory.BUILDING_BLOCKS,
+      2,
+      "_from_wood"
+    )
+  }
 
   fun init() {
     REGISTRATE.buildRegistries()
