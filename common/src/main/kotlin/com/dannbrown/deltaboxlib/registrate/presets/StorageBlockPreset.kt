@@ -8,15 +8,15 @@ import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
 import java.util.function.Supplier
 
-class StorageBlockPreset<T : Block>(
+class StorageBlockPreset(
   val registrate: AbstractDeltaboxRegistrate,
   val _name: String,
   val ingotItem: Supplier<ItemLike>,
   val ingredient: Supplier<Ingredient>,
   val addSuffix: Boolean = true
-) : IBlockBuilderPreset<T>(registrate) {
-  fun create(): BlockBuilder<T> {
-    return registrate.block<T>(_name)
+) : IBlockBuilderPreset(registrate) {
+  fun create(): BlockBuilder<*> {
+    return registrate.block<Block>(_name)
       .suffix(
         if (addSuffix) {
           "_block"
@@ -29,8 +29,8 @@ class StorageBlockPreset<T : Block>(
       .itemTags(*BlockTagPresets.storageBlockTags(_name).second.toTypedArray())
   }
 
-  fun createSmall(generator: AbstractDeltaboxRegistrate): BlockBuilder<T> {
-    return generator.block<T>(_name)
+  fun createSmall(generator: AbstractDeltaboxRegistrate): BlockBuilder<*> {
+    return generator.block<Block>(_name)
       .suffix(
         if (addSuffix) {
           "_block"

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "deltaboxlib:compiled_block",
     "deltaboxlib:acai_berries_crate"
   ]
 }

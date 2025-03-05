@@ -1,6 +1,7 @@
 package com.dannbrown.deltaboxlib.init
 
 import com.dannbrown.deltaboxlib.content.block.FlammableBlock
+import com.dannbrown.deltaboxlib.registrate.presets.StorageBlockPreset
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import net.minecraft.data.recipes.RecipeCategory
@@ -33,6 +34,13 @@ object DeltaboxLibMod {
     .factory { c, p -> RotatedPillarBlock(p) }
     .strippable(ADAMANTIUM_BLOCK)
     .register()
+
+  val IRON_BLOCK2 =
+    StorageBlockPreset(REGISTRATE, "compiled_block", { Items.IRON_INGOT }, { Ingredient.of(Items.FLINT) }).create()
+      .copyFrom { Blocks.IRON_BLOCK }
+      .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_IRON_TOOL)
+      .register()
+
 
   val ACAI_CRATE = REGISTRATE
     .block<RotatedPillarBlock>("acai_berries_crate")

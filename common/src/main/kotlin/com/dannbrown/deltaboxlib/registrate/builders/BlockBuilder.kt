@@ -145,7 +145,7 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
 
 
   // this is kinda useless, but I like to keep tool tags separate
-  fun toolAndTier(tool: TagKey<Block>?, tier: TagKey<Block>?, correctToolForDrops: Boolean = false): BlockBuilder<T> {
+  fun toolAndTier(tool: TagKey<Block>?, tier: TagKey<Block>?, correctToolForDrops: Boolean = true): BlockBuilder<T> {
     if (tool !== null) this.blockTags(tool)
     if (tier !== null) this.blockTags(tier)
     if (correctToolForDrops) this.props = props.requiresCorrectToolForDrops()
