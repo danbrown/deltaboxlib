@@ -4,14 +4,14 @@ import com.dannbrown.deltaboxlib.registrate.builders.ItemBuilder
 import net.minecraft.world.item.Item
 import java.util.function.Supplier
 
-data class ItemEntry(private val builder: ItemBuilder?) {
+data class ItemEntry<T : Item>(private val builder: ItemBuilder<T>?) {
   constructor(item: Supplier<Item>) : this(null) {
     setupItem = item
   }
 
   private var setupItem: Supplier<Item>? = null
 
-  fun getBuilder(): ItemBuilder {
+  fun getBuilder(): ItemBuilder<T> {
     if (builder == null) throw NoSuchFieldError("Cannot get the builder from an external block entry.")
     return builder
   }
@@ -22,12 +22,12 @@ data class ItemEntry(private val builder: ItemBuilder?) {
   }
 
   companion object {
-    fun from(item: Item): ItemEntry {
-      return ItemEntry(Supplier { item })
+    fun from(item: Item): ItemEntry<*> {
+      return ItemEntry<Item> { item }
     }
 
-    fun from(item: Supplier<Item>): ItemEntry {
-      return ItemEntry(item)
+    fun from(item: Supplier<Item>): ItemEntry<*> {
+      return ItemEntry<Item>(item)
     }
   }
 }

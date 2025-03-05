@@ -14,14 +14,13 @@ import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.RotatedPillarBlock
-import java.util.function.Supplier
 
 object DeltaboxLibMod {
   const val MOD_ID = "deltaboxlib"
   var REGISTRATE = DeltaboxRegistrate(MOD_ID)
 
   val ADAMANTIUM_BLOCK = REGISTRATE
-    .block("adamantium_block")
+    .block<RotatedPillarBlock>("adamantium_block")
     .copyFrom { Blocks.STONE }
     .factory { c, p -> RotatedPillarBlock(p) }
     .loot { loot, block -> loot.dropSelf(block.get()) }
@@ -30,17 +29,17 @@ object DeltaboxLibMod {
     .register()
 
   val SECOND_BLOCK = REGISTRATE
-    .block("second_block")
+    .block<RotatedPillarBlock>("second_block")
     .factory { c, p -> RotatedPillarBlock(p) }
     .strippable(ADAMANTIUM_BLOCK)
     .register()
 
   val ACAI_CRATE = REGISTRATE
-    .block("acai_berries_crate")
+    .block<RotatedPillarBlock>("acai_berries_crate")
     .lang("Acai Berries Crate AHA")
     .factory { c, p -> RotatedPillarBlock(p) }
     .strippable(BlockEntry.from(Blocks.ACACIA_LOG))
-    .tag(BlockTags.DIRT)
+    .blockTags(BlockTags.DIRT)
     .recipe { r, b ->
       r.directShapelessRecipe(
         { b.get() },
@@ -52,16 +51,16 @@ object DeltaboxLibMod {
     }
     .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_STONE_TOOL)
     .item()
-    .tag(ItemTags.NON_FLAMMABLE_WOOD, ItemTags.WART_BLOCKS)
+    .itemTags(ItemTags.NON_FLAMMABLE_WOOD, ItemTags.WART_BLOCKS)
     .build()
     .blockstate { ctx, block -> ctx.bottomTopBlock(block.get(), "crate_bottom") }
     .register()
 
   val ADAMANTIUM_INGOT = REGISTRATE
-    .item("adamantium_ingot")
+    .item<Item>("adamantium_ingot")
     .register()
 
-  val FLAMMABLE_BLOCK = REGISTRATE.block("flammable_block")
+  val FLAMMABLE_BLOCK = REGISTRATE.block<FlammableBlock>("flammable_block")
     .factory { c, p -> FlammableBlock(p, c.flammabilityBurnChance, c.flammabilitySpreadChance) }
     .flammable()
     .toolAndTier(null, BlockTags.NEEDS_STONE_TOOL)

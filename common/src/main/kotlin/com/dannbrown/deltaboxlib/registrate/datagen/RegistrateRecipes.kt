@@ -88,5 +88,46 @@ class RegistrateRecipes(
   ) {
     simpleShapelessRecipe(result, listOf(ingredients), category, amount, DeltaboxUtil.getItemId(result), suffix)
   }
+  // END SHAPELESS
+
+  // Storage Blocks
+  fun storageBlockRecipe(result: Supplier<ItemLike>, ingotItem: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+    simpleShapedRecipe(
+      result,
+      arrayOf("III", "III", "III"),
+      mapOf('I' to ingredient),
+      1,
+      "_from_materials"
+    )
+    simpleShapelessRecipe(
+      ingotItem,
+      listOf(Supplier { Ingredient.of(result.get()) }),
+      RecipeCategory.BUILDING_BLOCKS,
+      9,
+      DeltaboxUtil.getItemId(result),
+      "_to_materials")
+  }
+
+  fun smallStorageBlockRecipe(
+    result: Supplier<ItemLike>,
+    ingotItem: Supplier<ItemLike>,
+    ingredient: Supplier<Ingredient>
+  ) {
+    simpleShapedRecipe(
+      result,
+      arrayOf("II", "II"),
+      mapOf('I' to ingredient),
+      1,
+      "_from_materials"
+    )
+    simpleShapelessRecipe(
+      ingotItem,
+      listOf(Supplier { Ingredient.of(result.get()) }),
+      RecipeCategory.BUILDING_BLOCKS,
+      4,
+      DeltaboxUtil.getItemId(result),
+      "_to_materials")
+  }
+  // End Storage Blocks
 
 }

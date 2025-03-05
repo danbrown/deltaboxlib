@@ -8,9 +8,9 @@ import java.util.function.Supplier
 
 class BlockRegistry(modId: String) {
   private val blocks = DeferredRegister.create(modId, Registries.BLOCK)
-  val entries = mutableListOf<BlockBuilder>()
+  val entries = mutableListOf<BlockBuilder<*>>()
 
-  fun <T : Block> register(id: String, blockSupplier: Supplier<T>, blockBuilder: BlockBuilder): Supplier<T> {
+  fun <T : Block> register(id: String, blockSupplier: Supplier<T>, blockBuilder: BlockBuilder<*>): Supplier<T> {
     entries.add(blockBuilder)
     return blocks.register(id, blockSupplier)
   }

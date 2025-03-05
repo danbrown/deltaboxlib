@@ -15,15 +15,15 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val recipeRegistry: RecipeRegistry = RecipeRegistry(modId)
 
 
-  fun block(blockId: String): BlockBuilder {
+  fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
   }
 
-  fun item(blockId: String): ItemBuilder {
+  fun <T : Item> item(blockId: String): ItemBuilder<T> {
     return ItemBuilder(this, blockId)
   }
 
-  fun item(blockId: String, blockBuilder: BlockBuilder): ItemBuilder {
+  fun <T : Block, R : Item> item(blockId: String, blockBuilder: BlockBuilder<T>): ItemBuilder<R> {
     return ItemBuilder(this, blockBuilder, blockId)
   }
 

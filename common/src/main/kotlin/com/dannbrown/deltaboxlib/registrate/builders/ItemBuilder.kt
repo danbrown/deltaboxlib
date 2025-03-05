@@ -13,8 +13,9 @@ import java.util.function.BiFunction
 import java.util.function.Function
 import java.util.function.Supplier
 
-class ItemBuilder(_registrate: AbstractDeltaboxRegistrate, val itemId: String) : AbstractBuilder(_registrate) {
-  constructor(_registrate: AbstractDeltaboxRegistrate, _blockBuilder: BlockBuilder, _itemId: String) : this(
+class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId: String) :
+  AbstractBuilder(_registrate) {
+  constructor(_registrate: AbstractDeltaboxRegistrate, _blockBuilder: BlockBuilder<*>, _itemId: String) : this(
     _registrate,
     _itemId
   ) {
@@ -22,7 +23,7 @@ class ItemBuilder(_registrate: AbstractDeltaboxRegistrate, val itemId: String) :
     itemModelFactory = defaultBlockItemModelFactory()
   }
 
-  protected lateinit var blockBuilder: BlockBuilder
+  protected lateinit var blockBuilder: BlockBuilder<*>
   protected var props: Item.Properties = Item.Properties()
   protected var itemFactory: Supplier<Item> = Supplier { Item(props) }
   protected var itemName = DeltaboxUtil.asName(itemId)
@@ -60,56 +61,56 @@ class ItemBuilder(_registrate: AbstractDeltaboxRegistrate, val itemId: String) :
   }
 
   // @ Builder Functions
-  fun factory(_factoryFunction: Function<Item.Properties, Item>): ItemBuilder {
+  fun factory(_factoryFunction: Function<Item.Properties, Item>): ItemBuilder<T> {
     this.itemFactory = Supplier { _factoryFunction.apply(props) }
     return this
   }
 
-  fun factory(_factoryFunction: BiFunction<Item.Properties, Block, Item>): ItemBuilder {
+  fun factory(_factoryFunction: BiFunction<Item.Properties, Block, Item>): ItemBuilder<T> {
     this.itemFactory = Supplier { _factoryFunction.apply(props, blockBuilder.getBlock().get()) }
     return this
   }
 
-  fun properties(_factoryFunction: Function<Item.Properties, Item.Properties>): ItemBuilder {
+  fun properties(_factoryFunction: Function<Item.Properties, Item.Properties>): ItemBuilder<T> {
     this.props = _factoryFunction.apply(props)
     return this
   }
 
-  fun model(_factoryFunction: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>>): ItemBuilder {
+  fun model(_factoryFunction: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>>): ItemBuilder<T> {
     this.itemModelFactory = _factoryFunction
     return this
   }
 
-  fun lang(langKey: String): ItemBuilder {
+  fun lang(langKey: String): ItemBuilder<T> {
     this.itemName = langKey
     return this
   }
 
   @SafeVarargs
-  fun tag(vararg tag: TagKey<Item>): ItemBuilder {
-    for (itemTagKey in tag) {
+  fun itemTags(vararg tags: TagKey<Item>): ItemBuilder<T> {
+    for (itemTagKey in tags) {
       this.registrate.tagRegistry.add(itemTagKey, asEntry())
     }
     return this
   }
 
-  fun recipe(factory: ItemRecipeFactory): ItemBuilder {
+  fun recipe(factory: ItemRecipeFactory): ItemBuilder<T> {
     this.recipeFactory = factory
     return this
   }
 
 
   // @ Registering
-  private fun asEntry(): ItemEntry {
+  private fun asEntry(): ItemEntry<*> {
     return ItemEntry(this)
   }
 
-  fun register(): ItemEntry {
+  fun register(): ItemEntry<*> {
     itemInstance = this.registrate.itemRegistry.register(itemId, itemFactory, this)
     return asEntry()
   }
 
-  fun build(): BlockBuilder {
+  fun build(): BlockBuilder<*> {
     blockBuilder.buildItemEntry(this.register())
     return blockBuilder
   }
