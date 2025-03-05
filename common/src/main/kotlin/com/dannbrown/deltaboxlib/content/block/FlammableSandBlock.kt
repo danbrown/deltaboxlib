@@ -3,39 +3,42 @@ package com.dannbrown.deltaboxlib.content.block
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.level.BlockGetter
-import net.minecraft.world.level.block.RotatedPillarBlock
-import net.minecraft.world.level.block.SimpleWaterloggedBlock
 import net.minecraft.world.level.block.state.BlockState
 
-open class FlammablePillarBlock(
+import net.minecraft.world.level.block.SandBlock
+
+open class FlammableSandBlock(
   props: Properties,
+  tone: Int,
   private val flammability: Int = 20,
   private val fireSpread: Int = 5
-) : RotatedPillarBlock(props), SimpleWaterloggedBlock {
+) : SandBlock(tone, props) {
   fun isFlammable(
-    state: BlockState,
-    level: BlockGetter,
-    pos: BlockPos,
-    direction: Direction
+    state: BlockState?,
+    level: BlockGetter?,
+    pos: BlockPos?,
+    direction: Direction?
   ): Boolean { // soft-override on forge
     return true
   }
 
   fun getFlammability(
-    state: BlockState,
-    level: BlockGetter,
-    pos: BlockPos,
-    direction: Direction
+    state: BlockState?,
+    level: BlockGetter?,
+    pos: BlockPos?,
+    direction: Direction?
   ): Int { // soft-override on forge
     return flammability
   }
 
   fun getFireSpreadSpeed(
-    state: BlockState,
-    level: BlockGetter,
-    pos: BlockPos,
-    direction: Direction
+    state: BlockState?,
+    level: BlockGetter?,
+    pos: BlockPos?,
+    direction: Direction?
   ): Int { // soft-override on forge
     return fireSpread
   }
 }
+
+
