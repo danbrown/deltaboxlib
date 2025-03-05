@@ -3,6 +3,7 @@ package com.dannbrown.deltaboxlib.registrate.builders
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
+import com.dannbrown.deltaboxlib.registrate.types.BlockItemFactory
 import com.dannbrown.deltaboxlib.registrate.types.BlockLootTableFactory
 import com.dannbrown.deltaboxlib.registrate.types.BlockstateFactory
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
@@ -42,6 +43,10 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
     return { g, b -> g.cubeAll(b.get()) }
   }
 
+  private fun defaultItemBlockFactory(): BlockItemFactory {
+    return BlockItemFactory { p: Item.Properties, b: Block -> BlockItem(blockInstance.get(), p) }
+  }
+
   // @ Get Functions
   fun getBlock(): Supplier<Block> {
     return blockInstance
@@ -71,7 +76,7 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
     return this
   }
 
-  fun item(_factoryFunction: BiFunction<Item.Properties, Block, Item>): ItemBuilder {
+  fun item(_factoryFunction: BlockItemFactory = defaultItemBlockFactory()): ItemBuilder {
     this.ctx.noItem = true // disables default block item creation, but returns a new item builder
     return registrate.item(blockId, this).factory(_factoryFunction)
   }
@@ -122,8 +127,15 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
   @SafeVarargs
   fun tag(vararg tag: TagKey<Block>): BlockBuilder {
     for (blockTagKey in tag) {
-      // TODO
+      registrate.tagRegistry.add(blockTagKey, asEntry())
     }
+    return this
+  }
+
+  // this is kinda useless, but I like to keep tool tags separate
+  fun toolAndTier(tool: TagKey<Block>?, tier: TagKey<Block>?): BlockBuilder {
+    if (tool !== null) this.tag(tool)
+    if (tier !== null) this.tag(tier)
     return this
   }
 

@@ -38,6 +38,11 @@ object DeltaboxLibMod {
     .lang("Acai Berries Crate AHA")
     .factory { c, p -> RotatedPillarBlock(p) }
     .strippable(BlockEntry.from(Blocks.ACACIA_LOG))
+    .tag(BlockTags.DIRT)
+    .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_STONE_TOOL)
+    .item()
+    .tag(ItemTags.NON_FLAMMABLE_WOOD, ItemTags.WART_BLOCKS)
+    .build()
     .blockstate({ ctx, block -> ctx.bottomTopBlock(block.get(), "crate_bottom") })
     .register()
 
@@ -48,6 +53,7 @@ object DeltaboxLibMod {
   val FLAMMABLE_BLOCK = REGISTRATE.block("flammable_block")
     .factory { c, p -> FlammableBlock(p, c.flammabilityBurnChance, c.flammabilitySpreadChance) }
     .flammable()
+    .toolAndTier(null, BlockTags.NEEDS_STONE_TOOL)
     .register()
 
   val LANGS = REGISTRATE

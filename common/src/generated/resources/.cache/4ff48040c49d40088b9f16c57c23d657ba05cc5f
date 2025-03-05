@@ -1,2 +1,4 @@
-// 1.20.1	2025-03-05T15:46:44.7488	Deltabox Lib/Tags for minecraft:block
-1aebb664d8c72da1669d20392a62b6330e31b4c1 data/minecraft/tags/blocks/dirt.json
+// 1.20.1	2025-03-05T16:12:01.5808	Deltabox Lib/Tags for minecraft:block
+faa4d61dbff5f93409f05c6ad86bd097a499c62c data/minecraft/tags/blocks/needs_stone_tool.json
+f9e29f50b14d2f50eec01aced74925f16cc2308f data/minecraft/tags/blocks/mineable/pickaxe.json
+9ea9301d8fef9d31f8c629f887dcb85c9f302f0f data/minecraft/tags/blocks/dirt.json

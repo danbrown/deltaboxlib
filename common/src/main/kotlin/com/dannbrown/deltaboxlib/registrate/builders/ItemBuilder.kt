@@ -29,7 +29,7 @@ class ItemBuilder(_registrate: AbstractDeltaboxRegistrate, val itemId: String) :
 
   var itemModelFactory: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>> = defaultModelFactory()
 
-  // @ Default Factories
+  // @ Default functions
   private fun defaultModelFactory(): NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>> {
     return { g, i -> g.flatItem(i.get()) }
   }
@@ -80,7 +80,7 @@ class ItemBuilder(_registrate: AbstractDeltaboxRegistrate, val itemId: String) :
   @SafeVarargs
   fun tag(vararg tag: TagKey<Item>): ItemBuilder {
     for (itemTagKey in tag) {
-      // this.registrate.itemTags(itemTagKey, itemInstance)
+      this.registrate.tagRegistry.add(itemTagKey, asEntry())
     }
     return this
   }
