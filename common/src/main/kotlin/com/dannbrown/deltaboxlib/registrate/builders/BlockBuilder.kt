@@ -1,8 +1,8 @@
 package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
-import com.dannbrown.deltaboxlib.registrate.helpers.StripHelper
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
+import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import com.dannbrown.deltaboxlib.registrate.types.BlockLootTableFactory
 import com.dannbrown.deltaboxlib.registrate.types.BlockstateFactory
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
@@ -21,6 +21,7 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
   protected var blockFactory: Supplier<Block> = Supplier { Block(props) }
   protected var blockName: String = DeltaboxUtil.asName(blockId)
   protected var itemBuilder: ItemBuilder = defaultItemBuilder()
+  protected var itemEntry: ItemEntry? = null
   protected lateinit var blockInstance: Supplier<Block>
 
   var lootTableFactory: BlockLootTableFactory = defaultLootTableFactory()
@@ -128,7 +129,11 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
 
   // @ Registering
   private fun asEntry(): BlockEntry {
-    return BlockEntry(this)
+    return BlockEntry(this, itemEntry)
+  }
+
+  fun buildItemEntry(_itemEntry: ItemEntry) {
+    itemEntry = _itemEntry
   }
 
   fun register(): BlockEntry {

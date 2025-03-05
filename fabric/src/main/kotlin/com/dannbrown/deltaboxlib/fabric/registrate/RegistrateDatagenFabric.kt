@@ -4,15 +4,20 @@ import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateBlockModelGenerator
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateItemModelGenerator
+import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.fabricmc.fabric.impl.datagen.loot.FabricLootTableProviderImpl
+import net.minecraft.core.HolderLookup
 import net.minecraft.data.CachedOutput
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.ItemModelGenerators
+import net.minecraft.tags.TagKey
 import net.minecraft.world.item.BlockItem
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import java.util.concurrent.CompletableFuture
 
@@ -26,6 +31,8 @@ object RegistrateDatagenFabric {
     // Language
     pack.addProvider(languageFactory(registrate))
     // Tags
+    pack.addProvider(blockTagsFactory(registrate))
+    pack.addProvider(itemTagsFactory(registrate))
     // Recipes
 
     // ----
@@ -118,6 +125,36 @@ object RegistrateDatagenFabric {
               )
             } finally {
               println("Generated translation for ${item.getItem().get().descriptionId}")
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private fun blockTagsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricTagProvider.BlockTagProvider> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricTagProvider.BlockTagProvider(dataOutput, registriesFuture) {
+        override fun addTags(arg: HolderLookup.Provider) {
+          registrate.tagRegistry.getBlockTags().forEach { (tagKey, blocks) ->
+            val builder = getOrCreateTagBuilder(tagKey)
+            blocks.forEach { entry ->
+              builder.add(entry.get())
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private fun itemTagsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricTagProvider.ItemTagProvider> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricTagProvider.ItemTagProvider(dataOutput, registriesFuture) {
+        override fun addTags(arg: HolderLookup.Provider) {
+          registrate.tagRegistry.getItemTags().forEach { (tagKey, items) ->
+            val builder = getOrCreateTagBuilder(tagKey)
+            items.forEach { entry ->
+              builder.add(entry.get())
             }
           }
         }

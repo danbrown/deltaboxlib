@@ -2,9 +2,13 @@ package com.dannbrown.deltaboxlib.init
 
 import com.dannbrown.deltaboxlib.content.block.FlammableBlock
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
+import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
+import net.minecraft.tags.BlockTags
+import net.minecraft.tags.ItemTags
 import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.RotatedPillarBlock
@@ -50,6 +54,15 @@ object DeltaboxLibMod {
     .langs()
     .genericTooltip("flint", "It's a Delta!")
     .register()
+
+  val TAGS = REGISTRATE.blockTags(BlockTags.DIRT)
+    .add(ADAMANTIUM_BLOCK)
+    .add(BlockEntry.from(Blocks.WHITE_WOOL))
+
+  val ITEMTAGS = REGISTRATE.itemTags(ItemTags.NON_FLAMMABLE_WOOD)
+    .add(ADAMANTIUM_BLOCK.getItemEntry())
+    .add(FLAMMABLE_BLOCK.getItemEntry())
+    .add(ItemEntry.from(Items.ACACIA_LOG))
 
   fun init() {
     REGISTRATE.buildRegistries()

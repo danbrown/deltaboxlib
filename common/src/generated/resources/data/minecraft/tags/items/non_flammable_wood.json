@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "deltaboxlib:adamantium_block",
+    "deltaboxlib:flammable_block",
+    "minecraft:acacia_log"
+  ]
+}

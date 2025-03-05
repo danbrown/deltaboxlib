@@ -96,7 +96,7 @@ class ItemBuilder(_registrate: AbstractDeltaboxRegistrate, val itemId: String) :
   }
 
   fun build(): BlockBuilder {
-    this.register()
+    blockBuilder.buildItemEntry(this.register())
     return blockBuilder
   }
 }
