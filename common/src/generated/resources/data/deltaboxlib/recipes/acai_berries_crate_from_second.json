@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "deltaboxlib:second_block"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "deltaboxlib:acai_berries_crate"
+  }
+}

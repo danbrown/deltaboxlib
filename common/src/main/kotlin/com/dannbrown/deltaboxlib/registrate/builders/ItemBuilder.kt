@@ -3,6 +3,7 @@ package com.dannbrown.deltaboxlib.registrate.builders
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateItemModelGenerator
 import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
+import com.dannbrown.deltaboxlib.registrate.types.ItemRecipeFactory
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.dannbrown.deltaboxlib.registrate.types.NonNullBiConsumer
 import net.minecraft.tags.TagKey
@@ -28,6 +29,8 @@ class ItemBuilder(_registrate: AbstractDeltaboxRegistrate, val itemId: String) :
   private lateinit var itemInstance: Supplier<Item>
 
   var itemModelFactory: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>> = defaultModelFactory()
+  var recipeFactory: ItemRecipeFactory = defaultRecipeFactory()
+
 
   // @ Default functions
   private fun defaultModelFactory(): NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>> {
@@ -41,6 +44,11 @@ class ItemBuilder(_registrate: AbstractDeltaboxRegistrate, val itemId: String) :
       )
     } // it item deviates from block, the default model is a block model
   }
+
+  private fun defaultRecipeFactory(): ItemRecipeFactory {
+    return { r, b -> /* do nothing */ }
+  }
+
 
   // @ Get Functions
   fun getItem(): Supplier<Item> {
@@ -84,6 +92,12 @@ class ItemBuilder(_registrate: AbstractDeltaboxRegistrate, val itemId: String) :
     }
     return this
   }
+
+  fun recipe(factory: ItemRecipeFactory): ItemBuilder {
+    this.recipeFactory = factory
+    return this
+  }
+
 
   // @ Registering
   private fun asEntry(): ItemEntry {

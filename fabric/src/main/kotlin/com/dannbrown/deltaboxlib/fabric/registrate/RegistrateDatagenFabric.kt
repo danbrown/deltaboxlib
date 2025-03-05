@@ -172,8 +172,14 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.Factory { dataOutput ->
       object : FabricRecipeProvider(dataOutput) {
         override fun buildRecipes(exporter: Consumer<FinishedRecipe>) {
-          registrate.recipeRegistry.getRecipes().forEach { factory ->
+          for (factory in registrate.recipeRegistry.getRecipes()) {
             factory.invoke(RegistrateRecipes(registrate, exporter))
+          }
+          for (block in registrate.blockRegistry.entries) {
+            block.recipeFactory.invoke(RegistrateRecipes(registrate, exporter), block.getBlock())
+          }
+          for (item in registrate.itemRegistry.entries) {
+            item.recipeFactory.invoke(RegistrateRecipes(registrate, exporter), item.getItem())
           }
         }
       }

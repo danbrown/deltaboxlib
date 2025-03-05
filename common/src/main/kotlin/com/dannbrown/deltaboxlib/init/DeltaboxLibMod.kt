@@ -41,6 +41,15 @@ object DeltaboxLibMod {
     .factory { c, p -> RotatedPillarBlock(p) }
     .strippable(BlockEntry.from(Blocks.ACACIA_LOG))
     .tag(BlockTags.DIRT)
+    .recipe { r, b ->
+      r.directShapelessRecipe(
+        { b.get() },
+        { Ingredient.of(SECOND_BLOCK.getItem()) },
+        RecipeCategory.BUILDING_BLOCKS,
+        2,
+        "_from_second"
+      )
+    }
     .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_STONE_TOOL)
     .item()
     .tag(ItemTags.NON_FLAMMABLE_WOOD, ItemTags.WART_BLOCKS)

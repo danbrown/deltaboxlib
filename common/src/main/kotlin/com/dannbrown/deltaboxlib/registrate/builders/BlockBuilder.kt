@@ -5,6 +5,7 @@ import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import com.dannbrown.deltaboxlib.registrate.types.BlockItemFactory
 import com.dannbrown.deltaboxlib.registrate.types.BlockLootTableFactory
+import com.dannbrown.deltaboxlib.registrate.types.BlockRecipeFactory
 import com.dannbrown.deltaboxlib.registrate.types.BlockstateFactory
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.tags.TagKey
@@ -27,6 +28,7 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
 
   var lootTableFactory: BlockLootTableFactory = defaultLootTableFactory()
   var blockstateFactory: BlockstateFactory = defaultBlockstateFactory()
+  var recipeFactory: BlockRecipeFactory = defaultRecipeFactory()
 
   // @ Default factories
   private fun defaultItemBuilder(): ItemBuilder {
@@ -45,6 +47,10 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
 
   private fun defaultItemBlockFactory(): BlockItemFactory {
     return BlockItemFactory { p: Item.Properties, b: Block -> BlockItem(blockInstance.get(), p) }
+  }
+
+  private fun defaultRecipeFactory(): BlockRecipeFactory {
+    return { r, b -> /* do nothing */ }
   }
 
   // @ Get Functions
@@ -136,6 +142,11 @@ class BlockBuilder(registrate: AbstractDeltaboxRegistrate, val blockId: String) 
   fun toolAndTier(tool: TagKey<Block>?, tier: TagKey<Block>?): BlockBuilder {
     if (tool !== null) this.tag(tool)
     if (tier !== null) this.tag(tier)
+    return this
+  }
+
+  fun recipe(factory: BlockRecipeFactory): BlockBuilder {
+    this.recipeFactory = factory
     return this
   }
 
