@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.registrate.presets.blocks
 
+import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
 import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilder
@@ -41,5 +42,36 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     suffix: String = ""
   ): BlockBuilder<T> {
     return PottedBlockPreset(registrate, blockId, plantBlock, suffix).create()
+  }
+
+  // Leaves block presets
+  fun leavesBlock(
+    sapling: Supplier<GenericSaplingBlock>,
+    suffix: String = "_leaves"
+  ): BlockBuilder<T> {
+    return LeavesBlockPreset(registrate, blockId, sapling, suffix).create()
+  }
+
+  fun palmLeavesBlock(
+    sapling: Supplier<GenericSaplingBlock>,
+    suffix: String = "_palm_leaves"
+  ): BlockBuilder<T> {
+    return LeavesBlockPreset(registrate, blockId, sapling, suffix).createPalmLeaves()
+  }
+
+  fun buddingLeavesBlock(
+    sapling: Supplier<GenericSaplingBlock>,
+    fruitBlock: Supplier<Block>,
+    suffix: String = "_budding_leaves"
+  ): BlockBuilder<T> {
+    return LeavesBlockPreset(registrate, blockId, sapling, suffix).createBuddingLeaves(fruitBlock)
+  }
+
+  fun cropLeavesBlock(
+    sapling: Supplier<GenericSaplingBlock>,
+    itemToDrop: Supplier<ItemLike>,
+    suffix: String = "_crop_leaves"
+  ): BlockBuilder<T> {
+    return LeavesBlockPreset(registrate, blockId, sapling, suffix).createCropLeaves(itemToDrop)
   }
 }

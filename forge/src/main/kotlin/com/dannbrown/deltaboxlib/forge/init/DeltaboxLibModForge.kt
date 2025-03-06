@@ -3,6 +3,7 @@ package com.dannbrown.deltaboxlib.forge.init
 import com.dannbrown.deltaboxlib.forge.registrate.RegistrateInitForge
 import com.dannbrown.deltaboxlib.init.DeltaboxLibMod
 import dev.architectury.platform.forge.EventBuses
+import net.minecraftforge.client.model.generators.BlockStateProvider
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import thedarkcolour.kotlinforforge.forge.MOD_BUS

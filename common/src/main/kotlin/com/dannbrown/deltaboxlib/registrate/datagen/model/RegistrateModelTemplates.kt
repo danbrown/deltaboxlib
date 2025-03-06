@@ -14,6 +14,14 @@ object RegistrateModelTemplates {
 
   // BLOCK
   val CUBE_ALL = create(DeltaboxUtil.resourceLocation("minecraft", "block/cube_all"), RegistrateTextureSlots.ALL_SLOT)
+  val LEAVES =
+    create(
+      DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_leaves"),
+      RegistrateTextureSlots.ALL_SLOT
+    )
+
+  val CROP =
+    create(DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_crop"), TextureSlot.CROP)
   val BOTTOM_TOP = create(
     DeltaboxUtil.resourceLocation("minecraft", "block/cube_bottom_top"),
     TextureSlot.BOTTOM,
