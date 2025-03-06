@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.registrate.datagen.model
 
+import com.dannbrown.deltaboxlib.init.DeltaboxLibMod
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.data.models.model.ModelTemplate
 import net.minecraft.data.models.model.TextureSlot
@@ -19,8 +20,9 @@ object RegistrateModelTemplates {
     TextureSlot.TOP,
     TextureSlot.SIDE
   )
-  val CROSS = create(DeltaboxUtil.resourceLocation("minecraft", "block/cross"), TextureSlot.CROSS)
-  val POTTED_FLOWER = create(DeltaboxUtil.resourceLocation("minecraft", "block/flower_pot_cross"), TextureSlot.PLANT)
+  val CROSS = create(DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_cross"), TextureSlot.CROSS)
+  val POTTED_FLOWER =
+    create(DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_flower_pot_cross"), TextureSlot.PLANT)
 
   fun create(parent: ResourceLocation, vararg textureSlots: TextureSlot): ModelTemplate {
     return ModelTemplate(Optional.of(parent), Optional.empty(), *textureSlots)

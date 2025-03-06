@@ -8,8 +8,12 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.flag.FeatureFlags
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.storage.loot.BuiltInLootTables
+import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 import java.util.concurrent.CompletableFuture
 import java.util.function.BiConsumer
 import java.util.function.Function
@@ -19,7 +23,27 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
   BlockLootSubProvider(setOf(), FeatureFlags.REGISTRY.allFlags()), DataProvider {
   // new functions for Registrate
   fun noLoot(block: Supplier<Block>) {
-    add(block.get(), LootTable.lootTable())
+    super.add(block.get(), LootTable.lootTable())
+  }
+
+  fun pottedBlock(block: Supplier<Block>, plant: Supplier<Block>) {
+    super.add(
+      block.get(), LootTable.lootTable()
+        .withPool(
+          applyExplosionCondition(
+            Blocks.FLOWER_POT, LootPool.lootPool()
+              .setRolls(ConstantValue.exactly(1.0f))
+              .add(LootItem.lootTableItem(Blocks.FLOWER_POT))
+          )
+        )
+        .withPool(
+          applyExplosionCondition(
+            plant.get(), LootPool.lootPool()
+              .setRolls(ConstantValue.exactly(1.0f))
+              .add(LootItem.lootTableItem(plant.get()))
+          )
+        )
+    )
   }
 
   // functions from BlockLootSubProvider that need to be public
@@ -46,6 +70,7 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
   public override fun createDoorTable(block: Block): LootTable.Builder {
     return super.createDoorTable(block)
   }
+
 
   // generate function to hold on fabric
   override fun generate(biConsumer: BiConsumer<ResourceLocation, LootTable.Builder>) {

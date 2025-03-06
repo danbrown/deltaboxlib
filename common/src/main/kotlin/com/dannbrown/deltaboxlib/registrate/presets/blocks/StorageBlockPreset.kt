@@ -1,4 +1,4 @@
-package com.dannbrown.deltaboxlib.registrate.presets
+package com.dannbrown.deltaboxlib.registrate.presets.blocks
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilder
@@ -10,13 +10,13 @@ import java.util.function.Supplier
 
 class StorageBlockPreset(
   val registrate: AbstractDeltaboxRegistrate,
-  val _name: String,
+  val blockId: String,
   val ingotItem: Supplier<ItemLike>,
   val ingredient: Supplier<Ingredient>,
   val addSuffix: Boolean = true
-) {
+) : IBlockBuilderPreset(registrate, blockId) {
   fun <T : Block> create(): BlockBuilder<T> {
-    return registrate.block<T>(_name)
+    return registrate.block<T>(blockId)
       .suffix(
         if (addSuffix) {
           "_block"
@@ -24,13 +24,13 @@ class StorageBlockPreset(
           ""
         }
       )
-      .blockTags(*BlockTagPresets.storageBlockTags(_name).first.toTypedArray())
+      .blockTags(*BlockTagPresets.storageBlockTags(blockId).first.toTypedArray())
       .recipe { r, b -> r.storageBlockRecipe({ b.get() }, ingotItem, ingredient) }
-      .itemTags(*BlockTagPresets.storageBlockTags(_name).second.toTypedArray())
+      .itemTags(*BlockTagPresets.storageBlockTags(blockId).second.toTypedArray())
   }
 
   fun <T : Block> createSmall(): BlockBuilder<T> {
-    return registrate.block<T>(_name)
+    return registrate.block<T>(blockId)
       .suffix(
         if (addSuffix) {
           "_block"
@@ -38,8 +38,8 @@ class StorageBlockPreset(
           ""
         }
       )
-      .blockTags(*BlockTagPresets.storageBlockTags(_name).first.toTypedArray())
+      .blockTags(*BlockTagPresets.storageBlockTags(blockId).first.toTypedArray())
       .recipe { r, b -> r.smallStorageBlockRecipe({ b.get() }, ingotItem, ingredient) }
-      .itemTags(*BlockTagPresets.storageBlockTags(_name).second.toTypedArray())
+      .itemTags(*BlockTagPresets.storageBlockTags(blockId).second.toTypedArray())
   }
 }

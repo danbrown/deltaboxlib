@@ -18,8 +18,13 @@ data class BlockEntry<T : Block>(private val builder: BlockBuilder<T>?, private 
   }
 
   fun get(): Block {
-    return if (setupBlock !== null) setupBlock!!.get() else if (builder !== null) builder.getBlock()
-      .get() else throw throw NoSuchFieldError("This block entry is invalid")
+    return if (setupBlock !== null) setupBlock!!.get() else if (builder !== null) builder.getBlock().get()
+    else throw throw NoSuchFieldError("This block entry is invalid")
+  }
+
+  fun supplier(): Supplier<Block> {
+    return if (setupBlock !== null) setupBlock!! else if (builder !== null) builder.getBlock()
+    else throw throw NoSuchFieldError("This block entry is invalid")
   }
 
   fun getItem(): Item {

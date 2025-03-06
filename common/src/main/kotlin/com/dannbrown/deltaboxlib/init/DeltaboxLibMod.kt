@@ -1,7 +1,9 @@
 package com.dannbrown.deltaboxlib.init
 
 import com.dannbrown.deltaboxlib.content.block.FlammableBlock
-import com.dannbrown.deltaboxlib.registrate.presets.StorageBlockPreset
+import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
+import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
+import com.dannbrown.deltaboxlib.registrate.presets.blocks.StorageBlockPreset
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import net.minecraft.data.recipes.RecipeCategory
@@ -14,6 +16,7 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.RotatedPillarBlock
 
 object DeltaboxLibMod {
@@ -59,10 +62,10 @@ object DeltaboxLibMod {
       )
     }
     .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_STONE_TOOL)
+    .blockstate { ctx, block -> ctx.bottomTopBlock(block.get(), "crate_bottom") }
     .item()
     .itemTags(ItemTags.NON_FLAMMABLE_WOOD, ItemTags.WART_BLOCKS)
     .build()
-    .blockstate { ctx, block -> ctx.bottomTopBlock(block.get(), "crate_bottom") }
     .register()
 
   val ADAMANTIUM_INGOT = REGISTRATE
@@ -106,6 +109,45 @@ object DeltaboxLibMod {
       "_from_wood"
     )
   }
+
+  val LEMON_SAPLING: BlockEntry<GenericSaplingBlock> = REGISTRATE
+    .blockPreset<GenericSaplingBlock>("lemon")
+    .saplingBlock({ DeltaboxTreeGrower.SAMPLE }) { blockState, _, _ -> blockState.`is`(BlockTags.DIRT) }
+    .register()
+  val POTTED_LEMON_SAPLING: BlockEntry<FlowerPotBlock> = REGISTRATE
+    .blockPreset<FlowerPotBlock>("lemon")
+    .pottedBlock(LEMON_SAPLING, "_sapling")
+    .register()
+
+//  val SIMPLE_GRASS: BlockEntry<GenericGrassBlock> = BLOCKS.grassBlock("simple_grass", { Items.WHEAT_SEEDS })
+//    .register()
+//  val SIMPLE_FLOWER: BlockEntry<TrailFlowerBlock> =
+//    BLOCKS.create<TrailFlowerBlock>("simple_flower")
+////      .flowerBlock("simple_flower", true, true, true, { blockState, _, _ -> blockState.`is`(BlockTags.SAND) })
+//      .blockFactory { p -> TrailFlowerBlock(p) }
+//      .copyFrom { Blocks.POPPY }
+//      .properties { p ->
+//        p.sound(SoundType.GRASS)
+//          .strength(0.0f)
+//          .noCollission()
+//          .noOcclusion()
+//          .randomTicks()
+//      }
+//      .blockstate(BlockstatePresets.simpleCrossBlock("simple_flower"))
+//      .loot(BlockLootPresets.dropItselfLoot())
+//      .transform { t ->
+//        t
+//          .item()
+//          .model(ItemModelPresets.simpleLayerItem("simple_flower"))
+//          .build()
+//      }
+//      .cutoutRender()
+//      .register()
+//
+//  val POTTED_SIMPLE_GRASS: BlockEntry<FlowerPotBlock> = BLOCKS.pottedBlock("simple_grass", SIMPLE_GRASS)
+//    .register()
+//  val POTTED_SIMPLE_FLOWER: BlockEntry<FlowerPotBlock> = BLOCKS.pottedBlock("simple_flower", SIMPLE_FLOWER)
+//    .register()
 
   fun init() {
     REGISTRATE.buildRegistries()

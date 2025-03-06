@@ -1,6 +1,7 @@
 package com.dannbrown.deltaboxlib.fabric.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
@@ -28,5 +29,12 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
       ) throw BadAttributeValueExpException("Input stripped block should have 'axis' property!")
       StrippableBlockRegistry.register(block.getBlock().get(), other.get())
     }
+  }
+
+  fun initClient() {
+    BlockRenderLayerMap.INSTANCE.putBlocks(net.minecraft.client.renderer.RenderType.cutout(),
+      *registrate.blockRegistry.entries.filter { it.getContext().hasCutoutRender }.map { it.getBlock().get() }
+        .toTypedArray()
+    )
   }
 }

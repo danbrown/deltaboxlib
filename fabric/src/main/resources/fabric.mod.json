@@ -20,6 +20,12 @@
         "value": "com.dannbrown.${mod_id}.fabric.init.DeltaboxLibModFabric"
       }
     ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.dannbrown.${mod_id}.fabric.init.DeltaboxLibModFabric"
+      }
+    ],
     "fabric-datagen": [
       "com.dannbrown.${mod_id}.fabric.init.DeltaboxLibDatagenFabric"
     ]

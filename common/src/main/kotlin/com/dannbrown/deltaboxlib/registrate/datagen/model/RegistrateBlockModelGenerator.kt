@@ -2,12 +2,12 @@ package com.dannbrown.deltaboxlib.registrate.datagen.model
 
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.google.gson.JsonElement
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.blockstates.BlockStateGenerator
 import net.minecraft.data.models.blockstates.MultiVariantGenerator
 import net.minecraft.data.models.blockstates.Variant
 import net.minecraft.data.models.blockstates.VariantProperties
-import net.minecraft.data.models.model.ModelLocationUtils
 import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.resources.ResourceLocation
@@ -28,7 +28,7 @@ class RegistrateBlockModelGenerator(
 
   fun cubeAll(block: Block, texture: String = "") {
     val location = RegistrateModelTemplates.CUBE_ALL.create(
-      ModelLocationUtils.getModelLocation(block),
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/"),
       TextureMapping().put(RegistrateTextureSlots.ALL_SLOT, optionalTexture(block, texture)),
       this.modelOutput
     )
@@ -42,7 +42,7 @@ class RegistrateBlockModelGenerator(
 
   fun bottomTopBlock(block: Block, bottomTexture: String = "", topTexture: String = "", sideTexture: String = "") {
     val location = RegistrateModelTemplates.BOTTOM_TOP.create(
-      ModelLocationUtils.getModelLocation(block),
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/"),
       TextureMapping()
         .put(TextureSlot.BOTTOM, optionalTexture(block, bottomTexture, "_bottom", "block/"))
         .put(TextureSlot.TOP, optionalTexture(block, topTexture, "_top", "block/"))
@@ -59,8 +59,8 @@ class RegistrateBlockModelGenerator(
 
   fun crossBlock(block: Block, crossTexture: String = "") {
     val location = RegistrateModelTemplates.CROSS.create(
-      ModelLocationUtils.getModelLocation(block),
-      TextureMapping().put(TextureSlot.CROSS, optionalTexture(block, crossTexture, "", "item/")),
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/"),
+      TextureMapping().put(TextureSlot.CROSS, optionalTexture(block, crossTexture, "", "block/")),
       this.modelOutput
     )
     this.blockStateOutput.accept(
@@ -71,7 +71,7 @@ class RegistrateBlockModelGenerator(
     )
   }
 
-  fun flowerPotPlant(plant: Block, pottedPlant: Block) {
+  fun pottedPlantBlock(pottedPlant: Block, plant: Block) {
     val location =
       RegistrateModelTemplates.POTTED_FLOWER.create(pottedPlant, TextureMapping.plant(plant), this.modelOutput)
     this.blockStateOutput.accept(
