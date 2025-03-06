@@ -1,6 +1,7 @@
 package com.dannbrown.deltaboxlib.registrate
 
 import com.dannbrown.deltaboxlib.registrate.builders.*
+import com.dannbrown.deltaboxlib.registrate.presets.BlockPresets
 import com.dannbrown.deltaboxlib.registrate.registry.*
 import com.dannbrown.deltaboxlib.registrate.types.RecipeFactory
 import net.minecraft.tags.TagKey
@@ -17,6 +18,10 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
+  }
+
+  fun <T : Block> blockPreset(blockId: String): BlockPresets<T> {
+    return BlockPresets(this, blockId)
   }
 
   fun <T : Item> item(blockId: String): ItemBuilder<T> {

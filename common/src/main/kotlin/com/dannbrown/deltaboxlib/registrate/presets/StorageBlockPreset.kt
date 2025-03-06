@@ -14,9 +14,9 @@ class StorageBlockPreset(
   val ingotItem: Supplier<ItemLike>,
   val ingredient: Supplier<Ingredient>,
   val addSuffix: Boolean = true
-) : IBlockBuilderPreset(registrate) {
-  fun create(): BlockBuilder<*> {
-    return registrate.block<Block>(_name)
+) {
+  fun <T : Block> create(): BlockBuilder<T> {
+    return registrate.block<T>(_name)
       .suffix(
         if (addSuffix) {
           "_block"
@@ -29,8 +29,8 @@ class StorageBlockPreset(
       .itemTags(*BlockTagPresets.storageBlockTags(_name).second.toTypedArray())
   }
 
-  fun createSmall(generator: AbstractDeltaboxRegistrate): BlockBuilder<*> {
-    return generator.block<Block>(_name)
+  fun <T : Block> createSmall(): BlockBuilder<T> {
+    return registrate.block<T>(_name)
       .suffix(
         if (addSuffix) {
           "_block"

@@ -35,11 +35,12 @@ object DeltaboxLibMod {
     .strippable(ADAMANTIUM_BLOCK)
     .register()
 
-  val IRON_BLOCK2 =
-    StorageBlockPreset(REGISTRATE, "compiled_block", { Items.IRON_INGOT }, { Ingredient.of(Items.FLINT) }).create()
-      .copyFrom { Blocks.IRON_BLOCK }
-      .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_IRON_TOOL)
-      .register()
+  val IRON_BLOCK2 = REGISTRATE
+    .blockPreset<Block>("compiled_block")
+    .storageBlock({ Items.IRON_INGOT }, { Ingredient.of(Items.FLINT) })
+    .copyFrom { Blocks.IRON_BLOCK }
+    .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_IRON_TOOL)
+    .register()
 
 
   val ACAI_CRATE = REGISTRATE
