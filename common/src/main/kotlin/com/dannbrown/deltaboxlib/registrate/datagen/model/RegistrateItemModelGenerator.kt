@@ -4,6 +4,8 @@ import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.google.gson.JsonElement
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.models.ItemModelGenerators
+import net.minecraft.data.models.model.ModelTemplate
+import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.resources.ResourceLocation
@@ -48,6 +50,14 @@ class RegistrateItemModelGenerator(val output: BiConsumer<ResourceLocation, Supp
       TextureMapping()
         .put(TextureSlot.WALL, optionalTexture(item, wallTexture, "", "block/"))
         .put(TextureSlot.TOP, optionalTexture(item, topTexture, "_top", "block/")),
+      this.output
+    )
+  }
+
+  fun fenceInventory(item: Item, texture: String) {
+    ModelTemplates.FENCE_INVENTORY.create(
+      BuiltInRegistries.ITEM.getKey(item).withPrefix("item/"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(item, texture, "", "block/")),
       this.output
     )
   }

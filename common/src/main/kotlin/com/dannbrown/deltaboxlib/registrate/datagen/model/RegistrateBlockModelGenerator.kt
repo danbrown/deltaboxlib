@@ -544,6 +544,78 @@ class RegistrateBlockModelGenerator(
     this.blockStateOutput.accept(wallBlockstate)
   }
 
+  fun fence(block: Block, texture: String) {
+    val resourceLocation = ModelTemplates.FENCE_POST.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_post"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    )
+    val resourceLocation2 = ModelTemplates.FENCE_SIDE.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_side"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    )
+
+    val fenceBlockstate =
+      MultiPartGenerator.multiPart(block).with(Variant.variant().with(VariantProperties.MODEL, resourceLocation)).with(
+        Condition.condition().term(BlockStateProperties.NORTH, true),
+        Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.UV_LOCK, true)
+      ).with(
+        Condition.condition().term(BlockStateProperties.EAST, true),
+        Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.Y_ROT, Rotation.R90)
+          .with(VariantProperties.UV_LOCK, true)
+      ).with(
+        Condition.condition().term(BlockStateProperties.SOUTH, true),
+        Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.Y_ROT, Rotation.R180)
+          .with(VariantProperties.UV_LOCK, true)
+      ).with(
+        Condition.condition().term(BlockStateProperties.WEST, true),
+        Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.Y_ROT, Rotation.R270)
+          .with(VariantProperties.UV_LOCK, true)
+      );
+
+    this.blockStateOutput.accept(fenceBlockstate)
+  }
+
+  fun fenceGate(block: Block, texture: String) {
+    val resourceLocation = ModelTemplates.FENCE_GATE_OPEN.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_open"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    );
+    val resourceLocation2 = ModelTemplates.FENCE_GATE_CLOSED.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(""),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    );
+    val resourceLocation3 = ModelTemplates.FENCE_GATE_WALL_OPEN.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_wall_open"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    );
+    val resourceLocation4 = ModelTemplates.FENCE_GATE_WALL_CLOSED.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_wall"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    );
+
+    val fencegateBlockstate =
+      MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.UV_LOCK, true))
+        .with(
+          PropertyDispatch.property(BlockStateProperties.HORIZONTAL_FACING).select(Direction.SOUTH, Variant.variant())
+            .select(Direction.WEST, Variant.variant().with(VariantProperties.Y_ROT, Rotation.R90))
+            .select(Direction.NORTH, Variant.variant().with(VariantProperties.Y_ROT, Rotation.R180))
+            .select(Direction.EAST, Variant.variant().with(VariantProperties.Y_ROT, Rotation.R270))
+        ).with(
+          PropertyDispatch.properties(BlockStateProperties.IN_WALL, BlockStateProperties.OPEN)
+            .select(false, false, Variant.variant().with(VariantProperties.MODEL, resourceLocation2))
+            .select(true, false, Variant.variant().with(VariantProperties.MODEL, resourceLocation4))
+            .select(false, true, Variant.variant().with(VariantProperties.MODEL, resourceLocation))
+            .select(true, true, Variant.variant().with(VariantProperties.MODEL, resourceLocation3))
+        )
+    this.blockStateOutput.accept(fencegateBlockstate)
+  }
+
 //  fun createCropLeavesBlock(
 //    block: Block
 //  ) {

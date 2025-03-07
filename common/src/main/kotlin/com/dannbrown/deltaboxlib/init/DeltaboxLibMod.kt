@@ -16,11 +16,14 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.FenceBlock
+import net.minecraft.world.level.block.FenceGateBlock
 import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.RotatedPillarBlock
 import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.StairBlock
 import net.minecraft.world.level.block.WallBlock
+import net.minecraft.world.level.block.state.properties.WoodType
 
 object DeltaboxLibMod {
   const val MOD_ID = "deltaboxlib"
@@ -172,6 +175,17 @@ object DeltaboxLibMod {
     .copyFrom { Blocks.RED_SANDSTONE_WALL }
     .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, null, true)
     .register()
+
+  val PALE_OAK_FENCE = REGISTRATE.blockPreset<FenceBlock>("pale_oak").fence("pale_oak_planks")
+    .copyFrom { Blocks.OAK_FENCE }
+    .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+    .register()
+
+  val PALE_OAK_FENCE_GATE =
+    REGISTRATE.blockPreset<FenceGateBlock>("pale_oak").fenceGate("pale_oak_planks", WoodType.BAMBOO)
+      .copyFrom { Blocks.OAK_FENCE }
+      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+      .register()
 
 //  val PALE_OAK_WALL = REGISTRATE.blockPreset<WallBlock>("pale_oak").wall("pale_oak_planks", false)
 //    .copyFrom { Blocks.OAK_FENCE }

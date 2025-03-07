@@ -11,6 +11,7 @@ import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.WoodType
 import java.util.function.Supplier
 
 class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val blockId: String) {
@@ -114,5 +115,20 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     addSuffix: Boolean = true
   ): BlockBuilder<T> {
     return CommonBlockPreset(registrate, blockId).createWall(textureName, bottomTop, addSuffix)
+  }
+
+  fun fence(
+    textureName: String,
+    addSuffix: Boolean = true
+  ): BlockBuilder<T> {
+    return CommonBlockPreset(registrate, blockId).createFence(textureName, addSuffix)
+  }
+
+  fun fenceGate(
+    textureName: String,
+    woodType: WoodType,
+    addSuffix: Boolean = true
+  ): BlockBuilder<T> {
+    return CommonBlockPreset(registrate, blockId).createFenceGate(textureName, woodType, addSuffix)
   }
 }

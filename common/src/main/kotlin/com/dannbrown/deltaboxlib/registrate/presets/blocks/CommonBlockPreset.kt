@@ -144,10 +144,10 @@ class CommonBlockPreset(
       .block<T>(nameWithSuffix)
       .factory { c, p -> FenceBlock(p) }
       .copyFrom { if (isWooden) Blocks.OAK_FENCE else Blocks.NETHER_BRICK_FENCE }
-//      .blockstate(BlockstatePresets.fenceBlock(textureName))
+      .blockstate { g, b -> g.fence(b.get(), textureName) }
       .blockTags(*BlockTagPresets.fenceTags(isWooden).first.toTypedArray())
       .item()
-//      .model(ItemModelPresets.fenceItem(textureName))
+      .model { g, i -> g.fenceInventory(i.get(), textureName) }
       .itemTags(*BlockTagPresets.fenceTags(isWooden).second.toTypedArray())
       .build()
       .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
@@ -163,7 +163,7 @@ class CommonBlockPreset(
       .block<T>(nameWithSuffix)
       .factory { c, p -> FenceGateBlock(p, woodType) }
       .copyFrom { Blocks.OAK_FENCE_GATE }
-//      .blockstate(BlockstatePresets.fenceGateBlock(textureName))
+      .blockstate { g, b -> g.fenceGate(b.get(), textureName) }
       .loot { g, b -> g.dropSelf(b.get()) }
       .blockTags(BlockTags.FENCE_GATES)
   }

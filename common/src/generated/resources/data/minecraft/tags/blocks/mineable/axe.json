@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "deltaboxlib:pale_oak_stairs",
-    "deltaboxlib:pale_oak_slab"
+    "deltaboxlib:pale_oak_slab",
+    "deltaboxlib:pale_oak_fence",
+    "deltaboxlib:pale_oak_fence_gate"
   ]
 }
