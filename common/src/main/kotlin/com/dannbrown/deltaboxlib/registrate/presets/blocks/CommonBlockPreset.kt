@@ -61,11 +61,14 @@ class CommonBlockPreset(
       .block<T>(nameWithSuffix)
       .factory { c, p -> StairBlock(Blocks.STONE.defaultBlockState(), p) }
       .copyFrom { if (isWooden) Blocks.OAK_STAIRS else Blocks.COBBLESTONE_STAIRS }
-//      .blockstate(
-//        if (bottomTop) BlockstatePresets.bottomTopStairsBlock(textureName) else BlockstatePresets.stairsBlock(
-//          textureName
-//        )
-//      )
+      .blockstate { g, b ->
+        if (bottomTop) g.bottomTopStairs(
+          b.get(),
+          "${textureName}_bottom",
+          "${textureName}_top",
+          textureName
+        ) else g.stairs(b.get(), textureName)
+      }
       .blockTags(*(if (isWooden) BlockTagPresets.woodenStairsTags().first.toTypedArray() else BlockTagPresets.stairsTags().first.toTypedArray()))
       .item()
       .itemTags(*(if (isWooden) BlockTagPresets.woodenStairsTags().second.toTypedArray() else BlockTagPresets.stairsTags().second.toTypedArray()))

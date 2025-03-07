@@ -89,4 +89,13 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   ): BlockBuilder<T> {
     return CommonBlockPreset(registrate, blockId).createRotatedPillar(topName, sideName)
   }
+
+  fun stairs(
+    textureName: String,
+    bottomTop: Boolean = false,
+    isWooden: Boolean = false,
+    addSuffix: Boolean = true
+  ): BlockBuilder<T> {
+    return CommonBlockPreset(registrate, blockId).createStairs(textureName, bottomTop, isWooden, addSuffix)
+  }
 }
