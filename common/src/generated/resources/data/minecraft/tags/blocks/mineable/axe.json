@@ -4,6 +4,9 @@
     "deltaboxlib:pale_oak_stairs",
     "deltaboxlib:pale_oak_slab",
     "deltaboxlib:pale_oak_fence",
-    "deltaboxlib:pale_oak_fence_gate"
+    "deltaboxlib:pale_oak_fence_gate",
+    "deltaboxlib:pale_oak_pressure_plate",
+    "deltaboxlib:pale_oak_button",
+    "deltaboxlib:pale_oak_trapdoor"
   ]
 }

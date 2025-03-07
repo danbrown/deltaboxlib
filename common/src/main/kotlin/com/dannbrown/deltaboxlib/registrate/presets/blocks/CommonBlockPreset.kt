@@ -179,11 +179,10 @@ class CommonBlockPreset(
       .block<T>(nameWithSuffix)
       .factory { c, p -> PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, p, blockSetType) }
       .copyFrom { if (isWooden) Blocks.OAK_PRESSURE_PLATE else Blocks.STONE_PRESSURE_PLATE }
-//      .blockstate(BlockstatePresets.pressurePlateBlock(textureName))
+      .blockstate { g, b -> g.pressurePlate(b.get(), textureName) }
       .properties { c, p -> p.noCollission().strength(0.5F) }
       .blockTags(*BlockTagPresets.pressurePlateTags(isWooden).first.toTypedArray())
       .item()
-//      .model(ItemModelPresets.pressurePlateItem(textureName))
       .itemTags(*BlockTagPresets.pressurePlateTags(isWooden).second.toTypedArray())
       .build()
       .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
@@ -201,10 +200,10 @@ class CommonBlockPreset(
       .factory { c, p -> ButtonBlock(p, blockSetType, 30, isWooden) }
       .copyFrom { if (isWooden) Blocks.OAK_BUTTON else Blocks.STONE_BUTTON }
       .properties { c, p -> p.noCollission().strength(0.5F) }
-//      .blockstate(BlockstatePresets.buttonBlock(textureName))
+      .blockstate { g, b -> g.button(b.get(), textureName) }
       .blockTags(*BlockTagPresets.buttonTags(isWooden).first.toTypedArray())
       .item()
-//      .model(ItemModelPresets.buttonItem(textureName))
+      .model { g, i -> g.buttonInventory(i.get(), textureName) }
       .itemTags(*BlockTagPresets.buttonTags(isWooden).second.toTypedArray())
       .build()
       .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
@@ -212,7 +211,6 @@ class CommonBlockPreset(
 
   fun <T : Block> createWoodenTrapdoor(
     blockSetType: BlockSetType,
-    orientable: Boolean = true,
     addSuffix: Boolean = true
   ): BlockBuilder<T> {
     val nameWithSuffix = if (addSuffix) "${blockId}_trapdoor" else blockId
@@ -220,14 +218,13 @@ class CommonBlockPreset(
       .block<T>(nameWithSuffix)
       .factory { c, p -> TrapDoorBlock(p, blockSetType) }
       .copyFrom { Blocks.OAK_TRAPDOOR }
-//      .blockstate(BlockstatePresets.trapdoorBlock(nameWithSuffix, orientable))
+      .blockstate { g, b -> g.trapdoor(b.get(), nameWithSuffix) }
       .properties { c, p ->
         p.sound(SoundType.WOOD).noOcclusion()
       }
       .blockTags(*BlockTagPresets.woodenTrapdoorTags().first.toTypedArray())
       .item()
       .itemTags(*BlockTagPresets.woodenTrapdoorTags().second.toTypedArray())
-//      .model(ItemModelPresets.trapdoorItem(nameWithSuffix))
       .build()
       .cutoutRender()
       .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>

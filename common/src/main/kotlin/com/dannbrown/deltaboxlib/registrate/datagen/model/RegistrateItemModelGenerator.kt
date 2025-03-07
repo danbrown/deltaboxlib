@@ -62,6 +62,14 @@ class RegistrateItemModelGenerator(val output: BiConsumer<ResourceLocation, Supp
     )
   }
 
+  fun buttonInventory(item: Item, texture: String) {
+    ModelTemplates.BUTTON_INVENTORY.create(
+      BuiltInRegistries.ITEM.getKey(item).withPrefix("item/"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(item, texture, "", "block/")),
+      this.output
+    )
+  }
+
   fun blockItem(block: Block) {
     RegistrateModelTemplates.create(TextureMapping.getBlockTexture(block))
   }

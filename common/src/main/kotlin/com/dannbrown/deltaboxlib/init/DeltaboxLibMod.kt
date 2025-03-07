@@ -16,13 +16,17 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.ButtonBlock
 import net.minecraft.world.level.block.FenceBlock
 import net.minecraft.world.level.block.FenceGateBlock
 import net.minecraft.world.level.block.FlowerPotBlock
+import net.minecraft.world.level.block.PressurePlateBlock
 import net.minecraft.world.level.block.RotatedPillarBlock
 import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.StairBlock
+import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallBlock
+import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
 
 object DeltaboxLibMod {
@@ -186,6 +190,25 @@ object DeltaboxLibMod {
       .copyFrom { Blocks.OAK_FENCE }
       .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
       .register()
+
+  val PALE_OAK_PRESSURE_PLATE =
+    REGISTRATE.blockPreset<PressurePlateBlock>("pale_oak").pressurePlate("pale_oak_planks", BlockSetType.BIRCH)
+      .copyFrom { Blocks.OAK_PRESSURE_PLATE }
+      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+      .register()
+
+  val PALE_OAK_BUTTON =
+    REGISTRATE.blockPreset<ButtonBlock>("pale_oak").button("pale_oak_planks", BlockSetType.BIRCH)
+      .copyFrom { Blocks.OAK_BUTTON }
+      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+      .register()
+
+  val PALE_OAK_TRAPDOOR =
+    REGISTRATE.blockPreset<TrapDoorBlock>("pale_oak").woodenTrapdoor(BlockSetType.BIRCH)
+      .copyFrom { Blocks.OAK_TRAPDOOR }
+      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+      .register()
+
 
 //  val PALE_OAK_WALL = REGISTRATE.blockPreset<WallBlock>("pale_oak").wall("pale_oak_planks", false)
 //    .copyFrom { Blocks.OAK_FENCE }

@@ -25,6 +25,7 @@ import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.properties.AttachFace
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.Half
 import net.minecraft.world.level.block.state.properties.SlabType
@@ -94,7 +95,7 @@ class RegistrateBlockModelGenerator(
       MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, location)).with(
         rotatedPillarState
       )
-    );
+    )
   }
 
   fun crossBlock(block: Block, crossTexture: String = "") {
@@ -435,7 +436,7 @@ class RegistrateBlockModelGenerator(
         Variant.variant().with(VariantProperties.MODEL, resourceLocation).with(VariantProperties.X_ROT, Rotation.R180)
           .with(VariantProperties.Y_ROT, Rotation.R270).with(VariantProperties.UV_LOCK, true)
       )
-    );
+    )
 
     this.blockStateOutput.accept(stairsBlockstate)
   }
@@ -572,7 +573,7 @@ class RegistrateBlockModelGenerator(
         Condition.condition().term(BlockStateProperties.WEST, true),
         Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.Y_ROT, Rotation.R270)
           .with(VariantProperties.UV_LOCK, true)
-      );
+      )
 
     this.blockStateOutput.accept(fenceBlockstate)
   }
@@ -582,22 +583,22 @@ class RegistrateBlockModelGenerator(
       BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_open"),
       TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
       this.modelOutput
-    );
+    )
     val resourceLocation2 = ModelTemplates.FENCE_GATE_CLOSED.create(
       BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(""),
       TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
       this.modelOutput
-    );
+    )
     val resourceLocation3 = ModelTemplates.FENCE_GATE_WALL_OPEN.create(
       BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_wall_open"),
       TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
       this.modelOutput
-    );
+    )
     val resourceLocation4 = ModelTemplates.FENCE_GATE_WALL_CLOSED.create(
       BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_wall"),
       TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
       this.modelOutput
-    );
+    )
 
     val fencegateBlockstate =
       MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.UV_LOCK, true))
@@ -616,64 +617,193 @@ class RegistrateBlockModelGenerator(
     this.blockStateOutput.accept(fencegateBlockstate)
   }
 
-//  fun createCropLeavesBlock(
-//    block: Block
-//  ) {
-//    val property = CropLeavesBlock.AGE
-//    val maxStages = CropLeavesBlock.MAX_AGE
-//    require(property.possibleValues.size == maxStages) { "Property values size must match stages size." }
-//
-//    val int2ObjectMap = Int2ObjectOpenHashMap<ResourceLocation>()
-//    val propertyDispatch = PropertyDispatch.property(property).generate { index ->
-//      val resourceLocation = int2ObjectMap.get(index) ?: createSuffixedVariant(
-//        block,
-//        "_stage$index",
-//        RegistrateModelTemplates.CROP
-//      ) { TextureMapping.crop(it) }.also { int2ObjectMap.put(index, it) }
-//
-//      Variant.variant().with(VariantProperties.MODEL, resourceLocation)
-//    }
-//
-//    RegistrateModelTemplates.FLAT_ITEM.create(
-//      ModelLocationUtils.getModelLocation(block.asItem()),
-//      TextureMapping.layer0(block.asItem()),
-//      this.modelOutput
-//    )
-//    blockStateOutput.accept(MultiVariantGenerator.multiVariant(block).with(propertyDispatch))
-//  }
-//
-//  private fun createSuffixedVariant(
-//    block: Block,
-//    suffix: String,
-//    modelTemplate: ModelTemplate,
-//    textureMapper: (ResourceLocation) -> TextureMapping
-//  ): ResourceLocation {
-//    return modelTemplate.createWithSuffix(
-//      block,
-//      suffix,
-//      textureMapper(TextureMapping.getBlockTexture(block, suffix)),
-//      this.modelOutput
-//    )
-//  }
+  fun pressurePlate(block: Block, texture: String) {
+    val resourceLocation = ModelTemplates.PRESSURE_PLATE_UP.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(""),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    )
+    val resourceLocation2 = ModelTemplates.PRESSURE_PLATE_DOWN.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_down"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    )
 
+    val pressurePlateBlockstate = MultiVariantGenerator.multiVariant(block)
+      .with(
+        PropertyDispatch.property(BlockStateProperties.POWERED)
+          .select(false, Variant.variant().with(VariantProperties.MODEL, resourceLocation))
+          .select(true, Variant.variant().with(VariantProperties.MODEL, resourceLocation2))
+      )
 
-//
-//  fun <B : Block> cropLeavesBlock(name: String): NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> {
-//    return NonNullBiConsumer { c, p ->
-//      p.getVariantBuilder(c.get()).forAllStates { state ->
-//        val age: Int = state.getValue(CropLeavesBlock.AGE)
-//        val suffix = if (age > 0) "_stage$age" else ""
-//        ConfiguredModel.builder()
-//          .modelFile(
-//            p.models()
-//              .withExistingParent(c.name + suffix, p.mcLoc("block/leaves"))
-//              .texture("all", p.modLoc("block/${name}${suffix}"))
-//              .renderType("cutout_mipped")
-//          )
-//          .build()
-//      }
-//    }
-//  }
+    this.blockStateOutput.accept(pressurePlateBlockstate)
+  }
+
+  fun button(block: Block, texture: String) {
+    val resourceLocation = ModelTemplates.BUTTON.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(""),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    )
+    val resourceLocation2 = ModelTemplates.BUTTON_PRESSED.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_down"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    )
+    val buttonBlockstate = MultiVariantGenerator.multiVariant(block).with(
+      PropertyDispatch.property(BlockStateProperties.POWERED)
+        .select(false, Variant.variant().with(VariantProperties.MODEL, resourceLocation))
+        .select(true, Variant.variant().with(VariantProperties.MODEL, resourceLocation2))
+    ).with(
+      PropertyDispatch.properties(BlockStateProperties.ATTACH_FACE, BlockStateProperties.HORIZONTAL_FACING)
+        .select(AttachFace.FLOOR, Direction.EAST, Variant.variant().with(VariantProperties.Y_ROT, Rotation.R90))
+        .select(AttachFace.FLOOR, Direction.WEST, Variant.variant().with(VariantProperties.Y_ROT, Rotation.R270))
+        .select(AttachFace.FLOOR, Direction.SOUTH, Variant.variant().with(VariantProperties.Y_ROT, Rotation.R180))
+        .select(AttachFace.FLOOR, Direction.NORTH, Variant.variant()).select(
+          AttachFace.WALL,
+          Direction.EAST,
+          Variant.variant().with(VariantProperties.Y_ROT, Rotation.R90).with(VariantProperties.X_ROT, Rotation.R90)
+            .with(VariantProperties.UV_LOCK, true)
+        ).select(
+          AttachFace.WALL,
+          Direction.WEST,
+          Variant.variant().with(VariantProperties.Y_ROT, Rotation.R270).with(VariantProperties.X_ROT, Rotation.R90)
+            .with(VariantProperties.UV_LOCK, true)
+        ).select(
+          AttachFace.WALL,
+          Direction.SOUTH,
+          Variant.variant().with(VariantProperties.Y_ROT, Rotation.R180).with(VariantProperties.X_ROT, Rotation.R90)
+            .with(VariantProperties.UV_LOCK, true)
+        ).select(
+          AttachFace.WALL,
+          Direction.NORTH,
+          Variant.variant().with(VariantProperties.X_ROT, Rotation.R90).with(VariantProperties.UV_LOCK, true)
+        ).select(
+          AttachFace.CEILING,
+          Direction.EAST,
+          Variant.variant().with(VariantProperties.Y_ROT, Rotation.R270).with(VariantProperties.X_ROT, Rotation.R180)
+        ).select(
+          AttachFace.CEILING,
+          Direction.WEST,
+          Variant.variant().with(VariantProperties.Y_ROT, Rotation.R90).with(VariantProperties.X_ROT, Rotation.R180)
+        ).select(AttachFace.CEILING, Direction.SOUTH, Variant.variant().with(VariantProperties.X_ROT, Rotation.R180))
+        .select(
+          AttachFace.CEILING,
+          Direction.NORTH,
+          Variant.variant().with(VariantProperties.Y_ROT, Rotation.R180).with(VariantProperties.X_ROT, Rotation.R180)
+        )
+    )
+    this.blockStateOutput.accept(buttonBlockstate)
+  }
+
+  fun trapdoor(block: Block, texture: String) {
+    val resourceLocation = RegistrateModelTemplates.TRAPDOOR_TOP.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_top"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    )
+    val resourceLocation2 = RegistrateModelTemplates.TRAPDOOR_BOTTOM.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(""),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    )
+    val resourceLocation3 = RegistrateModelTemplates.TRAPDOOR_OPEN.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_open"),
+      TextureMapping().put(TextureSlot.TEXTURE, optionalTexture(block, texture, "", "block/")),
+      this.modelOutput
+    )
+
+    val trapdoorBlockstate = MultiVariantGenerator.multiVariant(block).with(
+      PropertyDispatch.properties(
+        BlockStateProperties.HORIZONTAL_FACING,
+        BlockStateProperties.HALF,
+        BlockStateProperties.OPEN
+      )
+        .select(Direction.NORTH, Half.BOTTOM, false, Variant.variant().with(VariantProperties.MODEL, resourceLocation2))
+        .select(
+          Direction.SOUTH,
+          Half.BOTTOM,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation2)
+            .with(VariantProperties.Y_ROT, Rotation.R180)
+        )
+        .select(
+          Direction.EAST,
+          Half.BOTTOM,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.Y_ROT, Rotation.R90)
+        )
+        .select(
+          Direction.WEST,
+          Half.BOTTOM,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation2)
+            .with(VariantProperties.Y_ROT, Rotation.R270)
+        ).select(Direction.NORTH, Half.TOP, false, Variant.variant().with(VariantProperties.MODEL, resourceLocation))
+        .select(
+          Direction.SOUTH,
+          Half.TOP,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation).with(VariantProperties.Y_ROT, Rotation.R180)
+        ).select(
+          Direction.EAST,
+          Half.TOP,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation).with(VariantProperties.Y_ROT, Rotation.R90)
+        ).select(
+          Direction.WEST,
+          Half.TOP,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation).with(VariantProperties.Y_ROT, Rotation.R270)
+        ).select(Direction.NORTH, Half.BOTTOM, true, Variant.variant().with(VariantProperties.MODEL, resourceLocation3))
+        .select(
+          Direction.SOUTH,
+          Half.BOTTOM,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3)
+            .with(VariantProperties.Y_ROT, Rotation.R180)
+        ).select(
+          Direction.EAST,
+          Half.BOTTOM,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3).with(VariantProperties.Y_ROT, Rotation.R90)
+        ).select(
+          Direction.WEST,
+          Half.BOTTOM,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3)
+            .with(VariantProperties.Y_ROT, Rotation.R270)
+        ).select(
+          Direction.NORTH,
+          Half.TOP,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3)
+            .with(VariantProperties.X_ROT, Rotation.R180)
+            .with(VariantProperties.Y_ROT, Rotation.R180)
+        ).select(
+          Direction.SOUTH,
+          Half.TOP,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3)
+            .with(VariantProperties.X_ROT, Rotation.R180)
+        ).select(
+          Direction.EAST,
+          Half.TOP,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3)
+            .with(VariantProperties.X_ROT, Rotation.R180)
+            .with(VariantProperties.Y_ROT, Rotation.R270)
+        ).select(
+          Direction.WEST,
+          Half.TOP,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3)
+            .with(VariantProperties.X_ROT, Rotation.R180)
+            .with(VariantProperties.Y_ROT, Rotation.R90)
+        )
+    )
+    this.blockStateOutput.accept(trapdoorBlockstate)
+  }
 
 
   // utils

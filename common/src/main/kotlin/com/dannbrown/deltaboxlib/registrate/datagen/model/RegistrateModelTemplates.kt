@@ -51,6 +51,21 @@ object RegistrateModelTemplates {
       TextureSlot.WALL
     )
 
+  val TRAPDOOR_TOP = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_trapdoor_top"),
+    TextureSlot.TEXTURE,
+  )
+
+  val TRAPDOOR_BOTTOM = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_trapdoor_bottom"),
+    TextureSlot.TEXTURE,
+  )
+
+  val TRAPDOOR_OPEN = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_trapdoor_open"),
+    TextureSlot.TEXTURE,
+  )
+
   fun create(parent: ResourceLocation, vararg textureSlots: TextureSlot): ModelTemplate {
     return ModelTemplate(Optional.of(parent), Optional.empty(), *textureSlots)
   }
