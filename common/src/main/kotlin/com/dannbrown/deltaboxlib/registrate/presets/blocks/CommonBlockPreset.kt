@@ -111,18 +111,23 @@ class CommonBlockPreset(
     return registrate
       .block<T>(nameWithSuffix)
       .factory { c, p -> WallBlock(p) }
-//      .blockstate(
-//        if (bottomTop) BlockstatePresets.bottomTopWallBlock(textureName) else BlockstatePresets.wallBlock(
-//          textureName
-//        )
-//      )
+      .blockstate { g, b ->
+        if (bottomTop) g.bottomTopWall(
+          b.get(),
+          "${textureName}_bottom",
+          "${textureName}_top",
+          textureName
+        ) else g.wall(b.get(), textureName)
+      }
       .blockTags(*BlockTagPresets.wallTags().first.toTypedArray())
       .item()
-//      .model(
-//        if (bottomTop) ItemModelPresets.bottomTopWallItem(textureName) else ItemModelPresets.wallItem(
-//          textureName
-//        )
-//      )
+      .model { g, i ->
+        if (bottomTop) g.bottomTopWallInventory(
+          i.get(),
+          textureName,
+          "${textureName}_top",
+        ) else g.wallInventory(i.get(), textureName)
+      }
       .itemTags(*BlockTagPresets.wallTags().second.toTypedArray())
       .build()
       .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>

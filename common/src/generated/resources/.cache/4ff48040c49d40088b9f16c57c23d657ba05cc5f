@@ -1,15 +1,16 @@
-// 1.20.1	2025-03-07T17:26:40.843521	Deltabox Lib/Tags for minecraft:block
+// 1.20.1	2025-03-07T18:17:12.694981	Deltabox Lib/Tags for minecraft:block
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/neoforge/tags/blocks/storage_blocks.json
 118271687e9db94435d873d00085e6c5bf49a4b5 data/minecraft/tags/blocks/stairs.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/c/tags/blocks/storage_blocks.json
-0d96eb2d73de3632fa1314f879019ca82ac67bef data/deltaboxlib/tags/blocks/storage_blocks/compiled_block.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/deltaboxlib/tags/blocks/storage_blocks.json
+0d96eb2d73de3632fa1314f879019ca82ac67bef data/deltaboxlib/tags/blocks/storage_blocks/compiled_block.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/neoforge/tags/blocks/storage_blocks/compiled_block.json
-e65650799ec44bf1bb9d6a2790a2cbedb2cb608d data/minecraft/tags/blocks/mineable/pickaxe.json
+a349fdf2d156df9f845423c569643809e409ad24 data/minecraft/tags/blocks/mineable/pickaxe.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/forge/tags/blocks/storage_blocks/compiled_block.json
+b7323950e1bdf6ea914cf4b9a581958c52ec96d9 data/minecraft/tags/blocks/walls.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/c/tags/blocks/storage_blocks/compiled_block.json
-d5e71f28f39148648b53940e8978eda62f69ee1d data/minecraft/tags/blocks/mineable/axe.json
 cf3829d4ae602ee2d4b7c4b683805139be46080b data/minecraft/tags/blocks/wooden_slabs.json
+d5e71f28f39148648b53940e8978eda62f69ee1d data/minecraft/tags/blocks/mineable/axe.json
 faa4d61dbff5f93409f05c6ad86bd097a499c62c data/minecraft/tags/blocks/needs_stone_tool.json
 9ea9301d8fef9d31f8c629f887dcb85c9f302f0f data/minecraft/tags/blocks/dirt.json
 cf3829d4ae602ee2d4b7c4b683805139be46080b data/minecraft/tags/blocks/slabs.json

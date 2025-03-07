@@ -37,6 +37,19 @@ object RegistrateModelTemplates {
   val CROSS = create(DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_cross"), TextureSlot.CROSS)
   val POTTED_FLOWER =
     create(DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_flower_pot_cross"), TextureSlot.PLANT)
+  val BOTTOM_TOP_WALL_POST =
+    create(
+      DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_wall_post"),
+      TextureSlot.TOP,
+      TextureSlot.BOTTOM,
+      TextureSlot.WALL
+    )
+  val BOTTOM_TOP_WALL_INVENTORY =
+    create(
+      DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_wall_inventory_top"),
+      TextureSlot.TOP,
+      TextureSlot.WALL
+    )
 
   fun create(parent: ResourceLocation, vararg textureSlots: TextureSlot): ModelTemplate {
     return ModelTemplate(Optional.of(parent), Optional.empty(), *textureSlots)

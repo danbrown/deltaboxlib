@@ -9,6 +9,8 @@ import net.minecraft.core.Direction.Axis
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.blockstates.BlockStateGenerator
+import net.minecraft.data.models.blockstates.Condition
+import net.minecraft.data.models.blockstates.MultiPartGenerator
 import net.minecraft.data.models.blockstates.MultiVariantGenerator
 import net.minecraft.data.models.blockstates.PropertyDispatch
 import net.minecraft.data.models.blockstates.Variant
@@ -27,6 +29,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.Half
 import net.minecraft.world.level.block.state.properties.SlabType
 import net.minecraft.world.level.block.state.properties.StairsShape
+import net.minecraft.world.level.block.state.properties.WallSide
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -475,6 +478,70 @@ class RegistrateBlockModelGenerator(
     )
 
     this.blockStateOutput.accept(slabBlockstate)
+  }
+
+  fun wall(block: Block, texture: String) {
+    return bottomTopWall(block, texture, texture, texture)
+  }
+
+  fun bottomTopWall(block: Block, bottomTexture: String, topTexture: String, sideTexture: String) {
+    val resourceLocation = RegistrateModelTemplates.BOTTOM_TOP_WALL_POST.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_post"),
+      TextureMapping()
+        .put(TextureSlot.BOTTOM, optionalTexture(block, bottomTexture, "_bottom", "block/"))
+        .put(TextureSlot.TOP, optionalTexture(block, topTexture, "_top", "block/"))
+        .put(TextureSlot.WALL, optionalTexture(block, sideTexture, "", "block/")),
+      this.modelOutput
+    )
+    val resourceLocation2 = ModelTemplates.WALL_LOW_SIDE.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_side"),
+      TextureMapping()
+        .put(TextureSlot.WALL, optionalTexture(block, sideTexture, "", "block/")),
+      this.modelOutput
+    )
+    val resourceLocation3 = ModelTemplates.WALL_TALL_SIDE.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_side_tall"),
+      TextureMapping()
+        .put(TextureSlot.WALL, optionalTexture(block, sideTexture, "", "block/")),
+      this.modelOutput
+    )
+
+    val wallBlockstate = MultiPartGenerator.multiPart(block).with(
+      Condition.condition().term(BlockStateProperties.UP, true),
+      Variant.variant().with(VariantProperties.MODEL, resourceLocation)
+    ).with(
+      Condition.condition().term(BlockStateProperties.NORTH_WALL, WallSide.LOW),
+      Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.UV_LOCK, true)
+    ).with(
+      Condition.condition().term(BlockStateProperties.EAST_WALL, WallSide.LOW),
+      Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.Y_ROT, Rotation.R90)
+        .with(VariantProperties.UV_LOCK, true)
+    ).with(
+      Condition.condition().term(BlockStateProperties.SOUTH_WALL, WallSide.LOW),
+      Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.Y_ROT, Rotation.R180)
+        .with(VariantProperties.UV_LOCK, true)
+    ).with(
+      Condition.condition().term(BlockStateProperties.WEST_WALL, WallSide.LOW),
+      Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.Y_ROT, Rotation.R270)
+        .with(VariantProperties.UV_LOCK, true)
+    ).with(
+      Condition.condition().term(BlockStateProperties.NORTH_WALL, WallSide.TALL),
+      Variant.variant().with(VariantProperties.MODEL, resourceLocation3).with(VariantProperties.UV_LOCK, true)
+    ).with(
+      Condition.condition().term(BlockStateProperties.EAST_WALL, WallSide.TALL),
+      Variant.variant().with(VariantProperties.MODEL, resourceLocation3).with(VariantProperties.Y_ROT, Rotation.R90)
+        .with(VariantProperties.UV_LOCK, true)
+    ).with(
+      Condition.condition().term(BlockStateProperties.SOUTH_WALL, WallSide.TALL),
+      Variant.variant().with(VariantProperties.MODEL, resourceLocation3).with(VariantProperties.Y_ROT, Rotation.R180)
+        .with(VariantProperties.UV_LOCK, true)
+    ).with(
+      Condition.condition().term(BlockStateProperties.WEST_WALL, WallSide.TALL),
+      Variant.variant().with(VariantProperties.MODEL, resourceLocation3).with(VariantProperties.Y_ROT, Rotation.R270)
+        .with(VariantProperties.UV_LOCK, true)
+    )
+
+    this.blockStateOutput.accept(wallBlockstate)
   }
 
 //  fun createCropLeavesBlock(

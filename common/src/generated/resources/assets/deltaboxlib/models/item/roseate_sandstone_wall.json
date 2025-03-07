@@ -1,0 +1,7 @@
+{
+  "parent": "deltaboxlib:block/template_wall_inventory_top",
+  "textures": {
+    "top": "deltaboxlib:block/roseate_sandstone_top",
+    "wall": "deltaboxlib:block/roseate_sandstone"
+  }
+}

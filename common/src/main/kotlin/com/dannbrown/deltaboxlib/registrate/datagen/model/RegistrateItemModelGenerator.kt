@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.registrate.datagen.model
 
+import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.google.gson.JsonElement
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.models.ItemModelGenerators
@@ -37,7 +38,32 @@ class RegistrateItemModelGenerator(val output: BiConsumer<ResourceLocation, Supp
     )
   }
 
+  fun wallInventory(item: Item, texture: String) {
+    bottomTopWallInventory(item, texture, texture)
+  }
+
+  fun bottomTopWallInventory(item: Item, wallTexture: String, topTexture: String) {
+    RegistrateModelTemplates.BOTTOM_TOP_WALL_INVENTORY.create(
+      BuiltInRegistries.ITEM.getKey(item).withPrefix("item/"),
+      TextureMapping()
+        .put(TextureSlot.WALL, optionalTexture(item, wallTexture, "", "block/"))
+        .put(TextureSlot.TOP, optionalTexture(item, topTexture, "_top", "block/")),
+      this.output
+    )
+  }
+
   fun blockItem(block: Block) {
     RegistrateModelTemplates.create(TextureMapping.getBlockTexture(block))
+  }
+
+
+  // Util
+
+  fun optionalTexture(item: Item, texture: String, suffix: String = "", path: String = "block/"): ResourceLocation {
+    return if (texture.isEmpty()) TextureMapping.getItemTexture(item, suffix) else DeltaboxUtil.resourceLocation(
+      DeltaboxUtil.getItemModId(item),
+      path,
+      texture
+    )
   }
 }

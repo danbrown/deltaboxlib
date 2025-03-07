@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.RotatedPillarBlock
 import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.StairBlock
+import net.minecraft.world.level.block.WallBlock
 
 object DeltaboxLibMod {
   const val MOD_ID = "deltaboxlib"
@@ -166,6 +167,17 @@ object DeltaboxLibMod {
     .copyFrom { Blocks.OAK_STAIRS }
     .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
     .register()
+
+  val ROSEATE_SANDSTONE_WALL = REGISTRATE.blockPreset<WallBlock>("roseate_sandstone").wall("roseate_sandstone", true)
+    .copyFrom { Blocks.RED_SANDSTONE_WALL }
+    .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, null, true)
+    .register()
+
+//  val PALE_OAK_WALL = REGISTRATE.blockPreset<WallBlock>("pale_oak").wall("pale_oak_planks", false)
+//    .copyFrom { Blocks.OAK_FENCE }
+//    .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+//    .register()
+
 
   fun init() {
     REGISTRATE.buildRegistries()

@@ -107,4 +107,12 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   ): BlockBuilder<T> {
     return CommonBlockPreset(registrate, blockId).createSlab(textureName, bottomTop, isWooden, addSuffix)
   }
+
+  fun wall(
+    textureName: String,
+    bottomTop: Boolean = false,
+    addSuffix: Boolean = true
+  ): BlockBuilder<T> {
+    return CommonBlockPreset(registrate, blockId).createWall(textureName, bottomTop, addSuffix)
+  }
 }

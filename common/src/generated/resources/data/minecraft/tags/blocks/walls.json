@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "deltaboxlib:compiled_block",
-    "deltaboxlib:acai_berries_crate",
     "deltaboxlib:roseate_sandstone_wall"
   ]
 }
