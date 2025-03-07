@@ -25,6 +25,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.Half
+import net.minecraft.world.level.block.state.properties.SlabType
 import net.minecraft.world.level.block.state.properties.StairsShape
 import java.util.function.BiConsumer
 import java.util.function.Consumer
@@ -434,6 +435,46 @@ class RegistrateBlockModelGenerator(
     );
 
     this.blockStateOutput.accept(stairsBlockstate)
+  }
+
+  fun slab(block: Block, texture: String) {
+    bottomTopSlab(block, texture, texture, texture)
+  }
+
+  fun bottomTopSlab(block: Block, bottomTexture: String = "", topTexture: String = "", sideTexture: String = "") {
+    val resourceLocation = ModelTemplates.SLAB_BOTTOM.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(""),
+      TextureMapping()
+        .put(TextureSlot.BOTTOM, optionalTexture(block, bottomTexture, "_bottom", "block/"))
+        .put(TextureSlot.TOP, optionalTexture(block, topTexture, "_top", "block/"))
+        .put(TextureSlot.SIDE, optionalTexture(block, sideTexture, "_side", "block/")),
+      this.modelOutput
+    )
+    val resourceLocation2 = ModelTemplates.SLAB_TOP.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_top"),
+      TextureMapping()
+        .put(TextureSlot.BOTTOM, optionalTexture(block, bottomTexture, "_bottom", "block/"))
+        .put(TextureSlot.TOP, optionalTexture(block, topTexture, "_top", "block/"))
+        .put(TextureSlot.SIDE, optionalTexture(block, sideTexture, "_side", "block/")),
+      this.modelOutput
+    )
+    val resourceLocation3 = RegistrateModelTemplates.BOTTOM_TOP.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_double"),
+      TextureMapping()
+        .put(TextureSlot.BOTTOM, optionalTexture(block, bottomTexture, "_bottom", "block/"))
+        .put(TextureSlot.TOP, optionalTexture(block, topTexture, "_top", "block/"))
+        .put(TextureSlot.SIDE, optionalTexture(block, sideTexture, "_side", "block/")),
+      this.modelOutput
+    )
+
+    val slabBlockstate = MultiVariantGenerator.multiVariant(block).with(
+      PropertyDispatch.property(BlockStateProperties.SLAB_TYPE)
+        .select(SlabType.BOTTOM, Variant.variant().with(VariantProperties.MODEL, resourceLocation))
+        .select(SlabType.TOP, Variant.variant().with(VariantProperties.MODEL, resourceLocation2))
+        .select(SlabType.DOUBLE, Variant.variant().with(VariantProperties.MODEL, resourceLocation3))
+    )
+
+    this.blockStateOutput.accept(slabBlockstate)
   }
 
 //  fun createCropLeavesBlock(

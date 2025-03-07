@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.RotatedPillarBlock
+import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.StairBlock
 
 object DeltaboxLibMod {
@@ -161,6 +162,10 @@ object DeltaboxLibMod {
     .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
     .register()
 
+  val PALE_OAK_SLAB = REGISTRATE.blockPreset<SlabBlock>("pale_oak").slab("pale_oak_planks", false, true)
+    .copyFrom { Blocks.OAK_STAIRS }
+    .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+    .register()
 
   fun init() {
     REGISTRATE.buildRegistries()

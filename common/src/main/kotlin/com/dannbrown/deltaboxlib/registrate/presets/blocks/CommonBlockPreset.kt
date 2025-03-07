@@ -87,16 +87,19 @@ class CommonBlockPreset(
       .block<T>(nameWithSuffix)
       .factory { c, p -> SlabBlock(p) }
       .copyFrom { if (isWooden) Blocks.OAK_SLAB else Blocks.COBBLESTONE_SLAB }
-//      .blockstate(
-//        if (bottomTop) BlockstatePresets.bottomTopSlabBlock(textureName) else BlockstatePresets.slabBlock(
-//          textureName
-//        )
-//      )
+      .blockstate { g, b ->
+        if (bottomTop) g.bottomTopSlab(
+          b.get(),
+          "${textureName}_bottom",
+          "${textureName}_top",
+          textureName
+        ) else g.slab(b.get(), textureName)
+      }
       .blockTags(*(if (isWooden) BlockTagPresets.woodenSlabTags().first.toTypedArray() else BlockTagPresets.slabTags().first.toTypedArray()))
       .item()
       .itemTags(*(if (isWooden) BlockTagPresets.woodenSlabTags().second.toTypedArray() else BlockTagPresets.slabTags().second.toTypedArray()))
-      .build() as BlockBuilder<T>
-//      .loot(BlockLootPresets.dropSlab())
+      .build()
+      .loot { g, b -> g.dropSlab(b.get()) } as BlockBuilder<T>
   }
 
   fun <T : Block> createWall(

@@ -1,6 +1,7 @@
 package com.dannbrown.deltaboxlib.registrate.datagen
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
+import net.minecraft.advancements.critereon.StatePropertiesPredicate
 import net.minecraft.data.CachedOutput
 import net.minecraft.data.DataProvider
 import net.minecraft.data.loot.BlockLootSubProvider
@@ -9,10 +10,15 @@ import net.minecraft.world.flag.FeatureFlags
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.SlabBlock
+import net.minecraft.world.level.block.state.properties.SlabType
 import net.minecraft.world.level.storage.loot.BuiltInLootTables
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 import java.util.concurrent.CompletableFuture
 import java.util.function.BiConsumer
@@ -46,6 +52,29 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     )
   }
 
+  fun dropSlab(block: Block) {
+    super.add(
+      block, LootTable.lootTable().withPool(
+        LootPool.lootPool()
+          .setRolls(ConstantValue.exactly(1f))
+          .add(
+            super.applyExplosionDecay(
+              block, LootItem.lootTableItem(block)
+                .apply(
+                  SetItemCountFunction.setCount(ConstantValue.exactly(2f))
+                    .`when`(
+                      LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                        .setProperties(
+                          StatePropertiesPredicate.Builder.properties().hasProperty(SlabBlock.TYPE, SlabType.DOUBLE)
+                        )
+                    )
+                )
+            )
+          )
+      )
+    )
+  }
+
   // functions from BlockLootSubProvider that need to be public
   public override fun add(b: Block, lt: LootTable.Builder) {
     super.add(b, lt)
@@ -61,14 +90,6 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
 
   public override fun dropOther(block: Block, itemLike: ItemLike) {
     super.dropOther(block, itemLike)
-  }
-
-  public override fun createSlabItemTable(block: Block): LootTable.Builder {
-    return super.createSlabItemTable(block)
-  }
-
-  public override fun createDoorTable(block: Block): LootTable.Builder {
-    return super.createDoorTable(block)
   }
 
 
