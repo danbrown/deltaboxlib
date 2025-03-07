@@ -157,4 +157,12 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   ): BlockBuilder<T> {
     return CommonBlockPreset(registrate, blockId).createWoodenTrapdoor(blockSet, addSuffix)
   }
+
+  fun door(
+    blockSet: BlockSetType,
+    isWooden: Boolean = true,
+    addSuffix: Boolean = true
+  ): BlockBuilder<T> {
+    return CommonBlockPreset(registrate, blockId).createDoor(blockSet, isWooden, addSuffix)
+  }
 }

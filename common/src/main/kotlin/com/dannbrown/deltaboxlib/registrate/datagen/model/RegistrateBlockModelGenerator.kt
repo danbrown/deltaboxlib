@@ -27,6 +27,8 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.properties.AttachFace
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.block.state.properties.DoorHingeSide
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf
 import net.minecraft.world.level.block.state.properties.Half
 import net.minecraft.world.level.block.state.properties.SlabType
 import net.minecraft.world.level.block.state.properties.StairsShape
@@ -803,6 +805,196 @@ class RegistrateBlockModelGenerator(
         )
     )
     this.blockStateOutput.accept(trapdoorBlockstate)
+  }
+
+  fun door(block: Block, textureBottom: String, textureTop: String) {
+    val textureMapping = TextureMapping()
+      .put(TextureSlot.BOTTOM, optionalTexture(block, textureBottom, "_bottom", "block/"))
+      .put(TextureSlot.TOP, optionalTexture(block, textureTop, "_top", "block/"))
+
+    val resourceLocation = RegistrateModelTemplates.DOOR_BOTTOM_LEFT.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_bottom_left"),
+      textureMapping,
+      this.modelOutput
+    )
+    val resourceLocation2 = RegistrateModelTemplates.DOOR_BOTTOM_LEFT_OPEN.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_bottom_left_open"),
+      textureMapping,
+      this.modelOutput
+    )
+    val resourceLocation3 = RegistrateModelTemplates.DOOR_BOTTOM_RIGHT.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_bottom_right"),
+      textureMapping,
+      this.modelOutput
+    )
+    val resourceLocation4 = RegistrateModelTemplates.DOOR_BOTTOM_RIGHT_OPEN.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_bottom_right_open"),
+      textureMapping,
+      this.modelOutput
+    )
+    val resourceLocation5 = RegistrateModelTemplates.DOOR_TOP_LEFT.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_top_left"),
+      textureMapping,
+      this.modelOutput
+    )
+    val resourceLocation6 = RegistrateModelTemplates.DOOR_TOP_LEFT_OPEN.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_top_left_open"),
+      textureMapping,
+      this.modelOutput
+    )
+    val resourceLocation7 = RegistrateModelTemplates.DOOR_TOP_RIGHT.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_top_right"),
+      textureMapping,
+      this.modelOutput
+    )
+    val resourceLocation8 = RegistrateModelTemplates.DOOR_TOP_RIGHT_OPEN.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_top_right_open"),
+      textureMapping,
+      this.modelOutput
+    )
+
+    fun configureDoorHalf(
+      c4: PropertyDispatch.C4<Direction, DoubleBlockHalf, DoorHingeSide, Boolean>,
+      doubleBlockHalf: DoubleBlockHalf,
+      resourceLocation: ResourceLocation,
+      resourceLocation2: ResourceLocation,
+      resourceLocation3: ResourceLocation,
+      resourceLocation4: ResourceLocation
+    ): PropertyDispatch.C4<Direction, DoubleBlockHalf, DoorHingeSide, Boolean> {
+      return c4
+        .select(
+          Direction.EAST,
+          doubleBlockHalf,
+          DoorHingeSide.LEFT,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation)
+        )
+        .select(
+          Direction.SOUTH,
+          doubleBlockHalf,
+          DoorHingeSide.LEFT,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation).with(VariantProperties.Y_ROT, Rotation.R90)
+        )
+        .select(
+          Direction.WEST,
+          doubleBlockHalf,
+          DoorHingeSide.LEFT,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation).with(VariantProperties.Y_ROT, Rotation.R180)
+        )
+        .select(
+          Direction.NORTH,
+          doubleBlockHalf,
+          DoorHingeSide.LEFT,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation).with(VariantProperties.Y_ROT, Rotation.R270)
+        )
+        .select(
+          Direction.EAST,
+          doubleBlockHalf,
+          DoorHingeSide.RIGHT,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3)
+        )
+        .select(
+          Direction.SOUTH,
+          doubleBlockHalf,
+          DoorHingeSide.RIGHT,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3).with(VariantProperties.Y_ROT, Rotation.R90)
+        )
+        .select(
+          Direction.WEST,
+          doubleBlockHalf,
+          DoorHingeSide.RIGHT,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3)
+            .with(VariantProperties.Y_ROT, Rotation.R180)
+        )
+        .select(
+          Direction.NORTH,
+          doubleBlockHalf,
+          DoorHingeSide.RIGHT,
+          false,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation3)
+            .with(VariantProperties.Y_ROT, Rotation.R270)
+        )
+        .select(
+          Direction.EAST,
+          doubleBlockHalf,
+          DoorHingeSide.LEFT,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation2).with(VariantProperties.Y_ROT, Rotation.R90)
+        )
+        .select(
+          Direction.SOUTH,
+          doubleBlockHalf,
+          DoorHingeSide.LEFT,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation2)
+            .with(VariantProperties.Y_ROT, Rotation.R180)
+        )
+        .select(
+          Direction.WEST,
+          doubleBlockHalf,
+          DoorHingeSide.LEFT,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation2)
+            .with(VariantProperties.Y_ROT, Rotation.R270)
+        )
+        .select(
+          Direction.NORTH,
+          doubleBlockHalf,
+          DoorHingeSide.LEFT,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation2)
+        )
+        .select(
+          Direction.EAST,
+          doubleBlockHalf,
+          DoorHingeSide.RIGHT,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation4)
+            .with(VariantProperties.Y_ROT, Rotation.R270)
+        )
+        .select(
+          Direction.SOUTH,
+          doubleBlockHalf,
+          DoorHingeSide.RIGHT,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation4)
+        )
+        .select(
+          Direction.WEST,
+          doubleBlockHalf,
+          DoorHingeSide.RIGHT,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation4).with(VariantProperties.Y_ROT, Rotation.R90)
+        )
+        .select(
+          Direction.NORTH,
+          doubleBlockHalf,
+          DoorHingeSide.RIGHT,
+          true,
+          Variant.variant().with(VariantProperties.MODEL, resourceLocation4)
+            .with(VariantProperties.Y_ROT, Rotation.R180)
+        )
+    }
+
+    val doorBlockstate = MultiVariantGenerator.multiVariant(block).with(
+      configureDoorHalf(
+        configureDoorHalf(
+          PropertyDispatch.properties(
+            BlockStateProperties.HORIZONTAL_FACING,
+            BlockStateProperties.DOUBLE_BLOCK_HALF,
+            BlockStateProperties.DOOR_HINGE,
+            BlockStateProperties.OPEN
+          ), DoubleBlockHalf.LOWER, resourceLocation, resourceLocation2, resourceLocation3, resourceLocation4
+        ), DoubleBlockHalf.UPPER, resourceLocation5, resourceLocation6, resourceLocation7, resourceLocation8
+      )
+    )
+    this.blockStateOutput.accept(doorBlockstate)
   }
 
 

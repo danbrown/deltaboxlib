@@ -1,24 +1,26 @@
-// 1.20.1	2025-03-07T19:55:35.942227	Deltabox Lib/Tags for minecraft:item
+// 1.20.1	2025-03-07T20:27:34.690131	Deltabox Lib/Tags for minecraft:item
 118271687e9db94435d873d00085e6c5bf49a4b5 data/minecraft/tags/items/wooden_stairs.json
 b7323950e1bdf6ea914cf4b9a581958c52ec96d9 data/minecraft/tags/items/walls.json
 f9e29f50b14d2f50eec01aced74925f16cc2308f data/minecraft/tags/items/wart_blocks.json
 c01e11f9280c0f348f32abe09b2eee5637442097 data/minecraft/tags/items/fences.json
-0d96eb2d73de3632fa1314f879019ca82ac67bef data/c/tags/items/storage_blocks/compiled_block.json
-118271687e9db94435d873d00085e6c5bf49a4b5 data/minecraft/tags/items/stairs.json
 5133161734d5790ea5f1f0ba183ce913ac1ab882 data/minecraft/tags/items/saplings.json
 ee9d21341d43bf7d253401b31f6139141ecac75c data/minecraft/tags/items/wooden_pressure_plates.json
-c35136155e3b3fa6e0333086f18e6d88ca8164c8 data/minecraft/tags/items/wooden_trapdoors.json
-0d96eb2d73de3632fa1314f879019ca82ac67bef data/forge/tags/items/storage_blocks/compiled_block.json
 c01e11f9280c0f348f32abe09b2eee5637442097 data/minecraft/tags/items/wooden_fences.json
-c35136155e3b3fa6e0333086f18e6d88ca8164c8 data/minecraft/tags/items/trapdoors.json
+0d96eb2d73de3632fa1314f879019ca82ac67bef data/forge/tags/items/storage_blocks/compiled_block.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/neoforge/tags/items/storage_blocks/compiled_block.json
-cf3829d4ae602ee2d4b7c4b683805139be46080b data/minecraft/tags/items/slabs.json
 4dd9034682969ce99c4fa228fd5417b3145cfdca data/minecraft/tags/items/wooden_buttons.json
-0d96eb2d73de3632fa1314f879019ca82ac67bef data/c/tags/items/storage_blocks.json
-cf3829d4ae602ee2d4b7c4b683805139be46080b data/minecraft/tags/items/wooden_slabs.json
 4dd9034682969ce99c4fa228fd5417b3145cfdca data/minecraft/tags/items/buttons.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/deltaboxlib/tags/items/storage_blocks.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/neoforge/tags/items/storage_blocks.json
-0d96eb2d73de3632fa1314f879019ca82ac67bef data/forge/tags/items/storage_blocks.json
 cde9aa2d625d4ab118e179f35632a886ba209dbb data/minecraft/tags/items/non_flammable_wood.json
+0d96eb2d73de3632fa1314f879019ca82ac67bef data/c/tags/items/storage_blocks/compiled_block.json
+118271687e9db94435d873d00085e6c5bf49a4b5 data/minecraft/tags/items/stairs.json
+9f6deb383e869c154490941c2488eb0619d550ed data/minecraft/tags/items/wooden_doors.json
+9f6deb383e869c154490941c2488eb0619d550ed data/minecraft/tags/items/doors.json
+c35136155e3b3fa6e0333086f18e6d88ca8164c8 data/minecraft/tags/items/wooden_trapdoors.json
+c35136155e3b3fa6e0333086f18e6d88ca8164c8 data/minecraft/tags/items/trapdoors.json
+cf3829d4ae602ee2d4b7c4b683805139be46080b data/minecraft/tags/items/slabs.json
+cf3829d4ae602ee2d4b7c4b683805139be46080b data/minecraft/tags/items/wooden_slabs.json
+0d96eb2d73de3632fa1314f879019ca82ac67bef data/c/tags/items/storage_blocks.json
+0d96eb2d73de3632fa1314f879019ca82ac67bef data/forge/tags/items/storage_blocks.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/deltaboxlib/tags/items/storage_blocks/compiled_block.json

@@ -65,6 +65,47 @@ object RegistrateModelTemplates {
     DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_trapdoor_open"),
     TextureSlot.TEXTURE,
   )
+  val DOOR_BOTTOM_LEFT = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_door_bottom_left"),
+    TextureSlot.TOP,
+    TextureSlot.BOTTOM,
+  )
+  val DOOR_BOTTOM_LEFT_OPEN = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_door_bottom_left_open"),
+    TextureSlot.TOP,
+    TextureSlot.BOTTOM,
+  )
+  val DOOR_BOTTOM_RIGHT = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_door_bottom_right"),
+    TextureSlot.TOP,
+    TextureSlot.BOTTOM,
+  )
+  val DOOR_BOTTOM_RIGHT_OPEN = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_door_bottom_right_open"),
+    TextureSlot.TOP,
+    TextureSlot.BOTTOM,
+  )
+  val DOOR_TOP_LEFT = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_door_top_left"),
+    TextureSlot.TOP,
+    TextureSlot.BOTTOM,
+  )
+  val DOOR_TOP_LEFT_OPEN = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_door_top_left_open"),
+    TextureSlot.TOP,
+    TextureSlot.BOTTOM,
+  )
+  val DOOR_TOP_RIGHT = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_door_top_right"),
+    TextureSlot.TOP,
+    TextureSlot.BOTTOM,
+  )
+  val DOOR_TOP_RIGHT_OPEN = create(
+    DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_door_top_right_open"),
+    TextureSlot.TOP,
+    TextureSlot.BOTTOM,
+  )
+
 
   fun create(parent: ResourceLocation, vararg textureSlots: TextureSlot): ModelTemplate {
     return ModelTemplate(Optional.of(parent), Optional.empty(), *textureSlots)

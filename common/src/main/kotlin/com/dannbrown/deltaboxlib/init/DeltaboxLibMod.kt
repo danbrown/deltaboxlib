@@ -17,6 +17,7 @@ import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.ButtonBlock
+import net.minecraft.world.level.block.DoorBlock
 import net.minecraft.world.level.block.FenceBlock
 import net.minecraft.world.level.block.FenceGateBlock
 import net.minecraft.world.level.block.FlowerPotBlock
@@ -206,6 +207,12 @@ object DeltaboxLibMod {
   val PALE_OAK_TRAPDOOR =
     REGISTRATE.blockPreset<TrapDoorBlock>("pale_oak").woodenTrapdoor(BlockSetType.BIRCH)
       .copyFrom { Blocks.OAK_TRAPDOOR }
+      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+      .register()
+
+  val PALE_OAK_DOOR =
+    REGISTRATE.blockPreset<DoorBlock>("pale_oak").door(BlockSetType.BIRCH)
+      .copyFrom { Blocks.OAK_DOOR }
       .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
       .register()
 

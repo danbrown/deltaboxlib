@@ -240,16 +240,16 @@ class CommonBlockPreset(
       .block<T>(nameWithSuffix)
       .factory { c, p -> DoorBlock(p, blockSetType) }
       .copyFrom { if (isWooden) Blocks.OAK_DOOR else Blocks.IRON_DOOR }
-//      .blockstate(BlockstatePresets.doorTransparentBlock())
+      .blockstate { g, b -> g.door(b.get(), "${nameWithSuffix}_bottom", "${nameWithSuffix}_top") }
       .properties { c, p ->
         p.noOcclusion()
       }
       .blockTags(*BlockTagPresets.doorTags(isWooden).first.toTypedArray())
       .item()
-//      .model(ItemModelPresets.doorItem(nameWithSuffix))
+      .model { g, i -> g.flatItem(i.get()) }
       .itemTags(*BlockTagPresets.doorTags(isWooden).second.toTypedArray())
       .build()
-//      .loot(BlockLootPresets.doorLoot())
-      .cutoutRender() as BlockBuilder<T>
+      .cutoutRender()
+      .loot { g, b -> g.dropDoor(b.get()) } as BlockBuilder<T>
   }
 }
