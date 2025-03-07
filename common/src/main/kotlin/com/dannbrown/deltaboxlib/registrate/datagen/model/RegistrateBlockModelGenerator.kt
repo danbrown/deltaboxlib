@@ -4,6 +4,7 @@ import com.dannbrown.deltaboxlib.content.block.CropLeavesBlock
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.google.gson.JsonElement
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
+import net.minecraft.core.Direction.Axis
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.blockstates.BlockStateGenerator
@@ -19,6 +20,7 @@ import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -61,6 +63,29 @@ class RegistrateBlockModelGenerator(
         Variant.variant().with(VariantProperties.MODEL, location)
       )
     )
+  }
+
+  fun rotatedPillarBlock(block: Block, topTexture: String = "", sideTexture: String = "") {
+    val location = RegistrateModelTemplates.ROTATED_PILLAR.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/"),
+      TextureMapping()
+        .put(TextureSlot.END, optionalTexture(block, topTexture, "_top", "block/"))
+        .put(TextureSlot.SIDE, optionalTexture(block, sideTexture, "", "block/")),
+      this.modelOutput
+    )
+
+    val rotatedPillarState = PropertyDispatch.property(BlockStateProperties.AXIS).select(Axis.Y, Variant.variant())
+      .select(Axis.Z, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)).select(
+        Axis.X,
+        Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+          .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+      )
+
+    this.blockStateOutput.accept(
+      MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, location)).with(
+        rotatedPillarState
+      )
+    );
   }
 
   fun crossBlock(block: Block, crossTexture: String = "") {

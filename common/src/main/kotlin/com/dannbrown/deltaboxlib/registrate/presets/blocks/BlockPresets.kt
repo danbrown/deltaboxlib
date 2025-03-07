@@ -74,4 +74,19 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   ): BlockBuilder<T> {
     return LeavesBlockPreset(registrate, blockId, sapling, suffix).createCropLeaves(itemToDrop)
   }
+
+  fun bottomTop(
+    bottomName: String = "",
+    topName: String = "",
+    sideName: String = ""
+  ): BlockBuilder<T> {
+    return CommonBlockPreset(registrate, blockId).createBottomTop(bottomName, topName, sideName)
+  }
+
+  fun rotatedPillar(
+    topName: String = "",
+    sideName: String = ""
+  ): BlockBuilder<T> {
+    return CommonBlockPreset(registrate, blockId).createRotatedPillar(topName, sideName)
+  }
 }

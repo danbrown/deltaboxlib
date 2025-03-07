@@ -149,6 +149,13 @@ object DeltaboxLibMod {
 //  val POTTED_SIMPLE_FLOWER: BlockEntry<FlowerPotBlock> = BLOCKS.pottedBlock("simple_flower", SIMPLE_FLOWER)
 //    .register()
 
+
+  val PALE_OAK_LOG = REGISTRATE.blockPreset<RotatedPillarBlock>("pale_oak_log")
+    .rotatedPillar()
+    .copyFrom { Blocks.DARK_OAK_LOG }
+    .register()
+
+
   fun init() {
     REGISTRATE.buildRegistries()
   }

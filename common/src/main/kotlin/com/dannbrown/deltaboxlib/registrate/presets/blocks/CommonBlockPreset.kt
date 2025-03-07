@@ -47,11 +47,7 @@ class CommonBlockPreset(
     return registrate
       .block<T>(blockId)
       .factory { c, p -> RotatedPillarBlock(p) }
-//      .blockstate { c, p ->
-//        val topTexture = p.modLoc("block/$topTextureName")
-//        val sideTexture = p.modLoc("block/$sideTextureName")
-//        p.axisBlock(c.get() as RotatedPillarBlock, sideTexture, topTexture)
-//      }
+      .blockstate { g, b -> g.rotatedPillarBlock(b.get(), topTextureName, sideTextureName) }
   }
 
   fun <T : Block> createStairs(

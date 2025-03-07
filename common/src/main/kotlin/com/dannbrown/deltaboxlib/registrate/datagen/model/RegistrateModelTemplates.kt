@@ -28,6 +28,12 @@ object RegistrateModelTemplates {
     TextureSlot.TOP,
     TextureSlot.SIDE
   )
+
+  val ROTATED_PILLAR = create(
+    DeltaboxUtil.resourceLocation("minecraft", "block/cube_column"),
+    TextureSlot.END,
+    TextureSlot.SIDE
+  )
   val CROSS = create(DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_cross"), TextureSlot.CROSS)
   val POTTED_FLOWER =
     create(DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "block/template_flower_pot_cross"), TextureSlot.PLANT)
