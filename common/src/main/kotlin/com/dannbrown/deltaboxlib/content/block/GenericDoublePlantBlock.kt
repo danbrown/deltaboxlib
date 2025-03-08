@@ -1,6 +1,8 @@
 package com.dannbrown.deltaboxlib.content.block
 
+import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import net.minecraft.core.BlockPos
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.DoublePlantBlock
@@ -34,5 +36,9 @@ open class GenericDoublePlantBlock(
         belowState.`is`(this) && belowState.getValue(HALF) == DoubleBlockHalf.LOWER
       }
     }
+  }
+
+  override fun getCloneItemStack(blockGetter: BlockGetter, blockPos: BlockPos, blockState: BlockState): ItemStack {
+    return ItemStack(this.asItem())
   }
 }

@@ -42,8 +42,8 @@ class GrassBlockPreset(
       .cutoutRender()
       .item()
       .model { g, i -> g.flatItemBlock(i.get()) }
-      .build() as BlockBuilder<T>
-    //      .loot(BlockLootPresets.dropSelfSilkShearsOtherLoot(dropItem!!, chance, multiplier))
+      .build()
+      .loot { g, b -> g.dropSelfSilkShearsOtherLoot(b.get(), dropItem!!, chance, multiplier) } as BlockBuilder<T>
   }
 
   fun <T : Block> createFlower(): BlockBuilder<T> {
@@ -61,8 +61,8 @@ class GrassBlockPreset(
       .cutoutRender()
       .item()
       .model { g, i -> g.flatItemBlock(i.get()) }
-      .build() as BlockBuilder<T>
-    //      .loot(BlockLootPresets.dropItselfLoot())
+      .build()
+      .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
   }
 
   fun <T : Block> createSmallTallGrassBlock(
@@ -78,8 +78,8 @@ class GrassBlockPreset(
       .cutoutRender()
       .item()
       .model { g, i -> g.flatItemBlock(i.get()) }
-      .build() as BlockBuilder<T>
-//      .loot(BlockLootPresets.dropSelfSilkShearsOtherLoot(dropItem!!, chance, multiplier))
+      .build()
+      .loot { g, b -> g.dropSelfSilkShearsOtherLoot(b.get(), dropItem!!, chance, multiplier) } as BlockBuilder<T>
   }
 
   fun <T : Block> createDoubleTallGrassBlock(
@@ -96,8 +96,16 @@ class GrassBlockPreset(
       .blockstate { g, b -> g.crossDoubleBlock(b.get(), "${blockNameWithPrefix}_bottom", "${blockNameWithPrefix}_top") }
       .item()
       .model { g, i -> g.flatItemBlock(i.get(), "${blockNameWithPrefix}_top") }
-      .build() as BlockBuilder<T>
-    //      .loot(BlockLootPresets.dropDoubleCropLoot(dropItem!!, seedItem ?: dropItem, true, chance, multiplier))
-
+      .build()
+      .loot { g, b ->
+        g.dropDoubleCropLoot(
+          b.get(),
+          dropItem!!,
+          seedItem ?: dropItem,
+          true,
+          chance,
+          multiplier
+        )
+      } as BlockBuilder<T>
   }
 }

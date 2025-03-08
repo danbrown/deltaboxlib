@@ -1,11 +1,13 @@
 package com.dannbrown.deltaboxlib.content.block
 
 
+import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.tags.BlockTags
 import net.minecraft.tags.FluidTags
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.SwordItem
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
@@ -103,6 +105,10 @@ open class GenericSproutBlock(
   ): Float {
     return if (player.mainHandItem.item is SwordItem) 1.0f
     else super.getDestroyProgress(blockState, player, blockGetter, blockPos)
+  }
+
+  override fun getCloneItemStack(blockGetter: BlockGetter, blockPos: BlockPos, blockState: BlockState): ItemStack {
+    return ItemStack(this.asItem())
   }
 }
 

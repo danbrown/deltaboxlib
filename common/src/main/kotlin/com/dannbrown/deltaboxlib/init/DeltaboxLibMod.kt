@@ -161,7 +161,7 @@ object DeltaboxLibMod {
     REGISTRATE.blockPreset<GenericTallGrassBlock>("sparse_dry_grass").createSmallTallGrassBlock(
       TALL_SPARSE_DRY_GRASS,
       { Items.BEETROOT_SEEDS },
-      false,
+      true,
       { blockState, _, _ -> blockState.`is`(BlockTags.SAND) })
       .color(MapColor.TERRACOTTA_YELLOW)
       .register()

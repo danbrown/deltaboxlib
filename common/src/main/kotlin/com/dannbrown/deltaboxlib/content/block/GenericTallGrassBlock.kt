@@ -1,10 +1,12 @@
 package com.dannbrown.deltaboxlib.content.block
 
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
+import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.BlockTags
 import net.minecraft.util.RandomSource
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
@@ -77,6 +79,10 @@ open class GenericTallGrassBlock(
     if (serverLevel.getBlockState(blockPos.above()).isAir && canSurvive(blockState, serverLevel, blockPos)) {
       growTallGrass(serverLevel, blockPos)
     }
+  }
+
+  override fun getCloneItemStack(blockGetter: BlockGetter, blockPos: BlockPos, blockState: BlockState): ItemStack {
+    return ItemStack(this.asItem())
   }
 }
 
