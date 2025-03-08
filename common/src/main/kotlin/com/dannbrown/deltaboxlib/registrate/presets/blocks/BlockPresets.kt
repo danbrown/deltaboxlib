@@ -189,6 +189,29 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     ).create()
   }
 
+  fun flowerBlock(
+    dropItem: Supplier<ItemLike>? = null,
+    isSticky: Boolean = false,
+    isHarmful: Boolean = false,
+    isBonemealable: Boolean = false,
+    chance: Float = 0.6f,
+    multiplier: Int = 2,
+    placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
+  ): BlockBuilder<T> {
+    return GrassBlockPreset(
+      registrate,
+      blockId,
+      dropItem,
+      isSticky,
+      isHarmful,
+      isBonemealable,
+      chance,
+      multiplier,
+      placeOn
+    ).createFlower()
+  }
+
+
   fun createSmallTallGrassBlock(
     doubleBlock: BlockEntry<GenericDoublePlantBlock>,
     dropItem: Supplier<ItemLike>,

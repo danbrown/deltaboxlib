@@ -139,6 +139,17 @@ object DeltaboxLibMod {
     .pottedBlock(SIMPLE_GRASS)
     .register()
 
+
+  val SIMPLE_FLOWER: BlockEntry<GenericGrassBlock> = REGISTRATE.blockPreset<GenericGrassBlock>("simple_flower")
+    .flowerBlock({ Items.WHEAT_SEEDS })
+    .register()
+
+  val POTTED_SIMPLE_FLOWER: BlockEntry<FlowerPotBlock> = REGISTRATE
+    .blockPreset<FlowerPotBlock>("simple_flower")
+    .pottedBlock(SIMPLE_FLOWER)
+    .register()
+
+
   val TALL_SPARSE_DRY_GRASS: BlockEntry<GenericDoublePlantBlock> =
     REGISTRATE.blockPreset<GenericDoublePlantBlock>("sparse_dry_grass").createDoubleTallGrassBlock(
       { Items.BEETROOT_SEEDS },
