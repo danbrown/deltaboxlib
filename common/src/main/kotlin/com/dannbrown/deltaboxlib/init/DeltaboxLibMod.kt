@@ -2,15 +2,16 @@ package com.dannbrown.deltaboxlib.init
 
 import com.dannbrown.deltaboxlib.content.block.*
 import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
-import com.dannbrown.deltaboxlib.registrate.presets.blocks.StorageBlockPreset
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
+import com.dannbrown.deltaboxlib.registrate.util.CreativeTabsUtil
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.BlockTags
 import net.minecraft.tags.ItemTags
 import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
@@ -222,8 +223,8 @@ object DeltaboxLibMod {
       .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
       .register()
 
-
   fun init() {
+    DeltaboxCreativeTabs.register()
     REGISTRATE.buildRegistries()
   }
 }

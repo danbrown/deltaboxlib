@@ -4,9 +4,13 @@ import com.dannbrown.deltaboxlib.registrate.builders.*
 import com.dannbrown.deltaboxlib.registrate.presets.blocks.BlockPresets
 import com.dannbrown.deltaboxlib.registrate.registry.*
 import com.dannbrown.deltaboxlib.registrate.types.RecipeFactory
+import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.tags.TagKey
+import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Block
+import java.util.function.Supplier
 
 abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val blockRegistry: BlockRegistry = BlockRegistry(modId)
@@ -14,6 +18,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val langRegistry: LangRegistry = LangRegistry(modId)
   val tagRegistry: TagRegistry = TagRegistry(modId)
   val recipeRegistry: RecipeRegistry = RecipeRegistry(modId)
+  val creativeTabRegistry: CreativeTabRegistry = CreativeTabRegistry(modId)
 
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
@@ -49,8 +54,19 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return this
   }
 
+  fun creativeTab(
+    id: String,
+    phrase: String,
+    icon: Supplier<ItemStack>,
+    displayItems: CreativeModeTab.DisplayItemsGenerator,
+  ): RegistrySupplier<CreativeModeTab> {
+    this.langs().creativeTab(id, phrase)
+    return this.creativeTabRegistry.register(id, icon, displayItems)
+  }
+
   fun buildRegistries() {
     blockRegistry.build()
     itemRegistry.build()
+    creativeTabRegistry.build()
   }
 }

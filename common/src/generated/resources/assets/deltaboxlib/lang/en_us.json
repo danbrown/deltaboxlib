@@ -23,5 +23,6 @@
   "block.deltaboxlib.sparse_dry_grass": "Sparse Dry Grass",
   "block.deltaboxlib.tall_sparse_dry_grass": "Tall Sparse Dry Grass",
   "item.deltaboxlib.adamantium_ingot": "Adamantium Ingot",
+  "itemGroup.deltaboxlib.deltaboxlib": "Deltabox Lib",
   "tooltip.deltaboxlib.flint": "It's a Delta!"
 }
