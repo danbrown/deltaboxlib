@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.content.block
 
+import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.BlockTags
@@ -21,7 +22,7 @@ import java.util.function.Supplier
  * @param plantBlock The block to grow into.
  */
 open class GenericTallGrassBlock(
-  private val plantBlock: Supplier<out Block>,
+  private val plantBlock: BlockEntry<out Block>,
   properties: Properties,
   private val needBonemeal: Boolean = false,
   private val placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null

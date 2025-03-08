@@ -21,7 +21,8 @@ class SaplingBlockPreset(
   val placeOn: ((BlockState, BlockGetter, BlockPos) -> Boolean)? = null
 ) : IBlockBuilderPreset(registrate, blockId) {
   fun <T : Block> create(): BlockBuilder<T> {
-    return registrate.block<T>("${blockId}_sapling")
+    val nameWithSuffix = "${blockId}_sapling"
+    return registrate.block<T>(nameWithSuffix)
       .factory { c, p -> GenericSaplingBlock(treeGrower.get(), p, placeOn) }
       .copyFrom { Blocks.OAK_SAPLING }
       .properties { c, p ->
@@ -33,7 +34,7 @@ class SaplingBlockPreset(
           .noOcclusion()
       }
       .cutoutRender()
-      .blockstate { g, b -> g.crossBlock(b.get(), "${blockId}_sapling") }
+      .blockstate { g, b -> g.crossBlock(b.get(), nameWithSuffix) }
       .blockTags(BlockTags.SAPLINGS)
       .item()
       .itemTags(ItemTags.SAPLINGS)

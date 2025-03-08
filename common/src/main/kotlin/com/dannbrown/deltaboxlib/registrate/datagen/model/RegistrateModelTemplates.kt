@@ -106,7 +106,6 @@ object RegistrateModelTemplates {
     TextureSlot.BOTTOM,
   )
 
-
   fun create(parent: ResourceLocation, vararg textureSlots: TextureSlot): ModelTemplate {
     return ModelTemplate(Optional.of(parent), Optional.empty(), *textureSlots)
   }

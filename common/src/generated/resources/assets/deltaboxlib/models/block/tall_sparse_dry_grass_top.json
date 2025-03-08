@@ -1,0 +1,6 @@
+{
+  "parent": "deltaboxlib:block/template_cross",
+  "textures": {
+    "cross": "deltaboxlib:block/tall_sparse_dry_grass_top"
+  }
+}

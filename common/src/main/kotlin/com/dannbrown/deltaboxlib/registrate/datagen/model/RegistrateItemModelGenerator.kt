@@ -4,7 +4,6 @@ import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.google.gson.JsonElement
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.models.ItemModelGenerators
-import net.minecraft.data.models.model.ModelTemplate
 import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.data.models.model.TextureSlot
@@ -16,26 +15,26 @@ import java.util.function.Supplier
 
 class RegistrateItemModelGenerator(val output: BiConsumer<ResourceLocation, Supplier<JsonElement>>) :
   ItemModelGenerators(output) {
-  fun flatItem(item: Item) {
+  fun flatItem(item: Item, texture: String = "") {
     RegistrateModelTemplates.FLAT_ITEM.create(
       BuiltInRegistries.ITEM.getKey(item).withPrefix("item/"),
-      TextureMapping().put(TextureSlot.LAYER0, BuiltInRegistries.ITEM.getKey(item).withPrefix("item/")),
+      TextureMapping().put(TextureSlot.LAYER0, optionalTexture(item, texture, "", "item/")),
       this.output
     )
   }
 
-  fun flatItemBlock(item: Item) {
+  fun flatItemBlock(item: Item, texture: String = "") {
     RegistrateModelTemplates.FLAT_ITEM.create(
       BuiltInRegistries.ITEM.getKey(item).withPrefix("item/"),
-      TextureMapping().put(TextureSlot.LAYER0, BuiltInRegistries.ITEM.getKey(item).withPrefix("block/")),
+      TextureMapping().put(TextureSlot.LAYER0, optionalTexture(item, texture, "", "block/")),
       this.output
     )
   }
 
-  fun flatHandheldItem(item: Item) {
+  fun flatHandheldItem(item: Item, texture: String = "") {
     RegistrateModelTemplates.FLAT_HANDHELD_ITEM.create(
       BuiltInRegistries.ITEM.getKey(item).withPrefix("item/"),
-      TextureMapping().put(TextureSlot.LAYER0, BuiltInRegistries.ITEM.getKey(item).withPrefix("item/")),
+      TextureMapping().put(TextureSlot.LAYER0, optionalTexture(item, texture, "", "item/")),
       this.output
     )
   }
@@ -78,7 +77,9 @@ class RegistrateItemModelGenerator(val output: BiConsumer<ResourceLocation, Supp
   // Util
 
   fun optionalTexture(item: Item, texture: String, suffix: String = "", path: String = "block/"): ResourceLocation {
-    return if (texture.isEmpty()) TextureMapping.getItemTexture(item, suffix) else DeltaboxUtil.resourceLocation(
+    return if (texture.isEmpty())
+      BuiltInRegistries.ITEM.getKey(item).withPath { str -> path + str + suffix }
+    else DeltaboxUtil.resourceLocation(
       DeltaboxUtil.getItemModId(item),
       path,
       texture

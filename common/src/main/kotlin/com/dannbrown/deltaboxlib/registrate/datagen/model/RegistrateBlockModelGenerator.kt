@@ -3,28 +3,20 @@ package com.dannbrown.deltaboxlib.registrate.datagen.model
 import com.dannbrown.deltaboxlib.content.block.CropLeavesBlock
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.google.gson.JsonElement
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import net.minecraft.core.Direction
 import net.minecraft.core.Direction.Axis
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.models.BlockModelGenerators
-import net.minecraft.data.models.blockstates.BlockStateGenerator
-import net.minecraft.data.models.blockstates.Condition
-import net.minecraft.data.models.blockstates.MultiPartGenerator
-import net.minecraft.data.models.blockstates.MultiVariantGenerator
-import net.minecraft.data.models.blockstates.PropertyDispatch
-import net.minecraft.data.models.blockstates.Variant
-import net.minecraft.data.models.blockstates.VariantProperties
+import net.minecraft.data.models.blockstates.*
 import net.minecraft.data.models.blockstates.VariantProperties.Rotation
-import net.minecraft.data.models.model.DelegatedModel
 import net.minecraft.data.models.model.ModelLocationUtils
-import net.minecraft.data.models.model.ModelTemplate
 import net.minecraft.data.models.model.ModelTemplates
 import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.DoublePlantBlock
 import net.minecraft.world.level.block.state.properties.AttachFace
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.DoorHingeSide
@@ -86,8 +78,10 @@ class RegistrateBlockModelGenerator(
       this.modelOutput
     )
 
-    val rotatedPillarState = PropertyDispatch.property(BlockStateProperties.AXIS).select(Axis.Y, Variant.variant())
-      .select(Axis.Z, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)).select(
+    val rotatedPillarState = PropertyDispatch.property(BlockStateProperties.AXIS)
+      .select(Axis.Y, Variant.variant())
+      .select(Axis.Z, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90))
+      .select(
         Axis.X,
         Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
           .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
@@ -997,12 +991,33 @@ class RegistrateBlockModelGenerator(
     this.blockStateOutput.accept(doorBlockstate)
   }
 
+  fun crossDoubleBlock(block: Block, bottomTexture: String, topTexture: String) {
+    val resourceLocation = RegistrateModelTemplates.CROSS.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_bottom"),
+      TextureMapping().put(TextureSlot.CROSS, optionalTexture(block, bottomTexture, "_bottom", "block/")),
+      this.modelOutput
+    )
+    val resourceLocation2 = RegistrateModelTemplates.CROSS.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix("_top"),
+      TextureMapping().put(TextureSlot.CROSS, optionalTexture(block, topTexture, "_top", "block/")),
+      this.modelOutput
+    )
+
+    val crossDoubleState = MultiVariantGenerator.multiVariant(block).with(
+      PropertyDispatch.property(BlockStateProperties.DOUBLE_BLOCK_HALF)
+        .select(DoubleBlockHalf.UPPER, Variant.variant().with(VariantProperties.MODEL, resourceLocation2))
+        .select(DoubleBlockHalf.LOWER, Variant.variant().with(VariantProperties.MODEL, resourceLocation))
+    )
+    this.blockStateOutput.accept(crossDoubleState)
+  }
 
   // utils
 
   // returns the path of a texture rather it is given or it uses the block id with an optional suffix
   fun optionalTexture(block: Block, texture: String, suffix: String = "", path: String = "block/"): ResourceLocation {
-    return if (texture.isEmpty()) TextureMapping.getBlockTexture(block, suffix) else DeltaboxUtil.resourceLocation(
+    return if (texture.isEmpty())
+      BuiltInRegistries.BLOCK.getKey(block).withPath { str -> path + str + suffix }
+    else DeltaboxUtil.resourceLocation(
       DeltaboxUtil.getBlockModId(block),
       path,
       texture

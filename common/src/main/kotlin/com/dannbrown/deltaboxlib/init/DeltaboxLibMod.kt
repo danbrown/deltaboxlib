@@ -1,7 +1,6 @@
 package com.dannbrown.deltaboxlib.init
 
-import com.dannbrown.deltaboxlib.content.block.FlammableBlock
-import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
+import com.dannbrown.deltaboxlib.content.block.*
 import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
 import com.dannbrown.deltaboxlib.registrate.presets.blocks.StorageBlockPreset
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
@@ -29,6 +28,7 @@ import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallBlock
 import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
+import net.minecraft.world.level.material.MapColor
 
 object DeltaboxLibMod {
   const val MOD_ID = "deltaboxlib"
@@ -130,35 +130,30 @@ object DeltaboxLibMod {
     .pottedBlock(LEMON_SAPLING, "_sapling")
     .register()
 
-//  val SIMPLE_GRASS: BlockEntry<GenericGrassBlock> = BLOCKS.grassBlock("simple_grass", { Items.WHEAT_SEEDS })
-//    .register()
-//  val SIMPLE_FLOWER: BlockEntry<TrailFlowerBlock> =
-//    BLOCKS.create<TrailFlowerBlock>("simple_flower")
-////      .flowerBlock("simple_flower", true, true, true, { blockState, _, _ -> blockState.`is`(BlockTags.SAND) })
-//      .blockFactory { p -> TrailFlowerBlock(p) }
-//      .copyFrom { Blocks.POPPY }
-//      .properties { p ->
-//        p.sound(SoundType.GRASS)
-//          .strength(0.0f)
-//          .noCollission()
-//          .noOcclusion()
-//          .randomTicks()
-//      }
-//      .blockstate(BlockstatePresets.simpleCrossBlock("simple_flower"))
-//      .loot(BlockLootPresets.dropItselfLoot())
-//      .transform { t ->
-//        t
-//          .item()
-//          .model(ItemModelPresets.simpleLayerItem("simple_flower"))
-//          .build()
-//      }
-//      .cutoutRender()
-//      .register()
-//
-//  val POTTED_SIMPLE_GRASS: BlockEntry<FlowerPotBlock> = BLOCKS.pottedBlock("simple_grass", SIMPLE_GRASS)
-//    .register()
-//  val POTTED_SIMPLE_FLOWER: BlockEntry<FlowerPotBlock> = BLOCKS.pottedBlock("simple_flower", SIMPLE_FLOWER)
-//    .register()
+  val SIMPLE_GRASS: BlockEntry<GenericGrassBlock> = REGISTRATE.blockPreset<GenericGrassBlock>("simple_grass")
+    .grassBlock({ Items.WHEAT_SEEDS })
+    .register()
+
+  val POTTED_SIMPLE_GRASS: BlockEntry<FlowerPotBlock> = REGISTRATE
+    .blockPreset<FlowerPotBlock>("simple_grass")
+    .pottedBlock(SIMPLE_GRASS)
+    .register()
+
+  val TALL_SPARSE_DRY_GRASS: BlockEntry<GenericDoublePlantBlock> =
+    REGISTRATE.blockPreset<GenericDoublePlantBlock>("sparse_dry_grass").createDoubleTallGrassBlock(
+      { Items.BEETROOT_SEEDS },
+      null,
+      { blockState, _, _ -> blockState.`is`(BlockTags.SAND) })
+      .color(MapColor.TERRACOTTA_YELLOW)
+      .register()
+  val SPARSE_DRY_GRASS: BlockEntry<GenericTallGrassBlock> =
+    REGISTRATE.blockPreset<GenericTallGrassBlock>("sparse_dry_grass").createSmallTallGrassBlock(
+      TALL_SPARSE_DRY_GRASS,
+      { Items.BEETROOT_SEEDS },
+      false,
+      { blockState, _, _ -> blockState.`is`(BlockTags.SAND) })
+      .color(MapColor.TERRACOTTA_YELLOW)
+      .register()
 
 
   val PALE_OAK_LOG = REGISTRATE.blockPreset<RotatedPillarBlock>("pale_oak_log")
@@ -215,12 +210,6 @@ object DeltaboxLibMod {
       .copyFrom { Blocks.OAK_DOOR }
       .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
       .register()
-
-
-//  val PALE_OAK_WALL = REGISTRATE.blockPreset<WallBlock>("pale_oak").wall("pale_oak_planks", false)
-//    .copyFrom { Blocks.OAK_FENCE }
-//    .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//    .register()
 
 
   fun init() {

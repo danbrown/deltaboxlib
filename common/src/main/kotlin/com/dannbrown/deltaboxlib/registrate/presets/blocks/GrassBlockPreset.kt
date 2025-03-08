@@ -5,6 +5,7 @@ import com.dannbrown.deltaboxlib.content.block.GenericGrassBlock
 import com.dannbrown.deltaboxlib.content.block.GenericTallGrassBlock
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilder
+import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.ItemLike
@@ -30,18 +31,19 @@ class GrassBlockPreset(
       .block<T>(blockId)
       .factory { c, p -> GenericGrassBlock(p, placeOn, isSticky, isHarmful, isBonemealable) }
       .copyFrom { Blocks.FERN }
+      .blockstate { g, b -> g.crossBlock(b.get()) }
       .properties { c, p ->
         p.sound(SoundType.GRASS)
           .strength(0.0f)
           .noCollission()
           .noOcclusion()
       }
+
+      .cutoutRender()
       .item()
-//      .model(ItemModelPresets.simpleLayerItem(blockId))
-      .build()
-//      .blockstate(BlockstatePresets.simpleCrossBlock(blockId))
-//      .loot(BlockLootPresets.dropSelfSilkShearsOtherLoot(dropItem!!, chance, multiplier))
-      .cutoutRender() as BlockBuilder<T>
+      .model { g, i -> g.flatItemBlock(i.get()) }
+      .build() as BlockBuilder<T>
+    //      .loot(BlockLootPresets.dropSelfSilkShearsOtherLoot(dropItem!!, chance, multiplier))
   }
 
   fun <T : Block> createFlower(): BlockBuilder<T> {
@@ -55,16 +57,16 @@ class GrassBlockPreset(
           .noCollission()
           .noOcclusion()
       }
+      .blockstate { g, b -> g.crossBlock(b.get()) }
+      .cutoutRender()
       .item()
-//      .model(ItemModelPresets.simpleLayerItem(blockId))
-      .build()
-//      .blockstate(BlockstatePresets.simpleCrossBlock(blockId))
-//      .loot(BlockLootPresets.dropItselfLoot())
-      .cutoutRender() as BlockBuilder<T>
+      .model { g, i -> g.flatItemBlock(i.get()) }
+      .build() as BlockBuilder<T>
+    //      .loot(BlockLootPresets.dropItselfLoot())
   }
 
   fun <T : Block> createSmallTallGrassBlock(
-    doubleBlock: Supplier<GenericDoublePlantBlock>,
+    doubleBlock: BlockEntry<GenericDoublePlantBlock>,
     needBonemeal: Boolean = false
   ): BlockBuilder<T> {
     return registrate
@@ -72,28 +74,30 @@ class GrassBlockPreset(
       .factory { c, p -> GenericTallGrassBlock(doubleBlock, p, needBonemeal, placeOn) }
       .copyFrom { Blocks.TALL_GRASS }
       .properties { c, p -> p.strength(0.0f).randomTicks().noCollission().noOcclusion() }
+      .blockstate { g, b -> g.crossBlock(b.get()) }
+      .cutoutRender()
       .item()
-//      .model(ItemModelPresets.simpleLayerItem(blockId))
-      .build()
-//      .blockstate(BlockstatePresets.simpleCrossBlock(blockId))
+      .model { g, i -> g.flatItemBlock(i.get()) }
+      .build() as BlockBuilder<T>
 //      .loot(BlockLootPresets.dropSelfSilkShearsOtherLoot(dropItem!!, chance, multiplier))
-      .cutoutRender() as BlockBuilder<T>
   }
 
   fun <T : Block> createDoubleTallGrassBlock(
     seedItem: Supplier<ItemLike>? = null,
     prefix: String = "tall_"
   ): BlockBuilder<T> {
+    val blockNameWithPrefix = "${prefix}${blockId}"
     return registrate
-      .block<T>("${prefix}${blockId}")
+      .block<T>(blockNameWithPrefix)
       .factory { c, p -> GenericDoublePlantBlock(p, placeOn) }
       .copyFrom { Blocks.TALL_GRASS }
       .properties { c, p -> p.strength(0.0f).randomTicks().noCollission().noOcclusion() }
+      .cutoutRender()
+      .blockstate { g, b -> g.crossDoubleBlock(b.get(), "${blockNameWithPrefix}_bottom", "${blockNameWithPrefix}_top") }
       .item()
-//      .model(ItemModelPresets.simpleLayerItem(blockId + "_top"))
-      .build()
-//      .loot(BlockLootPresets.dropDoubleCropLoot(dropItem!!, seedItem ?: dropItem, true, chance, multiplier))
-//      .blockstate(BlockstatePresets.simpleDoubleCrossBlock(blockId))
-      .cutoutRender() as BlockBuilder<T>
+      .model { g, i -> g.flatItemBlock(i.get(), "${blockNameWithPrefix}_top") }
+      .build() as BlockBuilder<T>
+    //      .loot(BlockLootPresets.dropDoubleCropLoot(dropItem!!, seedItem ?: dropItem, true, chance, multiplier))
+
   }
 }

@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.registrate.presets.blocks
 
+import com.dannbrown.deltaboxlib.content.block.GenericDoublePlantBlock
 import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
 import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
@@ -164,5 +165,68 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     addSuffix: Boolean = true
   ): BlockBuilder<T> {
     return CommonBlockPreset(registrate, blockId).createDoor(blockSet, isWooden, addSuffix)
+  }
+
+  fun grassBlock(
+    dropItem: Supplier<ItemLike>? = null,
+    isSticky: Boolean = false,
+    isHarmful: Boolean = false,
+    isBonemealable: Boolean = false,
+    chance: Float = 0.6f,
+    multiplier: Int = 2,
+    placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
+  ): BlockBuilder<T> {
+    return GrassBlockPreset(
+      registrate,
+      blockId,
+      dropItem,
+      isSticky,
+      isHarmful,
+      isBonemealable,
+      chance,
+      multiplier,
+      placeOn
+    ).create()
+  }
+
+  fun createSmallTallGrassBlock(
+    doubleBlock: BlockEntry<GenericDoublePlantBlock>,
+    dropItem: Supplier<ItemLike>,
+    needBonemeal: Boolean = false,
+    placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null,
+    chance: Float = 0.25f,
+    multiplier: Int = 2,
+  ): BlockBuilder<T> {
+    return GrassBlockPreset(
+      registrate,
+      blockId,
+      dropItem,
+      false,
+      false,
+      false,
+      chance,
+      multiplier,
+      placeOn
+    ).createSmallTallGrassBlock(doubleBlock, needBonemeal)
+  }
+
+  fun createDoubleTallGrassBlock(
+    dropItem: Supplier<ItemLike>,
+    seedItem: Supplier<ItemLike>? = null,
+    placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null,
+    prefix: String = "tall_",
+    chance: Float = 0.25f,
+    multiplier: Int = 2,
+  ): BlockBuilder<T> {
+    return GrassBlockPreset(
+      registrate, blockId,
+      dropItem,
+      false,
+      false,
+      false,
+      chance,
+      multiplier,
+      placeOn
+    ).createDoubleTallGrassBlock(seedItem, prefix)
   }
 }
