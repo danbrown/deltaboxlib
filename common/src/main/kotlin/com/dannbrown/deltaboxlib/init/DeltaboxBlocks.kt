@@ -239,11 +239,6 @@ object DeltaboxBlocks {
     .color(MapColor.COLOR_LIGHT_GREEN)
     .register()
 
-  val CASSAVINHA_CROP = REGISTRATE.blockPreset<GenericCropBlock>("cassavinha")
-    .crop("cassavinha", "Cassavinha Crop", "Cassavinha", null, false, true, 1f, 3)
-    .color(MapColor.COLOR_LIGHT_GREEN)
-    .register()
-
   val CARIOCA_BEANS_CROP = REGISTRATE.blockPreset<GenericCropBlock>("bean")
     .crop("carioca_beans", "Carioca Beans Crop", "Carioca Beans", { DeltaboxItems.BEAN_POD.get() }, true, false)
     .color(MapColor.COLOR_LIGHT_GREEN)
@@ -254,15 +249,20 @@ object DeltaboxBlocks {
     .color(MapColor.COLOR_LIGHT_GREEN)
     .register()
 
-  val CORN_CROP = REGISTRATE.blockPreset<GenericCropBlock>("corn")
-    .doubleCrop("kernels", "Corn Crop", "Kernels", { DeltaboxItems.BEAN_POD.get() }, true, false)
+  val BUDDING_CORN: BlockEntry<GenericCropBlock> = REGISTRATE.blockPreset<GenericCropBlock>("corn")
+    .buddingCrop("kernels", "Kernels", "Corn Crop", { CORN_CROP.get() }, false)
     .color(MapColor.COLOR_LIGHT_GREEN)
     .register()
 
-  val CASSAVA_CROP = REGISTRATE.blockPreset<GenericCropBlock>("cassava")
-    .doubleCrop("cassava_root", "Cassava Crop", "Cassava Root", null, false, true)
+  val CORN_CROP: BlockEntry<GenericCropBlock> = REGISTRATE.blockPreset<GenericCropBlock>("corn")
+    .doubleCrop("Corn Crop", { BUDDING_CORN.get().asItem() }, { DeltaboxItems.BEAN_POD.get() }, true, false)
     .color(MapColor.COLOR_LIGHT_GREEN)
     .register()
+
+//  val CASSAVA_CROP = REGISTRATE.blockPreset<GenericCropBlock>("cassava")
+//    .doubleCrop("cassava_root", "Cassava Crop", "Cassava Root", null, false, true)
+//    .color(MapColor.COLOR_LIGHT_GREEN)
+//    .register()
 
 
   fun register() {

@@ -191,6 +191,34 @@ class RegistrateBlockModelGenerator(
     )
   }
 
+  fun buddingCropBlock(block: Block, texture: String) {
+    val maxStages = CropBlock.MAX_AGE
+    val stages = (0..maxStages).map { stage ->
+      stage to "_budding_stage$stage"
+    }
+
+    val models = stages.associate { (stage, suffix) ->
+      stage to RegistrateModelTemplates.CROSS.create(
+        BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(suffix),
+        TextureMapping.singleSlot(
+          TextureSlot.CROSS,
+          optionalTexture(block, "${texture}${suffix}", suffix, "block/${texture}/"),
+        ),
+        this.modelOutput
+      )
+    }
+
+    this.blockStateOutput.accept(
+      MultiVariantGenerator.multiVariant(block).with(
+        PropertyDispatch.property(CropBlock.AGE).apply {
+          stages.forEach { (stage, _) ->
+            select(stage, Variant.variant().with(VariantProperties.MODEL, models[stage]))
+          }
+        }
+      )
+    )
+  }
+
   fun doubleCropBlock(block: Block, texture: String) {
     val maxStages = CropBlock.MAX_AGE
     fun stages(prefix: String) = (0..maxStages).map { stage ->

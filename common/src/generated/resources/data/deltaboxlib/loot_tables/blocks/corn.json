@@ -5,7 +5,7 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "block": "deltaboxlib:cassava_root",
+          "block": "deltaboxlib:corn",
           "condition": "minecraft:block_state_property",
           "properties": {
             "half": "lower"
@@ -17,7 +17,7 @@
           "predicate": {
             "block": {
               "blocks": [
-                "deltaboxlib:cassava_root"
+                "deltaboxlib:corn"
               ],
               "state": {
                 "half": "upper"
@@ -67,11 +67,11 @@
                   "function": "minecraft:set_count"
                 }
               ],
-              "name": "deltaboxlib:cassava_root"
+              "name": "minecraft:air"
             },
             {
               "type": "minecraft:item",
-              "name": "deltaboxlib:cassava_root"
+              "name": "deltaboxlib:bean_pod"
             }
           ]
         }
@@ -82,7 +82,7 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "block": "deltaboxlib:cassava_root",
+          "block": "deltaboxlib:corn",
           "condition": "minecraft:block_state_property",
           "properties": {
             "half": "upper"
@@ -94,7 +94,7 @@
           "predicate": {
             "block": {
               "blocks": [
-                "deltaboxlib:cassava_root"
+                "deltaboxlib:corn"
               ],
               "state": {
                 "half": "lower"
@@ -144,11 +144,11 @@
                   "function": "minecraft:set_count"
                 }
               ],
-              "name": "deltaboxlib:cassava_root"
+              "name": "minecraft:air"
             },
             {
               "type": "minecraft:item",
-              "name": "deltaboxlib:cassava_root"
+              "name": "deltaboxlib:bean_pod"
             }
           ]
         }

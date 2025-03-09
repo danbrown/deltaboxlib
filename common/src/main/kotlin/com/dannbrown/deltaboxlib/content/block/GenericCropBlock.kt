@@ -16,7 +16,6 @@ import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
@@ -34,6 +33,8 @@ import java.util.function.Supplier
 
 open class GenericCropBlock(
   props: Properties,
+  private val isBudding: Boolean = false,
+  private val grownBlock: Supplier<out Block>? = null,
   private val isDouble: Boolean = false,
   private val isBush: Boolean = false,
   private val includeSeedOnDrop: Boolean = false,
@@ -58,19 +59,16 @@ open class GenericCropBlock(
     else null
   }
 
-  private val SHAPE_BY_AGE = arrayOf<VoxelShape>(
-    Block.box(0.0, 0.0, 0.0, 16.0, 2.0, 16.0),
-    Block.box(0.0, 0.0, 0.0, 16.0, 3.0, 16.0),
-    Block.box(0.0, 0.0, 0.0, 16.0, 5.0, 16.0),
-    Block.box(0.0, 0.0, 0.0, 16.0, 7.0, 16.0),
-    Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0),
-    Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0),
-    Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0),
-    Block.box(0.0, 0.0, 0.0, 16.0, 10.0, 16.0)
-  )
-
   override fun getBaseSeedId(): ItemLike {
     return if (fruitItem !== null) fruitItem.get() else this.asItem()
+  }
+
+  override fun getCloneItemStack(arg: BlockGetter, pos: BlockPos, state: BlockState): ItemStack {
+    return ItemStack(if (fruitItem !== null) fruitItem.get() else this.asItem())
+  }
+
+  fun getPlant(level: BlockGetter, pos: BlockPos): BlockState { // soft-override on forge
+    return this.defaultBlockState()
   }
 
   override fun getShape(state: BlockState, level: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
@@ -80,14 +78,6 @@ open class GenericCropBlock(
     } else {
       SHAPE_BY_AGE[state.getValue(this.ageProperty)]
     }
-  }
-
-  override fun getCloneItemStack(arg: BlockGetter, pos: BlockPos, state: BlockState): ItemStack {
-    return ItemStack(if (fruitItem !== null) fruitItem.get() else this.asItem())
-  }
-
-  fun getPlant(level: BlockGetter, pos: BlockPos): BlockState { // soft-override on forge
-    return this.defaultBlockState()
   }
 
   override fun use(
@@ -102,7 +92,7 @@ open class GenericCropBlock(
     val isMaxAge = age == maxAge
     if (!isMaxAge && player.getItemInHand(interactionHand).`is`(Items.BONE_MEAL)) {
       return InteractionResult.PASS
-    } else if (age > 1 && !level.isClientSide && isBush) {
+    } else if (isMaxAge && !level.isClientSide && isBush) {
       dropResources(level as ServerLevel, blockPos)
       updateBlockState(level, blockPos, blockState.setValue(this.ageProperty, MID_STAGE), 2)
       return InteractionResult.SUCCESS
@@ -141,6 +131,45 @@ open class GenericCropBlock(
     }
   }
 
+
+  override fun playerWillDestroy(level: Level, blockPos: BlockPos, blockState: BlockState, player: Player) {
+    if (isDouble) {
+      if (!level.isClientSide) {
+        if (player.isCreative) {
+          preventCreativeDropFromBottomPart(level, blockPos, blockState, player)
+        }
+      }
+    }
+    return super.playerWillDestroy(level, blockPos, blockState, player)
+  }
+
+  override fun playerDestroy(
+    level: Level,
+    player: Player,
+    blockPos: BlockPos,
+    blockState: BlockState,
+    blockEntity: BlockEntity?,
+    itemStack: ItemStack
+  ) {
+    if (isDouble) {
+      super.playerDestroy(level, player, blockPos, Blocks.AIR.defaultBlockState(), blockEntity, itemStack)
+    } else {
+      super.playerDestroy(level, player, blockPos, blockState, blockEntity, itemStack)
+    }
+  }
+
+  override fun getSeed(blockState: BlockState, blockPos: BlockPos): Long {
+    if (isDouble) {
+      return Mth.getSeed(
+        blockPos.x,
+        blockPos.below(if (blockState.getValue(HALF) == DoubleBlockHalf.LOWER) 0 else 1).y,
+        blockPos.z
+      )
+    } else {
+      return super.getSeed(blockState, blockPos)
+    }
+  }
+
   private fun canSurviveDouble(pState: BlockState, pLevel: LevelReader, pPos: BlockPos): Boolean {
     if (pState.getValue(HALF) != DoubleBlockHalf.UPPER) {
       return super.canSurvive(pState, pLevel, pPos)
@@ -154,24 +183,75 @@ open class GenericCropBlock(
     }
   }
 
+
+  override fun growCrops(level: Level, blockPos: BlockPos, blockState: BlockState) {
+    var newState = this.getAge(blockState) + this.getBonemealAgeIncrease(level)
+    if (newState > this.maxAge) newState = this.maxAge
+
+    if (newState == this.maxAge && isBudding) growTall(level, blockPos)
+    else updateBlockState(level, blockPos, this.getStateForAge(newState), 2)
+  }
+
+  override fun randomTick(
+    blockState: BlockState,
+    serverLevel: ServerLevel,
+    blockPos: BlockPos,
+    randomSource: RandomSource
+  ) {
+    // if is the upper part, doesn't grow with random tick, depends on the lower part
+    if (blockState.getValue(HALF) == DoubleBlockHalf.UPPER) return
+    // grow normaly if its the lower part, should work for the normal and double variants
+    if (serverLevel.getRawBrightness(blockPos, 0) >= 9) {
+      val i = this.getAge(blockState)
+      if (i == this.maxAge && isBudding) {
+        growTall(serverLevel, blockPos)
+        return
+      }
+
+      if (i < this.maxAge) {
+        val f = getGrowthSpeed(this, serverLevel, blockPos);
+        if (randomSource.nextInt((25.0F / f).toInt() + 1) == 0) {
+          updateBlockState(serverLevel, blockPos, this.getStateForAge(i + 1), 2)
+        }
+      }
+    }
+  }
+
+  override fun isValidBonemealTarget(
+    levelReader: LevelReader,
+    blockPos: BlockPos,
+    blockState: BlockState,
+    bl: Boolean
+  ): Boolean {
+    return if (isBudding) true
+    else super.isValidBonemealTarget(levelReader, blockPos, blockState, bl)
+  }
+
   private fun updateBlockState(level: Level, blockPos: BlockPos, blockstate: BlockState, i: Int = 3) {
     level.setBlock(blockPos, blockstate, i)
     if (isDouble) level.setBlock(getDoubleOtherPos(blockPos, blockstate), getOtherBlockstate(blockstate), i)
   }
 
+  private fun growTall(level: Level, blockPos: BlockPos) {
+    if (!isBudding || grownBlock == null || !level.getBlockState(blockPos.above()).isAir) return
+    val abovePos = blockPos.above()
+    level.setBlock(blockPos, grownBlock.get().defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER), 3)
+    level.setBlock(abovePos, grownBlock.get().defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER), 3)
+  }
+
   private fun getDoubleOtherPos(blockPos: BlockPos, blockstate: BlockState): BlockPos {
-    if (blockstate.getValue(HALF) === DoubleBlockHalf.LOWER) {
+    if (blockstate.getValue(HALF) == DoubleBlockHalf.LOWER) {
       return blockPos.above()
-    } else if (blockstate.getValue(HALF) === DoubleBlockHalf.UPPER) {
+    } else if (blockstate.getValue(HALF) == DoubleBlockHalf.UPPER) {
       return blockPos.below()
     }
     return blockPos
   }
 
   private fun getOtherBlockstate(blockstate: BlockState): BlockState {
-    if (blockstate.getValue(HALF) === DoubleBlockHalf.LOWER) {
+    if (blockstate.getValue(HALF) == DoubleBlockHalf.LOWER) {
       return blockstate.setValue(HALF, DoubleBlockHalf.UPPER)
-    } else if (blockstate.getValue(HALF) === DoubleBlockHalf.UPPER) {
+    } else if (blockstate.getValue(HALF) == DoubleBlockHalf.UPPER) {
       return blockstate.setValue(HALF, DoubleBlockHalf.LOWER)
     }
     return blockstate
@@ -211,46 +291,6 @@ open class GenericCropBlock(
     )
   }
 
-  override fun playerWillDestroy(level: Level, blockPos: BlockPos, blockState: BlockState, player: Player) {
-    if (isDouble) {
-      if (!level.isClientSide) {
-        if (player.isCreative) {
-          preventCreativeDropFromBottomPart(level, blockPos, blockState, player)
-        } else {
-          dropResources(blockState, level, blockPos, null, player, player.mainHandItem)
-        }
-      }
-    }
-    return super.playerWillDestroy(level, blockPos, blockState, player)
-  }
-
-  override fun playerDestroy(
-    level: Level,
-    player: Player,
-    blockPos: BlockPos,
-    blockState: BlockState,
-    blockEntity: BlockEntity?,
-    itemStack: ItemStack
-  ) {
-    if (isDouble) {
-      super.playerDestroy(level, player, blockPos, Blocks.AIR.defaultBlockState(), blockEntity, itemStack)
-    } else {
-      super.playerDestroy(level, player, blockPos, blockState, blockEntity, itemStack)
-    }
-  }
-
-  override fun getSeed(blockState: BlockState, blockPos: BlockPos): Long {
-    if (isDouble) {
-      return Mth.getSeed(
-        blockPos.x,
-        blockPos.below(if (blockState.getValue(HALF) == DoubleBlockHalf.LOWER) 0 else 1).y,
-        blockPos.z
-      )
-    } else {
-      return super.getSeed(blockState, blockPos)
-    }
-  }
-
   private fun preventCreativeDropFromBottomPart(
     level: Level,
     blockPos: BlockPos,
@@ -270,61 +310,26 @@ open class GenericCropBlock(
     }
   }
 
-  override fun growCrops(level: Level, blockPos: BlockPos, blockState: BlockState) {
-    var i = this.getAge(blockState) + this.getBonemealAgeIncrease(level)
-    val j = this.maxAge
-    if (i > j) {
-      i = j
-    }
-
-    updateBlockState(level, blockPos, this.getStateForAge(i), 2)
-  }
-
-  override fun randomTick(
-    blockState: BlockState,
-    serverLevel: ServerLevel,
-    blockPos: BlockPos,
-    randomSource: RandomSource
-  ) {
-    // if is the upper part, doesn't grow with random tick, depends on the lower part
-    if (blockState.getValue(HALF) === DoubleBlockHalf.UPPER) return
-    // grow normaly if its the lower part, should work for the normal and double variants
-    if (serverLevel.getRawBrightness(blockPos, 0) >= 9) {
-      val i = this.getAge(blockState);
-      if (i < this.maxAge) {
-        val f = getGrowthSpeed(this, serverLevel, blockPos);
-        if (randomSource.nextInt((25.0F / f).toInt() + 1) == 0) {
-          updateBlockState(serverLevel, blockPos, this.getStateForAge(i + 1), 2)
-        }
-      }
-    }
+  private fun copyWaterloggedFrom(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): BlockState {
+    return if (blockState.hasProperty(BlockStateProperties.WATERLOGGED)) blockState.setValue(
+      BlockStateProperties.WATERLOGGED,
+      levelReader.isWaterAt(blockPos)
+    ) else blockState
   }
 
   companion object {
+    private val SHAPE_BY_AGE = arrayOf<VoxelShape>(
+      Block.box(0.0, 0.0, 0.0, 16.0, 2.0, 16.0),
+      Block.box(0.0, 0.0, 0.0, 16.0, 3.0, 16.0),
+      Block.box(0.0, 0.0, 0.0, 16.0, 5.0, 16.0),
+      Block.box(0.0, 0.0, 0.0, 16.0, 7.0, 16.0),
+      Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0),
+      Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0),
+      Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0),
+      Block.box(0.0, 0.0, 0.0, 16.0, 10.0, 16.0)
+    )
+
     val HALF = BlockStateProperties.DOUBLE_BLOCK_HALF
-    val MID_STAGE = 4
-
-    fun placeDoubleAt(levelAccessor: LevelAccessor, blockState: BlockState, blockPos: BlockPos, i: Int) {
-      val abovePos = blockPos.above()
-      if (blockPos.y < levelAccessor.maxBuildHeight - 1 && levelAccessor.getBlockState(abovePos).canBeReplaced()) {
-        levelAccessor.setBlock(
-          blockPos,
-          copyWaterloggedFrom(levelAccessor, blockPos, blockState.setValue(HALF, DoubleBlockHalf.LOWER)),
-          i
-        )
-        levelAccessor.setBlock(
-          abovePos,
-          copyWaterloggedFrom(levelAccessor, abovePos, blockState.setValue(HALF, DoubleBlockHalf.UPPER)),
-          i
-        )
-      }
-    }
-
-    fun copyWaterloggedFrom(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): BlockState {
-      return if (blockState.hasProperty(BlockStateProperties.WATERLOGGED)) blockState.setValue(
-        BlockStateProperties.WATERLOGGED,
-        levelReader.isWaterAt(blockPos)
-      ) else blockState
-    }
+    private val MID_STAGE = 4
   }
 }
