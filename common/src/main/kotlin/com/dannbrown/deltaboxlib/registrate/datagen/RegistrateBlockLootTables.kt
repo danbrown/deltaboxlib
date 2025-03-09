@@ -211,7 +211,8 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     var builder: LootPoolEntryContainer.Builder<*> = LootItem.lootTableItem(block)
       .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
       .`when`(hasShearsOrSilkTouch(registries))
-    builder = if (cropItem !== null && includeSeedOnDrop) {
+
+    builder = if (cropItem != null && includeSeedOnDrop) {
       builder.otherwise(
         this.applyExplosionCondition(block, LootItem.lootTableItem(seedItem.get()))
           .apply(SetItemCountFunction.setCount(ConstantValue.exactly(multiplier.toFloat())))
@@ -219,8 +220,9 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
           .otherwise(LootItem.lootTableItem(cropItem.get()))
       )
     } else {
-      builder.otherwise(LootItem.lootTableItem(if (cropItem !== null) cropItem.get() else seedItem.get()))
+      builder.otherwise(LootItem.lootTableItem(if (cropItem != null) cropItem.get() else seedItem.get()))
     }
+
     val pool = LootTable.lootTable()
       .withPool(
         LootPool.lootPool()
@@ -240,15 +242,11 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
                     .of(block)
                     .setProperties(
                       StatePropertiesPredicate.Builder.properties()
-                        .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)
-                        /*? if <1.21 {*/
-                        .build()
-                      /*?}*/
+                        .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER).build()
                     )
-                    /*? if <1.21 {*/
                     .build()
-                  /*?}*/
-                ), BlockPos(0, 1, 0)
+                ),
+              BlockPos(0, 1, 0)
             )
           )
       )
@@ -270,20 +268,17 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
                     .of(block)
                     .setProperties(
                       StatePropertiesPredicate.Builder.properties()
-                        .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
-                        /*? if <1.21 {*/
-                        .build()
-                      /*?}*/
+                        .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).build()
                     )
-                    /*? if <1.21 {*/
                     .build()
-                  /*?}*/
-                ), BlockPos(0, -1, 0)
+                ),
+              BlockPos(0, -1, 0)
             )
           )
       )
     this.add(block, pool)
   }
+
 
   // private functions
   private fun <B : Block> simpleSilkShearsLootTable(

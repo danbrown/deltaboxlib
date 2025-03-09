@@ -305,7 +305,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   }
 
   fun crop(
-    seedName: String,
+    groupName: String,
     seedLang: String,
     cropLang: String,
     dropItem: Supplier<ItemLike>?,
@@ -320,11 +320,11 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
       cropLang,
       chance,
       multiplier
-    ).create(seedName, seedLang, dropItem, isBush, includeSeedOnDrop)
+    ).create(groupName, seedLang, dropItem, isBush, includeSeedOnDrop)
   }
 
   fun buddingCrop(
-    seedName: String,
+    groupName: String,
     seedLang: String,
     cropLang: String,
     grownBlock: Supplier<out Block>,
@@ -338,10 +338,11 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
       cropLang,
       chance,
       multiplier
-    ).createBudding(seedName, seedLang, grownBlock, includeSeedOnDrop)
+    ).createBudding(groupName, seedLang, grownBlock, includeSeedOnDrop)
   }
 
   fun doubleCrop(
+    groupName: String,
     cropLang: String,
     seedItem: Supplier<ItemLike>,
     dropItem: Supplier<ItemLike>?,
@@ -356,6 +357,6 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
       cropLang,
       chance,
       multiplier
-    ).createDouble(seedItem, dropItem, isBush, includeSeedOnDrop)
+    ).createDouble(groupName, seedItem, dropItem, isBush, includeSeedOnDrop)
   }
 }

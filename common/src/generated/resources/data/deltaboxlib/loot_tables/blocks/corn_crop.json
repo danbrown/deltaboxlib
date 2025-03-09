@@ -5,7 +5,7 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "block": "deltaboxlib:corn",
+          "block": "deltaboxlib:corn_crop",
           "condition": "minecraft:block_state_property",
           "properties": {
             "half": "lower"
@@ -17,7 +17,7 @@
           "predicate": {
             "block": {
               "blocks": [
-                "deltaboxlib:corn"
+                "deltaboxlib:corn_crop"
               ],
               "state": {
                 "half": "upper"
@@ -70,8 +70,33 @@
               "name": "minecraft:air"
             },
             {
-              "type": "minecraft:item",
-              "name": "deltaboxlib:bean_pod"
+              "type": "minecraft:alternatives",
+              "children": [
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:survives_explosion"
+                    },
+                    {
+                      "chance": 1.0,
+                      "condition": "minecraft:random_chance"
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "add": false,
+                      "count": 1.0,
+                      "function": "minecraft:set_count"
+                    }
+                  ],
+                  "name": "deltaboxlib:kernels"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "deltaboxlib:bean_pod"
+                }
+              ]
             }
           ]
         }
@@ -82,7 +107,7 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "block": "deltaboxlib:corn",
+          "block": "deltaboxlib:corn_crop",
           "condition": "minecraft:block_state_property",
           "properties": {
             "half": "upper"
@@ -94,7 +119,7 @@
           "predicate": {
             "block": {
               "blocks": [
-                "deltaboxlib:corn"
+                "deltaboxlib:corn_crop"
               ],
               "state": {
                 "half": "lower"
@@ -147,8 +172,33 @@
               "name": "minecraft:air"
             },
             {
-              "type": "minecraft:item",
-              "name": "deltaboxlib:bean_pod"
+              "type": "minecraft:alternatives",
+              "children": [
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:survives_explosion"
+                    },
+                    {
+                      "chance": 1.0,
+                      "condition": "minecraft:random_chance"
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "add": false,
+                      "count": 1.0,
+                      "function": "minecraft:set_count"
+                    }
+                  ],
+                  "name": "deltaboxlib:kernels"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "deltaboxlib:bean_pod"
+                }
+              ]
             }
           ]
         }

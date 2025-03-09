@@ -19,13 +19,13 @@ class CropBlockPreset(
   private val multiplier: Int = 1,
 ) : IBlockBuilderPreset(registrate, blockId) {
   fun <T : Block> create(
-    seedName: String,
+    groupName: String,
     seedLang: String,
     dropItem: Supplier<ItemLike>?,
     isBush: Boolean = true,
     includeSeedOnDrop: Boolean = true,
   ): BlockBuilder<T> {
-    return registrate.block<T>(seedName)
+    return registrate.block<T>(blockId)
       .factory { c, p ->
         GenericCropBlock(
           p,
@@ -49,7 +49,7 @@ class CropBlockPreset(
           .pushReaction(PushReaction.DESTROY)
       }
       .cutoutRender()
-      .blockstate { g, b -> g.cropBlock(b.get(), blockId) }
+      .blockstate { g, b -> g.cropBlock(b.get(), groupName) }
       .lang(cropLang)
       .item { b, p -> ItemNameBlockItem(p, b) }
       .model { g, i -> g.flatItem(i.get()) }
@@ -68,12 +68,12 @@ class CropBlockPreset(
   }
 
   fun <T : Block> createBudding(
-    seedName: String,
+    groupName: String,
     seedLang: String,
     grownBlock: Supplier<out Block>,
     includeSeedOnDrop: Boolean = true,
   ): BlockBuilder<T> {
-    return registrate.block<T>(seedName)
+    return registrate.block<T>(blockId)
       .factory { c, p ->
         GenericCropBlock(
           p,
@@ -97,7 +97,7 @@ class CropBlockPreset(
           .pushReaction(PushReaction.DESTROY)
       }
       .cutoutRender()
-      .blockstate { g, b -> g.buddingCropBlock(b.get(), blockId) }
+      .blockstate { g, b -> g.buddingCropBlock(b.get(), groupName) }
       .lang(cropLang)
       .item { b, p -> ItemNameBlockItem(p, b) }
       .model { g, i -> g.flatItem(i.get()) }
@@ -107,10 +107,11 @@ class CropBlockPreset(
   }
 
   fun <T : Block> createDouble(
+    groupName: String,
     seedItem: Supplier<ItemLike>,
     dropItem: Supplier<ItemLike>?,
     isBush: Boolean = true,
-    includeSeedOnDrop: Boolean = true,
+    includeSeedOnDrop: Boolean = true
   ): BlockBuilder<T> {
     return registrate.block<T>(blockId)
       .factory { c, p ->
@@ -136,14 +137,14 @@ class CropBlockPreset(
           .pushReaction(PushReaction.DESTROY)
       }
       .cutoutRender()
-      .blockstate { g, b -> g.doubleCropBlock(b.get(), blockId) }
+      .blockstate { g, b -> g.doubleCropBlock(b.get(), groupName) }
       .lang(cropLang)
       .noItem()
       .loot { g, b ->
         g.dropDoubleCropLoot(
           b.get(),
           dropItem,
-          seedItem,
+          seedItem ?: dropItem,
           includeSeedOnDrop,
           chance,
           multiplier
