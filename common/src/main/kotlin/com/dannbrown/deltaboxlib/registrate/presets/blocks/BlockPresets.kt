@@ -57,7 +57,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
 
   fun palmLeavesBlock(
     sapling: Supplier<GenericSaplingBlock>,
-    suffix: String = "_palm_leaves"
+    suffix: String = "_leaves"
   ): BlockBuilder<T> {
     return LeavesBlockPreset(registrate, blockId, sapling, suffix).createPalmLeaves()
   }
@@ -65,7 +65,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   fun buddingLeavesBlock(
     sapling: Supplier<GenericSaplingBlock>,
     fruitBlock: Supplier<Block>,
-    suffix: String = "_budding_leaves"
+    suffix: String = "_leaves"
   ): BlockBuilder<T> {
     return LeavesBlockPreset(registrate, blockId, sapling, suffix).createBuddingLeaves(fruitBlock)
   }
@@ -73,7 +73,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   fun cropLeavesBlock(
     sapling: Supplier<GenericSaplingBlock>,
     itemToDrop: Supplier<ItemLike>,
-    suffix: String = "_crop_leaves"
+    suffix: String = "_leaves"
   ): BlockBuilder<T> {
     return LeavesBlockPreset(registrate, blockId, sapling, suffix).createCropLeaves(itemToDrop)
   }
@@ -212,7 +212,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   }
 
 
-  fun createSmallTallGrassBlock(
+  fun smallTallGrassBlock(
     doubleBlock: BlockEntry<GenericDoublePlantBlock>,
     dropItem: Supplier<ItemLike>,
     needBonemeal: Boolean = false,
@@ -233,7 +233,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     ).createSmallTallGrassBlock(doubleBlock, needBonemeal)
   }
 
-  fun createDoubleTallGrassBlock(
+  fun doubleTallGrassBlock(
     dropItem: Supplier<ItemLike>,
     seedItem: Supplier<ItemLike>? = null,
     placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null,
@@ -242,7 +242,8 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     multiplier: Int = 2,
   ): BlockBuilder<T> {
     return GrassBlockPreset(
-      registrate, blockId,
+      registrate,
+      blockId,
       dropItem,
       false,
       false,
@@ -251,5 +252,51 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
       multiplier,
       placeOn
     ).createDoubleTallGrassBlock(seedItem, prefix)
+  }
+
+  fun leaves(
+    sapling: Supplier<GenericSaplingBlock>,
+    suffix: String = "_leaves"
+  ): BlockBuilder<T> {
+    return LeavesBlockPreset(
+      registrate, blockId,
+      sapling,
+      suffix
+    ).create()
+  }
+
+  fun palmLeaves(
+    sapling: Supplier<GenericSaplingBlock>,
+    suffix: String = "_leaves"
+  ): BlockBuilder<T> {
+    return LeavesBlockPreset(
+      registrate, blockId,
+      sapling,
+      suffix
+    ).createPalmLeaves()
+  }
+
+  fun cropLeaves(
+    sapling: Supplier<GenericSaplingBlock>,
+    itemToDrop: Supplier<ItemLike>,
+    suffix: String = "_leaves"
+  ): BlockBuilder<T> {
+    return LeavesBlockPreset(
+      registrate, blockId,
+      sapling,
+      suffix
+    ).createCropLeaves(itemToDrop)
+  }
+
+  fun buddingLeaves(
+    sapling: Supplier<GenericSaplingBlock>,
+    fruitBlock: Supplier<Block>,
+    suffix: String = "_leaves"
+  ): BlockBuilder<T> {
+    return LeavesBlockPreset(
+      registrate, blockId,
+      sapling,
+      suffix
+    ).createBuddingLeaves(fruitBlock)
   }
 }

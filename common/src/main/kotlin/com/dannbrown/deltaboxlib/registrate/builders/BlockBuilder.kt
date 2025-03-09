@@ -19,18 +19,18 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
   AbstractBuilder(registrate) {
   protected val ctx: BlockBuilderContext<T> = BlockBuilderContext(registrate, this)
   protected var props: BlockBehaviour.Properties = BlockBehaviour.Properties.copy(Blocks.STONE)
-  protected var blockFactory: Supplier<Block> = Supplier { Block(props) }
+  protected var blockFactory: Supplier<T> = Supplier { Block(props) as T }
   protected var blockName: String = DeltaboxUtil.asName(blockId)
-  protected var itemBuilder: ItemBuilder<*> = defaultItemBuilder()
+  protected var itemBuilder: ItemBuilder<out Item> = defaultItemBuilder()
   protected var itemEntry: ItemEntry<*>? = null
-  protected lateinit var blockInstance: Supplier<Block>
+  protected lateinit var blockInstance: Supplier<T>
 
   var lootTableFactory: BlockLootTableFactory = defaultLootTableFactory()
   var blockstateFactory: BlockstateFactory = defaultBlockstateFactory()
   var recipeFactory: BlockRecipeFactory = defaultRecipeFactory()
 
   // @ Default factories
-  private fun defaultItemBuilder(): ItemBuilder<*> {
+  private fun defaultItemBuilder(): ItemBuilder<out Item> {
     return registrate.item<T, BlockItem>(blockId, this)
       .factory { props -> BlockItem(blockInstance.get(), props) }
       .model({ g, i -> g.blockItem(blockInstance.get()) })
@@ -53,7 +53,7 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
   }
 
   // @ Get Functions
-  fun getBlock(): Supplier<Block> {
+  fun getBlock(): Supplier<T> {
     return blockInstance
   }
 
@@ -67,7 +67,7 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
 
   // @ Builder Functions
   fun factory(_factoryFunction: BiFunction<BlockBuilderContext<T>, BlockBehaviour.Properties, Block>): BlockBuilder<T> {
-    this.blockFactory = Supplier { _factoryFunction.apply(ctx, props) }
+    this.blockFactory = Supplier { _factoryFunction.apply(ctx, props) as T }
     return this
   }
 
@@ -81,7 +81,7 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
     return this
   }
 
-  fun item(_factoryFunction: BlockItemFactory = defaultItemBlockFactory()): ItemBuilder<*> {
+  fun item(_factoryFunction: BlockItemFactory = defaultItemBlockFactory()): ItemBuilder<out Item> {
     this.ctx.noItem = true // disables default block item creation, but returns a new item builder
     return registrate.item<T, BlockItem>(blockId, this).factory(_factoryFunction)
   }
@@ -89,7 +89,7 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
   fun noItem(): BlockBuilder<T> {
     this.ctx.noItem = true // disables default block item creation
     lootTableFactory =
-      { lt, b -> lt.noLoot(b) } // remove loot as it doesn't have an item to drop, this can be replaced to drop other stuff
+      { lt, b -> lt.noLoot(b.get()) } // remove loot as it doesn't have an item to drop, this can be replaced to drop other stuff
     return this
   }
 

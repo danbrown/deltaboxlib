@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.registrate.datagen
 
+import com.dannbrown.deltaboxlib.content.block.CropLeavesBlock
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import net.minecraft.advancements.critereon.BlockPredicate
 import net.minecraft.advancements.critereon.EnchantmentPredicate
@@ -44,13 +45,13 @@ import java.util.function.Supplier
 abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistrate) :
   BlockLootSubProvider(setOf(), FeatureFlags.REGISTRY.allFlags()), DataProvider {
   // new functions for Registrate
-  fun noLoot(block: Supplier<Block>) {
-    super.add(block.get(), LootTable.lootTable())
+  fun noLoot(block: Block) {
+    super.add(block, LootTable.lootTable())
   }
 
-  fun pottedBlock(block: Supplier<Block>, plant: Supplier<Block>) {
+  fun pottedBlock(block: Block, plant: Supplier<out Block>) {
     super.add(
-      block.get(), LootTable.lootTable()
+      block, LootTable.lootTable()
         .withPool(
           applyExplosionCondition(
             Blocks.FLOWER_POT, LootPool.lootPool()
@@ -200,6 +201,44 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
           )
       )
     this.add(b, pool)
+  }
+
+  fun leaves(block: Block, saplingDrop: Supplier<out Block>) {
+    this.add(block, this.createLeavesDrops(block, saplingDrop.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
+  }
+
+  fun dropLeafCropLoot(
+    block: Block,
+    cropItem: Supplier<ItemLike>,
+    saplingItem: Supplier<ItemLike>,
+    cropChance: Float = 0.5f,
+    cropMultiplier: Int = 2,
+    saplingChance: Float = 0.1f,
+    saplingMultiplier: Int = 1
+  ) {
+    val pool1 = LootPool.lootPool()
+      .setRolls(ConstantValue.exactly(cropMultiplier.toFloat()))
+      .`when`(
+        LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+          .setProperties(
+            StatePropertiesPredicate.Builder.properties().hasProperty(CropLeavesBlock.AGE, CropLeavesBlock.MAX_AGE)
+          )
+          .and(LootItemRandomChanceCondition.randomChance(cropChance))
+      )
+      .add(LootItem.lootTableItem(cropItem.get()))
+
+    // drop sapling at any age
+    val pool2 = LootPool.lootPool()
+      .setRolls(ConstantValue.exactly(saplingMultiplier.toFloat()))
+      .`when`(LootItemRandomChanceCondition.randomChance(saplingChance))
+      .add(LootItem.lootTableItem(saplingItem.get()))
+
+    this.add(
+      block,
+      LootTable.lootTable()
+        .withPool(pool1)
+        .withPool(pool2)
+    )
   }
 
   // private functions

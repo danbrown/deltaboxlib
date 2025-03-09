@@ -43,7 +43,7 @@ class LeavesBlockPreset(
       )
       .itemTags(ItemTags.LEAVES, *DeltaboxUtil.TAGS.modloaderItemTag("leaves").toTypedArray())
       .blockstate { g, b -> g.leavesBlock(b.get(), blockId + suffix) }
-//      .loot(BlockLootPresets.leavesLoot { sapling.get() })
+      .loot { g, b -> g.leaves(b.get(), sapling) }
   }
 
   fun <T : Block> createPalmLeaves(): BlockBuilder<T> {
@@ -68,7 +68,7 @@ class LeavesBlockPreset(
       )
       .itemTags(ItemTags.LEAVES, *DeltaboxUtil.TAGS.modloaderItemTag("leaves").toTypedArray())
       .blockstate { g, b -> g.leavesBlock(b.get(), blockId + suffix) }
-//      .loot(BlockLootPresets.leavesLoot { sapling.get() })
+      .loot { g, b -> g.leaves(b.get(), sapling) }
   }
 
   fun <T : Block> createBuddingLeaves(
@@ -94,8 +94,8 @@ class LeavesBlockPreset(
         *DeltaboxUtil.TAGS.modloaderBlockTag("leaves").toTypedArray()
       )
       .blockstate { g, b -> g.leavesBlock(b.get(), blockId + suffix) }
-//      .loot(BlockLootPresets.leavesLoot { sapling.get() })
       .noItem()
+      .loot { g, b -> g.leaves(b.get(), sapling) }
   }
 
   fun <T : Block> createCropLeaves(
@@ -121,7 +121,7 @@ class LeavesBlockPreset(
         BlockTags.MINEABLE_WITH_HOE,
         *DeltaboxUtil.TAGS.modloaderBlockTag("leaves").toTypedArray()
       )
-//      .loot(BlockLootPresets.dropLeafCropLoot({ itemToDrop.get() }, { sapling.get().asItem() }))
       .noItem()
+      .loot { g, b -> g.dropLeafCropLoot(b.get(), { itemToDrop.get() }, { sapling.get().asItem() }) }
   }
 }

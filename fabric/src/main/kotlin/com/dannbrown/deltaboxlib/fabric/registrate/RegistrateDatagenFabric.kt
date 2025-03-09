@@ -1,6 +1,7 @@
 package com.dannbrown.deltaboxlib.fabric.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
+import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilder
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateRecipes
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateBlockModelGenerator
@@ -18,7 +19,6 @@ import net.minecraft.data.CachedOutput
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.ItemModelGenerators
 import net.minecraft.data.recipes.FinishedRecipe
-import net.minecraft.tags.TagKey
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
@@ -47,7 +47,8 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.Factory { dataOutput ->
       object : RegistrateBlockLootTables(registrate), FabricLootTableProvider {
         override fun generate() {
-          for (block in registrate.blockRegistry.entries) {
+          val blockRegistryEntries: List<BlockBuilder<out Block>> = registrate.blockRegistry.entries
+          for (block in blockRegistryEntries) {
             block.lootTableFactory.invoke(this, block.getBlock())
             println("Generated loot table for ${block.getBlock().get().descriptionId}")
           }

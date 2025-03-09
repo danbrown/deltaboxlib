@@ -136,15 +136,15 @@ class RegistrateBlockModelGenerator(
   fun cropLeavesBlock(block: Block, texture: String = "") {
     val maxStages = CropLeavesBlock.MAX_AGE
     val stages = (0..maxStages).map { stage ->
-      stage to "_stage$stage"
+      stage to if (stage == 0) "" else "_stage$stage"
     }
 
     val models = stages.associate { (stage, suffix) ->
       stage to RegistrateModelTemplates.LEAVES.create(
-        ModelLocationUtils.getModelLocation(block, "${texture}$suffix"),
+        ModelLocationUtils.getModelLocation(block, suffix),
         TextureMapping.singleSlot(
           RegistrateTextureSlots.ALL_SLOT,
-          ModelLocationUtils.getModelLocation(block, "${texture}$suffix")
+          ModelLocationUtils.getModelLocation(block, suffix)
         ),
         this.modelOutput
       )

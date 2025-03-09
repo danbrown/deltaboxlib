@@ -8,9 +8,9 @@ import java.util.function.Supplier
 
 class ItemRegistry(modId: String) {
   private val items = DeferredRegister.create(modId, Registries.ITEM)
-  val entries = mutableListOf<ItemBuilder<*>>()
+  val entries = mutableListOf<ItemBuilder<out Item>>()
 
-  fun <T : Item> register(id: String, itemSupplier: Supplier<T>, itemBuilder: ItemBuilder<*>): Supplier<T> {
+  fun <T : Item> register(id: String, itemSupplier: Supplier<T>, itemBuilder: ItemBuilder<out Item>): Supplier<T> {
     entries.add(itemBuilder)
     return items.register(id, itemSupplier)
   }

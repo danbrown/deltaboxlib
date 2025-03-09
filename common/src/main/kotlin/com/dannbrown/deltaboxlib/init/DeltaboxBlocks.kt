@@ -145,14 +145,14 @@ object DeltaboxBlocks {
 
 
   val TALL_SPARSE_DRY_GRASS: BlockEntry<GenericDoublePlantBlock> =
-    REGISTRATE.blockPreset<GenericDoublePlantBlock>("sparse_dry_grass").createDoubleTallGrassBlock(
+    REGISTRATE.blockPreset<GenericDoublePlantBlock>("sparse_dry_grass").doubleTallGrassBlock(
       { Items.BEETROOT_SEEDS },
       null,
       { blockState, _, _ -> blockState.`is`(BlockTags.SAND) })
       .color(MapColor.TERRACOTTA_YELLOW)
       .register()
   val SPARSE_DRY_GRASS: BlockEntry<GenericTallGrassBlock> =
-    REGISTRATE.blockPreset<GenericTallGrassBlock>("sparse_dry_grass").createSmallTallGrassBlock(
+    REGISTRATE.blockPreset<GenericTallGrassBlock>("sparse_dry_grass").smallTallGrassBlock(
       TALL_SPARSE_DRY_GRASS,
       { Items.BEETROOT_SEEDS },
       true,
@@ -215,6 +215,22 @@ object DeltaboxBlocks {
       .copyFrom { Blocks.OAK_DOOR }
       .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
       .register()
+
+  // Leaves
+  val ACAI_LEAVES = REGISTRATE.blockPreset<PalmLeavesBlock>("acai")
+    .palmLeavesBlock({ LEMON_SAPLING.get() })
+    .color(MapColor.COLOR_LIGHT_GREEN)
+    .register()
+
+  val CROP_LEAVES = REGISTRATE.blockPreset<CropLeavesBlock>("budding_lemon")
+    .cropLeavesBlock({ LEMON_SAPLING.get() }, { Items.EMERALD })
+    .color(MapColor.COLOR_LIGHT_GREEN)
+    .register()
+
+  val BUDDING_LEMON_LEAVES = REGISTRATE.blockPreset<BuddingLeavesBlock>("coconut")
+    .buddingLeavesBlock({ LEMON_SAPLING.get() }, { Blocks.MANGROVE_PROPAGULE })
+    .color(MapColor.COLOR_LIGHT_GREEN)
+    .register()
 
   fun register() {
     // init

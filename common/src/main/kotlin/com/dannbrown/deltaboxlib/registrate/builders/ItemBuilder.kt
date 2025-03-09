@@ -15,7 +15,7 @@ import java.util.function.Supplier
 
 class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId: String) :
   AbstractBuilder(_registrate) {
-  constructor(_registrate: AbstractDeltaboxRegistrate, _blockBuilder: BlockBuilder<*>, _itemId: String) : this(
+  constructor(_registrate: AbstractDeltaboxRegistrate, _blockBuilder: BlockBuilder<out Block>, _itemId: String) : this(
     _registrate,
     _itemId
   ) {
@@ -23,22 +23,22 @@ class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId:
     itemModelFactory = defaultBlockItemModelFactory()
   }
 
-  protected lateinit var blockBuilder: BlockBuilder<*>
+  protected lateinit var blockBuilder: BlockBuilder<out Block>
   protected var props: Item.Properties = Item.Properties()
-  protected var itemFactory: Supplier<Item> = Supplier { Item(props) }
+  protected var itemFactory: Supplier<out Item> = Supplier { Item(props) }
   protected var itemName = DeltaboxUtil.asName(itemId)
-  private lateinit var itemInstance: Supplier<Item>
+  private lateinit var itemInstance: Supplier<out Item>
 
-  var itemModelFactory: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>> = defaultModelFactory()
+  var itemModelFactory: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<out Item>> = defaultModelFactory()
   var recipeFactory: ItemRecipeFactory = defaultRecipeFactory()
 
 
   // @ Default functions
-  private fun defaultModelFactory(): NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>> {
+  private fun defaultModelFactory(): NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<out Item>> {
     return { g, i -> g.flatItem(i.get()) }
   }
 
-  private fun defaultBlockItemModelFactory(): NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>> {
+  private fun defaultBlockItemModelFactory(): NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<out Item>> {
     return { g, i ->
       g.blockItem(
         blockBuilder.getBlock().get()
@@ -52,7 +52,7 @@ class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId:
 
 
   // @ Get Functions
-  fun getItem(): Supplier<Item> {
+  fun getItem(): Supplier<out Item> {
     return itemInstance
   }
 
@@ -61,12 +61,12 @@ class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId:
   }
 
   // @ Builder Functions
-  fun factory(_factoryFunction: Function<Item.Properties, Item>): ItemBuilder<T> {
+  fun factory(_factoryFunction: Function<Item.Properties, out Item>): ItemBuilder<T> {
     this.itemFactory = Supplier { _factoryFunction.apply(props) }
     return this
   }
 
-  fun factory(_factoryFunction: BiFunction<Item.Properties, Block, Item>): ItemBuilder<T> {
+  fun factory(_factoryFunction: BiFunction<Item.Properties, Block, out Item>): ItemBuilder<T> {
     this.itemFactory = Supplier { _factoryFunction.apply(props, blockBuilder.getBlock().get()) }
     return this
   }
@@ -76,7 +76,7 @@ class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId:
     return this
   }
 
-  fun model(_factoryFunction: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<Item>>): ItemBuilder<T> {
+  fun model(_factoryFunction: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<out Item>>): ItemBuilder<T> {
     this.itemModelFactory = _factoryFunction
     return this
   }
@@ -105,12 +105,12 @@ class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId:
     return ItemEntry(this)
   }
 
-  fun register(): ItemEntry<*> {
+  fun register(): ItemEntry<out Item> {
     itemInstance = this.registrate.itemRegistry.register(itemId, itemFactory, this)
     return asEntry()
   }
 
-  fun build(): BlockBuilder<*> {
+  fun build(): BlockBuilder<out Block> {
     blockBuilder.buildItemEntry(this.register())
     return blockBuilder
   }
