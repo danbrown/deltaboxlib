@@ -254,7 +254,19 @@ object DeltaboxBlocks {
     .color(MapColor.COLOR_LIGHT_GREEN)
     .register()
 
+  val CORN_CROP = REGISTRATE.blockPreset<GenericCropBlock>("corn")
+    .doubleCrop("kernels", "Corn Crop", "Kernels", { DeltaboxItems.BEAN_POD.get() }, true, false)
+    .color(MapColor.COLOR_LIGHT_GREEN)
+    .register()
+
+  val CASSAVA_CROP = REGISTRATE.blockPreset<GenericCropBlock>("cassava")
+    .doubleCrop("cassava_root", "Cassava Crop", "Cassava Root", null, false, true)
+    .color(MapColor.COLOR_LIGHT_GREEN)
+    .register()
+
+
   fun register() {
+    Blocks.SWEET_BERRY_BUSH
     // init
   }
 }

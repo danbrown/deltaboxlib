@@ -32,7 +32,7 @@ class DoubleCropBlock(
   private val fruitItem: Supplier<ItemLike>?,
   private val chance: Float = 1f,
   private val multiplier: Int = 1
-) : GenericCropBlock(props, isBush, includeSeedOnDrop, fruitItem, chance, multiplier) {
+) : GenericCropBlock(props, true, isBush, includeSeedOnDrop, fruitItem, chance, multiplier) {
   //  init {
 //    registerDefaultState(defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER).setValue(AGE, 0))
 //  }

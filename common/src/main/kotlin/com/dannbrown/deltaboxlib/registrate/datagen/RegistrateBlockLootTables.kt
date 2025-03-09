@@ -116,94 +116,6 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     simpleSilkShearsLootTable(block, block, other, chance, multiplier)
   }
 
-  fun dropDoubleCropLoot(
-    b: Block,
-    cropItem: Supplier<ItemLike>?,
-    _seedItem: Supplier<ItemLike>? = null,
-    includeSeedOnDrop: Boolean,
-    chance: Float = 0.25f,
-    multiplier: Int = 1
-  ) {
-    val registries = null
-    val seedItem = _seedItem ?: Supplier { b.asItem() }
-
-    var builder: LootPoolEntryContainer.Builder<*> = LootItem.lootTableItem(b)
-      .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
-      .`when`(hasShearsOrSilkTouch(registries))
-    builder = if (cropItem !== null && includeSeedOnDrop) {
-      builder.otherwise(
-        this.applyExplosionCondition(b, LootItem.lootTableItem(seedItem.get()))
-          .apply(SetItemCountFunction.setCount(ConstantValue.exactly(multiplier.toFloat())))
-          .`when`(LootItemRandomChanceCondition.randomChance(chance))
-          .otherwise(LootItem.lootTableItem(cropItem.get()))
-      )
-    } else {
-      builder.otherwise(LootItem.lootTableItem(if (cropItem !== null) cropItem.get() else seedItem.get()))
-    }
-    val pool = LootTable.lootTable()
-      .withPool(
-        LootPool.lootPool()
-          .add(builder)
-          .`when`(
-            LootItemBlockStatePropertyCondition.hasBlockStateProperties(b)
-              .setProperties(
-                StatePropertiesPredicate.Builder.properties()
-                  .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
-              )
-          )
-          .`when`(
-            LocationCheck.checkLocation(
-              LocationPredicate.Builder.location()
-                .setBlock(
-                  BlockPredicate.Builder.block()
-                    .of(b)
-                    .setProperties(
-                      StatePropertiesPredicate.Builder.properties()
-                        .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)
-                        /*? if <1.21 {*/
-                        .build()
-                      /*?}*/
-                    )
-                    /*? if <1.21 {*/
-                    .build()
-                  /*?}*/
-                ), BlockPos(0, 1, 0)
-            )
-          )
-      )
-      .withPool(
-        LootPool.lootPool()
-          .add(builder)
-          .`when`(
-            LootItemBlockStatePropertyCondition.hasBlockStateProperties(b)
-              .setProperties(
-                StatePropertiesPredicate.Builder.properties()
-                  .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)
-              )
-          )
-          .`when`(
-            LocationCheck.checkLocation(
-              LocationPredicate.Builder.location()
-                .setBlock(
-                  BlockPredicate.Builder.block()
-                    .of(b)
-                    .setProperties(
-                      StatePropertiesPredicate.Builder.properties()
-                        .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
-                        /*? if <1.21 {*/
-                        .build()
-                      /*?}*/
-                    )
-                    /*? if <1.21 {*/
-                    .build()
-                  /*?}*/
-                ), BlockPos(0, -1, 0)
-            )
-          )
-      )
-    this.add(b, pool)
-  }
-
   fun leaves(block: Block, saplingDrop: Supplier<out Block>) {
     this.add(block, this.createLeavesDrops(block, saplingDrop.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
   }
@@ -283,6 +195,94 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     }
 
     this.add(block, this.applyExplosionDecay(block, lootBuilder))
+  }
+
+  fun dropDoubleCropLoot(
+    block: Block,
+    cropItem: Supplier<ItemLike>?,
+    _seedItem: Supplier<ItemLike>? = null,
+    includeSeedOnDrop: Boolean,
+    chance: Float = 0.25f,
+    multiplier: Int = 1
+  ) {
+    val registries = null
+    val seedItem = _seedItem ?: Supplier { block.asItem() }
+
+    var builder: LootPoolEntryContainer.Builder<*> = LootItem.lootTableItem(block)
+      .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+      .`when`(hasShearsOrSilkTouch(registries))
+    builder = if (cropItem !== null && includeSeedOnDrop) {
+      builder.otherwise(
+        this.applyExplosionCondition(block, LootItem.lootTableItem(seedItem.get()))
+          .apply(SetItemCountFunction.setCount(ConstantValue.exactly(multiplier.toFloat())))
+          .`when`(LootItemRandomChanceCondition.randomChance(chance))
+          .otherwise(LootItem.lootTableItem(cropItem.get()))
+      )
+    } else {
+      builder.otherwise(LootItem.lootTableItem(if (cropItem !== null) cropItem.get() else seedItem.get()))
+    }
+    val pool = LootTable.lootTable()
+      .withPool(
+        LootPool.lootPool()
+          .add(builder)
+          .`when`(
+            LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+              .setProperties(
+                StatePropertiesPredicate.Builder.properties()
+                  .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
+              )
+          )
+          .`when`(
+            LocationCheck.checkLocation(
+              LocationPredicate.Builder.location()
+                .setBlock(
+                  BlockPredicate.Builder.block()
+                    .of(block)
+                    .setProperties(
+                      StatePropertiesPredicate.Builder.properties()
+                        .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)
+                        /*? if <1.21 {*/
+                        .build()
+                      /*?}*/
+                    )
+                    /*? if <1.21 {*/
+                    .build()
+                  /*?}*/
+                ), BlockPos(0, 1, 0)
+            )
+          )
+      )
+      .withPool(
+        LootPool.lootPool()
+          .add(builder)
+          .`when`(
+            LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+              .setProperties(
+                StatePropertiesPredicate.Builder.properties()
+                  .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)
+              )
+          )
+          .`when`(
+            LocationCheck.checkLocation(
+              LocationPredicate.Builder.location()
+                .setBlock(
+                  BlockPredicate.Builder.block()
+                    .of(block)
+                    .setProperties(
+                      StatePropertiesPredicate.Builder.properties()
+                        .hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
+                        /*? if <1.21 {*/
+                        .build()
+                      /*?}*/
+                    )
+                    /*? if <1.21 {*/
+                    .build()
+                  /*?}*/
+                ), BlockPos(0, -1, 0)
+            )
+          )
+      )
+    this.add(block, pool)
   }
 
   // private functions

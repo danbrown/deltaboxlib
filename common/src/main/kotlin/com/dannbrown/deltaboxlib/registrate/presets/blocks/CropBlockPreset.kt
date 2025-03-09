@@ -26,7 +26,7 @@ class CropBlockPreset(
 ) : IBlockBuilderPreset(registrate, blockId) {
   fun <T : Block> create(): BlockBuilder<T> {
     return registrate.block<T>(seedName)
-      .factory { c, p -> GenericCropBlock(p, isBush, includeSeedOnDrop, dropItem, chance, multiplier) }
+      .factory { c, p -> GenericCropBlock(p, false, isBush, includeSeedOnDrop, dropItem, chance, multiplier) }
       .copyFrom { Blocks.WHEAT }
       .properties { c, p ->
         p
@@ -57,7 +57,7 @@ class CropBlockPreset(
 
   fun <T : Block> createDouble(): BlockBuilder<T> {
     return registrate.block<T>(seedName)
-      .factory { c, p -> DoubleCropBlock(p, isBush, includeSeedOnDrop, dropItem, chance, multiplier) }
+      .factory { c, p -> GenericCropBlock(p, true, isBush, includeSeedOnDrop, dropItem, chance, multiplier) }
       .copyFrom { Blocks.WHEAT }
       .properties { c, p ->
         p
@@ -68,12 +68,21 @@ class CropBlockPreset(
           .pushReaction(PushReaction.DESTROY)
       }
       .cutoutRender()
-//      .blockstate(BlockstatePresets.doubleCropBlock(_name))
+      .blockstate { g, b -> g.doubleCropBlock(b.get(), blockId) }
       .lang(cropLang)
       .item { b, p -> ItemNameBlockItem(p, b) }
       .model { g, i -> g.flatItem(i.get()) }
       .lang(seedLang)
-      .build() as BlockBuilder<T>
-//      .loot(BlockLootPresets.dropDoubleCropLoot(dropItem, null, includeSeedOnDrop, chance, multiplier))
+      .build()
+      .loot { g, b ->
+        g.dropDoubleCropLoot(
+          b.get(),
+          dropItem,
+          null,
+          includeSeedOnDrop,
+          chance,
+          multiplier
+        )
+      } as BlockBuilder<T>
   }
 }

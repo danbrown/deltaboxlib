@@ -1,6 +1,7 @@
 package com.dannbrown.deltaboxlib.registrate.datagen.model
 
 import com.dannbrown.deltaboxlib.content.block.CropLeavesBlock
+import com.dannbrown.deltaboxlib.content.block.GenericCropBlock
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.google.gson.JsonElement
 import net.minecraft.core.Direction
@@ -184,6 +185,46 @@ class RegistrateBlockModelGenerator(
         PropertyDispatch.property(CropBlock.AGE).apply {
           stages.forEach { (stage, _) ->
             select(stage, Variant.variant().with(VariantProperties.MODEL, models[stage]))
+          }
+        }
+      )
+    )
+  }
+
+  fun doubleCropBlock(block: Block, texture: String) {
+    val maxStages = CropBlock.MAX_AGE
+    fun stages(prefix: String) = (0..maxStages).map { stage ->
+      stage to "${prefix}_stage${stage}"
+    }
+
+    val lowerModels = stages("_bottom").associate { (stage, suffix) ->
+      stage to RegistrateModelTemplates.CROSS.create(
+        BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(suffix),
+        TextureMapping.singleSlot(
+          TextureSlot.CROSS,
+          optionalTexture(block, "${texture}${suffix}", suffix, "block/${texture}/"),
+        ),
+        this.modelOutput
+      )
+    }
+
+    val upperModels = stages("_top").associate { (stage, suffix) ->
+      stage to RegistrateModelTemplates.CROSS.create(
+        BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(suffix),
+        TextureMapping.singleSlot(
+          TextureSlot.CROSS,
+          optionalTexture(block, "${texture}${suffix}", suffix, "block/${texture}/"),
+        ),
+        this.modelOutput
+      )
+    }
+
+    this.blockStateOutput.accept(
+      MultiVariantGenerator.multiVariant(block).with(
+        PropertyDispatch.properties(GenericCropBlock.HALF, CropBlock.AGE).apply {
+          stages("").forEach { (stage, _) ->
+            select(DoubleBlockHalf.LOWER, stage, Variant.variant().with(VariantProperties.MODEL, lowerModels[stage]))
+            select(DoubleBlockHalf.UPPER, stage, Variant.variant().with(VariantProperties.MODEL, upperModels[stage]))
           }
         }
       )
