@@ -37,7 +37,7 @@ class CropBlockPreset(
           .pushReaction(PushReaction.DESTROY)
       }
       .cutoutRender()
-//      .blockstate(BlockstatePresets.cropBlock(_name))
+      .blockstate { g, b -> g.cropBlock(b.get(), blockId) }
       .lang(cropLang)
       .item { b, p -> ItemNameBlockItem(p, b) }
       .model { g, i -> g.flatItem(i.get()) }

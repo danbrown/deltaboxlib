@@ -16,6 +16,7 @@ import net.minecraft.data.models.model.TextureSlot
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.CropBlock
 import net.minecraft.world.level.block.DoublePlantBlock
 import net.minecraft.world.level.block.state.properties.AttachFace
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
@@ -133,7 +134,7 @@ class RegistrateBlockModelGenerator(
     )
   }
 
-  fun cropLeavesBlock(block: Block, texture: String = "") {
+  fun cropLeavesBlock(block: Block, texture: String) {
     val maxStages = CropLeavesBlock.MAX_AGE
     val stages = (0..maxStages).map { stage ->
       stage to if (stage == 0) "" else "_stage$stage"
@@ -141,7 +142,7 @@ class RegistrateBlockModelGenerator(
 
     val models = stages.associate { (stage, suffix) ->
       stage to RegistrateModelTemplates.LEAVES.create(
-        ModelLocationUtils.getModelLocation(block, suffix),
+        BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(suffix),
         TextureMapping.singleSlot(
           RegistrateTextureSlots.ALL_SLOT,
           ModelLocationUtils.getModelLocation(block, suffix)
@@ -153,6 +154,34 @@ class RegistrateBlockModelGenerator(
     this.blockStateOutput.accept(
       MultiVariantGenerator.multiVariant(block).with(
         PropertyDispatch.property(CropLeavesBlock.AGE).apply {
+          stages.forEach { (stage, _) ->
+            select(stage, Variant.variant().with(VariantProperties.MODEL, models[stage]))
+          }
+        }
+      )
+    )
+  }
+
+  fun cropBlock(block: Block, texture: String) {
+    val maxStages = CropBlock.MAX_AGE
+    val stages = (0..maxStages).map { stage ->
+      stage to "_stage$stage"
+    }
+
+    val models = stages.associate { (stage, suffix) ->
+      stage to RegistrateModelTemplates.CROSS.create(
+        ModelLocationUtils.getModelLocation(block, suffix),
+        TextureMapping.singleSlot(
+          TextureSlot.CROSS,
+          ModelLocationUtils.getModelLocation(block, suffix)
+        ),
+        this.modelOutput
+      )
+    }
+
+    this.blockStateOutput.accept(
+      MultiVariantGenerator.multiVariant(block).with(
+        PropertyDispatch.property(CropBlock.AGE).apply {
           stages.forEach { (stage, _) ->
             select(stage, Variant.variant().with(VariantProperties.MODEL, models[stage]))
           }

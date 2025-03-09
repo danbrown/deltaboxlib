@@ -259,7 +259,8 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     suffix: String = "_leaves"
   ): BlockBuilder<T> {
     return LeavesBlockPreset(
-      registrate, blockId,
+      registrate,
+      blockId,
       sapling,
       suffix
     ).create()
@@ -270,7 +271,8 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     suffix: String = "_leaves"
   ): BlockBuilder<T> {
     return LeavesBlockPreset(
-      registrate, blockId,
+      registrate,
+      blockId,
       sapling,
       suffix
     ).createPalmLeaves()
@@ -282,7 +284,8 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     suffix: String = "_leaves"
   ): BlockBuilder<T> {
     return LeavesBlockPreset(
-      registrate, blockId,
+      registrate,
+      blockId,
       sapling,
       suffix
     ).createCropLeaves(itemToDrop)
@@ -294,9 +297,58 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     suffix: String = "_leaves"
   ): BlockBuilder<T> {
     return LeavesBlockPreset(
-      registrate, blockId,
+      registrate,
+      blockId,
       sapling,
       suffix
     ).createBuddingLeaves(fruitBlock)
+  }
+
+  fun crop(
+    seedName: String,
+    cropLang: String,
+    seedLang: String,
+    dropItem: Supplier<ItemLike>?,
+    isBush: Boolean = true,
+    includeSeedOnDrop: Boolean = true,
+    chance: Float = 1f,
+    multiplier: Int = 1,
+  ): BlockBuilder<T> {
+    return CropBlockPreset(
+      registrate,
+      blockId,
+      seedName,
+      cropLang,
+      seedLang,
+      dropItem,
+      isBush,
+      includeSeedOnDrop,
+      chance,
+      multiplier
+    ).create()
+  }
+
+  fun doubleCrop(
+    seedName: String,
+    cropLang: String,
+    seedLang: String,
+    dropItem: Supplier<ItemLike>?,
+    isBush: Boolean = true,
+    includeSeedOnDrop: Boolean = true,
+    chance: Float = 1f,
+    multiplier: Int = 1,
+  ): BlockBuilder<T> {
+    return CropBlockPreset(
+      registrate,
+      blockId,
+      seedName,
+      cropLang,
+      seedLang,
+      dropItem,
+      isBush,
+      includeSeedOnDrop,
+      chance,
+      multiplier
+    ).createDouble()
   }
 }
