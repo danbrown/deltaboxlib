@@ -43,6 +43,7 @@ class GrassBlockPreset(
       .item()
       .model { g, i -> g.flatItemBlock(i.get()) }
       .build()
+      .compostable(0.3f)
       .loot { g, b -> g.dropSelfSilkShearsOtherLoot(b.get(), dropItem!!, chance, multiplier) } as BlockBuilder<T>
   }
 
@@ -62,6 +63,7 @@ class GrassBlockPreset(
       .item()
       .model { g, i -> g.flatItemBlock(i.get()) }
       .build()
+      .compostable(0.3f)
       .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
   }
 
@@ -79,6 +81,7 @@ class GrassBlockPreset(
       .item()
       .model { g, i -> g.flatItemBlock(i.get()) }
       .build()
+      .compostable(0.3f)
       .loot { g, b -> g.dropSelfSilkShearsOtherLoot(b.get(), dropItem!!, chance, multiplier) } as BlockBuilder<T>
   }
 
@@ -97,6 +100,7 @@ class GrassBlockPreset(
       .item()
       .model { g, i -> g.flatItemBlock(i.get(), "${blockNameWithPrefix}_top") }
       .build()
+      .compostable(0.3f)
       .loot { g, b ->
         g.dropDoubleCropLoot(
           b.get(),

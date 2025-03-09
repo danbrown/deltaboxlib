@@ -13,33 +13,21 @@ class StorageBlockPreset(
   val blockId: String,
   val ingotItem: Supplier<ItemLike>,
   val ingredient: Supplier<Ingredient>,
-  val addSuffix: Boolean = true
+  val suffix: String = "_block"
 ) : IBlockBuilderPreset(registrate, blockId) {
   fun <T : Block> create(): BlockBuilder<T> {
-    return registrate.block<T>(blockId)
-      .suffix(
-        if (addSuffix) {
-          "_block"
-        } else {
-          ""
-        }
-      )
-      .blockTags(*BlockTagPresets.storageBlockTags(blockId).first.toTypedArray())
+    val nameWithSuffix = "${blockId}$suffix"
+    return registrate.block<T>(nameWithSuffix)
+      .blockTags(*BlockTagPresets.storageBlockTags(nameWithSuffix).first.toTypedArray())
       .recipe { r, b -> r.storageBlockRecipe({ b.get() }, ingotItem, ingredient) }
-      .itemTags(*BlockTagPresets.storageBlockTags(blockId).second.toTypedArray())
+      .itemTags(*BlockTagPresets.storageBlockTags(nameWithSuffix).second.toTypedArray())
   }
 
   fun <T : Block> createSmall(): BlockBuilder<T> {
-    return registrate.block<T>(blockId)
-      .suffix(
-        if (addSuffix) {
-          "_block"
-        } else {
-          ""
-        }
-      )
-      .blockTags(*BlockTagPresets.storageBlockTags(blockId).first.toTypedArray())
+    val nameWithSuffix = "${blockId}$suffix"
+    return registrate.block<T>(nameWithSuffix)
+      .blockTags(*BlockTagPresets.storageBlockTags(nameWithSuffix).first.toTypedArray())
       .recipe { r, b -> r.smallStorageBlockRecipe({ b.get() }, ingotItem, ingredient) }
-      .itemTags(*BlockTagPresets.storageBlockTags(blockId).second.toTypedArray())
+      .itemTags(*BlockTagPresets.storageBlockTags(nameWithSuffix).second.toTypedArray())
   }
 }

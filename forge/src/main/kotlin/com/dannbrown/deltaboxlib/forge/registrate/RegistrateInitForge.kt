@@ -4,6 +4,7 @@ import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.helpers.StripHelper
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.ComposterBlock
 import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import javax.management.BadAttributeValueExpException
@@ -23,7 +24,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
       StripHelper.registerStrippable(block.getBlock().get(), other.get())
     }
 
-    // register potted vlocks
+    // register potted blocks
     for (block in registrate.blockRegistry.entries) {
       val plant = block.getContext().pottedOther
       if (plant === null) continue
@@ -36,6 +37,26 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
         )
       } catch (e: Exception) {
         println("Failed to add plant ${plant.get().name} to flower pot ${block.getBlock().get().name}")
+      }
+    }
+
+    // register composter blocks
+    for (block in registrate.blockRegistry.entries) {
+      val amount = block.getContext().compostableAmount
+      if (amount <= 0) continue
+      try {
+        ComposterBlock.COMPOSTABLES.put(block.getBlock().get().asItem(), amount)
+      } catch (e: Exception) {
+        println("Failed to add block ${block.getBlock().get().name} to compostables")
+      }
+    }
+    for (item in registrate.itemRegistry.entries) {
+      val amount = item.compostableAmount
+      if (amount <= 0) continue
+      try {
+        ComposterBlock.COMPOSTABLES.put(item.getItem().get(), amount)
+      } catch (e: Exception) {
+        println("Failed to add block ${item.getItem().get().descriptionId} to compostables")
       }
     }
   }

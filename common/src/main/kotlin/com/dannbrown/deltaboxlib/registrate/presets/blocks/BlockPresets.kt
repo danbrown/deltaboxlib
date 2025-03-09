@@ -20,17 +20,17 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   fun storageBlock(
     ingotItem: Supplier<ItemLike>,
     ingredient: Supplier<Ingredient>,
-    addSuffix: Boolean = true
+    suffix: String = "_block"
   ): BlockBuilder<T> {
-    return StorageBlockPreset(registrate, blockId, ingotItem, ingredient, addSuffix).create()
+    return StorageBlockPreset(registrate, blockId, ingotItem, ingredient, suffix).create()
   }
 
   fun smallStorageBlock(
     ingotItem: Supplier<ItemLike>,
     ingredient: Supplier<Ingredient>,
-    addSuffix: Boolean = true
+    suffix: String = "_block"
   ): BlockBuilder<T> {
-    return StorageBlockPreset(registrate, blockId, ingotItem, ingredient, addSuffix).createSmall()
+    return StorageBlockPreset(registrate, blockId, ingotItem, ingredient, suffix).createSmall()
   }
 
   fun saplingBlock(

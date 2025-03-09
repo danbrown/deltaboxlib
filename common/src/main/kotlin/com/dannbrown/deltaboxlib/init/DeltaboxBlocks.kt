@@ -47,7 +47,7 @@ object DeltaboxBlocks {
     .register()
 
   val IRON_BLOCK2 = REGISTRATE
-    .blockPreset<Block>("compiled_block")
+    .blockPreset<Block>("compiled")
     .storageBlock({ Items.IRON_INGOT }, { Ingredient.of(Items.FLINT) })
     .copyFrom { Blocks.IRON_BLOCK }
     .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_IRON_TOOL)
@@ -279,14 +279,7 @@ object DeltaboxBlocks {
     .register()
 
 
-//  val CASSAVA_CROP = REGISTRATE.blockPreset<GenericCropBlock>("cassava")
-//    .doubleCrop("cassava_root", "Cassava Crop", "Cassava Root", null, false, true)
-//    .color(MapColor.COLOR_LIGHT_GREEN)
-//    .register()
-
-
   fun register() {
-    Blocks.SWEET_BERRY_BUSH
     // init
   }
 }

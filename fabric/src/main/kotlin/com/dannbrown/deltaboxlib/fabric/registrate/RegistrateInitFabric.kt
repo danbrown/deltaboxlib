@@ -2,6 +2,7 @@ package com.dannbrown.deltaboxlib.fabric.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
@@ -29,10 +30,31 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
       ) throw BadAttributeValueExpException("Input stripped block should have 'axis' property!")
       StrippableBlockRegistry.register(block.getBlock().get(), other.get())
     }
+
+    // register compostable blocks
+    for (block in registrate.blockRegistry.entries) {
+      val amount = block.getContext().compostableAmount
+      if (amount <= 0) continue
+      try {
+        CompostingChanceRegistry.INSTANCE.add(block.getBlock().get().asItem(), amount)
+      } catch (e: Exception) {
+        println("Failed to add block ${block.getBlock().get().name} to compostables")
+      }
+    }
+    for (item in registrate.itemRegistry.entries) {
+      val amount = item.compostableAmount
+      if (amount <= 0) continue
+      try {
+        CompostingChanceRegistry.INSTANCE.add(item.getItem().get(), amount)
+      } catch (e: Exception) {
+        println("Failed to add block ${item.getItem().get().descriptionId} to compostables")
+      }
+    }
   }
 
   fun initClient() {
-    BlockRenderLayerMap.INSTANCE.putBlocks(net.minecraft.client.renderer.RenderType.cutout(),
+    BlockRenderLayerMap.INSTANCE.putBlocks(
+      net.minecraft.client.renderer.RenderType.cutout(),
       *registrate.blockRegistry.entries.filter { it.getContext().hasCutoutRender }.map { it.getBlock().get() }
         .toTypedArray()
     )

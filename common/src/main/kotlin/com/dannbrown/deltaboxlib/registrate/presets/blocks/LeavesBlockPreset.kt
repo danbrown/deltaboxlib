@@ -42,6 +42,7 @@ class LeavesBlockPreset(
         *DeltaboxUtil.TAGS.modloaderBlockTag("leaves").toTypedArray()
       )
       .itemTags(ItemTags.LEAVES, *DeltaboxUtil.TAGS.modloaderItemTag("leaves").toTypedArray())
+      .compostable(0.3f)
       .blockstate { g, b -> g.leavesBlock(b.get(), blockId + suffix) }
       .loot { g, b -> g.leaves(b.get(), sapling) }
   }
@@ -67,6 +68,7 @@ class LeavesBlockPreset(
         *DeltaboxUtil.TAGS.modloaderBlockTag("leaves").toTypedArray()
       )
       .itemTags(ItemTags.LEAVES, *DeltaboxUtil.TAGS.modloaderItemTag("leaves").toTypedArray())
+      .compostable(0.3f)
       .blockstate { g, b -> g.leavesBlock(b.get(), blockId + suffix) }
       .loot { g, b -> g.leaves(b.get(), sapling) }
   }

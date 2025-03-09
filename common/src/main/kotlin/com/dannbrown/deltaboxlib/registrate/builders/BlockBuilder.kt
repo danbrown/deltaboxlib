@@ -143,7 +143,6 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
     return this
   }
 
-
   // this is kinda useless, but I like to keep tool tags separate
   fun toolAndTier(tool: TagKey<Block>?, tier: TagKey<Block>?, correctToolForDrops: Boolean = true): BlockBuilder<T> {
     if (tool !== null) this.blockTags(tool)
@@ -162,18 +161,18 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
     return this
   }
 
-  fun prefix(prefix: String): BlockBuilder<T> {
-    this.ctx.prefix = prefix
-    return this
-  }
-
-  fun suffix(suffix: String): BlockBuilder<T> {
-    this.ctx.suffix = suffix
-    return this
-  }
-
   fun textureName(textureName: String): BlockBuilder<T> {
     this.ctx.textureName = textureName
+    return this
+  }
+
+  fun biomeColors(): BlockBuilder<T> {
+    this.ctx.hasBiomeColors = true
+    return this
+  }
+
+  fun compostable(amount: Float = 0.2f): BlockBuilder<T> {
+    this.ctx.compostableAmount = amount
     return this
   }
 

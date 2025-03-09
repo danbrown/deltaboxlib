@@ -25,7 +25,9 @@ object DeltaboxItems {
     }
     .register()
 
-  val BEAN_POD = REGISTRATE.item<Item>("bean_pod").register()
+  val BEAN_POD = REGISTRATE.item<Item>("bean_pod")
+    .compostable(0.3f)
+    .register()
 
   fun register() {
     // init

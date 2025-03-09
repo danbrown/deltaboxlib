@@ -55,6 +55,7 @@ class CropBlockPreset(
       .model { g, i -> g.flatItem(i.get()) }
       .lang(seedLang)
       .build()
+      .compostable(0.3f)
       .loot { g, b ->
         g.dropCropLoot(
           b.get(),
@@ -103,6 +104,7 @@ class CropBlockPreset(
       .model { g, i -> g.flatItem(i.get()) }
       .lang(seedLang)
       .build()
+      .compostable(0.3f)
       .loot { g, b -> g.noLoot(b.get()) } as BlockBuilder<T>
   }
 

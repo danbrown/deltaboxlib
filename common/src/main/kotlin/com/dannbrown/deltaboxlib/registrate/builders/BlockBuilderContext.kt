@@ -12,8 +12,8 @@ class BlockBuilderContext<T : Block>(val registrate: AbstractDeltaboxRegistrate,
   var strippableOther: BlockEntry<*>? = null
   var pottedOther: BlockEntry<*>? = null
   var hasCutoutRender: Boolean = false
-  var suffix: String = ""
-  var prefix: String = ""
   var textureName: String = builder.blockId
   var color: MapColor = MapColor.COLOR_GRAY
+  var hasBiomeColors = false
+  var compostableAmount = 0f
 }

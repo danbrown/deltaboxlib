@@ -28,6 +28,7 @@ class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId:
   protected var itemFactory: Supplier<out Item> = Supplier { Item(props) }
   protected var itemName = DeltaboxUtil.asName(itemId)
   private lateinit var itemInstance: Supplier<out Item>
+  var compostableAmount = 0f
 
   var itemModelFactory: NonNullBiConsumer<RegistrateItemModelGenerator, Supplier<out Item>> = defaultModelFactory()
   var recipeFactory: ItemRecipeFactory = defaultRecipeFactory()
@@ -96,6 +97,11 @@ class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId:
 
   fun recipe(factory: ItemRecipeFactory): ItemBuilder<T> {
     this.recipeFactory = factory
+    return this
+  }
+
+  fun compostable(amount: Float = 0.2f): ItemBuilder<T> {
+    this.compostableAmount = amount
     return this
   }
 
