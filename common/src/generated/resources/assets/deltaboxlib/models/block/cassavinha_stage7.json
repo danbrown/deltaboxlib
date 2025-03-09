@@ -1,0 +1,6 @@
+{
+  "parent": "deltaboxlib:block/template_cross",
+  "textures": {
+    "cross": "deltaboxlib:block/cassavinha/cassavinha_stage7"
+  }
+}

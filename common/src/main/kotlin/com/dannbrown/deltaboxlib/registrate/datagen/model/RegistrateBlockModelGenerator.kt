@@ -145,7 +145,7 @@ class RegistrateBlockModelGenerator(
         BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(suffix),
         TextureMapping.singleSlot(
           RegistrateTextureSlots.ALL_SLOT,
-          ModelLocationUtils.getModelLocation(block, suffix)
+          optionalTexture(block, "${texture}${suffix}", suffix, "block/"),
         ),
         this.modelOutput
       )
@@ -170,10 +170,10 @@ class RegistrateBlockModelGenerator(
 
     val models = stages.associate { (stage, suffix) ->
       stage to RegistrateModelTemplates.CROSS.create(
-        ModelLocationUtils.getModelLocation(block, suffix),
+        BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/").withSuffix(suffix),
         TextureMapping.singleSlot(
           TextureSlot.CROSS,
-          ModelLocationUtils.getModelLocation(block, suffix)
+          optionalTexture(block, "${texture}${suffix}", suffix, "block/${texture}/"),
         ),
         this.modelOutput
       )

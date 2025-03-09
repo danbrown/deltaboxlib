@@ -19,6 +19,7 @@ import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.CropBlock
 import net.minecraft.world.level.block.DoorBlock
 import net.minecraft.world.level.block.DoublePlantBlock
 import net.minecraft.world.level.block.SlabBlock
@@ -239,6 +240,49 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
         .withPool(pool1)
         .withPool(pool2)
     )
+  }
+
+  fun dropCropLoot(
+    block: Block,
+    cropItem: Supplier<ItemLike>?,
+    _seedItem: Supplier<ItemLike>?,
+    includeSeedOnDrop: Boolean,
+    chance: Float = 0.5f,
+    multiplier: Int = 1,
+    age: Int = 7
+  ) {
+    val enchant = Enchantments.BLOCK_FORTUNE
+    val seedItem = _seedItem ?: Supplier { block.asItem() }
+
+    val dropGrownCondition = LootItemRandomChanceCondition.randomChance(chance)
+      .and(
+        LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+          .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CropBlock.AGE, age))
+      )
+
+    val itemBuilder =
+      LootItem.lootTableItem(if (cropItem !== null) cropItem.get() else seedItem.get()).`when`(dropGrownCondition)
+
+    if (cropItem !== null && includeSeedOnDrop) {
+      itemBuilder.otherwise(LootItem.lootTableItem(seedItem.get()))
+    }
+
+    val lootBuilder = LootTable.lootTable().withPool(
+      LootPool.lootPool().add(
+        itemBuilder
+      ).setRolls(ConstantValue.exactly(multiplier.toFloat()))
+    )
+
+    if (cropItem !== null && includeSeedOnDrop) {
+      lootBuilder.withPool(
+        LootPool.lootPool()
+          .`when`(dropGrownCondition)
+          .apply(ApplyBonusCount.addBonusBinomialDistributionCount(enchant, 0.5714286f, 3))
+          .add(LootItem.lootTableItem(seedItem.get()))
+      )
+    }
+
+    this.add(block, this.applyExplosionDecay(block, lootBuilder))
   }
 
   // private functions

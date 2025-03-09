@@ -232,6 +232,28 @@ object DeltaboxBlocks {
     .color(MapColor.COLOR_LIGHT_GREEN)
     .register()
 
+
+  // Crops
+  val GARLIC_CROP = REGISTRATE.blockPreset<GenericCropBlock>("garlic")
+    .crop("garlic_clove", "Garlic Crop", "Garlic Clove", { DeltaboxItems.WARP_CRYSTAL.get() }, false, false)
+    .color(MapColor.COLOR_LIGHT_GREEN)
+    .register()
+
+  val CASSAVINHA_CROP = REGISTRATE.blockPreset<GenericCropBlock>("cassavinha")
+    .crop("cassavinha", "Cassavinha Crop", "Cassavinha", null, false, true, 1f, 3)
+    .color(MapColor.COLOR_LIGHT_GREEN)
+    .register()
+
+  val CARIOCA_BEANS_CROP = REGISTRATE.blockPreset<GenericCropBlock>("bean")
+    .crop("carioca_beans", "Carioca Beans Crop", "Carioca Beans", { DeltaboxItems.BEAN_POD.get() }, true, false)
+    .color(MapColor.COLOR_LIGHT_GREEN)
+    .register()
+
+  val BLACK_BEANS_CROP = REGISTRATE.blockPreset<GenericCropBlock>("bean")
+    .crop("black_beans", "Black Beans Crop", "Black Beans", { DeltaboxItems.BEAN_POD.get() }, true, false)
+    .color(MapColor.COLOR_LIGHT_GREEN)
+    .register()
+
   fun register() {
     // init
   }

@@ -42,8 +42,17 @@ class CropBlockPreset(
       .item { b, p -> ItemNameBlockItem(p, b) }
       .model { g, i -> g.flatItem(i.get()) }
       .lang(seedLang)
-      .build() as BlockBuilder<T>
-//      .loot(BlockLootPresets.dropCropLoot(dropItem, null, includeSeedOnDrop, chance, multiplier))
+      .build()
+      .loot { g, b ->
+        g.dropCropLoot(
+          b.get(),
+          dropItem,
+          null,
+          includeSeedOnDrop,
+          chance,
+          multiplier
+        )
+      } as BlockBuilder<T>
   }
 
   fun <T : Block> createDouble(): BlockBuilder<T> {
