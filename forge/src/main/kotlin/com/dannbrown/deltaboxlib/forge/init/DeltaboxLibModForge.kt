@@ -41,12 +41,12 @@ object DeltaboxLibModForge {
 
     MOD_BUS.addListener(::commonSetup)
 
-    forgeEventBus.addListener(registrateInit::registerVillagerTrades)
-    forgeEventBus.addListener(registrateInit::registerWandererTrades)
+    forgeEventBus.addListener(registrateInit::onRegisterVillagerTrades)
+    forgeEventBus.addListener(registrateInit::onRegisterWandererTrades)
   }
 
   private fun registerClient(modBus: IEventBus, forgeEventBus: IEventBus) {
-    modBus.addListener(registrateInit::registerBlockBiomeColors)
-    modBus.addListener(registrateInit::registerItemBiomeColors)
+    modBus.addListener(registrateInit::onRegisterBlockBiomeColors)
+    modBus.addListener(registrateInit::onRegisterItemBiomeColors)
   }
 }

@@ -9,13 +9,14 @@ import net.fabricmc.api.ModInitializer
 
 
 object DeltaboxLibModFabric : ModInitializer, ClientModInitializer {
+  val registrateInit = RegistrateInitFabric(DeltaboxLibMod.REGISTRATE)
   override fun onInitialize() {
     DeltaboxLibMod.init()
-    RegistrateInitFabric(DeltaboxLibMod.REGISTRATE).init()
+    registrateInit.init()
   }
 
   @Environment(EnvType.CLIENT)
   override fun onInitializeClient() {
-    RegistrateInitFabric(DeltaboxLibMod.REGISTRATE).initClient()
+    registrateInit.initClient()
   }
 }

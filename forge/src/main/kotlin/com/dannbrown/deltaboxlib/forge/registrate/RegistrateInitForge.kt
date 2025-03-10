@@ -21,7 +21,13 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
   }
 
   fun setup() {
-    // register strippable blocks
+    registerStrippableBlocks()
+    registerPottedBlocks()
+    registerComposterBlocks()
+  }
+  
+  // register strippable blocks
+  private fun registerStrippableBlocks() {
     for (block in registrate.blockRegistry.entries) {
       val other = block.getContext().strippableOther ?: continue
       if (!other.get().defaultBlockState().hasProperty(BlockStateProperties.AXIS)
@@ -30,8 +36,10 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
       ) throw BadAttributeValueExpException("Input stripped block should have 'axis' property!")
       StripHelper.registerStrippable(block.getBlock().get(), other.get())
     }
+  }
 
-    // register potted blocks
+  // register potted blocks
+  private fun registerPottedBlocks() {
     for (block in registrate.blockRegistry.entries) {
       val plant = block.getContext().pottedOther
       if (plant === null) continue
@@ -46,8 +54,10 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
         println("Failed to add plant ${plant.get().name} to flower pot ${block.getBlock().get().name}")
       }
     }
+  }
 
-    // register composter blocks
+  // register composter blocks
+  private fun registerComposterBlocks() {
     for (block in registrate.blockRegistry.entries) {
       val amount = block.getContext().compostableAmount
       if (amount <= 0) continue
@@ -68,7 +78,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     }
   }
 
-  fun registerBlockBiomeColors(event: RegisterColorHandlersEvent.Block) {
+  fun onRegisterBlockBiomeColors(event: RegisterColorHandlersEvent.Block) {
     val blocks = registrate.blockRegistry.entries.filter { it.getContext().hasBiomeColors }.map { it.getBlock().get() }
     event.blockColors.register(
       { state, level, pos, tint ->
@@ -80,7 +90,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     )
   }
 
-  fun registerItemBiomeColors(event: RegisterColorHandlersEvent.Item) {
+  fun onRegisterItemBiomeColors(event: RegisterColorHandlersEvent.Item) {
     val blocks = registrate.blockRegistry.entries.filter { it.getContext().hasBiomeColors }.map { it.getBlock().get() }
     event.itemColors.register({ stack, tintIndex ->
       val state = (stack.item as BlockItem).block.defaultBlockState()
@@ -88,7 +98,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     }, *blocks.toTypedArray())
   }
 
-  fun registerVillagerTrades(event: net.minecraftforge.event.village.VillagerTradesEvent) {
+  fun onRegisterVillagerTrades(event: net.minecraftforge.event.village.VillagerTradesEvent) {
     registrate.tradesRegistry.getTrades().forEach { trade ->
       if (event.type == trade.profession) {
         event.trades[trade.level.toInt()].add { _, _ ->
@@ -107,7 +117,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     }
   }
 
-  fun registerWandererTrades(event: net.minecraftforge.event.village.WandererTradesEvent) {
+  fun onRegisterWandererTrades(event: net.minecraftforge.event.village.WandererTradesEvent) {
     val genericTrades = event.genericTrades
     val rareTrades = event.rareTrades
     registrate.tradesRegistry.getWandererTrades().forEach { trade ->
