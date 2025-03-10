@@ -13,6 +13,8 @@ import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 @Mod(DeltaboxLibMod.MOD_ID)
 object DeltaboxLibModForge {
+  val registrateInit = RegistrateInitForge(DeltaboxLibMod.REGISTRATE)
+
   init {
     val modBus = MOD_BUS
     val forgeEventBus = MinecraftForge.EVENT_BUS
@@ -27,7 +29,7 @@ object DeltaboxLibModForge {
   // RUN SETUP
   private fun commonSetup(event: FMLCommonSetupEvent) {
     event.enqueueWork {
-      RegistrateInitForge(DeltaboxLibMod.REGISTRATE).setup()
+      registrateInit.setup()
     }
   }
 
@@ -35,21 +37,16 @@ object DeltaboxLibModForge {
     // Submit our event bus to let architectury register our content on the right time
     EventBuses.registerModEventBus(DeltaboxLibMod.MOD_ID, MOD_BUS)
     DeltaboxLibMod.init()
-    RegistrateInitForge(DeltaboxLibMod.REGISTRATE).init()
+    registrateInit.init()
 
     MOD_BUS.addListener(::commonSetup)
+
+    forgeEventBus.addListener(registrateInit::registerVillagerTrades)
+    forgeEventBus.addListener(registrateInit::registerWandererTrades)
   }
 
   private fun registerClient(modBus: IEventBus, forgeEventBus: IEventBus) {
-    modBus.addListener { event: RegisterColorHandlersEvent.Block ->
-      RegistrateInitForge(DeltaboxLibMod.REGISTRATE).registerBlockBiomeColors(
-        event
-      )
-    }
-    modBus.addListener { event: RegisterColorHandlersEvent.Item ->
-      RegistrateInitForge(DeltaboxLibMod.REGISTRATE).registerItemBiomeColors(
-        event
-      )
-    }
+    modBus.addListener(registrateInit::registerBlockBiomeColors)
+    modBus.addListener(registrateInit::registerItemBiomeColors)
   }
 }

@@ -2,9 +2,12 @@ package com.dannbrown.deltaboxlib.forge.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.helpers.StripHelper
+import com.dannbrown.deltaboxlib.registrate.providers.trades.WandererTradeRarity
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.client.renderer.BiomeColors
 import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.trading.MerchantOffer
 import net.minecraft.world.level.FoliageColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.ComposterBlock
@@ -83,5 +86,58 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
       val state = (stack.item as BlockItem).block.defaultBlockState()
       return@register event.blockColors.getColor(state, null, null, tintIndex)
     }, *blocks.toTypedArray())
+  }
+
+  fun registerVillagerTrades(event: net.minecraftforge.event.village.VillagerTradesEvent) {
+    registrate.tradesRegistry.getTrades().forEach { trade ->
+      if (event.type == trade.profession) {
+        event.trades[trade.level.toInt()].add { _, _ ->
+          MerchantOffer(
+            ItemStack(
+              trade.tradeCosts.first().item.get(),
+              trade.tradeCosts.first().amount
+            ),
+            ItemStack(trade.tradeSells.first().item.get(), trade.tradeSells.first().amount),
+            trade.maxUses,
+            trade.xpAmount,
+            trade.priceMultiplier
+          )
+        }
+      }
+    }
+  }
+
+  fun registerWandererTrades(event: net.minecraftforge.event.village.WandererTradesEvent) {
+    val genericTrades = event.genericTrades
+    val rareTrades = event.rareTrades
+    registrate.tradesRegistry.getWandererTrades().forEach { trade ->
+      if (trade.rarity == WandererTradeRarity.GENERIC) {
+        genericTrades.add { _, _ ->
+          MerchantOffer(
+            ItemStack(
+              trade.tradeCosts.first().item.get(),
+              trade.tradeCosts.first().amount
+            ),
+            ItemStack(trade.tradeSells.first().item.get(), trade.tradeSells.first().amount),
+            trade.maxUses,
+            trade.xpAmount,
+            trade.priceMultiplier
+          )
+        }
+      } else {
+        rareTrades.add { _, _ ->
+          MerchantOffer(
+            ItemStack(
+              trade.tradeCosts.first().item.get(),
+              trade.tradeCosts.first().amount
+            ),
+            ItemStack(trade.tradeSells.first().item.get(), trade.tradeSells.first().amount),
+            trade.maxUses,
+            trade.xpAmount,
+            trade.priceMultiplier
+          )
+        }
+      }
+    }
   }
 }
