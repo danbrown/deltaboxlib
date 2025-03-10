@@ -48,5 +48,4 @@ object DeltaboxLibModForge {
     modBus.addListener(registrateInit::onRegisterBlockBiomeColors)
     modBus.addListener(registrateInit::onRegisterItemBiomeColors)
   }
-
 }
