@@ -220,6 +220,7 @@ object DeltaboxBlocks {
   val ACAI_LEAVES = REGISTRATE.blockPreset<PalmLeavesBlock>("acai")
     .palmLeavesBlock({ LEMON_SAPLING.get() })
     .color(MapColor.COLOR_LIGHT_GREEN)
+    .biomeColors()
     .register()
 
   val CROP_LEAVES = REGISTRATE.blockPreset<CropLeavesBlock>("budding_lemon")
@@ -230,6 +231,7 @@ object DeltaboxBlocks {
   val BUDDING_LEMON_LEAVES = REGISTRATE.blockPreset<BuddingLeavesBlock>("coconut")
     .buddingLeavesBlock({ LEMON_SAPLING.get() }, { Blocks.MANGROVE_PROPAGULE })
     .color(MapColor.COLOR_LIGHT_GREEN)
+    .biomeColors()
     .register()
 
 

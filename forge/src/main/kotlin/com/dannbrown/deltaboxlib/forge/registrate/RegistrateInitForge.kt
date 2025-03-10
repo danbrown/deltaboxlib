@@ -3,10 +3,14 @@ package com.dannbrown.deltaboxlib.forge.registrate
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.helpers.StripHelper
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
+import net.minecraft.client.renderer.BiomeColors
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.level.FoliageColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.ComposterBlock
 import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraftforge.client.event.RegisterColorHandlersEvent
 import javax.management.BadAttributeValueExpException
 
 class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
@@ -59,5 +63,25 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
         println("Failed to add block ${item.getItem().get().descriptionId} to compostables")
       }
     }
+  }
+
+  fun registerBlockBiomeColors(event: RegisterColorHandlersEvent.Block) {
+    val blocks = registrate.blockRegistry.entries.filter { it.getContext().hasBiomeColors }.map { it.getBlock().get() }
+    event.blockColors.register(
+      { state, level, pos, tint ->
+        if (level != null && pos != null) BiomeColors.getAverageFoliageColor(
+          level,
+          pos
+        ) else FoliageColor.getDefaultColor()
+      }, *blocks.toTypedArray()
+    )
+  }
+
+  fun registerItemBiomeColors(event: RegisterColorHandlersEvent.Item) {
+    val blocks = registrate.blockRegistry.entries.filter { it.getContext().hasBiomeColors }.map { it.getBlock().get() }
+    event.itemColors.register({ stack, tintIndex ->
+      val state = (stack.item as BlockItem).block.defaultBlockState()
+      return@register event.blockColors.getColor(state, null, null, tintIndex)
+    }, *blocks.toTypedArray())
   }
 }

@@ -2,9 +2,13 @@ package com.dannbrown.deltaboxlib.fabric.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
+import net.minecraft.client.renderer.BiomeColors
+import net.minecraft.world.level.FoliageColor
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import javax.management.BadAttributeValueExpException
 
@@ -53,10 +57,34 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
   }
 
   fun initClient() {
+    // register cutout renders
     BlockRenderLayerMap.INSTANCE.putBlocks(
       net.minecraft.client.renderer.RenderType.cutout(),
       *registrate.blockRegistry.entries.filter { it.getContext().hasCutoutRender }.map { it.getBlock().get() }
         .toTypedArray()
     )
+
+    // register biome colors
+    for (block in registrate.blockRegistry.entries) {
+      if (!block.getContext().hasBiomeColors) continue
+      try {
+        ColorProviderRegistry.BLOCK.register(
+          { state, level, pos, tint ->
+            if (level != null && pos != null) BiomeColors.getAverageFoliageColor(
+              level,
+              pos
+            ) else FoliageColor.getDefaultColor()
+          }, block.getBlock().get()
+        )
+        ColorProviderRegistry.ITEM.register(
+          { stack, layer ->
+            val provider = ColorProviderRegistry.ITEM.get(Blocks.TALL_GRASS);
+            return@register provider?.getColor(stack, layer) ?: -1
+          }, block.getBlock().get().asItem()
+        )
+      } catch (e: Exception) {
+        println("Failed to add block ${block.getBlock().get().name} to compostables")
+      }
+    }
   }
 }
