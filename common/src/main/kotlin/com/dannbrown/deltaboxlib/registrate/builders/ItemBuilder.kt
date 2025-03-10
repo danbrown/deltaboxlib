@@ -90,7 +90,7 @@ class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId:
   @SafeVarargs
   fun itemTags(vararg tags: TagKey<Item>): ItemBuilder<T> {
     for (itemTagKey in tags) {
-      this.registrate.tagRegistry.add(itemTagKey, asEntry())
+      this.registrate.tagRegistry.addItem(itemTagKey, asEntry())
     }
     return this
   }

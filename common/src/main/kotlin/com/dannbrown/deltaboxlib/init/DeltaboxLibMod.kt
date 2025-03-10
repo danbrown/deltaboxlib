@@ -7,6 +7,7 @@ object DeltaboxLibMod {
   fun init() {
     DeltaboxBlocks.register()
     DeltaboxItems.register()
+    DeltaboxTags.register()
     DeltaboxCreativeTabs.register()
     DeltaboxTrades.register()
     DeltaboxPlacerTypes.register()

@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.Block
 
 class BlockTagBuilder(private val registrate: AbstractDeltaboxRegistrate, private val hostTag: TagKey<Block>) {
   fun add(tagKey: BlockEntry<*>): BlockTagBuilder {
-    registrate.tagRegistry.add(hostTag, tagKey)
+    registrate.tagRegistry.addBlock(hostTag, tagKey)
     return this
   }
 }

@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item
 
 class ItemTagBuilder(private val registrate: AbstractDeltaboxRegistrate, private val hostTag: TagKey<Item>) {
   fun add(tagKey: ItemEntry<*>): ItemTagBuilder {
-    registrate.tagRegistry.add(hostTag, tagKey)
+    registrate.tagRegistry.addItem(hostTag, tagKey)
     return this
   }
 }

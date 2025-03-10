@@ -16,6 +16,7 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.decoration.PaintingVariant
 import net.minecraft.world.entity.npc.VillagerProfession
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
@@ -32,6 +33,8 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType
 import net.minecraft.data.worldgen.BootstapContext as BootstrapContext
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import net.minecraft.world.level.levelgen.presets.WorldPreset
+import net.minecraft.world.level.material.Fluid
 import java.util.function.Supplier
 
 abstract class AbstractDeltaboxRegistrate(val modId: String) {
@@ -74,6 +77,26 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun itemTags(hostTag: TagKey<Item>): ItemTagBuilder {
     return ItemTagBuilder(this, hostTag)
+  }
+
+  fun fluidTags(hostTag: TagKey<Fluid>): FluidTagBuilder {
+    return FluidTagBuilder(this, hostTag)
+  }
+
+  fun biomeTags(hostTag: TagKey<Biome>): BiomeTagBuilder {
+    return BiomeTagBuilder(this, hostTag)
+  }
+
+  fun entityTags(hostTag: TagKey<EntityType<*>>): EntityTagBuilder {
+    return EntityTagBuilder(this, hostTag)
+  }
+
+  fun paintingTags(hostTag: TagKey<PaintingVariant>): PaintingTagBuilder {
+    return PaintingTagBuilder(this, hostTag)
+  }
+
+  fun worldPresetTags(hostTag: TagKey<WorldPreset>): WorldPresetTagBuilder {
+    return WorldPresetTagBuilder(this, hostTag)
   }
 
   fun recipe(factory: RecipeFactory): AbstractDeltaboxRegistrate {

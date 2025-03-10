@@ -21,14 +21,18 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.core.RegistrySetBuilder
 import net.minecraft.core.registries.Registries
 import net.minecraft.data.CachedOutput
+import net.minecraft.data.DataProvider
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.ItemModelGenerators
 import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.resources.ResourceKey
+import net.minecraft.world.entity.decoration.PaintingVariant
 import net.minecraft.world.item.BlockItem
+import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import net.minecraft.world.level.levelgen.presets.WorldPreset
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -45,6 +49,11 @@ object RegistrateDatagenFabric {
     // Tags
     pack.addProvider(blockTagsFactory(registrate))
     pack.addProvider(itemTagsFactory(registrate))
+    pack.addProvider(fluidTagsFactory(registrate))
+    pack.addProvider(biomeTagsFactory(registrate))
+    pack.addProvider(entityTagsFactory(registrate))
+    pack.addProvider(paintingTagsFactory(registrate))
+    pack.addProvider(worldPresetTagsFactory(registrate))
     // Recipes
     pack.addProvider(recipesFactory(registrate))
     // villager trades
@@ -186,6 +195,86 @@ object RegistrateDatagenFabric {
             val builder = getOrCreateTagBuilder(tagKey)
             items.forEach { entry ->
               builder.add(entry.get())
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // FLUID TAGS
+  private fun fluidTagsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricTagProvider.FluidTagProvider> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricTagProvider.FluidTagProvider(dataOutput, registriesFuture) {
+        override fun addTags(arg: HolderLookup.Provider) {
+          registrate.tagRegistry.getFluidTags().forEach { (tagKey, fluids) ->
+            val builder = getOrCreateTagBuilder(tagKey)
+            fluids.forEach { supplier ->
+              builder.add(supplier.get())
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // BIOME TAGS
+  private fun biomeTagsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricTagProvider<Biome>> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricTagProvider<Biome>(dataOutput, Registries.BIOME, registriesFuture) {
+        override fun addTags(arg: HolderLookup.Provider) {
+          registrate.tagRegistry.getBiomeTags().forEach { (tagKey, biomes) ->
+            val builder = getOrCreateTagBuilder(tagKey)
+            biomes.forEach { resourceKey ->
+              builder.add(resourceKey)
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // ENTITY TAGS
+  private fun entityTagsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricTagProvider.EntityTypeTagProvider> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricTagProvider.EntityTypeTagProvider(dataOutput, registriesFuture) {
+        override fun addTags(arg: HolderLookup.Provider) {
+          registrate.tagRegistry.getEntityTags().forEach { (tagKey, entities) ->
+            val builder = getOrCreateTagBuilder(tagKey)
+            entities.forEach { supplier ->
+              builder.add(supplier.get())
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // PAINTING TAGS
+  private fun paintingTagsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricTagProvider<PaintingVariant>> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricTagProvider<PaintingVariant>(dataOutput, Registries.PAINTING_VARIANT, registriesFuture) {
+        override fun addTags(arg: HolderLookup.Provider) {
+          registrate.tagRegistry.getPaintingTags().forEach { (tagKey, paintings) ->
+            val builder = getOrCreateTagBuilder(tagKey)
+            paintings.forEach { supplier ->
+              builder.add(supplier.get())
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // WORLD PRESET TAGS
+  private fun worldPresetTagsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricTagProvider<WorldPreset>> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricTagProvider<WorldPreset>(dataOutput, Registries.WORLD_PRESET, registriesFuture) {
+        override fun addTags(arg: HolderLookup.Provider) {
+          registrate.tagRegistry.getWorldPresetTags().forEach { (tagKey, presets) ->
+            val builder = getOrCreateTagBuilder(tagKey)
+            presets.forEach { supplier ->
+              builder.add(supplier.get())
             }
           }
         }
