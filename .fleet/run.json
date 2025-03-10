@@ -17,6 +17,9 @@
     {
       "type": "gradle",
       "name": "Run Data",
+      "args": [
+        "--stacktrace"
+      ],
       "tasks": [
         ":fabric:runDatagen"
       ],

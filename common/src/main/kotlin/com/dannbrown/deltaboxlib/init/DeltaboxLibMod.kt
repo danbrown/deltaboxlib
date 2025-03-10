@@ -8,6 +8,7 @@ object DeltaboxLibMod {
     DeltaboxBlocks.register()
     DeltaboxItems.register()
     DeltaboxCreativeTabs.register()
+    DeltaboxTrades.register()
     REGISTRATE.buildRegistries()
   }
 }

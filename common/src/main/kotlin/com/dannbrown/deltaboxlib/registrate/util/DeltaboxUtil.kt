@@ -14,9 +14,17 @@ import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.material.Fluid
+import org.apache.logging.log4j.LogManager
 import java.util.function.Supplier
 
 object DeltaboxUtil {
+  val LOGGER = LogManager.getLogger()
+
+  fun logInfo(message: String, modId: String = DeltaboxLibMod.MOD_ID) {
+    LOGGER.info("[${modId}] $message")
+  }
+
+
   // @ ResourceLocation related
   fun resourceLocation(namespace: String, path: String): ResourceLocation {
     return ResourceLocation(namespace, path) // example: resourceLocation("minecraft", "block") -> "minecraft:block"

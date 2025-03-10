@@ -2,10 +2,14 @@ package com.dannbrown.deltaboxlib.registrate
 
 import com.dannbrown.deltaboxlib.registrate.builders.*
 import com.dannbrown.deltaboxlib.registrate.presets.blocks.BlockPresets
+import com.dannbrown.deltaboxlib.registrate.providers.VillagerLevel
+import com.dannbrown.deltaboxlib.registrate.providers.VillagerTradeCodec
+import com.dannbrown.deltaboxlib.registrate.providers.VillagerTradeItem
 import com.dannbrown.deltaboxlib.registrate.registry.*
 import com.dannbrown.deltaboxlib.registrate.types.RecipeFactory
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.tags.TagKey
+import net.minecraft.world.entity.npc.VillagerProfession
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -19,6 +23,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val tagRegistry: TagRegistry = TagRegistry(modId)
   val recipeRegistry: RecipeRegistry = RecipeRegistry(modId)
   val creativeTabRegistry: CreativeTabRegistry = CreativeTabRegistry(modId)
+  val tradesRegistry: TradeRegistry = TradeRegistry(modId)
 
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
@@ -62,6 +67,30 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   ): RegistrySupplier<CreativeModeTab> {
     this.langs().creativeTab(id, phrase)
     return this.creativeTabRegistry.register(id, icon, displayItems)
+  }
+
+
+  fun villagerTrade(
+    profession: VillagerProfession,
+    level: VillagerLevel,
+    tradeCosts: List<VillagerTradeItem>,
+    tradeSells: List<VillagerTradeItem>,
+    maxUses: Int,
+    xpAmount: Int,
+    priceMultiplier: Float
+  ): AbstractDeltaboxRegistrate {
+    this.tradesRegistry.add(
+      VillagerTradeCodec(
+        profession,
+        level,
+        tradeCosts,
+        tradeSells,
+        maxUses,
+        xpAmount,
+        priceMultiplier
+      )
+    )
+    return this
   }
 
   fun buildRegistries() {
