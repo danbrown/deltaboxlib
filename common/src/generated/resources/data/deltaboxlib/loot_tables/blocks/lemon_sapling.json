@@ -11,21 +11,6 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:flower_pot"
-        }
-      ],
-      "rolls": 1.0
-    },
-    {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
           "name": "deltaboxlib:lemon_sapling"
         }
       ],
