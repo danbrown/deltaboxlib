@@ -1,6 +1,8 @@
 package com.dannbrown.deltaboxlib.fabric.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
@@ -17,6 +19,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
     registerFlammableBlocks()
     registerStrippableBlocks()
     registerCompostableBlocks()
+    registerBiomeModifiers()
   }
 
   fun initClient() {
@@ -105,4 +108,17 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
     }
   }
 
+  private fun registerBiomeModifiers() {
+    for ((modifierName, biomeModifier) in registrate.biomeModifierRegistry.getBiomeModifiers()) {
+      // Directly use biomeTag in BiomeSelectors.tag()
+      val biomeSelector = BiomeSelectors.tag(biomeModifier.biomeTag)
+
+      // Registering the feature for the given biome tag and step
+      BiomeModifications.addFeature(
+        biomeSelector,
+        biomeModifier.step,
+        biomeModifier.feature
+      )
+    }
+  }
 }

@@ -12,6 +12,7 @@ object DeltaboxLibMod {
     DeltaboxPlacerTypes.register()
     DeltaboxConfiguredFeatures.register()
     DeltaboxPlacedFeatures.register()
+    DeltaboxBiomeModifiers.register()
     REGISTRATE.buildRegistries()
   }
 }

@@ -6,6 +6,7 @@ import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateRecipes
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateBlockModelGenerator
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateItemModelGenerator
+import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeModifierProvider
 import com.dannbrown.deltaboxlib.registrate.providers.trades.VillagerTradeProvider
 import com.dannbrown.deltaboxlib.registrate.providers.trades.WandererTradeProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
@@ -54,6 +55,8 @@ object RegistrateDatagenFabric {
     pack.addProvider(configuredFeaturesFactory(registrate))
     // placed features
     pack.addProvider(placedFeaturesFactory(registrate))
+    // biome modifiers
+    pack.addProvider { packOutput -> BiomeModifierProvider(registrate, packOutput) }
     // ----
   }
 

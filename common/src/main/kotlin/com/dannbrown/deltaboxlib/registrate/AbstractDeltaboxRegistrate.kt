@@ -2,6 +2,7 @@ package com.dannbrown.deltaboxlib.registrate
 
 import com.dannbrown.deltaboxlib.registrate.builders.*
 import com.dannbrown.deltaboxlib.registrate.presets.blocks.BlockPresets
+import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeModifierCodec
 import com.dannbrown.deltaboxlib.registrate.providers.trades.*
 import com.dannbrown.deltaboxlib.registrate.registry.*
 import com.dannbrown.deltaboxlib.registrate.types.RecipeFactory
@@ -9,13 +10,16 @@ import com.dannbrown.deltaboxlib.registrate.util.ConfiguredFeaturesUtil
 import com.dannbrown.deltaboxlib.registrate.util.PlacedFeaturesUtil
 import com.mojang.serialization.Codec
 import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.npc.VillagerProfession
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.levelgen.GenerationStep
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType
@@ -38,6 +42,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val placerTypeRegistry: PlacerTypeRegistry = PlacerTypeRegistry(modId)
   val configuredFeatureRegistry: ConfiguredFeatureRegistry = ConfiguredFeatureRegistry(modId)
   val placedFeatureRegistry: PlacedFeatureRegistry = PlacedFeatureRegistry(modId)
+  val biomeModifierRegistry: BiomeModifierRegistry = BiomeModifierRegistry(modId)
 
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
@@ -150,6 +155,16 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     consumer: (ResourceKey<PlacedFeature>, BootstrapContext<PlacedFeature>, PlacedFeaturesUtil) -> Unit
   ): ResourceKey<PlacedFeature> {
     return placedFeatureRegistry.addPlacedFeature(name, consumer)
+  }
+
+  fun biomeModifier(
+    name: String,
+    biomeTag: TagKey<Biome>,
+    placedFeature: ResourceKey<PlacedFeature>,
+    step: GenerationStep.Decoration
+  ) {
+    val modifier = BiomeModifierCodec(biomeTag, placedFeature, step)
+    this.biomeModifierRegistry.addBiomeModifier(name, modifier)
   }
 
   fun buildRegistries() {

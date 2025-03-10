@@ -1,8 +1,8 @@
-// 1.20.1	2025-03-10T17:13:39.235038	Deltabox Lib/Block Loot Tables
+// 1.20.1	2025-03-10T18:04:04.64921	Deltabox Lib/Block Loot Tables
 969f2120d3217711147933562372bf508f89d181 data/deltaboxlib/loot_tables/blocks/sparse_dry_grass.json
 97391c98888f0f34cda2e8c011c2f3dad484f3bd data/deltaboxlib/loot_tables/blocks/garlic_clove.json
-678abd32b408f5b5ffa8595ad5428452936fb879 data/deltaboxlib/loot_tables/blocks/black_beans.json
 53d7c530a44ab389502ac04f4b676e6b89b4be37 data/deltaboxlib/loot_tables/blocks/pale_oak_button.json
+678abd32b408f5b5ffa8595ad5428452936fb879 data/deltaboxlib/loot_tables/blocks/black_beans.json
 2e9345bff5987d29867e04cea61b1183e114e944 data/deltaboxlib/loot_tables/blocks/lemon_sapling.json
 6606024a09089032f6b48a536d152ebeba541343 data/deltaboxlib/loot_tables/blocks/pale_oak_trapdoor.json
 ef96ea7f77119576837d59a028c87c478275731c data/deltaboxlib/loot_tables/blocks/pale_oak_pressure_plate.json
