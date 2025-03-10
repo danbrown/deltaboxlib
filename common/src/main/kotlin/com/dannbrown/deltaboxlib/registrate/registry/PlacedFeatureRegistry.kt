@@ -18,6 +18,10 @@ class PlacedFeatureRegistry(val modId: String) {
     return key
   }
 
+  fun getPlacedFeatures(): List<ResourceKey<PlacedFeature>> {
+    return PLACED_FEATURES.map { it.key }
+  }
+
   fun bootstrapPlacedFeatures(context: BootstrapContext<PlacedFeature>) {
     PLACED_FEATURES.forEach { key, consumer ->
       consumer(key, context, PlacedFeaturesUtil)

@@ -19,6 +19,8 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType
 import net.minecraft.data.worldgen.BootstapContext as BootstrapContext
@@ -128,6 +130,12 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     name: String, codec: Supplier<Codec<out TrunkPlacer>>
   ): RegistrySupplier<TrunkPlacerType<out TrunkPlacer>> {
     return this.placerTypeRegistry.registerTrunk(name, codec)
+  }
+
+  fun treeDecorator(
+    name: String, codec: Supplier<Codec<out TreeDecorator>>
+  ): RegistrySupplier<TreeDecoratorType<out TreeDecorator>> {
+    return this.placerTypeRegistry.registerTreeDecorator(name, codec)
   }
 
   fun configuredFeature(

@@ -9,6 +9,7 @@ import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateItemModelGen
 import com.dannbrown.deltaboxlib.registrate.providers.trades.VillagerTradeProvider
 import com.dannbrown.deltaboxlib.registrate.providers.trades.WandererTradeProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
@@ -22,8 +23,11 @@ import net.minecraft.data.CachedOutput
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.ItemModelGenerators
 import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -46,6 +50,10 @@ object RegistrateDatagenFabric {
     pack.addProvider { packOutput -> VillagerTradeProvider(registrate, packOutput) }
     // wanderer trades
     pack.addProvider { packOutput -> WandererTradeProvider(registrate, packOutput) }
+    // configured features
+    pack.addProvider(configuredFeaturesFactory(registrate))
+    // placed features
+    pack.addProvider(placedFeaturesFactory(registrate))
     // ----
   }
 
@@ -200,6 +208,55 @@ object RegistrateDatagenFabric {
     }
   }
 
+  private fun configuredFeaturesFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricDynamicRegistryProvider> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricDynamicRegistryProvider(dataOutput, registriesFuture) {
+        override fun getName(): String {
+          return "worldgen/configured_feature"
+        }
 
-  // ----
+        override fun configure(registries: HolderLookup.Provider, entries: Entries) {
+          for (configuredFeature in registrate.configuredFeatureRegistry.getConfiguredfeatures()) {
+            add(registries, entries, configuredFeature)
+          }
+        }
+
+        private fun add(
+          registries: HolderLookup.Provider,
+          entries: Entries,
+          key: ResourceKey<ConfiguredFeature<*, *>>
+        ) {
+          val configuredFeatureRegistryLookup = registries.lookupOrThrow(Registries.CONFIGURED_FEATURE)
+          entries.add(key, configuredFeatureRegistryLookup.getOrThrow(key).value())
+        }
+      }
+    }
+  }
+
+  private fun placedFeaturesFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricDynamicRegistryProvider> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricDynamicRegistryProvider(dataOutput, registriesFuture) {
+        override fun getName(): String {
+          return "worldgen/placed_feature"
+        }
+
+        override fun configure(registries: HolderLookup.Provider, entries: Entries) {
+          for (placedFeature in registrate.placedFeatureRegistry.getPlacedFeatures()) {
+            add(registries, entries, placedFeature)
+          }
+        }
+
+        private fun add(
+          registries: HolderLookup.Provider,
+          entries: Entries,
+          key: ResourceKey<PlacedFeature>
+        ) {
+          val placedFeatureRegistryLookup = registries.lookupOrThrow(Registries.PLACED_FEATURE)
+          entries.add(key, placedFeatureRegistryLookup.getOrThrow(key).value())
+        }
+      }
+    }
+  }
+
+// ----
 }

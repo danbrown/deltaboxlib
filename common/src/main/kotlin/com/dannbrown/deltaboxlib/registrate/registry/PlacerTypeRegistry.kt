@@ -6,6 +6,8 @@ import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType
 import java.util.function.Supplier
@@ -13,6 +15,7 @@ import java.util.function.Supplier
 class PlacerTypeRegistry(modId: String) {
   private val foliageTypes = DeferredRegister.create(modId, Registries.FOLIAGE_PLACER_TYPE)
   private val trunkTypes = DeferredRegister.create(modId, Registries.TRUNK_PLACER_TYPE)
+  private val treeDecorators = DeferredRegister.create(modId, Registries.TREE_DECORATOR_TYPE)
 
   fun registerTrunk(
     id: String,
@@ -28,8 +31,15 @@ class PlacerTypeRegistry(modId: String) {
     return foliageTypes.register(id) { FoliagePlacerType(codec.get()) }
   }
 
+  fun registerTreeDecorator(
+    id: String, codec: Supplier<Codec<out TreeDecorator>>
+  ): RegistrySupplier<TreeDecoratorType<out TreeDecorator>> {
+    return treeDecorators.register(id) { TreeDecoratorType(codec.get()) }
+  }
+
   fun build() {
     trunkTypes.register()
     foliageTypes.register()
+    treeDecorators.register()
   }
 }

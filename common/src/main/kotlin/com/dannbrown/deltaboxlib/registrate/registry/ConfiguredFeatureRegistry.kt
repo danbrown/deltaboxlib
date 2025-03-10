@@ -19,6 +19,10 @@ class ConfiguredFeatureRegistry(val modId: String) {
     return key
   }
 
+  fun getConfiguredfeatures(): List<ResourceKey<ConfiguredFeature<*, *>>> {
+    return CONFIGURED_FEATURES.map { it.key }
+  }
+
   fun bootstrapConfiguredfeatures(context: BootstrapContext<ConfiguredFeature<*, *>>) {
     CONFIGURED_FEATURES.forEach { key, consumer ->
       consumer(key, context, ConfiguredFeaturesUtil)

@@ -17,3 +17,6 @@ accessible method net/minecraft/world/level/levelgen/feature/trunkplacers/TrunkP
 
 # FoliagePlacerType constructor
 accessible method net/minecraft/world/level/levelgen/feature/foliageplacers/FoliagePlacerType <init> (Lcom/mojang/serialization/Codec;)V
+
+# TreeDecoratorType constructor
+accessible method net/minecraft/world/level/levelgen/feature/treedecorators/TreeDecoratorType <init> (Lcom/mojang/serialization/Codec;)V
