@@ -2,6 +2,7 @@ package com.dannbrown.deltaboxlib.registrate.providers.trades
 
 
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
+import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
@@ -21,7 +22,7 @@ data class VillagerTradeItem(
           val itemPath = DeltaboxUtil.getItemId(it.item.get())
           return@forGetter ResourceKey.create(Registries.ITEM, DeltaboxUtil.resourceLocation(itemModId, itemPath))
         },
-        com.mojang.serialization.Codec.INT.fieldOf("amount").forGetter(VillagerTradeItem::amount)
+        Codec.INT.fieldOf("amount").forGetter(VillagerTradeItem::amount)
       ).apply(instance, { itemKey, amount ->
         val item = BuiltInRegistries.ITEM.get(itemKey)
         if (item === null) throw Exception("Item $itemKey not found in entries")

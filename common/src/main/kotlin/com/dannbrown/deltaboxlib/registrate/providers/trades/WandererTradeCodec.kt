@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.registrate.providers.trades
 
+import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 
 class WandererTradeCodec(
@@ -13,7 +14,7 @@ class WandererTradeCodec(
   companion object {
     val CODEC = RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<WandererTradeCodec> ->
       instance.group(
-        com.mojang.serialization.Codec.STRING
+        Codec.STRING
           .fieldOf("rarity")
           .forGetter<WandererTradeCodec> { return@forGetter it.rarity.toString() },
         VillagerTradeItem.CODEC.listOf()
@@ -22,13 +23,13 @@ class WandererTradeCodec(
         VillagerTradeItem.CODEC.listOf()
           .fieldOf("tradeSells")
           .forGetter(WandererTradeCodec::tradeSells),
-        com.mojang.serialization.Codec.INT
+        Codec.INT
           .fieldOf("maxUses")
           .forGetter(WandererTradeCodec::maxUses),
-        com.mojang.serialization.Codec.INT
+        Codec.INT
           .fieldOf("xpAmount")
           .forGetter(WandererTradeCodec::xpAmount),
-        com.mojang.serialization.Codec.FLOAT
+        Codec.FLOAT
           .fieldOf("priceMultiplier")
           .forGetter(WandererTradeCodec::priceMultiplier)
       ).apply(instance) { rarity, tradeCosts, tradeSells, maxUses, xpAmount, priceMultiplier ->
