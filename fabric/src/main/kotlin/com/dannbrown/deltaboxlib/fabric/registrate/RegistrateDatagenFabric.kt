@@ -16,6 +16,8 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.fabricmc.fabric.impl.datagen.loot.FabricLootTableProviderImpl
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.RegistrySetBuilder
+import net.minecraft.core.registries.Registries
 import net.minecraft.data.CachedOutput
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.ItemModelGenerators
@@ -46,6 +48,12 @@ object RegistrateDatagenFabric {
     pack.addProvider { packOutput -> WandererTradeProvider(registrate, packOutput) }
     // ----
   }
+
+  fun buildRegistry(builder: RegistrySetBuilder, registrate: AbstractDeltaboxRegistrate) {
+    builder.add(Registries.CONFIGURED_FEATURE, registrate.configuredFeatureRegistry::bootstrapConfiguredfeatures)
+    builder.add(Registries.PLACED_FEATURE, registrate.placedFeatureRegistry::bootstrapPlacedFeatures)
+  }
+
 
   // Block Loot Tables
   private fun blockLootTableFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.Factory<FabricLootTableProvider> {

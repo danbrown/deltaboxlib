@@ -9,6 +9,9 @@ object DeltaboxLibMod {
     DeltaboxItems.register()
     DeltaboxCreativeTabs.register()
     DeltaboxTrades.register()
+    DeltaboxPlacerTypes.register()
+    DeltaboxConfiguredFeatures.register()
+    DeltaboxPlacedFeatures.register()
     REGISTRATE.buildRegistries()
   }
 }

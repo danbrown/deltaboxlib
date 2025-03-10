@@ -5,13 +5,24 @@ import com.dannbrown.deltaboxlib.registrate.presets.blocks.BlockPresets
 import com.dannbrown.deltaboxlib.registrate.providers.trades.*
 import com.dannbrown.deltaboxlib.registrate.registry.*
 import com.dannbrown.deltaboxlib.registrate.types.RecipeFactory
+import com.dannbrown.deltaboxlib.registrate.util.ConfiguredFeaturesUtil
+import com.dannbrown.deltaboxlib.registrate.util.PlacedFeaturesUtil
+import com.mojang.serialization.Codec
 import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.npc.VillagerProfession
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType
+import net.minecraft.data.worldgen.BootstapContext as BootstrapContext
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
 import java.util.function.Supplier
 
 abstract class AbstractDeltaboxRegistrate(val modId: String) {
@@ -22,6 +33,9 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val recipeRegistry: RecipeRegistry = RecipeRegistry(modId)
   val creativeTabRegistry: CreativeTabRegistry = CreativeTabRegistry(modId)
   val tradesRegistry: TradeRegistry = TradeRegistry(modId)
+  val placerTypeRegistry: PlacerTypeRegistry = PlacerTypeRegistry(modId)
+  val configuredFeatureRegistry: ConfiguredFeatureRegistry = ConfiguredFeatureRegistry(modId)
+  val placedFeatureRegistry: PlacedFeatureRegistry = PlacedFeatureRegistry(modId)
 
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
@@ -104,9 +118,36 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return this
   }
 
+  fun foliagePlacer(
+    name: String, codec: Supplier<Codec<out FoliagePlacer>>
+  ): RegistrySupplier<FoliagePlacerType<out FoliagePlacer>> {
+    return this.placerTypeRegistry.registerFoliage(name, codec)
+  }
+
+  fun trunkPlacer(
+    name: String, codec: Supplier<Codec<out TrunkPlacer>>
+  ): RegistrySupplier<TrunkPlacerType<out TrunkPlacer>> {
+    return this.placerTypeRegistry.registerTrunk(name, codec)
+  }
+
+  fun configuredFeature(
+    name: String,
+    consumer: (ResourceKey<ConfiguredFeature<*, *>>, BootstrapContext<ConfiguredFeature<*, *>>, ConfiguredFeaturesUtil) -> Unit
+  ): ResourceKey<ConfiguredFeature<*, *>> {
+    return configuredFeatureRegistry.addConfiguredfeature(name, consumer)
+  }
+
+  fun placedFeature(
+    name: String,
+    consumer: (ResourceKey<PlacedFeature>, BootstrapContext<PlacedFeature>, PlacedFeaturesUtil) -> Unit
+  ): ResourceKey<PlacedFeature> {
+    return placedFeatureRegistry.addPlacedFeature(name, consumer)
+  }
+
   fun buildRegistries() {
     blockRegistry.build()
     itemRegistry.build()
     creativeTabRegistry.build()
+    placerTypeRegistry.build()
   }
 }
