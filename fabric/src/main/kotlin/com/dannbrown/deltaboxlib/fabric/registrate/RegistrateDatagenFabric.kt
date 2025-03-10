@@ -6,7 +6,6 @@ import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateBlockLootTables
 import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateRecipes
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateBlockModelGenerator
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateItemModelGenerator
-import com.dannbrown.deltaboxlib.registrate.providers.VillagerTradeProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLootTableProvider
@@ -40,7 +39,6 @@ object RegistrateDatagenFabric {
     // Recipes
     pack.addProvider(recipesFactory(registrate))
     // villager trades
-    pack.addProvider { packOutput -> VillagerTradeProvider(registrate, packOutput) }
     // ----
   }
 
