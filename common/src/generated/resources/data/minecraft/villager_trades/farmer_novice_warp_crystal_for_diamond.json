@@ -1,0 +1,19 @@
+{
+  "level": 1,
+  "maxUses": 5,
+  "priceMultiplier": 0.5,
+  "profession": "minecraft:farmer",
+  "tradeCosts": [
+    {
+      "amount": 2,
+      "item": "deltaboxlib:warp_crystal"
+    }
+  ],
+  "tradeSells": [
+    {
+      "amount": 5,
+      "item": "minecraft:diamond"
+    }
+  ],
+  "xpAmount": 10
+}

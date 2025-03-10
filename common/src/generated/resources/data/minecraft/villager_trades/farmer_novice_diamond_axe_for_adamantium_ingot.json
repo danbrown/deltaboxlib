@@ -1,0 +1,19 @@
+{
+  "level": 1,
+  "maxUses": 5,
+  "priceMultiplier": 0.5,
+  "profession": "minecraft:farmer",
+  "tradeCosts": [
+    {
+      "amount": 8,
+      "item": "minecraft:diamond_axe"
+    }
+  ],
+  "tradeSells": [
+    {
+      "amount": 2,
+      "item": "deltaboxlib:adamantium_ingot"
+    }
+  ],
+  "xpAmount": 10
+}
