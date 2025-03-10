@@ -1,6 +1,7 @@
 package com.dannbrown.deltaboxlib.init
 
 import net.minecraft.tags.BiomeTags
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.levelgen.GenerationStep
 
 object DeltaboxBiomeModifiers {
@@ -10,6 +11,16 @@ object DeltaboxBiomeModifiers {
     DeltaboxPlacedFeatures.TEST_FEATURE,
     GenerationStep.Decoration.VEGETAL_DECORATION
   )
+
+  val ADD_ZOGLIN_TO_OVERWORLD =
+    DeltaboxLibMod.REGISTRATE.biomeSpawn(
+      "add_zoglin_to_overworld",
+      BiomeTags.IS_OVERWORLD,
+      EntityType.ZOGLIN,
+      100,
+      1,
+      4
+    )
 
   fun register() {
     // init

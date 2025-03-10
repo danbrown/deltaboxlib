@@ -3,16 +3,19 @@ package com.dannbrown.deltaboxlib.registrate
 import com.dannbrown.deltaboxlib.registrate.builders.*
 import com.dannbrown.deltaboxlib.registrate.presets.blocks.BlockPresets
 import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeModifierCodec
+import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeSpawnCodec
 import com.dannbrown.deltaboxlib.registrate.providers.trades.*
 import com.dannbrown.deltaboxlib.registrate.registry.*
 import com.dannbrown.deltaboxlib.registrate.types.RecipeFactory
 import com.dannbrown.deltaboxlib.registrate.util.ConfiguredFeaturesUtil
+import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.dannbrown.deltaboxlib.registrate.util.PlacedFeaturesUtil
 import com.mojang.serialization.Codec
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.npc.VillagerProfession
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
@@ -165,6 +168,21 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   ) {
     val modifier = BiomeModifierCodec(biomeTag, placedFeature, step)
     this.biomeModifierRegistry.addBiomeModifier(name, modifier)
+  }
+
+  fun biomeSpawn(
+    name: String,
+    biomeTag: TagKey<Biome>,
+    entityType: EntityType<*>,
+    weight: Int,
+    minCount: Int,
+    maxCount: Int
+  ) {
+    val entityLocation =
+      DeltaboxUtil.resourceLocation(DeltaboxUtil.getEntityModId(entityType), DeltaboxUtil.getEntityId(entityType))
+    val entityTypeKey = ResourceKey.create(Registries.ENTITY_TYPE, entityLocation)
+    val spawn = BiomeSpawnCodec(biomeTag, entityTypeKey, weight, minCount, maxCount)
+    this.biomeModifierRegistry.addBiomeSpawn(name, spawn)
   }
 
   fun buildRegistries() {

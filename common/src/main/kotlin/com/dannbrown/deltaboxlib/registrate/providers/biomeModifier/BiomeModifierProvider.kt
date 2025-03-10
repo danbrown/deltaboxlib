@@ -14,33 +14,48 @@ class BiomeModifierProvider(
 ) : DataProvider {
 
   // Path providers for both Forge and NeoForge directories
-  private val forgePathProvider =
+  private val forgeBiomeModifierPathProvider =
     packOutput.createPathProvider(PackOutput.Target.DATA_PACK, "forge/biome_modifier")
 
-  private val neoforgePathProvider =
+  private val neoforgeBiomeModifierPathProvider =
     packOutput.createPathProvider(PackOutput.Target.DATA_PACK, "neoforge/biome_modifier")
 
-  override fun getName(): String = "Biome Modifiers Datagen for: ${registrate.modId}"
+
+  override fun getName(): String = "Biome Modifiers and Spawns Datagen for: ${registrate.modId}"
 
   override fun run(cachedOutput: CachedOutput): CompletableFuture<*> {
     val futures = mutableListOf<CompletableFuture<*>>()
 
-    // Iterate over your biome modifiers and generate JSON
+    // Iterate over biome modifiers and generate JSON for both biome modifiers and biome spawns
     for ((modifierName, biomeModifier) in registrate.biomeModifierRegistry.getBiomeModifiers()) {
-      // Paths for both forge and neoforge
-      val forgeModifierPath = forgePathProvider.json(DeltaboxUtil.resourceLocation(registrate.modId, modifierName))
+      // Paths for both forge and neoforge biome modifiers
+      val forgeModifierPath =
+        forgeBiomeModifierPathProvider.json(DeltaboxUtil.resourceLocation(registrate.modId, modifierName))
       val neoforgeModifierPath =
-        neoforgePathProvider.json(DeltaboxUtil.resourceLocation(registrate.modId, modifierName))
+        neoforgeBiomeModifierPathProvider.json(DeltaboxUtil.resourceLocation(registrate.modId, modifierName))
 
-      // Add tasks for saving in both directories
+      // Add tasks for saving in both directories for biome modifiers
       futures.add(saveBiomeModifierData(cachedOutput, forgeModifierPath, biomeModifier, "forge"))
       futures.add(saveBiomeModifierData(cachedOutput, neoforgeModifierPath, biomeModifier, "neoforge"))
     }
 
-    // Wait for all save tasks to complete
+    // Iterate over biome spawns and generate JSON
+    for ((spawnName, biomeSpawn) in registrate.biomeModifierRegistry.getBiomeSpawns()) {
+      // Paths for both forge and neoforge biome spawns
+      val forgeSpawnPath =
+        forgeBiomeModifierPathProvider.json(DeltaboxUtil.resourceLocation(registrate.modId, spawnName))
+      val neoforgeSpawnPath =
+        neoforgeBiomeModifierPathProvider.json(DeltaboxUtil.resourceLocation(registrate.modId, spawnName))
+
+      // Add tasks for saving in both directories for biome spawns
+      futures.add(saveBiomeSpawnData(cachedOutput, forgeSpawnPath, biomeSpawn, "forge"))
+      futures.add(saveBiomeSpawnData(cachedOutput, neoforgeSpawnPath, biomeSpawn, "neoforge"))
+    }
+
     return CompletableFuture.allOf(*futures.toTypedArray())
   }
 
+  // Save biome modifier data in the correct path
   private fun saveBiomeModifierData(
     cachedOutput: CachedOutput,
     path: Path,
@@ -48,13 +63,24 @@ class BiomeModifierProvider(
     modLoader: String
   ): CompletableFuture<*> {
     return try {
-      // Use the custom serializer to generate the JSON format
       val jsonObject = BiomeModifierCodec.serializeToJson(biomeModifier, modLoader)
-
-      // Save the JSON structure to the correct path
       DataProvider.saveStable(cachedOutput, jsonObject, path)
     } catch (e: Exception) {
-      // Handle the error (e.g., log it)
+      throw e
+    }
+  }
+
+  // Save biome spawn data in the correct path
+  private fun saveBiomeSpawnData(
+    cachedOutput: CachedOutput,
+    path: Path,
+    biomeSpawn: BiomeSpawnCodec,
+    modLoader: String
+  ): CompletableFuture<*> {
+    return try {
+      val jsonObject = BiomeSpawnCodec.serializeToJson(biomeSpawn, modLoader)
+      DataProvider.saveStable(cachedOutput, jsonObject, path)
+    } catch (e: Exception) {
       throw e
     }
   }

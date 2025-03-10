@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.minecraft.client.renderer.BiomeColors
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.FoliageColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
@@ -110,14 +111,24 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
 
   private fun registerBiomeModifiers() {
     for ((modifierName, biomeModifier) in registrate.biomeModifierRegistry.getBiomeModifiers()) {
-      // Directly use biomeTag in BiomeSelectors.tag()
       val biomeSelector = BiomeSelectors.tag(biomeModifier.biomeTag)
-
-      // Registering the feature for the given biome tag and step
       BiomeModifications.addFeature(
         biomeSelector,
         biomeModifier.step,
         biomeModifier.feature
+      )
+    }
+
+    for ((modifierName, biomeModifier) in registrate.biomeModifierRegistry.getBiomeSpawns()) {
+      val biomeSelector = BiomeSelectors.tag(biomeModifier.biomeTag)
+      val entity = BuiltInRegistries.ENTITY_TYPE.get(biomeModifier.type) ?: continue
+      BiomeModifications.addSpawn(
+        biomeSelector,
+        entity.category,
+        entity,
+        biomeModifier.weight,
+        biomeModifier.minCount,
+        biomeModifier.maxCount
       )
     }
   }

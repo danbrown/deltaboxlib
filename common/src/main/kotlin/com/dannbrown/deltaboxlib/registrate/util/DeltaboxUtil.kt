@@ -69,6 +69,10 @@ object DeltaboxUtil {
     return BuiltInRegistries.ITEM.getKey(item).namespace
   }
 
+  fun getEntityModId(entity: EntityType<*>): String {
+    return BuiltInRegistries.ENTITY_TYPE.getKey(entity).namespace
+  }
+
   fun getBlockId(block: Block): String {
     return BuiltInRegistries.BLOCK.getKey(block).path
   }
@@ -80,6 +84,10 @@ object DeltaboxUtil {
   fun getItemId(item: Supplier<ItemLike>): String {
     val names = item.get().asItem().descriptionId.split(".")
     return names[names.size - 1]
+  }
+
+  fun getEntityId(entity: EntityType<*>): String {
+    return BuiltInRegistries.ENTITY_TYPE.getKey(entity).path
   }
 
   // @ Lang related

@@ -11,9 +11,9 @@ import com.google.gson.JsonObject
 import net.minecraft.tags.TagKey
 
 data class BiomeModifierCodec(
-  val biomeTag: TagKey<Biome>, // Use TagKey<Biome> to store the biome tag
-  val feature: ResourceKey<PlacedFeature>, // The placed feature
-  val step: GenerationStep.Decoration // The step of the generation
+  val biomeTag: TagKey<Biome>,
+  val feature: ResourceKey<PlacedFeature>,
+  val step: GenerationStep.Decoration
 ) {
   companion object {
     val CODEC: Codec<BiomeModifierCodec> = RecordCodecBuilder.create { instance ->
