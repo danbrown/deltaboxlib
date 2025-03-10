@@ -1,4 +1,4 @@
-package com.dannbrown.deltaboxlib.fabric.init
+package com.dannbrown.deltaboxlib.fabric.init.loaders
 
 import com.dannbrown.deltaboxlib.init.DeltaboxLibMod
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
@@ -60,8 +60,10 @@ object DeltaboxLibLoadTradesFabric {
     )
 
     // call other events
-    net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STARTED.register(::onServerStarted);
-    net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.END_DATA_PACK_RELOAD.register(::onEndDatapackReload);
+    net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STARTED.register(DeltaboxLibLoadTradesFabric::onServerStarted);
+    net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.END_DATA_PACK_RELOAD.register(
+      DeltaboxLibLoadTradesFabric::onEndDatapackReload
+    );
   }
 
   private fun onServerStarted(server: MinecraftServer) {

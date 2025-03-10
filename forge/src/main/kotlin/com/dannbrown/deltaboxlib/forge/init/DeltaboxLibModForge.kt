@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.forge.init
 
+import com.dannbrown.deltaboxlib.forge.init.loaders.DeltaboxLibLoadTradesForge
 import com.dannbrown.deltaboxlib.forge.registrate.RegistrateInitForge
 import com.dannbrown.deltaboxlib.init.DeltaboxLibMod
 import dev.architectury.platform.forge.EventBuses

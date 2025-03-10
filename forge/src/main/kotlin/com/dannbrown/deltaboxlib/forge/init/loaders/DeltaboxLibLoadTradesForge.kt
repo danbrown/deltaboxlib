@@ -1,4 +1,4 @@
-package com.dannbrown.deltaboxlib.forge.init
+package com.dannbrown.deltaboxlib.forge.init.loaders
 
 import com.dannbrown.deltaboxlib.init.DeltaboxLibMod
 import com.dannbrown.deltaboxlib.registrate.providers.trades.WandererTradeRarity
@@ -8,8 +8,8 @@ import net.minecraftforge.eventbus.api.IEventBus
 
 object DeltaboxLibLoadTradesForge {
   fun onRegisterTrades(forgeEventBus: IEventBus) {
-    forgeEventBus.addListener(::onRegisterVillagerTrades)
-    forgeEventBus.addListener(::onRegisterWandererTrades)
+    forgeEventBus.addListener(DeltaboxLibLoadTradesForge::onRegisterVillagerTrades)
+    forgeEventBus.addListener(DeltaboxLibLoadTradesForge::onRegisterWandererTrades)
   }
 
   private fun onRegisterVillagerTrades(event: net.minecraftforge.event.village.VillagerTradesEvent) {

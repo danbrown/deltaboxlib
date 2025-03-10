@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.fabric.init
 
+import com.dannbrown.deltaboxlib.fabric.init.loaders.DeltaboxLibLoadTradesFabric
 import com.dannbrown.deltaboxlib.fabric.registrate.RegistrateInitFabric
 import com.dannbrown.deltaboxlib.init.DeltaboxLibMod
 import net.fabricmc.api.ClientModInitializer
