@@ -7,7 +7,9 @@
     "MixinTitleScreen"
   ],
   "mixins": [
-    "tooltip.ItemMixin"
+    "sign.BlockEntityTypeMixin",
+    "tooltip.ItemMixin",
+    "woodType.WoodTypeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
