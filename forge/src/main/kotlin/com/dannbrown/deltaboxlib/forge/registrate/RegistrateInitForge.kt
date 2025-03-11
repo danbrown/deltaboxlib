@@ -107,7 +107,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     for (entityBuilder in registrate.blockEntityRegistry.entries) {
       event.registerBlockEntityRenderer(
         entityBuilder.getBlockEntity().get(),
-        entityBuilder::getRenderer as BlockEntityRendererProvider<in BlockEntity>
+        entityBuilder::getRenderer
       )
     }
   }

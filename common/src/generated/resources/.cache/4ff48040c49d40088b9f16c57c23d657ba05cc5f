@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-11T15:26:04.012178	Deltabox Lib/Tags for minecraft:block
+// 1.20.1	2025-03-11T15:39:55.215062	Deltabox Lib/Tags for minecraft:block
 3dbaafd3c478a13fbcd85a5d681d3b1419a2395f data/minecraft/tags/blocks/stairs.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/deltaboxlib/tags/blocks/storage_blocks.json
 7f15b7a88f19dd9c4b390526507d5228b807aba2 data/deltaboxlib/tags/blocks/pale_oak_log_blocks.json
@@ -34,8 +34,8 @@ ad6ec0cbe9c6c4c2736435c2fa423f827c51dfb1 data/c/tags/blocks/stripped_logs.json
 5da5c1722fe4b2d5bd446fbd8a602b2464433ce1 data/minecraft/tags/blocks/azalea_root_replaceable.json
 ead5d210b07017137ccb48d70072085403b782d6 data/minecraft/tags/blocks/signs.json
 59d237bbcf967fa6546a29f9ac9f46acb4f971f5 data/neoforge/tags/blocks/leaves.json
-7f15b7a88f19dd9c4b390526507d5228b807aba2 data/minecraft/tags/blocks/logs_that_burn.json
 020a5d8095f9951ae8292765df36a3289ff02014 data/minecraft/tags/blocks/fence_gates.json
+7f15b7a88f19dd9c4b390526507d5228b807aba2 data/minecraft/tags/blocks/logs_that_burn.json
 5da5c1722fe4b2d5bd446fbd8a602b2464433ce1 data/minecraft/tags/blocks/lush_ground_replaceable.json
 ee9d21341d43bf7d253401b31f6139141ecac75c data/minecraft/tags/blocks/pressure_plates.json
 cf3829d4ae602ee2d4b7c4b683805139be46080b data/minecraft/tags/blocks/wooden_slabs.json

@@ -270,6 +270,7 @@ object DeltaboxBlocks {
     .blockstate { g, b -> g.crossBlock(b.get(), "open_eyeblossom") }
     .blockTags(BlockTags.FLOWERS)
     .itemTags(ItemTags.FLOWERS)
+    .cutoutRender()
     .item()
     .model { g, i -> g.flatItemBlock(i.get(), "open_eyeblossom_item") }
     .build()
@@ -285,18 +286,19 @@ object DeltaboxBlocks {
     .blockstate { g, b -> g.crossBlock(b.get(), "closed_eyeblossom") }
     .blockTags(BlockTags.FLOWERS)
     .itemTags(ItemTags.FLOWERS)
+    .cutoutRender()
     .item()
     .model { g, i -> g.flatItemBlock(i.get(), "closed_eyeblossom") }
     .build()
     .register() as BlockEntry<EyeBlossomBlock>
 
-//  val POTTED_EYE_BLOSSOM: BlockEntry<FlowerPotBlock> = REGISTRATE.blockPreset<FlowerPotBlock>("open_eyeblossom")
-//    .pottedBlock({ EYE_BLOSSOM.get() })
-//    .register()
-//  val POTTED_CLOSED_EYE_BLOSSOM: BlockEntry<FlowerPotBlock> =
-//    REGISTRATE.blockPreset<FlowerPotBlock>("closed_eyeblossom")
-//      .pottedBlock({ CLOSED_EYE_BLOSSOM.get() })
-//      .register()
+  val POTTED_EYE_BLOSSOM: BlockEntry<FlowerPotBlock> = REGISTRATE.blockPreset<FlowerPotBlock>("open_eyeblossom")
+    .pottedBlock({ EYE_BLOSSOM.get() })
+    .register()
+  val POTTED_CLOSED_EYE_BLOSSOM: BlockEntry<FlowerPotBlock> =
+    REGISTRATE.blockPreset<FlowerPotBlock>("closed_eyeblossom")
+      .pottedBlock({ CLOSED_EYE_BLOSSOM.get() })
+      .register()
 
   fun register() {
     REGISTRATE.buildBlocks()
