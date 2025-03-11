@@ -61,11 +61,12 @@ class BlockEntityBuilder<T : BlockEntity>(
   fun register(): Supplier<BlockEntityType<T>> {
     if (validBlocks.isEmpty()) throw IllegalArgumentException("Block Entity must have at least one valid block.")
     if (blockEntityFactory == null) throw IllegalArgumentException("Block Entity factory is not set.")
-    val entity = BlockEntityType.Builder.of(
-      { pos, state -> blockEntityFactory!!.apply({ entityInstance!!.get() }, pos, state) },
-      *validBlocks.map { it.get() }.toTypedArray()
-    ).build(null)
-    entityInstance = registrate.blockEntityRegistry.register(entityId, { entity }, this)
+    entityInstance = registrate.blockEntityRegistry.register(entityId, {
+      BlockEntityType.Builder.of(
+        { pos, state -> blockEntityFactory!!.apply({ entityInstance!!.get() }, pos, state) },
+        *validBlocks.map { it.get() }.toTypedArray()
+      ).build(null)
+    }, this)
     return entityInstance!!
   }
 
