@@ -12,6 +12,7 @@ import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.dannbrown.deltaboxlib.registrate.util.PlacedFeaturesUtil
 import com.mojang.serialization.Codec
 import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
@@ -49,6 +50,8 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val configuredFeatureRegistry: ConfiguredFeatureRegistry = ConfiguredFeatureRegistry(modId)
   val placedFeatureRegistry: PlacedFeatureRegistry = PlacedFeatureRegistry(modId)
   val biomeModifierRegistry: BiomeModifierRegistry = BiomeModifierRegistry(modId)
+  val modelLayersRegistry: ModelLayerRegistry = ModelLayerRegistry(modId)
+  val boatVariantRegistry: BoatVariantRegistry = BoatVariantRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -210,6 +213,18 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     val entityTypeKey = ResourceKey.create(Registries.ENTITY_TYPE, entityLocation)
     val spawn = BiomeSpawnCodec(biomeTag, entityTypeKey, weight, minCount, maxCount)
     this.biomeModifierRegistry.addBiomeSpawn(name, spawn)
+  }
+
+  fun modelLayer(
+    path: String, model: Supplier<LayerDefinition>, folder: String = "main"
+  ): AbstractDeltaboxRegistrate {
+    this.modelLayersRegistry.add(path, model, folder)
+    return this
+  }
+
+  fun boatVariant(name: String): AbstractDeltaboxRegistrate {
+    this.boatVariantRegistry.add(name)
+    return this
   }
 
   fun buildRegistries() {
