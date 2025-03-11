@@ -1,7 +1,13 @@
 package com.dannbrown.deltaboxlib.init
 
+import com.dannbrown.deltaboxlib.content.entity.boat.BaseBoatEntity
+import com.dannbrown.deltaboxlib.content.entity.boat.BaseBoatRenderer
+import com.dannbrown.deltaboxlib.content.entity.boat.BaseChestBoatEntity
+import com.dannbrown.deltaboxlib.content.item.BoatItem
 import net.minecraft.world.item.Item
 import com.dannbrown.deltaboxlib.init.DeltaboxLibMod.REGISTRATE
+import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
+import net.minecraft.world.entity.MobCategory
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
 import java.util.function.Supplier

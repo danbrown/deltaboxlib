@@ -53,6 +53,8 @@
   "block.deltaboxlib.stripped_pale_oak_log": "Stripped Pale Oak Log",
   "block.deltaboxlib.stripped_pale_oak_wood": "Stripped Pale Oak Wood",
   "block.deltaboxlib.tall_sparse_dry_grass": "Tall Sparse Dry Grass",
+  "entity.deltaboxlib.pale_oak_boat": "Pale Oak Boat",
+  "entity.deltaboxlib.pale_oak_chest_boat": "Pale Oak Chest Boat",
   "item.deltaboxlib.adamantium_ingot": "Adamantium Ingot",
   "item.deltaboxlib.bean_pod": "Bean Pod",
   "item.deltaboxlib.black_beans": "Black Beans Crop",
@@ -60,6 +62,8 @@
   "item.deltaboxlib.cassava_root": "Cassava Root",
   "item.deltaboxlib.garlic_clove": "Garlic Crop",
   "item.deltaboxlib.kernels": "Kernels",
+  "item.deltaboxlib.pale_oak_boat": "Pale Oak Boat",
+  "item.deltaboxlib.pale_oak_chest_boat": "Pale Oak Chest Boat",
   "item.deltaboxlib.warp_crystal": "Warp Crystal",
   "itemGroup.deltaboxlib.deltaboxlib": "Deltabox Lib",
   "tooltip.deltaboxlib.flint": "It's a Delta!"

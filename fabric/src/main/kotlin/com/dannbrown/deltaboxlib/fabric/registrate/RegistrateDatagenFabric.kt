@@ -165,6 +165,20 @@ object RegistrateDatagenFabric {
               println("Generated translation for ${item.getItem().get().descriptionId}")
             }
           }
+          // Items
+          for (entity in registrate.entityTypeRegistry.entries) {
+            try {
+              builder.add(entity.getEntity().get(), entity.getName())
+            } catch (e: Exception) {
+              println(
+                "Failed to generate translation for ${
+                  entity.getEntity().get().descriptionId
+                }, it is a possible duplicate"
+              )
+            } finally {
+              println("Generated translation for ${entity.getEntity().get().descriptionId}")
+            }
+          }
         }
       }
     }

@@ -20,6 +20,7 @@ import net.minecraft.core.particles.ParticleType
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.decoration.PaintingVariant
 import net.minecraft.world.entity.npc.VillagerProfession
@@ -29,6 +30,8 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntityType
+import net.minecraft.world.level.block.state.properties.BlockSetType
+import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.levelgen.GenerationStep
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer
@@ -60,6 +63,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val blockEntityRegistry: BlockEntityRegistry = BlockEntityRegistry(modId)
   val entityTypeRegistry: EntityTypeRegistry = EntityTypeRegistry(modId)
   val particleRegistry: ParticleRegistry = ParticleRegistry(modId)
+  val woodTypesRegistry: WoodTypeRegistry = WoodTypeRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -81,12 +85,12 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return ItemBuilder(this, blockBuilder, blockId)
   }
 
-  fun <T : BlockEntityType<*>> blockEntity(blockId: String): BlockEntityBuilder<T> {
-    return BlockEntityBuilder(this, blockId)
+  fun <T : BlockEntityType<*>> blockEntity(blockEntityId: String): BlockEntityBuilder<T> {
+    return BlockEntityBuilder(this, blockEntityId)
   }
 
-  fun <T : EntityType<*>> entityType(blockId: String): EntityTypeBuilder<T> {
-    return EntityTypeBuilder(this, blockId)
+  fun <T : Entity> entityType(entityId: String): EntityTypeBuilder<T> {
+    return EntityTypeBuilder(this, entityId)
   }
 
   fun langs(_modId: String = modId): LangBuilder {
@@ -240,6 +244,14 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   fun boatVariant(name: String): AbstractDeltaboxRegistrate {
     this.boatVariantRegistry.add(name)
     return this
+  }
+
+  fun blockSet(name: String): BlockSetType {
+    return this.woodTypesRegistry.addBlockSet(name)
+  }
+
+  fun woodType(name: String, blockSet: BlockSetType): WoodType {
+    return this.woodTypesRegistry.addWoodType(name, blockSet)
   }
 
   fun <T : ParticleOptions> particleType(

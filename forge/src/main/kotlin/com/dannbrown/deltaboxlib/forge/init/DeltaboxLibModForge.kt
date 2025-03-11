@@ -7,6 +7,7 @@ import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import thedarkcolour.kotlinforforge.forge.DIST
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
@@ -45,8 +46,14 @@ object DeltaboxLibModForge {
   }
 
   private fun registerClient(modBus: IEventBus, forgeEventBus: IEventBus) {
+    modBus.addListener(::clientSetup)
     modBus.addListener(registrateInit::onRegisterBlockBiomeColors)
     modBus.addListener(registrateInit::onRegisterItemBiomeColors)
     modBus.addListener(registrateInit::onRegisterParticleRenders)
+    modBus.addListener(registrateInit::onRegisterLayerDefinitions)
+  }
+
+  private fun clientSetup(event: FMLClientSetupEvent) {
+    registrateInit.clientSetup()
   }
 }

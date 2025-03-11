@@ -3,18 +3,22 @@ package com.dannbrown.deltaboxlib.registrate.presets.family
 import com.dannbrown.deltaboxlib.content.block.FlammableBlock
 import com.dannbrown.deltaboxlib.content.block.FlammablePillarBlock
 import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
+import com.dannbrown.deltaboxlib.content.entity.boat.BaseBoatEntity
+import com.dannbrown.deltaboxlib.content.entity.boat.BaseBoatRenderer
+import com.dannbrown.deltaboxlib.content.entity.boat.BaseChestBoatEntity
+import com.dannbrown.deltaboxlib.content.item.BoatItem
 import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilderContext
+import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import com.dannbrown.deltaboxlib.registrate.types.BlockPropertiesFactory
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
-import net.minecraft.client.renderer.entity.EntityRenderer
-import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.core.BlockPos
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.BlockTags
 import net.minecraft.tags.ItemTags
 import net.minecraft.tags.TagKey
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobCategory
 import net.minecraft.world.item.HangingSignItem
 import net.minecraft.world.item.SignItem
@@ -63,17 +67,17 @@ class WoodBlockFamilySet(
   placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
 ) : AbstractBlockFamilySet() {
 
-//  var BOAT_ENTITY: EntityEntry<BaseBoatEntity>? = null
-//  var CHEST_BOAT_ENTITY: EntityEntry<BaseChestBoatEntity>? = null
-//  var BOAT_ITEM: ItemEntry<BoatItem>? = null
-//  var CHEST_BOAT_ITEM: ItemEntry<BoatItem>? = null
+  var BOAT_ENTITY: Supplier<EntityType<BaseBoatEntity>>? = null
+  var CHEST_BOAT_ENTITY: Supplier<EntityType<BaseChestBoatEntity>>? = null
+  var BOAT_ITEM: ItemEntry<BoatItem>? = null
+  var CHEST_BOAT_ITEM: ItemEntry<BoatItem>? = null
 
   class WoodFamilyComponents(
     val blockFamily: BlockFamily,
-//    val boatEntity: EntityEntry<BaseBoatEntity>,
-//    val chestBoatEntity: EntityEntry<BaseChestBoatEntity>,
-//    val boatItem: ItemEntry<BoatItem>,
-//    val chestBoatItem: ItemEntry<BoatItem>
+    val boatEntity: Supplier<EntityType<BaseBoatEntity>>,
+    val chestBoatEntity: Supplier<EntityType<BaseChestBoatEntity>>,
+    val boatItem: ItemEntry<BoatItem>,
+    val chestBoatItem: ItemEntry<BoatItem>
   ) {}
 
   init {
@@ -346,7 +350,7 @@ class WoodBlockFamilySet(
         }
         .register()
     }
-    
+
     // Wall Sign
     _blockFamily.setVariant(BlockFamily.Type.WALL_SIGN) {
       registrate.block<WallSignBlock>(_name + "_wall_sign")
@@ -438,59 +442,44 @@ class WoodBlockFamilySet(
         .register()
     }
 //
-//    registrate.boatVariant(_name)
-//
-//    BOAT_ENTITY = registrate.entity<BaseBoatEntity>("${_name}_boat", { e, l ->
-//      BaseBoatEntity({ BOAT_ITEM!!.get() }, _name, { e }, l)
-//    }, MobCategory.MISC)
-//      .renderer {
-//        NonNullFunction<EntityRendererProvider.Context, EntityRenderer<in BaseBoatEntity>> { c ->
-//          BaseBoatRenderer(registrate.modid, _name, c, false)
-//        }
-//      }
-//      /*? if fabric {*/
-//      /*.properties { p -> p.dimensions(EntityDimensions.fixed(1.375f, 0.5625f)) }
-//      *//*?} else {*/
-//      .properties { p -> p.sized(1.375f, 0.5625f) }
-//      /*?}*/
-//      .register()
-//
-//    CHEST_BOAT_ENTITY = registrate.entity<BaseChestBoatEntity>("${_name}_chest_boat", { e, l ->
-//      BaseChestBoatEntity({ getContent().chestBoatItem.get() }, _name, { e }, l)
-//    }, MobCategory.MISC)
-//      .renderer {
-//        NonNullFunction<EntityRendererProvider.Context, EntityRenderer<in BaseChestBoatEntity>> { c ->
-//          BaseBoatRenderer(registrate.modid, _name, c, true)
-//        }
-//      }
-//      /*? if fabric {*/
-//      /*.properties { p -> p.dimensions(EntityDimensions.fixed(1.375f, 0.5625f)) }
-//      *//*?} else {*/
-//      .properties { p -> p.sized(1.375f, 0.5625f) }
-//      /*?}*/
-//      .register()
-//
-//    BOAT_ITEM =
-//      registrate.item<BoatItem>(
-//        "${_name}_boat",
-//        { p -> BoatItem(_name, { BOAT_ENTITY!!.get() }, false, p.stacksTo(1)) }
-//      ).register()
-//
-//    CHEST_BOAT_ITEM =
-//      registrate.item<BoatItem>(
-//        "${_name}_chest_boat",
-//        { p -> BoatItem(_name, { getContent().chestBoatEntity.get() }, true, p.stacksTo(1)) }
-//      ).register()
+    registrate.boatVariant(_name)
 
+    BOAT_ENTITY = registrate.entityType<BaseBoatEntity>("${_name}_boat")
+      .renderer { c ->
+        BaseBoatRenderer(registrate.modId, _name, c, false)
+      }
+      .factory { e, l -> BaseBoatEntity({ BOAT_ITEM!!.get() }, _name, { e }, l) }
+      .properties { p -> p.sized(1.375f, 0.5625f) }
+      .category(MobCategory.MISC)
+      .register()
+
+    CHEST_BOAT_ENTITY = registrate.entityType<BaseChestBoatEntity>("${_name}_chest_boat")
+      .renderer { c ->
+        BaseBoatRenderer(registrate.modId, _name, c, true)
+      }
+      .factory { e, l -> BaseChestBoatEntity({ getContent().chestBoatItem.get() }, _name, { e }, l) }
+      .properties { p -> p.sized(1.375f, 0.5625f) }
+      .category(MobCategory.MISC)
+      .register()
+
+    BOAT_ITEM =
+      registrate.item<BoatItem>("${_name}_boat")
+        .factory { p -> BoatItem(_name, { BOAT_ENTITY!!.get() }, false, p.stacksTo(1)) }
+        .register()
+
+    CHEST_BOAT_ITEM =
+      registrate.item<BoatItem>("${_name}_chest_boat")
+        .factory { p -> BoatItem(_name, { getContent().chestBoatEntity.get() }, true, p.stacksTo(1)) }
+        .register()
   }
 
   fun getContent(): WoodFamilyComponents {
     return WoodFamilyComponents(
       this._blockFamily,
-//      this.BOAT_ENTITY!!,
-//      this.CHEST_BOAT_ENTITY!!,
-//      this.BOAT_ITEM!!,
-//      this.CHEST_BOAT_ITEM!!
+      this.BOAT_ENTITY!!,
+      this.CHEST_BOAT_ENTITY!!,
+      this.BOAT_ITEM!!,
+      this.CHEST_BOAT_ITEM!!
     )
   }
 }

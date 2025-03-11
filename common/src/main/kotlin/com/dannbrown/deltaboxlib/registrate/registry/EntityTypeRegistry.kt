@@ -3,20 +3,21 @@ package com.dannbrown.deltaboxlib.registrate.registry
 import com.dannbrown.deltaboxlib.registrate.builders.EntityTypeBuilder
 import dev.architectury.registry.registries.DeferredRegister
 import net.minecraft.core.registries.Registries
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import java.util.function.Supplier
 
 class EntityTypeRegistry(modId: String) {
   private val entities = DeferredRegister.create(modId, Registries.ENTITY_TYPE)
-  val entries = mutableListOf<EntityTypeBuilder<out EntityType<*>>>()
+  val entries = mutableListOf<EntityTypeBuilder<out Entity>>()
 
-  fun <T : EntityType<*>> register(
+  fun <T : Entity> register(
     id: String,
-    blockSupplier: Supplier<T>,
-    blockBuilder: EntityTypeBuilder<out EntityType<*>>
-  ): Supplier<T> {
-    entries.add(blockBuilder)
-    return entities.register(id, blockSupplier)
+    supplier: Supplier<EntityType<T>>,
+    builder: EntityTypeBuilder<out Entity>
+  ): Supplier<EntityType<T>> {
+    entries.add(builder)
+    return entities.register(id, supplier)
   }
 
   fun build() {

@@ -5,16 +5,23 @@ import com.dannbrown.deltaboxlib.registrate.helpers.StripHelper
 import com.dannbrown.deltaboxlib.registrate.providers.trades.WandererTradeRarity
 import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
+import net.minecraft.client.model.BoatModel
+import net.minecraft.client.model.ChestBoatModel
+import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.renderer.BiomeColors
+import net.minecraft.client.renderer.Sheets
+import net.minecraft.client.renderer.entity.EntityRenderer
+import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.client.renderer.entity.EntityRenderers
 import net.minecraft.core.particles.ParticleOptions
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.trading.MerchantOffer
 import net.minecraft.world.level.FoliageColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.ComposterBlock
 import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraftforge.client.event.EntityRenderersEvent
 import net.minecraftforge.client.event.RegisterColorHandlersEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
 import javax.management.BadAttributeValueExpException
@@ -27,6 +34,11 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     registerStrippableBlocks()
     registerPottedBlocks()
     registerComposterBlocks()
+  }
+
+  fun clientSetup() {
+    registerWoodTypes()
+    registerEntityRenderers()
   }
 
   // register strippable blocks
@@ -81,9 +93,49 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     }
   }
 
+  private fun registerWoodTypes() {
+    for ((key, woodType) in registrate.woodTypesRegistry.getAllWoodTypes()) {
+      Sheets.addWoodType(woodType)
+    }
+  }
+
+  private fun registerEntityRenderers() {
+    for (entityBuilder in registrate.entityTypeRegistry.entries) {
+      EntityRenderers.register(entityBuilder.getEntity().get()) { ctx ->
+        entityBuilder.getRenderer(ctx)
+      }
+    }
+  }
+
   fun onRegisterParticleRenders(event: RegisterParticleProvidersEvent) {
     for (particle in registrate.particleRegistry.getParticles()) {
       handleParticleRegistration(event, particle)
+    }
+  }
+
+  fun onRegisterLayerDefinitions(event: EntityRenderersEvent.RegisterLayerDefinitions) {
+    for (boatVariant in registrate.boatVariantRegistry.getBoatVariants()) {
+      event.registerLayerDefinition(
+        ModelLayerLocation(
+          DeltaboxUtil.resourceLocation(registrate.modId, "boat/${boatVariant}"),
+          "main"
+        ), BoatModel::createBodyModel
+      );
+      event.registerLayerDefinition(
+        ModelLayerLocation(
+          DeltaboxUtil.resourceLocation(
+            registrate.modId,
+            "chest_boat/${boatVariant}"
+          ), "main"
+        ), ChestBoatModel::createBodyModel
+      );
+    }
+    for ((path, data) in registrate.modelLayersRegistry.getModelLayers()) {
+      val (model, folder) = data
+      event.registerLayerDefinition(
+        ModelLayerLocation(DeltaboxUtil.resourceLocation(registrate.modId, path), folder),
+        model
+      );
     }
   }
 

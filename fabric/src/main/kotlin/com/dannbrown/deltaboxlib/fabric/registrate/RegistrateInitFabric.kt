@@ -2,14 +2,21 @@ package com.dannbrown.deltaboxlib.fabric.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
+import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
+import net.minecraft.client.model.BoatModel
+import net.minecraft.client.model.ChestBoatModel
+import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.renderer.BiomeColors
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.registries.BuiltInRegistries
@@ -30,6 +37,8 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
     registerCutoutRenders()
     registerBiomeColors()
     registerParticleRenders()
+    registerModelLayers()
+    registerEntityRenderers()
   }
 
   // register flammable block
@@ -116,6 +125,46 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
   private fun registerParticleRenders() {
     for (particle in registrate.particleRegistry.getParticles()) {
       handleParticleRegistration(particle)
+    }
+  }
+
+  private fun registerModelLayers() {
+    for (boatVariant in registrate.boatVariantRegistry.getBoatVariants()) {
+      EntityModelLayerRegistry.registerModelLayer(
+        ModelLayerLocation(
+          DeltaboxUtil.resourceLocation(
+            registrate.modId,
+            "boat/${boatVariant}"
+          ), "main"
+        ), BoatModel::createBodyModel
+      )
+      EntityModelLayerRegistry.registerModelLayer(
+        ModelLayerLocation(
+          DeltaboxUtil.resourceLocation(
+            registrate.modId,
+            "chest_boat/${boatVariant}"
+          ), "main"
+        ), ChestBoatModel::createBodyModel
+      )
+    }
+    for ((path, data) in registrate.modelLayersRegistry.getModelLayers()) {
+      val (model, folder) = data
+      EntityModelLayerRegistry.registerModelLayer(
+        ModelLayerLocation(
+          DeltaboxUtil.resourceLocation(
+            registrate.modId,
+            path
+          ), folder
+        ), model as TexturedModelDataProvider
+      )
+    }
+  }
+
+  private fun registerEntityRenderers() {
+    for (entityBuilder in registrate.entityTypeRegistry.entries) {
+      EntityRendererRegistry.register(entityBuilder.getEntity().get()) { ctx ->
+        entityBuilder.getRenderer(ctx)
+      }
     }
   }
 

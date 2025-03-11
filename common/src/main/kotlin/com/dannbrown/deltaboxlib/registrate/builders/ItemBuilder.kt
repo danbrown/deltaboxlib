@@ -107,11 +107,11 @@ class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId:
 
 
   // @ Registering
-  private fun asEntry(): ItemEntry<*> {
+  private fun asEntry(): ItemEntry<T> {
     return ItemEntry(this)
   }
 
-  fun register(): ItemEntry<out Item> {
+  fun register(): ItemEntry<T> {
     itemInstance = this.registrate.itemRegistry.register(itemId, itemFactory, this)
     return asEntry()
   }

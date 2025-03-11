@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-11T09:50:54.565462	Deltabox Lib/Block Loot Tables
+// 1.20.1	2025-03-11T12:37:17.337011	Deltabox Lib/Block Loot Tables
 9dcdca08e579a72567e0a405c135e9e91d493b48 data/deltaboxlib/loot_tables/blocks/pale_oak_planks.json
 969f2120d3217711147933562372bf508f89d181 data/deltaboxlib/loot_tables/blocks/sparse_dry_grass.json
 678abd32b408f5b5ffa8595ad5428452936fb879 data/deltaboxlib/loot_tables/blocks/black_beans.json
@@ -37,8 +37,8 @@ d31ec2ad687dfdbb2faae8b225789eb29760e0f6 data/deltaboxlib/loot_tables/blocks/pal
 54e9c5e341def6e1d02b76eb048fc4a426436450 data/deltaboxlib/loot_tables/blocks/cassava_crop.json
 a592588cbb848acc58751826ec8a1bce4cacde75 data/deltaboxlib/loot_tables/blocks/simple_grass.json
 704559737e01f1a69a2bd774053755529283bfb7 data/deltaboxlib/loot_tables/blocks/pale_oak_wood.json
-a7ec6eb328a0868bd769daf8255b45dfcaa95663 data/deltaboxlib/loot_tables/blocks/pale_oak_stairs.json
 72e613c68654f36cf64fc717171b6264055690c1 data/deltaboxlib/loot_tables/blocks/coconut_leaves.json
+a7ec6eb328a0868bd769daf8255b45dfcaa95663 data/deltaboxlib/loot_tables/blocks/pale_oak_stairs.json
 1d4929d7d6176f60e5ea991a577527ed251ef375 data/deltaboxlib/loot_tables/blocks/pale_oak_wall_sign.json
 948fdb2d29a0f5e84ad1d5860853d9e86dd5df58 data/deltaboxlib/loot_tables/blocks/polished_pyrite_slab.json
 b2d78607c5ff058f324967e3ba36d7197dacb702 data/deltaboxlib/loot_tables/blocks/pale_oak_sapling.json
