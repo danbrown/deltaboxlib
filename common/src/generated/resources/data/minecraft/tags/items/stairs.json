@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "deltaboxlib:pale_oak_stairs",
-    "deltaboxlib:pyrite_stairs"
+    "deltaboxlib:pyrite_stairs",
+    "deltaboxlib:polished_pyrite_stairs",
+    "deltaboxlib:pyrite_brick_stairs"
   ]
 }

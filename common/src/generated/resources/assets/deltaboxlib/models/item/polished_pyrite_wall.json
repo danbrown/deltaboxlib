@@ -1,0 +1,7 @@
+{
+  "parent": "deltaboxlib:block/template_wall_inventory_top",
+  "textures": {
+    "top": "deltaboxlib:block/polished_pyrite",
+    "wall": "deltaboxlib:block/polished_pyrite"
+  }
+}

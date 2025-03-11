@@ -54,7 +54,7 @@ class LongBlockFamilySet(
       if (!_denyList.contains(BlockFamily.Type.STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
           registrate.blockPreset<StairBlock>(_name).stairs(_name, isRotatedBlock)
-//            .itemTags(MATERIAL_TAG)
+            .itemTags(MATERIAL_TAG)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .recipe { c, p ->
               c.simpleStonecuttingRecipe(
@@ -74,7 +74,7 @@ class LongBlockFamilySet(
         _blockFamily.setVariant(BlockFamily.Type.SLAB) {
           registrate.blockPreset<SlabBlock>(_name).slab(_name, isRotatedBlock)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//            .itemTags(MATERIAL_TAG)
+            .itemTags(MATERIAL_TAG)
             .recipe { c, p ->
               c.simpleStonecuttingRecipe(
                 { p.get() },
@@ -93,7 +93,7 @@ class LongBlockFamilySet(
         _blockFamily.setVariant(BlockFamily.Type.WALL) {
           registrate.blockPreset<WallBlock>(_name).wall(_name, isRotatedBlock)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//            .itemTags(MATERIAL_TAG)
+            .itemTags(MATERIAL_TAG)
             .recipe { c, p ->
               c.simpleStonecuttingRecipe(
                 { p.get() },
@@ -109,256 +109,256 @@ class LongBlockFamilySet(
       }
     }
     // start polished chain
-//    if (!_denyList.contains(BlockFamily.Type.POLISHED)) {
-//      _blockFamily.setVariant(BlockFamily.Type.POLISHED) {
-//        registrate.block<Block>("polished_$_name")
-//          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//          .itemTags(MATERIAL_TAG)
-//          .recipe { c, p ->
-//            c.simpleStonecuttingRecipe(
-//              { p.get() },
-//              { mainBlock!!.getItem() },
-//              1
-//            )
-//            c.polishedCraftingRecipe({ p.get() }, {
-//              Ingredient.of(mainBlock!!.getItem())
-//            })
-//          }
-//          .register()
-//      }
-//
-//      if (!_denyList.contains(BlockFamily.Type.POLISHED_STAIRS)) {
-//        _blockFamily.setVariant(BlockFamily.Type.POLISHED_STAIRS) {
-//          registrate.blockPreset<StairBlock>("polished_$_name").stairs("polished_$_name")
-//            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//            .itemTags(MATERIAL_TAG)
-//            .recipe { c, p ->
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
-//                1,
-//              )
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { mainBlock!!.getItem() },
-//                1
-//              )
-//              c.stairsCraftingRecipe({ p.get() }) {
-//                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
-//              }
-//            }
-//            .register()
-//        }
-//      }
-//
-//      if (!_denyList.contains(BlockFamily.Type.POLISHED_SLAB)) {
-//        _blockFamily.setVariant(BlockFamily.Type.POLISHED_SLAB) {
-//          registrate.blockPreset<SlabBlock>("polished_$_name").slab("polished_$_name")
-//            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//            .itemTags(MATERIAL_TAG)
-//            .recipe { c, p ->
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
-//                2
-//              )
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { mainBlock!!.getItem() },
-//                2
-//              )
-//              c.slabCraftingRecipe({ p.get() }) {
-//                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
-//              }
-//            }
-//            .register()
-//        }
-//      }
-//
-//      if (!_denyList.contains(BlockFamily.Type.POLISHED_WALL)) {
-//        _blockFamily.setVariant(BlockFamily.Type.POLISHED_WALL) {
-//          registrate.blockPreset<WallBlock>("polished_$_name").wall("polished_$_name")
-//            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//            .itemTags(MATERIAL_TAG)
-//            .recipe { c, p ->
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
-//                1
-//              )
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { mainBlock!!.getItem() },
-//                1
-//              )
-//              c.wallCraftingRecipe({ p.get() }) {
-//                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
-//              }
-//            }
-//            .register()
-//        }
-//      }
-//    }
-//    // start bricks chain
-//    if (!_denyList.contains(BlockFamily.Type.BRICKS)) {
-//      _blockFamily.setVariant(BlockFamily.Type.BRICKS) {
-//        registrate.block<Block>("${_name}_bricks")
-//          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//          .itemTags(MATERIAL_TAG)
-//          .recipe { c, p ->
-//            c.simpleStonecuttingRecipe(
-//              { p.get() },
-//              { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
-//              1
-//            )
-//            c.simpleStonecuttingRecipe(
-//              { p.get() },
-//              { mainBlock!!.getItem() },
-//              1
-//            )
-//            c.polishedCraftingRecipe({ p.get() }, {
-//              Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
-//            })
-//          }
-//          .register()
-//      }
-//
-//      if (!_denyList.contains(BlockFamily.Type.BRICK_STAIRS)) {
-//        _blockFamily.setVariant(BlockFamily.Type.BRICK_STAIRS) {
-//          registrate.blockPreset<StairBlock>("${_name}_brick").stairs("${_name}_bricks")
-//            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//            .itemTags(MATERIAL_TAG)
-//            .recipe { c, p ->
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
-//                1
-//              )
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { _blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem() },
-//                1
-//              )
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { mainBlock!!.getItem() },
-//                1
-//              )
-//              c.stairsCraftingRecipe({ p.get() }) {
-//                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
-//              }
-//            }
-//            .register()
-//        }
-//      }
-//
-//      if (!_denyList.contains(BlockFamily.Type.BRICK_SLAB)) {
-//        _blockFamily.setVariant(BlockFamily.Type.BRICK_SLAB) {
-//          registrate.blockPreset<SlabBlock>("${_name}_brick").slab("${_name}_bricks")
-//            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//            .itemTags(MATERIAL_TAG)
-//            .recipe { c, p ->
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
-//                2
-//              )
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { _blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem() },
-//                2
-//              )
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { mainBlock!!.getItem() },
-//                2
-//              )
-//              c.slabCraftingRecipe({ p.get() }) {
-//                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
-//              }
-//            }
-//            .register()
-//        }
-//      }
-//
-//      if (!_denyList.contains(BlockFamily.Type.BRICK_WALL)) {
-//        _blockFamily.setVariant(BlockFamily.Type.BRICK_WALL) {
-//          registrate.blockPreset<WallBlock>("${_name}_brick").wall("${_name}_bricks")
-//            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//            .itemTags(MATERIAL_TAG)
-//            .recipe { c, p ->
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
-//                1
-//              )
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { _blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem() },
-//                1
-//              )
-//              c.simpleStonecuttingRecipe(
-//                { p.get() },
-//                { mainBlock!!.getItem() },
-//                1
-//              )
-//              c.wallCraftingRecipe({ p.get() }) {
-//                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
-//              }
-//            }
-//            .register()
-//        }
-//      }
-//    }
-//    // start chiseled chain
-//    if (!_denyList.contains(BlockFamily.Type.CHISELED)) {
-//      _blockFamily.setVariant(BlockFamily.Type.CHISELED) {
-//        registrate.block<Block>("chiseled_$_name")
-//          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//          .itemTags(MATERIAL_TAG)
-//          .recipe { c, p ->
-//            c.simpleStonecuttingRecipe(
-//              { p.get() },
-//              { mainBlock!!.getItem() },
-//              1
-//            )
-//            c.simpleStonecuttingRecipe(
-//              { p.get() },
-//              { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
-//              1
-//            )
-//            c.slabToChiseledRecipe(
-//              { p.get() },
-//              { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.SLAB]!!.getItem()) }
-//            )
-//          }
-//          .register()
-//      }
-//    }
-//    // PILLAR
-//    if (!_denyList.contains(BlockFamily.Type.PILLAR)) {
-//      _blockFamily.setVariant(BlockFamily.Type.PILLAR) {
-//        registrate.blockPreset<RotatedPillarBlock>("${_name}_pillar").rotatedPillar()
-//          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-//          .itemTags(MATERIAL_TAG)
-//          .recipe { c, p ->
-//            c.simpleStonecuttingRecipe(
-//              { p.get() },
-//              { mainBlock!!.getItem() },
-//              1
-//            )
-//            c.simpleStonecuttingRecipe(
-//              { p.get() },
-//              { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
-//              1
-//            )
-//            c.slabToChiseledRecipe(
-//              { p.get() },
-//              { Ingredient.of(mainBlock!!.getItem()) }
-//            )
-//          }
-//          .register()
-//      }
-//    }
+    if (!_denyList.contains(BlockFamily.Type.POLISHED)) {
+      _blockFamily.setVariant(BlockFamily.Type.POLISHED) {
+        registrate.block<Block>("polished_$_name")
+          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+          .itemTags(MATERIAL_TAG)
+          .recipe { c, p ->
+            c.simpleStonecuttingRecipe(
+              { p.get() },
+              { mainBlock!!.getItem() },
+              1
+            )
+            c.polishedCraftingRecipe({ p.get() }, {
+              Ingredient.of(mainBlock!!.getItem())
+            })
+          }
+          .register()
+      }
+
+      if (!_denyList.contains(BlockFamily.Type.POLISHED_STAIRS)) {
+        _blockFamily.setVariant(BlockFamily.Type.POLISHED_STAIRS) {
+          registrate.blockPreset<StairBlock>("polished_$_name").stairs("polished_$_name")
+            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+            .itemTags(MATERIAL_TAG)
+            .recipe { c, p ->
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
+                1,
+              )
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { mainBlock!!.getItem() },
+                1
+              )
+              c.stairsCraftingRecipe({ p.get() }) {
+                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
+              }
+            }
+            .register()
+        }
+      }
+
+      if (!_denyList.contains(BlockFamily.Type.POLISHED_SLAB)) {
+        _blockFamily.setVariant(BlockFamily.Type.POLISHED_SLAB) {
+          registrate.blockPreset<SlabBlock>("polished_$_name").slab("polished_$_name")
+            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+            .itemTags(MATERIAL_TAG)
+            .recipe { c, p ->
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
+                2
+              )
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { mainBlock!!.getItem() },
+                2
+              )
+              c.slabCraftingRecipe({ p.get() }) {
+                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
+              }
+            }
+            .register()
+        }
+      }
+
+      if (!_denyList.contains(BlockFamily.Type.POLISHED_WALL)) {
+        _blockFamily.setVariant(BlockFamily.Type.POLISHED_WALL) {
+          registrate.blockPreset<WallBlock>("polished_$_name").wall("polished_$_name")
+            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+            .itemTags(MATERIAL_TAG)
+            .recipe { c, p ->
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
+                1
+              )
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { mainBlock!!.getItem() },
+                1
+              )
+              c.wallCraftingRecipe({ p.get() }) {
+                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
+              }
+            }
+            .register()
+        }
+      }
+    }
+    // start bricks chain
+    if (!_denyList.contains(BlockFamily.Type.BRICKS)) {
+      _blockFamily.setVariant(BlockFamily.Type.BRICKS) {
+        registrate.block<Block>("${_name}_bricks")
+          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+          .itemTags(MATERIAL_TAG)
+          .recipe { c, p ->
+            c.simpleStonecuttingRecipe(
+              { p.get() },
+              { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
+              1
+            )
+            c.simpleStonecuttingRecipe(
+              { p.get() },
+              { mainBlock!!.getItem() },
+              1
+            )
+            c.polishedCraftingRecipe({ p.get() }, {
+              Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
+            })
+          }
+          .register()
+      }
+
+      if (!_denyList.contains(BlockFamily.Type.BRICK_STAIRS)) {
+        _blockFamily.setVariant(BlockFamily.Type.BRICK_STAIRS) {
+          registrate.blockPreset<StairBlock>("${_name}_brick").stairs("${_name}_bricks")
+            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+            .itemTags(MATERIAL_TAG)
+            .recipe { c, p ->
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
+                1
+              )
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { _blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem() },
+                1
+              )
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { mainBlock!!.getItem() },
+                1
+              )
+              c.stairsCraftingRecipe({ p.get() }) {
+                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
+              }
+            }
+            .register()
+        }
+      }
+
+      if (!_denyList.contains(BlockFamily.Type.BRICK_SLAB)) {
+        _blockFamily.setVariant(BlockFamily.Type.BRICK_SLAB) {
+          registrate.blockPreset<SlabBlock>("${_name}_brick").slab("${_name}_bricks")
+            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+            .itemTags(MATERIAL_TAG)
+            .recipe { c, p ->
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
+                2
+              )
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { _blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem() },
+                2
+              )
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { mainBlock!!.getItem() },
+                2
+              )
+              c.slabCraftingRecipe({ p.get() }) {
+                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
+              }
+            }
+            .register()
+        }
+      }
+
+      if (!_denyList.contains(BlockFamily.Type.BRICK_WALL)) {
+        _blockFamily.setVariant(BlockFamily.Type.BRICK_WALL) {
+          registrate.blockPreset<WallBlock>("${_name}_brick").wall("${_name}_bricks")
+            .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+            .itemTags(MATERIAL_TAG)
+            .recipe { c, p ->
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
+                1
+              )
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { _blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem() },
+                1
+              )
+              c.simpleStonecuttingRecipe(
+                { p.get() },
+                { mainBlock!!.getItem() },
+                1
+              )
+              c.wallCraftingRecipe({ p.get() }) {
+                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
+              }
+            }
+            .register()
+        }
+      }
+    }
+    // start chiseled chain
+    if (!_denyList.contains(BlockFamily.Type.CHISELED)) {
+      _blockFamily.setVariant(BlockFamily.Type.CHISELED) {
+        registrate.block<Block>("chiseled_$_name")
+          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+          .itemTags(MATERIAL_TAG)
+          .recipe { c, p ->
+            c.simpleStonecuttingRecipe(
+              { p.get() },
+              { mainBlock!!.getItem() },
+              1
+            )
+            c.simpleStonecuttingRecipe(
+              { p.get() },
+              { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
+              1
+            )
+            c.slabToChiseledRecipe(
+              { p.get() },
+              { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.SLAB]!!.getItem()) }
+            )
+          }
+          .register()
+      }
+    }
+    // PILLAR
+    if (!_denyList.contains(BlockFamily.Type.PILLAR)) {
+      _blockFamily.setVariant(BlockFamily.Type.PILLAR) {
+        registrate.blockPreset<RotatedPillarBlock>("${_name}_pillar").rotatedPillar()
+          .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
+          .itemTags(MATERIAL_TAG)
+          .recipe { c, p ->
+            c.simpleStonecuttingRecipe(
+              { p.get() },
+              { mainBlock!!.getItem() },
+              1
+            )
+            c.simpleStonecuttingRecipe(
+              { p.get() },
+              { _blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem() },
+              1
+            )
+            c.slabToChiseledRecipe(
+              { p.get() },
+              { Ingredient.of(mainBlock!!.getItem()) }
+            )
+          }
+          .register()
+      }
+    }
   }
 }

@@ -24,6 +24,7 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
   protected var itemBuilder: ItemBuilder<out Item> = defaultItemBuilder()
   protected var itemEntry: ItemEntry<*>? = null
   protected lateinit var blockInstance: Supplier<T>
+  protected var hasCustomItemBuilder: Boolean = false
 
   var lootTableFactory: BlockLootTableFactory = defaultLootTableFactory()
   var blockstateFactory: BlockstateFactory = defaultBlockstateFactory()
@@ -82,8 +83,8 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
   }
 
   fun item(_factoryFunction: BlockItemFactory = defaultItemBlockFactory()): ItemBuilder<out Item> {
-    this.ctx.noItem = true // disables default block item creation, but returns a new item builder
-    return registrate.item<T, BlockItem>(blockId, this).factory(_factoryFunction)
+    hasCustomItemBuilder = true
+    return itemBuilder.factory(_factoryFunction)
   }
 
   fun noItem(): BlockBuilder<T> {
@@ -202,7 +203,7 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
 
   fun register(): BlockEntry<T> {
     blockInstance = registrate.blockRegistry.register(blockId, blockFactory, this)
-    if (!this.ctx.noItem) itemBuilder.build()
+    if (!hasCustomItemBuilder && !this.ctx.noItem) itemBuilder.build()
     return asEntry()
   }
 }
