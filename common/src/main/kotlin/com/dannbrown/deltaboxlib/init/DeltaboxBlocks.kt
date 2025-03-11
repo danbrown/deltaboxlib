@@ -161,62 +161,6 @@ object DeltaboxBlocks {
       .color(MapColor.TERRACOTTA_YELLOW)
       .register()
 
-
-  val PALE_OAK_LOG = REGISTRATE.blockPreset<RotatedPillarBlock>("pale_oak_log")
-    .rotatedPillar()
-    .copyFrom { Blocks.DARK_OAK_LOG }
-    .register()
-
-  val PALE_OAK_STAIRS = REGISTRATE.blockPreset<StairBlock>("pale_oak").stairs("pale_oak_planks", false, true)
-    .copyFrom { Blocks.OAK_STAIRS }
-    .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-    .register()
-
-  val PALE_OAK_SLAB = REGISTRATE.blockPreset<SlabBlock>("pale_oak").slab("pale_oak_planks", false, true)
-    .copyFrom { Blocks.OAK_STAIRS }
-    .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-    .register()
-
-  val ROSEATE_SANDSTONE_WALL = REGISTRATE.blockPreset<WallBlock>("roseate_sandstone").wall("roseate_sandstone", true)
-    .copyFrom { Blocks.RED_SANDSTONE_WALL }
-    .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, null, true)
-    .register()
-
-  val PALE_OAK_FENCE = REGISTRATE.blockPreset<FenceBlock>("pale_oak").fence("pale_oak_planks")
-    .copyFrom { Blocks.OAK_FENCE }
-    .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-    .register()
-
-  val PALE_OAK_FENCE_GATE =
-    REGISTRATE.blockPreset<FenceGateBlock>("pale_oak").fenceGate("pale_oak_planks", WoodType.BAMBOO)
-      .copyFrom { Blocks.OAK_FENCE }
-      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-      .register()
-
-  val PALE_OAK_PRESSURE_PLATE =
-    REGISTRATE.blockPreset<PressurePlateBlock>("pale_oak").pressurePlate("pale_oak_planks", BlockSetType.BIRCH)
-      .copyFrom { Blocks.OAK_PRESSURE_PLATE }
-      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-      .register()
-
-  val PALE_OAK_BUTTON =
-    REGISTRATE.blockPreset<ButtonBlock>("pale_oak").button("pale_oak_planks", BlockSetType.BIRCH)
-      .copyFrom { Blocks.OAK_BUTTON }
-      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-      .register()
-
-  val PALE_OAK_TRAPDOOR =
-    REGISTRATE.blockPreset<TrapDoorBlock>("pale_oak").woodenTrapdoor(BlockSetType.BIRCH)
-      .copyFrom { Blocks.OAK_TRAPDOOR }
-      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-      .register()
-
-  val PALE_OAK_DOOR =
-    REGISTRATE.blockPreset<DoorBlock>("pale_oak").door(BlockSetType.BIRCH)
-      .copyFrom { Blocks.OAK_DOOR }
-      .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-      .register()
-
   // Leaves
   val ACAI_LEAVES = REGISTRATE.blockPreset<PalmLeavesBlock>("acai")
     .palmLeaves({ LEMON_SAPLING.get() })
@@ -287,7 +231,7 @@ object DeltaboxBlocks {
     .denyList(BlockFamily.Type.PILLAR)
     .longBlockFamily()
 
-  val WOOD_TEST = REGISTRATE.blockfamily("ebony")
+  val WOOD_TEST = REGISTRATE.blockfamily("pale_oak")
     .woodFamily(
       DeltaboxWoodTypes.PALE_OAK,
       DeltaboxWoodTypes.PALE_OAK_SET,

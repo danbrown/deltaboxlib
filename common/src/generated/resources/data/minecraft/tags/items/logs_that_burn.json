@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "deltaboxlib:ebony_log",
-    "deltaboxlib:ebony_wood",
-    "deltaboxlib:stripped_ebony_log",
-    "deltaboxlib:stripped_ebony_wood"
+    "deltaboxlib:pale_oak_log",
+    "deltaboxlib:pale_oak_wood",
+    "deltaboxlib:stripped_pale_oak_log",
+    "deltaboxlib:stripped_pale_oak_wood"
   ]
 }

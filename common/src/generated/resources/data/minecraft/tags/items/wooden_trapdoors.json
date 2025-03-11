@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "deltaboxlib:pale_oak_trapdoor",
-    "deltaboxlib:ebony_trapdoor"
+    "deltaboxlib:pale_oak_trapdoor"
   ]
 }

@@ -346,139 +346,93 @@ class WoodBlockFamilySet(
         }
         .register()
     }
-//    // Wall Sign
-//    _blockFamily.setVariant(BlockFamily.Type.WALL_SIGN) {
-//      generator.create<WallSignBlock>(_name + "_wall_sign")
-//        .copyFrom { Blocks.OAK_WALL_SIGN }
-//        /*? if >1.21 {*/
-//        /*.blockFactory { p -> WallSignBlock(woodType, p) }
-//        *//*?} else {*/
-//        .blockFactory { p -> WallSignBlock(p, woodType) }
-//        /*?}*/
-//        .properties { p -> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
-//        .cutoutRender()
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .blockTags(listOf(BlockTags.WALL_SIGNS, BlockTags.SIGNS))
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .blockstate(BlockstatePresets.noBlockState())
-//        .loot(BlockLootPresets.dropOtherLoot { _blockFamily.blocks[BlockFamily.Type.SIGN]!!.get() })
-//        .noItem()
-//        .transform { t ->
-//          t
-//            .lang { _ -> "block.${registrate.modid}.${_name + "_wall_sign"}" }
-//        }
-//        .register()
-//    }
-//
-//    // Sign
-//    _blockFamily.setVariant(BlockFamily.Type.SIGN) {
-//      generator.create<StandingSignBlock>(_name + "_sign")
-//        .copyFrom { Blocks.OAK_SIGN }
-//        /*? if >1.21 {*/
-//        /*.blockFactory { p -> StandingSignBlock(woodType, p) }
-//        *//*?} else {*/
-//        .blockFactory { p -> StandingSignBlock(p, woodType) }
-//        /*?}*/
-//        .properties { p -> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .blockTags(listOf(BlockTags.STANDING_SIGNS, BlockTags.SIGNS))
-//        .itemTags(listOf(ItemTags.SIGNS))
-//        .recipe { c, p ->
-//          c.signCraftingRecipe({ p.get() }) {
-//            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
-//          }
-//        }
-//        .blockstate { c, p ->
-//          val signModel = p.models().sign(c.name, p.modLoc("block/${_name + "_planks"}"))
-//          p.simpleBlock(c.get() as StandingSignBlock, signModel)
-//          p.simpleBlock(_blockFamily.blocks[BlockFamily.Type.WALL_SIGN]!!.get() as WallSignBlock, signModel)
-//        }
-//        .transform { b ->
-//          b
-//            .item { block, p ->
-//              SignItem(
-//                p.stacksTo(16),
-//                block,
-//                _blockFamily.blocks[BlockFamily.Type.WALL_SIGN]!!.get()
-//              )
-//            }
-//            .model { c, p ->
-//              p.withExistingParent(c.name, p.mcLoc("item/generated"))
-//                .texture("layer0", p.modLoc("item/${c.name}"))
-//            }
-//            .build()
-//        }
-//        .register()
-//    }
-//
-//    // Hanging Wall Sign
-//    _blockFamily.setVariant(BlockFamily.Type.WALL_HANGING_SIGN) {
-//      generator.create<WallHangingSignBlock>(_name + "_hanging_wall_sign")
-//        .copyFrom { Blocks.OAK_WALL_HANGING_SIGN }
-//        /*? if >1.21 {*/
-//        /*.blockFactory { p -> WallHangingSignBlock(woodType, p) }
-//        *//*?} else {*/
-//        .blockFactory { p -> WallHangingSignBlock(p, woodType) }
-//        /*?}*/
-//        .properties { p -> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .blockTags(listOf(BlockTags.ALL_HANGING_SIGNS, BlockTags.WALL_HANGING_SIGNS))
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .blockstate(BlockstatePresets.noBlockState())
-//        .loot(BlockLootPresets.dropOtherLoot { _blockFamily.blocks[BlockFamily.Type.HANGING_SIGN]!!.get() })
-//        .noItem()
-//        .transform { t ->
-//          t
-//            .lang { _ -> "block.${registrate.modid}.${_name + "_hanging_wall_sign"}" }
-//        }
-//        .register()
-//    }
-//
-//    // Sign
-//    _blockFamily.setVariant(BlockFamily.Type.HANGING_SIGN) {
-//      generator.create<CeilingHangingSignBlock>(_name + "_hanging_sign")
-//        .copyFrom { Blocks.OAK_HANGING_SIGN }
-//        /*? if >1.21 {*/
-//        /*.blockFactory { p -> CeilingHangingSignBlock(woodType, p) }
-//        *//*?} else {*/
-//        .blockFactory { p -> CeilingHangingSignBlock(p, woodType) }
-//        /*?}*/
-//        .properties { p -> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .blockTags(listOf(BlockTags.ALL_HANGING_SIGNS, BlockTags.CEILING_HANGING_SIGNS))
-//        .itemTags(listOf(ItemTags.HANGING_SIGNS))
-//        .recipe { c, p ->
-//          c.hangingSignCraftingRecipe({ p.get() }) {
-//            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get().asItem())
-//          }
-//        }
-//        .blockstate { c, p ->
-//          val signModel = p.models().sign(c.name, p.modLoc("block/${_name + "_planks"}"))
-//          p.simpleBlock(c.get() as CeilingHangingSignBlock, signModel)
-//          p.simpleBlock(
-//            _blockFamily.blocks[BlockFamily.Type.WALL_HANGING_SIGN]!!.get() as WallHangingSignBlock,
-//            signModel
-//          )
-//        }
-//        .transform { b ->
-//          b
-//            .item { block, p ->
-//              HangingSignItem(
-//                block,
-//                _blockFamily.blocks[BlockFamily.Type.WALL_HANGING_SIGN]!!.get(),
-//                p.stacksTo(16)
-//              )
-//            }
-//            .model { c, p ->
-//              p.withExistingParent(c.name, p.mcLoc("item/generated"))
-//                .texture("layer0", p.modLoc("item/${c.name}"))
-//            }
-//            .build()
-//        }
-//        .register()
-//    }
+    
+    // Wall Sign
+    _blockFamily.setVariant(BlockFamily.Type.WALL_SIGN) {
+      registrate.block<WallSignBlock>(_name + "_wall_sign")
+        .copyFrom { Blocks.OAK_WALL_SIGN }
+        .factory { c, p -> WallSignBlock(p, woodType) }
+        .properties { c, p -> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
+        .cutoutRender()
+        .color(_accentColor ?: MapColor.WOOD)
+        .blockTags(BlockTags.WALL_SIGNS, BlockTags.SIGNS)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .blockstate { g, b -> g.noBlockState() }
+        .loot { g, b -> g.dropOther(b.get(), _blockFamily.blocks[BlockFamily.Type.SIGN]!!.get()) }
+        .noItem()
+        .register()
+    }
+
+    // Sign
+    _blockFamily.setVariant(BlockFamily.Type.SIGN) {
+      registrate.block<StandingSignBlock>(_name + "_sign")
+        .copyFrom { Blocks.OAK_SIGN }
+        .factory { c, p -> StandingSignBlock(p, woodType) }
+        .properties { c, p -> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor ?: MapColor.WOOD)
+        .blockTags(BlockTags.STANDING_SIGNS, BlockTags.SIGNS)
+        .itemTags(ItemTags.SIGNS)
+        .recipe { c, p ->
+          c.signCraftingRecipe({ p.get() }) {
+            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+          }
+        }
+        .blockstate { g, b -> g.simpleParticleOnly(b.get(), _name + "_planks") }
+        .item { p, b ->
+          SignItem(
+            p.stacksTo(16),
+            b,
+            _blockFamily.blocks[BlockFamily.Type.WALL_SIGN]!!.get()
+          )
+        }
+        .model { g, i -> g.flatItem(i.get()) }
+        .build()
+        .register()
+    }
+
+    // Hanging Wall Sign
+    _blockFamily.setVariant(BlockFamily.Type.WALL_HANGING_SIGN) {
+      registrate.block<WallHangingSignBlock>(_name + "_hanging_wall_sign")
+        .copyFrom { Blocks.OAK_WALL_HANGING_SIGN }
+        .factory { c, p -> WallHangingSignBlock(p, woodType) }
+        .properties { c, p -> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
+        .color(_accentColor ?: MapColor.WOOD)
+        .blockTags(BlockTags.ALL_HANGING_SIGNS, BlockTags.WALL_HANGING_SIGNS)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .blockstate { g, b -> g.noBlockState() }
+        .loot { g, b -> g.dropOther(b.get(), _blockFamily.blocks[BlockFamily.Type.HANGING_SIGN]!!.get()) }
+        .noItem()
+        .register()
+    }
+
+    // Sign
+    _blockFamily.setVariant(BlockFamily.Type.HANGING_SIGN) {
+      registrate.block<CeilingHangingSignBlock>(_name + "_hanging_sign")
+        .copyFrom { Blocks.OAK_HANGING_SIGN }
+        .factory { c, p -> CeilingHangingSignBlock(p, woodType) }
+        .properties { c, p -> p.strength(1.0F).sound(SoundType.WOOD).noOcclusion() }
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor ?: MapColor.WOOD)
+        .blockTags(BlockTags.ALL_HANGING_SIGNS, BlockTags.CEILING_HANGING_SIGNS)
+        .itemTags(ItemTags.HANGING_SIGNS)
+        .recipe { c, p ->
+          c.hangingSignCraftingRecipe({ p.get() }) {
+            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get().asItem())
+          }
+        }
+        .blockstate { g, b -> g.simpleParticleOnly(b.get(), _name + "_planks") }
+        .item { p, b ->
+          HangingSignItem(
+            b,
+            _blockFamily.blocks[BlockFamily.Type.WALL_HANGING_SIGN]!!.get(),
+            p.stacksTo(16)
+          )
+        }
+        .model { g, i -> g.flatItem(i.get()) }
+        .build()
+        .register()
+    }
 //
 //    registrate.boatVariant(_name)
 //

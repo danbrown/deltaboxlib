@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "deltaboxlib:pale_oak_door",
-    "deltaboxlib:ebony_door"
+    "deltaboxlib:pale_oak_door"
   ]
 }

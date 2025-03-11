@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "deltaboxlib:pale_oak_log"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "deltaboxlib:pale_oak_planks"
+  }
+}

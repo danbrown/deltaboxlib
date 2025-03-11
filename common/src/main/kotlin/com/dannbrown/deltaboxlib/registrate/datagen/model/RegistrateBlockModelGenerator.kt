@@ -1109,6 +1109,20 @@ class RegistrateBlockModelGenerator(
     this.blockStateOutput.accept(crossDoubleState)
   }
 
+  fun simpleParticleOnly(block: Block, texture: String) {
+    val location = ModelTemplates.PARTICLE_ONLY.create(
+      BuiltInRegistries.BLOCK.getKey(block).withPrefix("block/"),
+      TextureMapping().put(TextureSlot.PARTICLE, optionalTexture(block, texture)),
+      this.modelOutput
+    )
+    this.blockStateOutput.accept(
+      MultiVariantGenerator.multiVariant(
+        block,
+        Variant.variant().with(VariantProperties.MODEL, location)
+      )
+    )
+  }
+
   // utils
 
   // returns the path of a texture rather it is given or it uses the block id with an optional suffix

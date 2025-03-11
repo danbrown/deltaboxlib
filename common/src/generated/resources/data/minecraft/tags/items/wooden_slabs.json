@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "deltaboxlib:pale_oak_slab",
-    "deltaboxlib:ebony_slab"
+    "deltaboxlib:pale_oak_slab"
   ]
 }
