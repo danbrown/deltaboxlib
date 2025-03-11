@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-11T12:37:17.336395	Deltabox Lib/Tags for minecraft:item
+// 1.20.1	2025-03-11T15:26:04.019027	Deltabox Lib/Tags for minecraft:item
 118271687e9db94435d873d00085e6c5bf49a4b5 data/minecraft/tags/items/wooden_stairs.json
 5e22802d517f8adfcaa59029df65b32dd42e5fb2 data/neoforge/tags/items/leaves.json
 5e22802d517f8adfcaa59029df65b32dd42e5fb2 data/deltaboxlib/tags/items/leaves.json
@@ -21,6 +21,7 @@ cde9aa2d625d4ab118e179f35632a886ba209dbb data/minecraft/tags/items/non_flammable
 ad6ec0cbe9c6c4c2736435c2fa423f827c51dfb1 data/neoforge/tags/items/stripped_logs.json
 c9f6d75923341b87304a9bd31dcd440e43b8be78 data/minecraft/tags/items/planks.json
 7f15b7a88f19dd9c4b390526507d5228b807aba2 data/minecraft/tags/items/logs_that_burn.json
+6bb495c0b0a87bccc95ae180ba6cb205df310a54 data/minecraft/tags/items/flowers.json
 0d96eb2d73de3632fa1314f879019ca82ac67bef data/c/tags/items/storage_blocks/compiled_block.json
 3dbaafd3c478a13fbcd85a5d681d3b1419a2395f data/minecraft/tags/items/stairs.json
 9f6deb383e869c154490941c2488eb0619d550ed data/minecraft/tags/items/wooden_doors.json

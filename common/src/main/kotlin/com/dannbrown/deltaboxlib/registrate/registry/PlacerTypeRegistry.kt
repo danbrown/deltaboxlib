@@ -16,6 +16,7 @@ class PlacerTypeRegistry(modId: String) {
   private val foliageTypes = DeferredRegister.create(modId, Registries.FOLIAGE_PLACER_TYPE)
   private val trunkTypes = DeferredRegister.create(modId, Registries.TRUNK_PLACER_TYPE)
   private val treeDecorators = DeferredRegister.create(modId, Registries.TREE_DECORATOR_TYPE)
+  var isRegistered = false
 
   fun registerTrunk(
     id: String,
@@ -38,6 +39,8 @@ class PlacerTypeRegistry(modId: String) {
   }
 
   fun build() {
+    if (isRegistered) return
+    isRegistered = true
     trunkTypes.register()
     foliageTypes.register()
     treeDecorators.register()

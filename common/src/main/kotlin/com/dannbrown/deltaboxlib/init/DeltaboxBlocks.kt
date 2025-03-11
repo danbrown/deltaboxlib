@@ -2,6 +2,7 @@ package com.dannbrown.deltaboxlib.init
 
 import com.dannbrown.deltaboxlib.init.DeltaboxLibMod.REGISTRATE
 import com.dannbrown.deltaboxlib.content.block.*
+import com.dannbrown.deltaboxlib.content.block.eyeblossom.EyeBlossomBlock
 import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
 import com.dannbrown.deltaboxlib.registrate.presets.family.BlockFamily
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
@@ -27,9 +28,11 @@ import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.StairBlock
 import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallBlock
+import net.minecraft.world.level.block.state.BlockBehaviour.OffsetType
 import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
+import net.minecraft.world.level.material.PushReaction
 
 
 object DeltaboxBlocks {
@@ -255,7 +258,47 @@ object DeltaboxBlocks {
       { blockState, _, _ -> blockState.`is`(BlockTags.DIRT) })
 
 
+  // Eye blossom
+  val EYE_BLOSSOM: BlockEntry<EyeBlossomBlock> = REGISTRATE.block<EyeBlossomBlock>("open_eyeblossom")
+    .factory { c, p -> EyeBlossomBlock(true, p) }
+    .copyFrom { Blocks.POPPY }
+    .color(MapColor.PLANT)
+    .properties { c, p ->
+      p.noCollission().instabreak().sound(SoundType.GRASS).offsetType(OffsetType.XZ).pushReaction(PushReaction.DESTROY)
+        .randomTicks()
+    }
+    .blockstate { g, b -> g.crossBlock(b.get(), "open_eyeblossom") }
+    .blockTags(BlockTags.FLOWERS)
+    .itemTags(ItemTags.FLOWERS)
+    .item()
+    .model { g, i -> g.flatItemBlock(i.get(), "open_eyeblossom_item") }
+    .build()
+    .register() as BlockEntry<EyeBlossomBlock>
+  val CLOSED_EYE_BLOSSOM: BlockEntry<EyeBlossomBlock> = REGISTRATE.block<EyeBlossomBlock>("closed_eyeblossom")
+    .factory { c, p -> EyeBlossomBlock(false, p) }
+    .copyFrom { Blocks.POPPY }
+    .color(MapColor.PLANT)
+    .properties { c, p ->
+      p.noCollission().instabreak().sound(SoundType.GRASS).offsetType(OffsetType.XZ).pushReaction(PushReaction.DESTROY)
+        .randomTicks()
+    }
+    .blockstate { g, b -> g.crossBlock(b.get(), "closed_eyeblossom") }
+    .blockTags(BlockTags.FLOWERS)
+    .itemTags(ItemTags.FLOWERS)
+    .item()
+    .model { g, i -> g.flatItemBlock(i.get(), "closed_eyeblossom") }
+    .build()
+    .register() as BlockEntry<EyeBlossomBlock>
+
+//  val POTTED_EYE_BLOSSOM: BlockEntry<FlowerPotBlock> = REGISTRATE.blockPreset<FlowerPotBlock>("open_eyeblossom")
+//    .pottedBlock({ EYE_BLOSSOM.get() })
+//    .register()
+//  val POTTED_CLOSED_EYE_BLOSSOM: BlockEntry<FlowerPotBlock> =
+//    REGISTRATE.blockPreset<FlowerPotBlock>("closed_eyeblossom")
+//      .pottedBlock({ CLOSED_EYE_BLOSSOM.get() })
+//      .register()
+
   fun register() {
-    // init
+    REGISTRATE.buildBlocks()
   }
 }

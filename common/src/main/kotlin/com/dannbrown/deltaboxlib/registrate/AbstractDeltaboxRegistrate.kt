@@ -30,6 +30,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
@@ -86,7 +87,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return ItemBuilder(this, blockBuilder, blockId)
   }
 
-  fun <T : BlockEntityType<*>> blockEntity(blockEntityId: String): BlockEntityBuilder<T> {
+  fun <T : BlockEntity> blockEntity(blockEntityId: String): BlockEntityBuilder<T> {
     return BlockEntityBuilder(this, blockEntityId)
   }
 
@@ -266,8 +267,36 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     itemRegistry.build()
     creativeTabRegistry.build()
     placerTypeRegistry.build()
-    blockEntityRegistry.build()
     entityTypeRegistry.build()
+    blockEntityRegistry.build()
+    particleRegistry.build()
+  }
+
+  fun buildBlocks() {
+    blockRegistry.build()
+  }
+
+  fun buildItems() {
+    itemRegistry.build()
+  }
+
+  fun buildCreativeTabs() {
+    creativeTabRegistry.build()
+  }
+
+  fun buildPlacerTypes() {
+    placerTypeRegistry.build()
+  }
+
+  fun buildEntityTypes() {
+    entityTypeRegistry.build()
+  }
+
+  fun buildBlockEntities() {
+    blockEntityRegistry.build()
+  }
+
+  fun buildParticles() {
     particleRegistry.build()
   }
 }

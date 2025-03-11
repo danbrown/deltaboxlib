@@ -36,6 +36,6 @@ object DeltaboxItems {
     .register()
 
   fun register() {
-    // init
+    REGISTRATE.buildItems()
   }
 }

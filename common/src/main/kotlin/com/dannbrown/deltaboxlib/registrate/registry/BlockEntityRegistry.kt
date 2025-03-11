@@ -5,21 +5,25 @@ import dev.architectury.registry.registries.DeferredRegister
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.entity.BlockEntityType
 import java.util.function.Supplier
+import net.minecraft.world.level.block.entity.BlockEntity
 
 class BlockEntityRegistry(modId: String) {
   private val blockEntities = DeferredRegister.create(modId, Registries.BLOCK_ENTITY_TYPE)
-  val entries = mutableListOf<BlockEntityBuilder<out BlockEntityType<*>>>()
+  val entries = mutableListOf<BlockEntityBuilder<out BlockEntity>>()
+  var isRegistered = false
 
-  fun <T : BlockEntityType<*>> register(
+  fun <T : BlockEntity> register(
     id: String,
-    blockSupplier: Supplier<T>,
-    blockBuilder: BlockEntityBuilder<out BlockEntityType<*>>
-  ): Supplier<T> {
-    entries.add(blockBuilder)
-    return blockEntities.register(id, blockSupplier)
+    supplier: Supplier<BlockEntityType<T>>,
+    builder: BlockEntityBuilder<out BlockEntity>
+  ): Supplier<BlockEntityType<T>> {
+    entries.add(builder)
+    return blockEntities.register(id, supplier)
   }
 
   fun build() {
+    if (isRegistered) return
+    isRegistered = true
     blockEntities.register()
   }
 }

@@ -12,6 +12,7 @@ import java.util.function.Supplier
 class ParticleRegistry(modId: String) {
   private val particleTypes = DeferredRegister.create(modId, Registries.PARTICLE_TYPE)
   private val PARTICLE_REGISTRATIONS = mutableListOf<ParticleRegistration<out ParticleOptions>>()
+  var isRegistered = false
 
   class ParticleRegistration<T : ParticleOptions>(
     val type: RegistrySupplier<ParticleType<T>>,
@@ -32,6 +33,8 @@ class ParticleRegistry(modId: String) {
   }
 
   fun build() {
+    if (isRegistered) return
+    isRegistered = true
     particleTypes.register()
   }
 }

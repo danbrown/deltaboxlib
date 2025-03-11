@@ -1,15 +1,16 @@
 package com.dannbrown.deltaboxlib.fabric.registrate
 
+import com.dannbrown.deltaboxlib.content.block.eyeblossom.EyeBlossomRenderer
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
+import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
@@ -18,12 +19,19 @@ import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.renderer.BiomeColors
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.FoliageColor
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import java.util.function.Function
 import javax.management.BadAttributeValueExpException
+import kotlin.reflect.jvm.internal.impl.resolve.calls.inference.CapturedType
 
 class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
   fun init() {
@@ -39,6 +47,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
     registerParticleRenders()
     registerModelLayers()
     registerEntityRenderers()
+    registerBlockEntityRenderers()
   }
 
   // register flammable block
@@ -149,7 +158,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
     }
     for ((path, data) in registrate.modelLayersRegistry.getModelLayers()) {
       val (model, modelLayer) = data
-      EntityModelLayerRegistry.registerModelLayer(modelLayer, model as TexturedModelDataProvider)
+      EntityModelLayerRegistry.registerModelLayer(modelLayer, { model.get() })
     }
   }
 
@@ -159,6 +168,17 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
         entityBuilder.getRenderer(ctx)
       }
     }
+  }
+
+  private fun registerBlockEntityRenderers() {
+//    for (entityBuilder in registrate.blockEntityRegistry.entries) {
+//      BlockEntityRendererRegistry.register(
+//        entityBuilder.getBlockEntity().get()
+//      ) { ctx: BlockEntityRendererProvider.Context ->
+//        // Assuming blockEntityRenderer is a function that takes the context and renders it
+//        EyeBlossomRenderer(ctx)
+//      }
+//    }
   }
 
   private fun <T : ParticleOptions> handleParticleRegistration(

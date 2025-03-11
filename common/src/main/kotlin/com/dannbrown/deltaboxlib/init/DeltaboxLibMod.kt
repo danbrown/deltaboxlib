@@ -9,6 +9,7 @@ object DeltaboxLibMod {
     DeltaboxItems.register()
     DeltaboxTags.register()
     DeltaboxCreativeTabs.register()
+    DeltaboxBlockEntities.register()
     DeltaboxTrades.register()
     DeltaboxPlacerTypes.register()
     DeltaboxConfiguredFeatures.register()
@@ -16,6 +17,7 @@ object DeltaboxLibMod {
     DeltaboxBiomeModifiers.register()
     DeltaboxParticles.register()
     DeltaboxWoodTypes.register()
+    DeltaboxModelLayers.register()
     REGISTRATE.buildRegistries()
   }
 }

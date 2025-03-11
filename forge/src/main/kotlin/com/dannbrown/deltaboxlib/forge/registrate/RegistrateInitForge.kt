@@ -2,7 +2,6 @@ package com.dannbrown.deltaboxlib.forge.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.helpers.StripHelper
-import com.dannbrown.deltaboxlib.registrate.providers.trades.WandererTradeRarity
 import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.client.model.BoatModel
@@ -10,18 +9,17 @@ import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.renderer.BiomeColors
 import net.minecraft.client.renderer.Sheets
-import net.minecraft.client.renderer.entity.EntityRenderer
-import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.client.renderer.entity.EntityRenderers
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.FoliageColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.ComposterBlock
 import net.minecraft.world.level.block.FlowerPotBlock
+import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraftforge.client.event.EntityRenderersEvent
+import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers
 import net.minecraftforge.client.event.RegisterColorHandlersEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
 import javax.management.BadAttributeValueExpException
@@ -38,7 +36,6 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
 
   fun clientSetup() {
     registerWoodTypes()
-    registerEntityRenderers()
   }
 
   // register strippable blocks
@@ -99,11 +96,19 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     }
   }
 
-  private fun registerEntityRenderers() {
+  fun onRegisterEntityRenderers(event: RegisterRenderers) {
     for (entityBuilder in registrate.entityTypeRegistry.entries) {
-      EntityRenderers.register(entityBuilder.getEntity().get()) { ctx ->
-        entityBuilder.getRenderer(ctx)
-      }
+      event.registerEntityRenderer(
+        entityBuilder.getEntity().get(),
+        entityBuilder::getRenderer
+      )
+    }
+
+    for (entityBuilder in registrate.blockEntityRegistry.entries) {
+      event.registerBlockEntityRenderer(
+        entityBuilder.getBlockEntity().get(),
+        entityBuilder::getRenderer as BlockEntityRendererProvider<in BlockEntity>
+      )
     }
   }
 

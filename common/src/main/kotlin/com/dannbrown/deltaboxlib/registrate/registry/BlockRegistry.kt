@@ -9,6 +9,7 @@ import java.util.function.Supplier
 class BlockRegistry(modId: String) {
   private val blocks = DeferredRegister.create(modId, Registries.BLOCK)
   val entries = mutableListOf<BlockBuilder<out Block>>()
+  var isRegistered = false
 
   fun <T : Block> register(id: String, blockSupplier: Supplier<T>, blockBuilder: BlockBuilder<out Block>): Supplier<T> {
     entries.add(blockBuilder)
@@ -16,6 +17,8 @@ class BlockRegistry(modId: String) {
   }
 
   fun build() {
+    if (isRegistered) return
+    isRegistered = true
     blocks.register()
   }
 }

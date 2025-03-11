@@ -51,6 +51,7 @@ object DeltaboxLibModForge {
     modBus.addListener(registrateInit::onRegisterItemBiomeColors)
     modBus.addListener(registrateInit::onRegisterParticleRenders)
     modBus.addListener(registrateInit::onRegisterLayerDefinitions)
+    modBus.addListener(registrateInit::onRegisterEntityRenderers)
   }
 
   private fun clientSetup(event: FMLClientSetupEvent) {

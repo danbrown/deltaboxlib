@@ -10,6 +10,7 @@ import java.util.function.Supplier
 class EntityTypeRegistry(modId: String) {
   private val entities = DeferredRegister.create(modId, Registries.ENTITY_TYPE)
   val entries = mutableListOf<EntityTypeBuilder<out Entity>>()
+  var isRegistered = false
 
   fun <T : Entity> register(
     id: String,
@@ -21,6 +22,8 @@ class EntityTypeRegistry(modId: String) {
   }
 
   fun build() {
+    if (isRegistered) return
+    isRegistered = true
     entities.register()
   }
 }
