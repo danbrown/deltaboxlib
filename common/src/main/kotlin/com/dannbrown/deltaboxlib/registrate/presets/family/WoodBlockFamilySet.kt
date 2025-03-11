@@ -357,9 +357,10 @@ class WoodBlockFamilySet(
         .color(_accentColor ?: MapColor.WOOD)
         .blockTags(BlockTags.WALL_SIGNS, BlockTags.SIGNS)
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-        .blockstate { g, b -> g.noBlockState() }
+        .blockstate { g, b -> g.simpleParticleOnly(b.get(), _name + "_planks") }
         .loot { g, b -> g.dropOther(b.get(), _blockFamily.blocks[BlockFamily.Type.SIGN]!!.get()) }
         .noItem()
+        .lang(DeltaboxUtil.asName(_name + "_sign"))
         .register()
     }
 
@@ -388,6 +389,7 @@ class WoodBlockFamilySet(
         }
         .model { g, i -> g.flatItem(i.get()) }
         .build()
+        .lang(DeltaboxUtil.asName(_name + "_sign"))
         .register()
     }
 
@@ -400,9 +402,10 @@ class WoodBlockFamilySet(
         .color(_accentColor ?: MapColor.WOOD)
         .blockTags(BlockTags.ALL_HANGING_SIGNS, BlockTags.WALL_HANGING_SIGNS)
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-        .blockstate { g, b -> g.noBlockState() }
+        .blockstate { g, b -> g.simpleParticleOnly(b.get(), _name + "_planks") }
         .loot { g, b -> g.dropOther(b.get(), _blockFamily.blocks[BlockFamily.Type.HANGING_SIGN]!!.get()) }
         .noItem()
+        .lang(DeltaboxUtil.asName(_name + "_hanging_sign"))
         .register()
     }
 
@@ -431,6 +434,7 @@ class WoodBlockFamilySet(
         }
         .model { g, i -> g.flatItem(i.get()) }
         .build()
+        .lang(DeltaboxUtil.asName(_name + "_hanging_sign"))
         .register()
     }
 //
