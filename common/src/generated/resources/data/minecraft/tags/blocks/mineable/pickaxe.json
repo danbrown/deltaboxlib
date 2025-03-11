@@ -3,6 +3,10 @@
   "values": [
     "deltaboxlib:compiled_block",
     "deltaboxlib:acai_berries_crate",
-    "deltaboxlib:roseate_sandstone_wall"
+    "deltaboxlib:roseate_sandstone_wall",
+    "deltaboxlib:pyrite",
+    "deltaboxlib:pyrite_stairs",
+    "deltaboxlib:pyrite_slab",
+    "deltaboxlib:pyrite_wall"
   ]
 }

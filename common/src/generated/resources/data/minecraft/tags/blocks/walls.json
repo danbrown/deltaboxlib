@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "deltaboxlib:roseate_sandstone_wall"
+    "deltaboxlib:roseate_sandstone_wall",
+    "deltaboxlib:pyrite_wall"
   ]
 }

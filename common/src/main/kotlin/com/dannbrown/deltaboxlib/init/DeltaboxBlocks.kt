@@ -3,6 +3,7 @@ package com.dannbrown.deltaboxlib.init
 import com.dannbrown.deltaboxlib.init.DeltaboxLibMod.REGISTRATE
 import com.dannbrown.deltaboxlib.content.block.*
 import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
+import com.dannbrown.deltaboxlib.registrate.presets.family.BlockFamily
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import net.minecraft.data.recipes.RecipeCategory
@@ -279,6 +280,19 @@ object DeltaboxBlocks {
     )
     .color(MapColor.COLOR_LIGHT_GREEN)
     .register()
+
+  // Family blocks test
+  val LONG_FAMILY_TEST = REGISTRATE.blockfamily("pyrite")
+    .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, null, true)
+    .denyList(BlockFamily.Type.PILLAR)
+    .longBlockFamily()
+//
+//  val WOOD_TEST = BLOCKS.createFamily("ebony")
+//    .woodFamily(
+//      DeltaboxWoodTypes.EBONY,
+//      DeltaboxWoodTypes.EBONY_SET,
+//      DeltaboxTreeGrower.SAMPLE,
+//      { blockState, _, _ -> blockState.`is`(BlockTags.DIRT) })
 
 
   fun register() {

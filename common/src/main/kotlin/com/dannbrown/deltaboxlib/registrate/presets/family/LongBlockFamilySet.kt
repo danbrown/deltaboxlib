@@ -54,7 +54,7 @@ class LongBlockFamilySet(
       if (!_denyList.contains(BlockFamily.Type.STAIRS)) {
         _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
           registrate.blockPreset<StairBlock>(_name).stairs(_name, isRotatedBlock)
-            .itemTags(MATERIAL_TAG)
+//            .itemTags(MATERIAL_TAG)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
             .recipe { c, p ->
               c.simpleStonecuttingRecipe(
@@ -74,7 +74,7 @@ class LongBlockFamilySet(
         _blockFamily.setVariant(BlockFamily.Type.SLAB) {
           registrate.blockPreset<SlabBlock>(_name).slab(_name, isRotatedBlock)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(MATERIAL_TAG)
+//            .itemTags(MATERIAL_TAG)
             .recipe { c, p ->
               c.simpleStonecuttingRecipe(
                 { p.get() },
@@ -93,7 +93,7 @@ class LongBlockFamilySet(
         _blockFamily.setVariant(BlockFamily.Type.WALL) {
           registrate.blockPreset<WallBlock>(_name).wall(_name, isRotatedBlock)
             .fromFamily(_copyFrom, _sharedProps, _color, _toolType, _toolTier)
-            .itemTags(MATERIAL_TAG)
+//            .itemTags(MATERIAL_TAG)
             .recipe { c, p ->
               c.simpleStonecuttingRecipe(
                 { p.get() },
