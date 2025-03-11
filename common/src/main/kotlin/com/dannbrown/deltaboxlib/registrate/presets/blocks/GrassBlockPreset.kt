@@ -18,7 +18,6 @@ import java.util.function.Supplier
 class GrassBlockPreset(
   val registrate: AbstractDeltaboxRegistrate,
   val blockId: String,
-  val dropItem: Supplier<ItemLike>? = null,
   val isSticky: Boolean = false,
   val isHarmful: Boolean = false,
   val isBonemealable: Boolean = false,
@@ -26,7 +25,7 @@ class GrassBlockPreset(
   val multiplier: Int = 2,
   val placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
 ) : IBlockBuilderPreset(registrate, blockId) {
-  fun <T : Block> create(): BlockBuilder<T> {
+  fun <T : Block> create(dropItem: Supplier<ItemLike>? = null): BlockBuilder<T> {
     return registrate
       .block<T>(blockId)
       .factory { c, p -> GenericGrassBlock(p, placeOn, isSticky, isHarmful, isBonemealable) }
@@ -68,6 +67,7 @@ class GrassBlockPreset(
   }
 
   fun <T : Block> createSmallTallGrassBlock(
+    dropItem: Supplier<ItemLike>? = null,
     doubleBlock: BlockEntry<GenericDoublePlantBlock>,
     needBonemeal: Boolean = false
   ): BlockBuilder<T> {
@@ -86,6 +86,7 @@ class GrassBlockPreset(
   }
 
   fun <T : Block> createDoubleTallGrassBlock(
+    dropItem: Supplier<ItemLike>? = null,
     seedItem: Supplier<ItemLike>? = null,
     prefix: String = "tall_"
   ): BlockBuilder<T> {

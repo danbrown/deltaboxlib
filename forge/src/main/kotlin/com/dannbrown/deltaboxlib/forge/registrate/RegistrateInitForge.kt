@@ -3,8 +3,10 @@ package com.dannbrown.deltaboxlib.forge.registrate
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.helpers.StripHelper
 import com.dannbrown.deltaboxlib.registrate.providers.trades.WandererTradeRarity
+import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.client.renderer.BiomeColors
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.trading.MerchantOffer
@@ -14,6 +16,7 @@ import net.minecraft.world.level.block.ComposterBlock
 import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraftforge.client.event.RegisterColorHandlersEvent
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent
 import javax.management.BadAttributeValueExpException
 
 class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
@@ -46,8 +49,8 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
       try {
         (Blocks.FLOWER_POT as FlowerPotBlock).addPlant(
           DeltaboxUtil.resourceLocation(
-            DeltaboxUtil.getItemModId(plant.getItem()),
-            DeltaboxUtil.getItemId(plant.getItem())
+            DeltaboxUtil.getBlockModId(plant.get()),
+            DeltaboxUtil.getBlockId(plant.get())
           ), block.getBlock()
         )
       } catch (e: Exception) {
@@ -76,6 +79,19 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
         println("Failed to add block ${item.getItem().get().descriptionId} to compostables")
       }
     }
+  }
+
+  fun onRegisterParticleRenders(event: RegisterParticleProvidersEvent) {
+    for (particle in registrate.particleRegistry.getParticles()) {
+      handleParticleRegistration(event, particle)
+    }
+  }
+
+  private fun <T : ParticleOptions> handleParticleRegistration(
+    event: RegisterParticleProvidersEvent,
+    registration: ParticleRegistry.ParticleRegistration<T>
+  ) {
+    event.registerSpriteSet(registration.type.get(), registration.provider)
   }
 
   fun onRegisterBlockBiomeColors(event: RegisterColorHandlersEvent.Block) {

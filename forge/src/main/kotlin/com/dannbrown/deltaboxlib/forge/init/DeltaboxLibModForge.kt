@@ -47,5 +47,6 @@ object DeltaboxLibModForge {
   private fun registerClient(modBus: IEventBus, forgeEventBus: IEventBus) {
     modBus.addListener(registrateInit::onRegisterBlockBiomeColors)
     modBus.addListener(registrateInit::onRegisterItemBiomeColors)
+    modBus.addListener(registrateInit::onRegisterParticleRenders)
   }
 }

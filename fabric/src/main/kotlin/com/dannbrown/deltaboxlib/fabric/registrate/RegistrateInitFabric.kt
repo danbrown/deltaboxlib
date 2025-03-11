@@ -1,14 +1,17 @@
 package com.dannbrown.deltaboxlib.fabric.registrate
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
+import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
 import net.minecraft.client.renderer.BiomeColors
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.FoliageColor
 import net.minecraft.world.level.block.Blocks
@@ -26,6 +29,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
   fun initClient() {
     registerCutoutRenders()
     registerBiomeColors()
+    registerParticleRenders()
   }
 
   // register flammable block
@@ -107,6 +111,18 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
         println("Failed to add block ${block.getBlock().get().name} to compostables")
       }
     }
+  }
+
+  private fun registerParticleRenders() {
+    for (particle in registrate.particleRegistry.getParticles()) {
+      handleParticleRegistration(particle)
+    }
+  }
+
+  private fun <T : ParticleOptions> handleParticleRegistration(
+    registration: ParticleRegistry.ParticleRegistration<T>
+  ) {
+    ParticleFactoryRegistry.getInstance().register(registration.type.get(), registration.provider)
   }
 
   private fun registerBiomeModifiers() {

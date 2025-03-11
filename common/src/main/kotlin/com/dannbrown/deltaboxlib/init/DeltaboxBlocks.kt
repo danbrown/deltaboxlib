@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.PressurePlateBlock
 import net.minecraft.world.level.block.RotatedPillarBlock
 import net.minecraft.world.level.block.SlabBlock
+import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.StairBlock
 import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallBlock
@@ -135,8 +136,23 @@ object DeltaboxBlocks {
     .register()
 
 
-  val SIMPLE_FLOWER: BlockEntry<GenericGrassBlock> = REGISTRATE.blockPreset<GenericGrassBlock>("simple_flower")
-    .flowerBlock({ Items.WHEAT_SEEDS })
+  val SIMPLE_FLOWER = REGISTRATE.block<GenericGrassBlock>("simple_flower")
+    .factory { c, p -> TrailFlowerBlock(p) }
+    .copyFrom { Blocks.POPPY }
+    .properties { c, p ->
+      p.sound(SoundType.GRASS)
+        .strength(0.0f)
+        .noCollission()
+        .noOcclusion()
+        .randomTicks()
+    }
+    .blockstate { g, b -> g.crossBlock(b.get()) }
+    .cutoutRender()
+    .item()
+    .model { g, i -> g.flatItemBlock(i.get()) }
+    .build()
+    .compostable(0.3f)
+    .loot { g, b -> g.dropSelf(b.get()) }
     .register()
 
   val POTTED_SIMPLE_FLOWER: BlockEntry<FlowerPotBlock> = REGISTRATE
