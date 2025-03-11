@@ -60,8 +60,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
   // register strippable blocks
   private fun registerStrippableBlocks() {
     for (block in registrate.blockRegistry.entries) {
-      val other = block.getContext().strippableOther
-      if (other == null) continue
+      val other = block.getContext().strippableOther ?: continue
       if (!other.get().defaultBlockState().hasProperty(BlockStateProperties.AXIS)
       ) throw BadAttributeValueExpException("Output stripped block should have 'axis' property!")
       if (!block.getBlock().get().defaultBlockState().hasProperty(BlockStateProperties.AXIS)
