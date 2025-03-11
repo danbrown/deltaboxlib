@@ -70,7 +70,6 @@ class BlockEntityBuilder<T : BlockEntity>(
     return entityInstance!!
   }
 
-
   fun getRenderer(ctx: BlockEntityRendererProvider.Context): BlockEntityRenderer<in BlockEntity> {
     return this.blockEntityRenderer!!.apply(ctx) as BlockEntityRenderer<in BlockEntity>
   }

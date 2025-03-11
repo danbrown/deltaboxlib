@@ -4,7 +4,6 @@ import com.dannbrown.deltaboxlib.content.block.eyeblossom.EyeBlossomRenderer
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
@@ -19,15 +18,11 @@ import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.renderer.BiomeColors
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.FoliageColor
-import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.entity.BlockEntity
-import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import java.util.function.Function
 import javax.management.BadAttributeValueExpException
@@ -171,14 +166,11 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
   }
 
   private fun registerBlockEntityRenderers() {
-//    for (entityBuilder in registrate.blockEntityRegistry.entries) {
-//      BlockEntityRendererRegistry.register(
-//        entityBuilder.getBlockEntity().get()
-//      ) { ctx: BlockEntityRendererProvider.Context ->
-//        // Assuming blockEntityRenderer is a function that takes the context and renders it
-//        EyeBlossomRenderer(ctx)
-//      }
-//    }
+    for (entityBuilder in registrate.blockEntityRegistry.entries) {
+      BlockEntityRenderers.register(entityBuilder.getBlockEntity().get()) { ctx ->
+        entityBuilder.getRenderer(ctx)
+      }
+    }
   }
 
   private fun <T : ParticleOptions> handleParticleRegistration(
