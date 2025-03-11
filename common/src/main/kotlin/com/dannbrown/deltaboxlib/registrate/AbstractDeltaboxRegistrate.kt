@@ -12,6 +12,7 @@ import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.dannbrown.deltaboxlib.registrate.util.PlacedFeaturesUtil
 import com.mojang.serialization.Codec
 import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.particle.ParticleProvider
 import net.minecraft.client.particle.SpriteSet
@@ -236,9 +237,8 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun modelLayer(
     path: String, model: Supplier<LayerDefinition>, folder: String = "main"
-  ): AbstractDeltaboxRegistrate {
-    this.modelLayersRegistry.add(path, model, folder)
-    return this
+  ): ModelLayerLocation {
+    return this.modelLayersRegistry.add(path, model, folder)
   }
 
   fun boatVariant(name: String): AbstractDeltaboxRegistrate {

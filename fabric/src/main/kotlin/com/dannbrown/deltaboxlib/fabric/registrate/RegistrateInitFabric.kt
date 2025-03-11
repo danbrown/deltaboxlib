@@ -148,15 +148,8 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
       )
     }
     for ((path, data) in registrate.modelLayersRegistry.getModelLayers()) {
-      val (model, folder) = data
-      EntityModelLayerRegistry.registerModelLayer(
-        ModelLayerLocation(
-          DeltaboxUtil.resourceLocation(
-            registrate.modId,
-            path
-          ), folder
-        ), model as TexturedModelDataProvider
-      )
+      val (model, modelLayer) = data
+      EntityModelLayerRegistry.registerModelLayer(modelLayer, model as TexturedModelDataProvider)
     }
   }
 

@@ -120,7 +120,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
           DeltaboxUtil.resourceLocation(registrate.modId, "boat/${boatVariant}"),
           "main"
         ), BoatModel::createBodyModel
-      );
+      )
       event.registerLayerDefinition(
         ModelLayerLocation(
           DeltaboxUtil.resourceLocation(
@@ -128,14 +128,11 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
             "chest_boat/${boatVariant}"
           ), "main"
         ), ChestBoatModel::createBodyModel
-      );
+      )
     }
     for ((path, data) in registrate.modelLayersRegistry.getModelLayers()) {
-      val (model, folder) = data
-      event.registerLayerDefinition(
-        ModelLayerLocation(DeltaboxUtil.resourceLocation(registrate.modId, path), folder),
-        model
-      );
+      val (model, modelLayer) = data
+      event.registerLayerDefinition(modelLayer, model)
     }
   }
 
