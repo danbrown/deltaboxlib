@@ -8,6 +8,8 @@
     "deltaboxlib:pale_oak_pressure_plate",
     "deltaboxlib:pale_oak_button",
     "deltaboxlib:pale_oak_trapdoor",
-    "deltaboxlib:pale_oak_door"
+    "deltaboxlib:pale_oak_door",
+    "deltaboxlib:ebony_log",
+    "deltaboxlib:stripped_ebony_log"
   ]
 }

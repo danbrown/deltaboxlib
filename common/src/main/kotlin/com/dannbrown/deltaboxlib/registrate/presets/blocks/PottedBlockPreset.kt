@@ -21,7 +21,7 @@ class PottedBlockPreset(
       .properties { c, p -> p.noOcclusion() }
       .loot { g, b -> g.pottedBlock(b.get(), plantBlock.supplier()) }
       .blockstate { g, b -> g.pottedPlantBlock(b.get(), plantBlock.get()) }
-      .potted(plantBlock)
+      .potted { plantBlock.get() }
       .cutoutRender()
   }
 }

@@ -1,15 +1,22 @@
 package com.dannbrown.deltaboxlib.registrate.builders
 
 
+import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.presets.family.BlockFamily
 import com.dannbrown.deltaboxlib.registrate.presets.family.LongBlockFamilySet
+import com.dannbrown.deltaboxlib.registrate.presets.family.WoodBlockFamilySet
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import com.dannbrown.deltaboxlib.registrate.types.BlockPropertiesFactory
+import net.minecraft.core.BlockPos
 import net.minecraft.tags.TagKey
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockSetType
+import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
 import java.util.function.BiFunction
 import java.util.function.Supplier
@@ -42,29 +49,29 @@ class BlockFamilyGeneratorBuilder(private val registrate: AbstractDeltaboxRegist
       isRotatedBlock
     ).getFamily()
   }
-//
-//  fun woodFamily(
-//    woodType: WoodType,
-//    setType: BlockSetType,
-//    grower: DeltaboxTreeGrower,
-//    placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
-//  ): WoodBlockFamilySet.WoodFamilyComponents {
-//    return WoodBlockFamilySet(
-//      generator,
-//      _name,
-//      _sharedProps,
-//      _toolType,
-//      _toolTier,
-//      _color,
-//      _accentColor,
-//      _copyFrom,
-//      _denyList,
-//      woodType,
-//      setType,
-//      grower,
-//      placeOn
-//    ).getContent()
-//  }
+
+  fun woodFamily(
+    woodType: WoodType,
+    setType: BlockSetType,
+    grower: DeltaboxTreeGrower,
+    placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
+  ): WoodBlockFamilySet.WoodFamilyComponents {
+    return WoodBlockFamilySet(
+      registrate,
+      _name,
+      _sharedProps,
+      _toolType,
+      _toolTier,
+      _color,
+      _accentColor,
+      _copyFrom,
+      _denyList,
+      woodType,
+      setType,
+      grower,
+      placeOn
+    ).getContent()
+  }
 
   // @ Builder Chaining Methods
   fun sharedProps(props: BlockPropertiesFactory): BlockFamilyGeneratorBuilder {

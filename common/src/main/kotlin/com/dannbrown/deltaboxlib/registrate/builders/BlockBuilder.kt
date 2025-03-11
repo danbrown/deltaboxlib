@@ -115,12 +115,12 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
     return this
   }
 
-  fun strippable(otherBlock: BlockEntry<*>): BlockBuilder<T> {
+  fun strippable(otherBlock: Supplier<out Block>): BlockBuilder<T> {
     this.ctx.strippableOther = otherBlock
     return this
   }
 
-  fun potted(otherBlock: BlockEntry<*>): BlockBuilder<T> {
+  fun potted(otherBlock: Supplier<out Block>): BlockBuilder<T> {
     this.ctx.pottedOther = otherBlock
     return this
   }

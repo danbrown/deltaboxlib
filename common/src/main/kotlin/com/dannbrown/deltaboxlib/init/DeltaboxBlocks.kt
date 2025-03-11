@@ -44,7 +44,7 @@ object DeltaboxBlocks {
   val SECOND_BLOCK = REGISTRATE
     .block<RotatedPillarBlock>("second_block")
     .factory { c, p -> RotatedPillarBlock(p) }
-    .strippable(ADAMANTIUM_BLOCK)
+    .strippable { ADAMANTIUM_BLOCK.get() }
     .register()
 
   val IRON_BLOCK2 = REGISTRATE
@@ -59,7 +59,7 @@ object DeltaboxBlocks {
     .block<RotatedPillarBlock>("acai_berries_crate")
     .lang("Acai Berries Crate AHA")
     .factory { c, p -> RotatedPillarBlock(p) }
-    .strippable(BlockEntry.from(Blocks.ACACIA_LOG))
+    .strippable { Blocks.ACACIA_LOG }
     .blockTags(BlockTags.DIRT)
     .recipe { r, b ->
       r.directShapelessRecipe(
@@ -286,13 +286,13 @@ object DeltaboxBlocks {
     .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, null, true)
     .denyList(BlockFamily.Type.PILLAR)
     .longBlockFamily()
-//
-//  val WOOD_TEST = BLOCKS.createFamily("ebony")
-//    .woodFamily(
-//      DeltaboxWoodTypes.EBONY,
-//      DeltaboxWoodTypes.EBONY_SET,
-//      DeltaboxTreeGrower.SAMPLE,
-//      { blockState, _, _ -> blockState.`is`(BlockTags.DIRT) })
+
+  val WOOD_TEST = REGISTRATE.blockfamily("ebony")
+    .woodFamily(
+      DeltaboxWoodTypes.PALE_OAK,
+      DeltaboxWoodTypes.PALE_OAK_SET,
+      DeltaboxTreeGrower.SAMPLE,
+      { blockState, _, _ -> blockState.`is`(BlockTags.DIRT) })
 
 
   fun register() {
