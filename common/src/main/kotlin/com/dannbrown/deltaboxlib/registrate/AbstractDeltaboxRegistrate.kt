@@ -24,6 +24,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.levelgen.GenerationStep
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer
@@ -52,6 +53,8 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val biomeModifierRegistry: BiomeModifierRegistry = BiomeModifierRegistry(modId)
   val modelLayersRegistry: ModelLayerRegistry = ModelLayerRegistry(modId)
   val boatVariantRegistry: BoatVariantRegistry = BoatVariantRegistry(modId)
+  val blockEntityRegistry: BlockEntityRegistry = BlockEntityRegistry(modId)
+  val entityTypeRegistry: EntityTypeRegistry = EntityTypeRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -65,13 +68,20 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return BlockFamilyGeneratorBuilder(this, blockId)
   }
 
-
   fun <T : Item> item(blockId: String): ItemBuilder<T> {
     return ItemBuilder(this, blockId)
   }
 
   fun <T : Block, R : Item> item(blockId: String, blockBuilder: BlockBuilder<T>): ItemBuilder<R> {
     return ItemBuilder(this, blockBuilder, blockId)
+  }
+
+  fun <T : BlockEntityType<*>> blockEntity(blockId: String): BlockEntityBuilder<T> {
+    return BlockEntityBuilder(this, blockId)
+  }
+
+  fun <T : EntityType<*>> entityType(blockId: String): EntityTypeBuilder<T> {
+    return EntityTypeBuilder(this, blockId)
   }
 
   fun langs(_modId: String = modId): LangBuilder {
@@ -232,5 +242,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     itemRegistry.build()
     creativeTabRegistry.build()
     placerTypeRegistry.build()
+    blockEntityRegistry.build()
+    entityTypeRegistry.build()
   }
 }
