@@ -17,13 +17,13 @@ import java.util.function.Supplier
 class SaplingBlockPreset(
   val registrate: AbstractDeltaboxRegistrate,
   val blockId: String,
-  val treeGrower: Supplier<DeltaboxTreeGrower>,
+  val treeGrower: DeltaboxTreeGrower,
   val placeOn: ((BlockState, BlockGetter, BlockPos) -> Boolean)? = null
 ) : IBlockBuilderPreset(registrate, blockId) {
   fun <T : Block> create(): BlockBuilder<T> {
     val nameWithSuffix = "${blockId}_sapling"
     return registrate.block<T>(nameWithSuffix)
-      .factory { c, p -> GenericSaplingBlock(treeGrower.get(), p, placeOn) }
+      .factory { c, p -> GenericSaplingBlock(treeGrower, p, placeOn) }
       .copyFrom { Blocks.OAK_SAPLING }
       .properties { c, p ->
         p

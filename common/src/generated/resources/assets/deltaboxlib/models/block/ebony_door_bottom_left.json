@@ -1,0 +1,7 @@
+{
+  "parent": "deltaboxlib:block/template_door_bottom_left",
+  "textures": {
+    "bottom": "deltaboxlib:block/ebony_door_bottom",
+    "top": "deltaboxlib:block/ebony_door_top"
+  }
+}

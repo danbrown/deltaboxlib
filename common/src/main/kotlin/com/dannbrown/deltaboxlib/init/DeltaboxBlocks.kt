@@ -118,11 +118,11 @@ object DeltaboxBlocks {
 
   val LEMON_SAPLING: BlockEntry<GenericSaplingBlock> = REGISTRATE
     .blockPreset<GenericSaplingBlock>("lemon")
-    .saplingBlock({ DeltaboxTreeGrower.SAMPLE }) { blockState, _, _ -> blockState.`is`(BlockTags.DIRT) }
+    .saplingBlock(DeltaboxTreeGrower.SAMPLE) { blockState, _, _ -> blockState.`is`(BlockTags.DIRT) }
     .register()
   val POTTED_LEMON_SAPLING: BlockEntry<FlowerPotBlock> = REGISTRATE
     .blockPreset<FlowerPotBlock>("lemon")
-    .pottedBlock(LEMON_SAPLING, "_sapling")
+    .pottedBlock({ LEMON_SAPLING.get() }, "_sapling")
     .register()
 
   val SIMPLE_GRASS: BlockEntry<GenericGrassBlock> = REGISTRATE.blockPreset<GenericGrassBlock>("simple_grass")
@@ -131,7 +131,7 @@ object DeltaboxBlocks {
 
   val POTTED_SIMPLE_GRASS: BlockEntry<FlowerPotBlock> = REGISTRATE
     .blockPreset<FlowerPotBlock>("simple_grass")
-    .pottedBlock(SIMPLE_GRASS)
+    .pottedBlock({ SIMPLE_GRASS.get() })
     .register()
 
 
@@ -141,7 +141,7 @@ object DeltaboxBlocks {
 
   val POTTED_SIMPLE_FLOWER: BlockEntry<FlowerPotBlock> = REGISTRATE
     .blockPreset<FlowerPotBlock>("simple_flower")
-    .pottedBlock(SIMPLE_FLOWER)
+    .pottedBlock({ SIMPLE_FLOWER.get() })
     .register()
 
 
@@ -219,18 +219,18 @@ object DeltaboxBlocks {
 
   // Leaves
   val ACAI_LEAVES = REGISTRATE.blockPreset<PalmLeavesBlock>("acai")
-    .palmLeavesBlock({ LEMON_SAPLING.get() })
+    .palmLeaves({ LEMON_SAPLING.get() })
     .color(MapColor.COLOR_LIGHT_GREEN)
     .biomeColors()
     .register()
 
   val CROP_LEAVES = REGISTRATE.blockPreset<CropLeavesBlock>("budding_lemon")
-    .cropLeavesBlock({ LEMON_SAPLING.get() }, { Items.EMERALD })
+    .cropLeaves({ LEMON_SAPLING.get() }, { Items.EMERALD })
     .color(MapColor.COLOR_LIGHT_GREEN)
     .register()
 
   val BUDDING_LEMON_LEAVES = REGISTRATE.blockPreset<BuddingLeavesBlock>("coconut")
-    .buddingLeavesBlock({ LEMON_SAPLING.get() }, { Blocks.MANGROVE_PROPAGULE })
+    .buddingLeaves({ LEMON_SAPLING.get() }, { Blocks.MANGROVE_PROPAGULE })
     .color(MapColor.COLOR_LIGHT_GREEN)
     .biomeColors()
     .register()

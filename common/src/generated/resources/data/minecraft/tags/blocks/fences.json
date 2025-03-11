@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "deltaboxlib:pale_oak_fence"
+    "deltaboxlib:pale_oak_fence",
+    "deltaboxlib:ebony_fence"
   ]
 }

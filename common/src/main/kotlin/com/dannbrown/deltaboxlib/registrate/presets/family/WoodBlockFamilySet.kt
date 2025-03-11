@@ -1,6 +1,8 @@
 package com.dannbrown.deltaboxlib.registrate.presets.family
 
+import com.dannbrown.deltaboxlib.content.block.FlammableBlock
 import com.dannbrown.deltaboxlib.content.block.FlammablePillarBlock
+import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
 import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilderContext
@@ -9,6 +11,7 @@ import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.core.BlockPos
+import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.tags.BlockTags
 import net.minecraft.tags.ItemTags
 import net.minecraft.tags.TagKey
@@ -19,9 +22,18 @@ import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.ButtonBlock
 import net.minecraft.world.level.block.CeilingHangingSignBlock
+import net.minecraft.world.level.block.DoorBlock
+import net.minecraft.world.level.block.FenceBlock
+import net.minecraft.world.level.block.FenceGateBlock
+import net.minecraft.world.level.block.FlowerPotBlock
+import net.minecraft.world.level.block.PressurePlateBlock
+import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.SoundType
+import net.minecraft.world.level.block.StairBlock
 import net.minecraft.world.level.block.StandingSignBlock
+import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallHangingSignBlock
 import net.minecraft.world.level.block.WallSignBlock
 import net.minecraft.world.level.block.state.BlockBehaviour
@@ -93,32 +105,31 @@ class WoodBlockFamilySet(
         .register()
     }
 //
-//    _blockFamily.setVariant(BlockFamily.Type.WOOD) {
-//      generator.createRotatedPillar<StrippableFlammablePillarBlock>(_name + "_wood", _name + "_log", _name + "_log")
-//        .blockFactory { p, c ->
-//          StrippableFlammablePillarBlock(
-//            p,
-//            c.strippedBlock!!,
-//            c.flammability!!.first,
-//            c.flammability.second
-//          )
-//        }
-//        .flammable()
-//        .strippable { _blockFamily.blocks[BlockFamily.Type.STRIPPED_WOOD]!!.get() }
-//        .copyFrom { Blocks.OAK_WOOD }
-//        .color(_color ?: MapColor.WOOD)
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .blockTags(listOf(BlockTags.LOGS, LOG_TAG_BLOCK, BlockTags.LOGS_THAT_BURN))
-//        .itemTags(listOf(ItemTags.LOGS, LOG_TAG_ITEM, ItemTags.LOGS_THAT_BURN))
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).polishedCraftingRecipe(
-//            { c.get() },
-//            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.LOG]!!.get()) },
-//            3
-//          )
-//        }
-//        .register()
-//    }
+    _blockFamily.setVariant(BlockFamily.Type.WOOD) {
+      registrate.blockPreset<FlammablePillarBlock>(_name + "_wood").rotatedPillar(_name + "_log", _name + "_log")
+        .factory { c, p ->
+          FlammablePillarBlock(
+            p,
+            c.flammabilityBurnChance,
+            c.flammabilitySpreadChance
+          )
+        }
+        .flammable()
+        .strippable { _blockFamily.blocks[BlockFamily.Type.STRIPPED_WOOD]!!.get() }
+        .copyFrom { Blocks.OAK_WOOD }
+        .color(_color ?: MapColor.WOOD)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .blockTags(BlockTags.LOGS, LOG_TAG_BLOCK, BlockTags.LOGS_THAT_BURN)
+        .itemTags(ItemTags.LOGS, LOG_TAG_ITEM, ItemTags.LOGS_THAT_BURN)
+        .recipe { c, p ->
+          c.polishedCraftingRecipe(
+            { p.get() },
+            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.LOG]!!.get()) },
+            3
+          )
+        }
+        .register()
+    }
     // Stripped Logs
     _blockFamily.setVariant(BlockFamily.Type.STRIPPED_LOG) {
       registrate.blockPreset<FlammablePillarBlock>("stripped_$_name" + "_log")
@@ -142,199 +153,199 @@ class WoodBlockFamilySet(
         )
         .register()
     }
-//
-//    _blockFamily.setVariant(BlockFamily.Type.STRIPPED_WOOD) {
-//      generator.createRotatedPillar<FlammablePillarBlock>(
-//        "stripped_$_name" + "_wood",
-//        "stripped_$_name" + "_log",
-//        "stripped_$_name" + "_log"
-//      )
-//        .blockFactory { p, c -> FlammablePillarBlock(p, c.flammability!!.first, c.flammability.second) }
-//        .flammable()
-//        .copyFrom { Blocks.STRIPPED_OAK_WOOD }
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .blockTags(
-//          listOf(
-//            BlockTags.LOGS,
-//            LOG_TAG_BLOCK,
-//            *FORGE_STRIPPED_LOGS_TAG_BLOCK.toTypedArray(),
-//            BlockTags.LOGS_THAT_BURN
-//          )
-//        )
-//        .itemTags(
-//          listOf(
-//            ItemTags.LOGS,
-//            LOG_TAG_ITEM,
-//            *FORGE_STRIPPED_LOGS_TAG_ITEM.toTypedArray(),
-//            ItemTags.LOGS_THAT_BURN
-//          )
-//        )
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).polishedCraftingRecipe(
-//            { c.get() },
-//            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get()) },
-//            3
-//          )
-//        }
-//        .register()
-//    }
-//
-//    _blockFamily.setVariant(BlockFamily.Type.SAPLING) {
-//      generator.saplingBlock(_name, grower, placeOn).register()
-//    }
-//
-//    _blockFamily.setVariant(BlockFamily.Type.POTTED_SAPLING) {
-//      generator.pottedBlock(_name, _blockFamily.blocks[BlockFamily.Type.SAPLING]!!, "_sapling").register()
-//    }
-//
-//    if (!_denyList.contains(BlockFamily.Type.LEAVES)) {
-//      _blockFamily.setVariant(BlockFamily.Type.LEAVES) {
-//        generator.createLeavesBlock(
-//          _name,
-//          { _blockFamily.blocks[BlockFamily.Type.SAPLING]!!.get() as GenericSaplingBlock })
-//          .blockTags(listOf(BlockTags.LEAVES, *FORGE_LEAVES_TAG_BLOCK.toTypedArray(), BlockTags.MINEABLE_WITH_HOE))
-//          .itemTags(listOf(ItemTags.LEAVES, *FORGE_LEAVES_TAG_ITEM.toTypedArray()))
-//          .register()
-//      }
-//    }
-//    // Main Block
-//    _blockFamily.setVariant(BlockFamily.Type.MAIN) {
-//      generator.create<FlammableBlock>(_name + "_planks")
-//        .blockFactory { p, c -> FlammableBlock(p, c.flammability!!.first, c.flammability.second) }
-//        .flammable(20, 5)
-//        .copyFrom { Blocks.OAK_PLANKS }
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .blockTags(listOf(BlockTags.PLANKS))
-//        .itemTags(listOf(ItemTags.PLANKS))
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).directShapelessRecipe(
-//            { c.get() },
-//            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.LOG]!!.get()) },
-//            4,
-//            "_from_log"
-//          )
-//          RecipePresets(registrate, p).directShapelessRecipe(
-//            { c.get() },
-//            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get()) },
-//            4,
-//            "_from_stripped_log"
-//          )
-//          RecipePresets(registrate, p).directShapelessRecipe(
-//            { c.get() },
-//            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.WOOD]!!.get()) },
-//            4,
-//            "_from_wood"
-//          )
-//          RecipePresets(registrate, p).directShapelessRecipe(
-//            { c.get() },
-//            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_WOOD]!!.get()) },
-//            4,
-//            "_from_stripped_wood"
-//          )
-//        }
-//        .register()
-//    }
-//    // Stairs
-//    _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
-//      generator.createStairs(_name, _name + "_planks", false, true)
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .blockTags(listOf(BlockTags.STAIRS, BlockTags.WOODEN_STAIRS))
-//        .itemTags(listOf(ItemTags.STAIRS, ItemTags.WOODEN_STAIRS))
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).stairsCraftingRecipe({ c.get() }) {
-//            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
-//          }
-//        }
-//        .register()
-//    }
-//    // Slab
-//    _blockFamily.setVariant(BlockFamily.Type.SLAB) {
-//      generator.createSlab(_name, _name + "_planks", false, true)
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).slabCraftingRecipe({ c.get() }) {
-//            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
-//          }
-//        }
-//        .register()
-//    }
-//    // Fence
-//    _blockFamily.setVariant(BlockFamily.Type.FENCE) {
-//      generator.createFence(_name, _name + "_planks", false)
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).fenceCraftingRecipe({ c.get() }) {
-//            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
-//          }
-//        }
-//        .register()
-//    }
-//    // Fence Gate
-//    _blockFamily.setVariant(BlockFamily.Type.FENCE_GATE) {
-//      generator.createFenceGate(_name, _name + "_planks", woodType)
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).fenceGateCraftingRecipe({ c.get() }) {
-//            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
-//          }
-//        }
-//        .register()
-//    }
-//    // Pressure Plate
-//    _blockFamily.setVariant(BlockFamily.Type.PRESSURE_PLATE) {
-//      generator.createPressurePlate(_name, _name + "_planks", setType, true)
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).pressurePlateCraftingRecipe({ c.get() }) {
-//            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
-//          }
-//        }
-//        .register()
-//    }
-//    // Button
-//    _blockFamily.setVariant(BlockFamily.Type.BUTTON) {
-//      generator.createButton(_name, _name + "_planks", setType, true)
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).directShapelessRecipe(
-//            { c.get() },
-//            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) },
-//            1
-//          )
-//        }
-//        .register()
-//    }
-//    // Door
-//    _blockFamily.setVariant(BlockFamily.Type.DOOR) {
-//      generator.createDoor(_name, setType, true)
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).doorCraftingRecipe({ c.get() }) {
-//            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
-//          }
-//        }
-//        .register()
-//    }
-//    // Trapdoor
-//    _blockFamily.setVariant(BlockFamily.Type.TRAPDOOR) {
-//      generator.createWoodenTrapdoor(_name, setType, true)
-//        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
-//        .color(_accentColor ?: MapColor.WOOD)
-//        .recipe { c, p ->
-//          RecipePresets(registrate, p).trapdoorCraftingRecipe({ c.get() }) {
-//            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
-//          }
-//        }
-//        .register()
-//    }
+
+    _blockFamily.setVariant(BlockFamily.Type.STRIPPED_WOOD) {
+      registrate.blockPreset<FlammablePillarBlock>("stripped_$_name" + "_wood")
+        .rotatedPillar(
+          "stripped_$_name" + "_log",
+          "stripped_$_name" + "_log"
+        )
+        .factory { c, p -> FlammablePillarBlock(p, c.flammabilityBurnChance, c.flammabilitySpreadChance) }
+        .flammable()
+        .copyFrom { Blocks.STRIPPED_OAK_WOOD }
+        .color(_accentColor ?: MapColor.WOOD)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .blockTags(
+          BlockTags.LOGS,
+          LOG_TAG_BLOCK,
+          *FORGE_STRIPPED_LOGS_TAG_BLOCK.toTypedArray(),
+          BlockTags.LOGS_THAT_BURN
+        )
+        .itemTags(
+          ItemTags.LOGS,
+          LOG_TAG_ITEM,
+          *FORGE_STRIPPED_LOGS_TAG_ITEM.toTypedArray(),
+          ItemTags.LOGS_THAT_BURN
+        )
+        .recipe { c, p ->
+          c.polishedCraftingRecipe(
+            { p.get() },
+            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get()) },
+            3
+          )
+        }
+        .register()
+    }
+
+    _blockFamily.setVariant(BlockFamily.Type.SAPLING) {
+      registrate.blockPreset<GenericSaplingBlock>(_name).saplingBlock(grower, placeOn).register()
+    }
+
+    _blockFamily.setVariant(BlockFamily.Type.POTTED_SAPLING) {
+      registrate.blockPreset<FlowerPotBlock>(_name)
+        .pottedBlock({ _blockFamily.blocks[BlockFamily.Type.SAPLING]!!.get() }, "_sapling").register()
+    }
+
+    if (!_denyList.contains(BlockFamily.Type.LEAVES)) {
+      _blockFamily.setVariant(BlockFamily.Type.LEAVES) {
+        registrate.blockPreset<FlowerPotBlock>(_name).leaves(
+          { _blockFamily.blocks[BlockFamily.Type.SAPLING]!!.get() as GenericSaplingBlock })
+          .blockTags(BlockTags.LEAVES, *FORGE_LEAVES_TAG_BLOCK.toTypedArray(), BlockTags.MINEABLE_WITH_HOE)
+          .itemTags(ItemTags.LEAVES, *FORGE_LEAVES_TAG_ITEM.toTypedArray())
+          .biomeColors()
+          .register()
+      }
+    }
+    // Main Block
+    _blockFamily.setVariant(BlockFamily.Type.MAIN) {
+      registrate.block<FlammableBlock>(_name + "_planks")
+        .factory { c, p -> FlammableBlock(p, c.flammabilityBurnChance, c.flammabilitySpreadChance) }
+        .flammable(20, 5)
+        .copyFrom { Blocks.OAK_PLANKS }
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .blockTags(BlockTags.PLANKS)
+        .itemTags(ItemTags.PLANKS)
+        .recipe { c, p ->
+          c.directShapelessRecipe(
+            { p.get() },
+            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.LOG]!!.get()) },
+            RecipeCategory.BUILDING_BLOCKS,
+            4,
+            "_from_log"
+          )
+          c.directShapelessRecipe(
+            { p.get() },
+            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get()) },
+            RecipeCategory.BUILDING_BLOCKS,
+            4,
+            "_from_stripped_log"
+          )
+          c.directShapelessRecipe(
+            { p.get() },
+            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.WOOD]!!.get()) },
+            RecipeCategory.BUILDING_BLOCKS,
+            4,
+            "_from_wood"
+          )
+          c.directShapelessRecipe(
+            { p.get() },
+            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_WOOD]!!.get()) },
+            RecipeCategory.BUILDING_BLOCKS,
+            4,
+            "_from_stripped_wood"
+          )
+        }
+        .register()
+    }
+    // Stairs
+    _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
+      registrate.blockPreset<StairBlock>(_name).stairs(_name + "_planks", false, true)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor ?: MapColor.WOOD)
+        .recipe { c, p ->
+          c.stairsCraftingRecipe({ p.get() }) {
+            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+          }
+        }
+        .register()
+    }
+    // Slab
+    _blockFamily.setVariant(BlockFamily.Type.SLAB) {
+      registrate.blockPreset<SlabBlock>(_name).slab(_name + "_planks", false, true)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor ?: MapColor.WOOD)
+        .recipe { c, p ->
+          c.slabCraftingRecipe({ p.get() }) {
+            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+          }
+        }
+        .register()
+    }
+    // Fence
+    _blockFamily.setVariant(BlockFamily.Type.FENCE) {
+      registrate.blockPreset<FenceBlock>(_name).fence(_name + "_planks", false)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor ?: MapColor.WOOD)
+        .recipe { c, p ->
+          c.fenceCraftingRecipe({ p.get() }) {
+            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+          }
+        }
+        .register()
+    }
+    // Fence Gate
+    _blockFamily.setVariant(BlockFamily.Type.FENCE_GATE) {
+      registrate.blockPreset<FenceGateBlock>(_name).fenceGate(_name + "_planks", woodType)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor ?: MapColor.WOOD)
+        .recipe { c, p ->
+          c.fenceGateCraftingRecipe({ p.get() }) {
+            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+          }
+        }
+        .register()
+    }
+    // Pressure Plate
+    _blockFamily.setVariant(BlockFamily.Type.PRESSURE_PLATE) {
+      registrate.blockPreset<PressurePlateBlock>(_name).pressurePlate(_name + "_planks", setType, true)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor ?: MapColor.WOOD)
+        .recipe { c, p ->
+          c.pressurePlateCraftingRecipe({ p.get() }) {
+            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+          }
+        }
+        .register()
+    }
+    // Button
+    _blockFamily.setVariant(BlockFamily.Type.BUTTON) {
+      registrate.blockPreset<ButtonBlock>(_name).button(_name + "_planks", setType, true)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor ?: MapColor.WOOD)
+        .recipe { c, p ->
+          c.directShapelessRecipe(
+            { p.get() },
+            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) },
+            RecipeCategory.BUILDING_BLOCKS,
+            1
+          )
+        }
+        .register()
+    }
+    // Door
+    _blockFamily.setVariant(BlockFamily.Type.DOOR) {
+      registrate.blockPreset<DoorBlock>(_name).door(setType, true)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor ?: MapColor.WOOD)
+        .recipe { c, p ->
+          c.doorCraftingRecipe({ p.get() }) {
+            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+          }
+        }
+        .register()
+    }
+    // Trapdoor
+    _blockFamily.setVariant(BlockFamily.Type.TRAPDOOR) {
+      registrate.blockPreset<TrapDoorBlock>(_name).woodenTrapdoor(setType, true)
+        .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
+        .color(_accentColor ?: MapColor.WOOD)
+        .recipe { c, p ->
+          c.trapdoorCraftingRecipe({ p.get() }) {
+            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+          }
+        }
+        .register()
+    }
 //    // Wall Sign
 //    _blockFamily.setVariant(BlockFamily.Type.WALL_SIGN) {
 //      generator.create<WallSignBlock>(_name + "_wall_sign")
@@ -374,7 +385,7 @@ class WoodBlockFamilySet(
 //        .blockTags(listOf(BlockTags.STANDING_SIGNS, BlockTags.SIGNS))
 //        .itemTags(listOf(ItemTags.SIGNS))
 //        .recipe { c, p ->
-//          RecipePresets(registrate, p).signCraftingRecipe({ c.get() }) {
+//          c.signCraftingRecipe({ p.get() }) {
 //            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
 //          }
 //        }
@@ -439,7 +450,7 @@ class WoodBlockFamilySet(
 //        .blockTags(listOf(BlockTags.ALL_HANGING_SIGNS, BlockTags.CEILING_HANGING_SIGNS))
 //        .itemTags(listOf(ItemTags.HANGING_SIGNS))
 //        .recipe { c, p ->
-//          RecipePresets(registrate, p).hangingSignCraftingRecipe({ c.get() }) {
+//          c.hangingSignCraftingRecipe({ p.get() }) {
 //            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get().asItem())
 //          }
 //        }

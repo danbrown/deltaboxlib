@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "deltaboxlib:lemon_sapling"
+    "deltaboxlib:lemon_sapling",
+    "deltaboxlib:ebony_sapling"
   ]
 }

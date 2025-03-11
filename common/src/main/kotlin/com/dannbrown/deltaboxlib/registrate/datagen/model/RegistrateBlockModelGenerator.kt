@@ -110,9 +110,9 @@ class RegistrateBlockModelGenerator(
     )
   }
 
-  fun pottedPlantBlock(pottedPlant: Block, plant: Block) {
+  fun pottedPlantBlock(pottedPlant: Block, plant: Supplier<out Block>) {
     val location =
-      RegistrateModelTemplates.POTTED_FLOWER.create(pottedPlant, TextureMapping.plant(plant), this.modelOutput)
+      RegistrateModelTemplates.POTTED_FLOWER.create(pottedPlant, TextureMapping.plant(plant.get()), this.modelOutput)
     this.blockStateOutput.accept(
       MultiVariantGenerator.multiVariant(
         pottedPlant,
