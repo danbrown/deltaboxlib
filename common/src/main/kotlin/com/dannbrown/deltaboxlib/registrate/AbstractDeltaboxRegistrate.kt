@@ -13,6 +13,10 @@ import com.dannbrown.deltaboxlib.registrate.util.PlacedFeaturesUtil
 import com.mojang.serialization.Codec
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.client.model.geom.builders.LayerDefinition
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.core.particles.ParticleOptions
+import net.minecraft.core.particles.ParticleType
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
@@ -55,6 +59,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val boatVariantRegistry: BoatVariantRegistry = BoatVariantRegistry(modId)
   val blockEntityRegistry: BlockEntityRegistry = BlockEntityRegistry(modId)
   val entityTypeRegistry: EntityTypeRegistry = EntityTypeRegistry(modId)
+  val particleRegistry: ParticleRegistry = ParticleRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -237,6 +242,13 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return this
   }
 
+  fun <T : ParticleOptions> particleType(
+    name: String, supplier: Supplier<ParticleType<T>>,
+    provider: (sprite: SpriteSet) -> ParticleProvider<T>
+  ): RegistrySupplier<ParticleType<T>> {
+    return this.particleRegistry.particleType(name, supplier, provider)
+  }
+
   fun buildRegistries() {
     blockRegistry.build()
     itemRegistry.build()
@@ -244,5 +256,6 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     placerTypeRegistry.build()
     blockEntityRegistry.build()
     entityTypeRegistry.build()
+    particleRegistry.build()
   }
 }
