@@ -50,7 +50,6 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val placedFeatureRegistry: PlacedFeatureRegistry = PlacedFeatureRegistry(modId)
   val biomeModifierRegistry: BiomeModifierRegistry = BiomeModifierRegistry(modId)
 
-
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
   }
@@ -58,6 +57,11 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   fun <T : Block> blockPreset(blockId: String): BlockPresets<T> {
     return BlockPresets(this, blockId)
   }
+
+  fun blockfamily(blockId: String): BlockFamilyGeneratorBuilder {
+    return BlockFamilyGeneratorBuilder(this, blockId)
+  }
+
 
   fun <T : Item> item(blockId: String): ItemBuilder<T> {
     return ItemBuilder(this, blockId)
