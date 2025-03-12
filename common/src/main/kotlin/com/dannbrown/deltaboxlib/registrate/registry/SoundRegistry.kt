@@ -14,7 +14,6 @@ class SoundRegistry(modId: String) {
     return sounds.register(id, blockSupplier)
   }
 
-
   fun build() {
     if (isRegistered) return
     isRegistered = true

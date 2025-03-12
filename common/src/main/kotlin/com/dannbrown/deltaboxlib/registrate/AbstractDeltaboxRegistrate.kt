@@ -266,11 +266,13 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun soundEvent(name: String, range: Float): Supplier<SoundEvent> {
     val location = DeltaboxUtil.resourceLocation(modId, name)
+    this.langRegistry.register("sounds.${modId}.${name}", DeltaboxUtil.asName(name))
     return this.soundRegistry.register(name, { SoundEvent.createFixedRangeEvent(location, range) })
   }
 
   fun soundEvent(name: String): Supplier<SoundEvent> {
     val location = DeltaboxUtil.resourceLocation(modId, name)
+    this.langRegistry.register("sounds.${modId}.${name}", DeltaboxUtil.asName(name))
     return this.soundRegistry.register(name, { SoundEvent.createVariableRangeEvent(location) })
   }
 

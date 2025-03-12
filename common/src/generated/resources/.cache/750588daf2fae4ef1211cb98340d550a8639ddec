@@ -1,12 +1,12 @@
-// 1.20.1	2025-03-11T22:36:53.733631	Deltabox Lib/Block Loot Tables
+// 1.20.1	2025-03-11T22:45:33.943603	Deltabox Lib/Block Loot Tables
 9dcdca08e579a72567e0a405c135e9e91d493b48 data/deltaboxlib/loot_tables/blocks/pale_oak_planks.json
 969f2120d3217711147933562372bf508f89d181 data/deltaboxlib/loot_tables/blocks/sparse_dry_grass.json
 678abd32b408f5b5ffa8595ad5428452936fb879 data/deltaboxlib/loot_tables/blocks/black_beans.json
 1d4929d7d6176f60e5ea991a577527ed251ef375 data/deltaboxlib/loot_tables/blocks/cassava_root.json
 4df6a7e067203cbb5edf5df40c4056b81712069a data/deltaboxlib/loot_tables/blocks/closed_eyeblossom.json
+e983e8c24158227b665d9c180e3c576cfcde175c data/deltaboxlib/loot_tables/blocks/pyrite_brick_slab.json
 225987f52d188f321db3e76dc2795b3df87208b4 data/deltaboxlib/loot_tables/blocks/pyrite.json
 0e92400a5fc9a512c71d8dda747af9ad78c6a6c8 data/deltaboxlib/loot_tables/blocks/potted_lemon_sapling.json
-e983e8c24158227b665d9c180e3c576cfcde175c data/deltaboxlib/loot_tables/blocks/pyrite_brick_slab.json
 a6783670a8b7c3c3084376923e57ea1a64b89420 data/deltaboxlib/loot_tables/blocks/pyrite_stairs.json
 894b32d2a489e9b12462e7a19b2e8ff977a711ee data/deltaboxlib/loot_tables/blocks/pyrite_slab.json
 4ae3e8ae6bb1ca2ca8ea6bfe6ce948b3846d0812 data/deltaboxlib/loot_tables/blocks/acai_berries_crate.json
