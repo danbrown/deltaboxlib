@@ -1,6 +1,5 @@
 package com.dannbrown.deltaboxlib.registrate.providers.trades
 
-
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import com.mojang.serialization.JsonOps

@@ -1,0 +1,277 @@
+{
+  "block_of_resin_break": {
+    "sounds": [
+      "deltaboxlib:block_of_resin_break_1",
+      "deltaboxlib:block_of_resin_break_2",
+      "deltaboxlib:block_of_resin_break_3",
+      "deltaboxlib:block_of_resin_break_4",
+      "deltaboxlib:block_of_resin_break_5"
+    ],
+    "subtitle": "sounds.deltaboxlib.block_of_resin_break"
+  },
+  "block_of_resin_fall": {
+    "sounds": [
+      "deltaboxlib:block_of_resin_fall_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.block_of_resin_fall"
+  },
+  "block_of_resin_hit": {
+    "sounds": [
+      "deltaboxlib:block_of_resin_hit_1",
+      "deltaboxlib:block_of_resin_hit_2",
+      "deltaboxlib:block_of_resin_hit_3",
+      "deltaboxlib:block_of_resin_hit_4",
+      "deltaboxlib:block_of_resin_hit_5"
+    ],
+    "subtitle": "sounds.deltaboxlib.block_of_resin_hit"
+  },
+  "block_of_resin_place": {
+    "sounds": [
+      "deltaboxlib:block_of_resin_place_1",
+      "deltaboxlib:block_of_resin_place_2",
+      "deltaboxlib:block_of_resin_place_3",
+      "deltaboxlib:block_of_resin_place_4"
+    ],
+    "subtitle": "sounds.deltaboxlib.block_of_resin_place"
+  },
+  "block_of_resin_step": {
+    "sounds": [
+      "deltaboxlib:block_of_resin_step_1",
+      "deltaboxlib:block_of_resin_step_2",
+      "deltaboxlib:block_of_resin_step_3",
+      "deltaboxlib:block_of_resin_step_4",
+      "deltaboxlib:block_of_resin_step_5"
+    ],
+    "subtitle": "sounds.deltaboxlib.block_of_resin_step"
+  },
+  "creaking_activate": {
+    "sounds": [
+      "deltaboxlib:creaking_activate_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_activate"
+  },
+  "creaking_ambient": {
+    "sounds": [
+      "deltaboxlib:creaking_ambient_1",
+      "deltaboxlib:creaking_ambient_2",
+      "deltaboxlib:creaking_ambient_3",
+      "deltaboxlib:creaking_ambient_4",
+      "deltaboxlib:creaking_ambient_5",
+      "deltaboxlib:creaking_ambient_6"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_ambient"
+  },
+  "creaking_attack": {
+    "sounds": [
+      "deltaboxlib:creaking_attack_1",
+      "deltaboxlib:creaking_attack_2",
+      "deltaboxlib:creaking_attack_3",
+      "deltaboxlib:creaking_attack_4"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_attack"
+  },
+  "creaking_deactivate": {
+    "sounds": [
+      "deltaboxlib:creaking_deactivate_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_deactivate"
+  },
+  "creaking_death": {
+    "sounds": [
+      "deltaboxlib:creaking_death_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_death"
+  },
+  "creaking_freeze": {
+    "sounds": [
+      "deltaboxlib:creaking_freeze_1",
+      "deltaboxlib:creaking_freeze_2",
+      "deltaboxlib:creaking_freeze_3",
+      "deltaboxlib:creaking_freeze_4"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_freeze"
+  },
+  "creaking_heart_break": {
+    "sounds": [
+      "deltaboxlib:creaking_heart_break_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_heart_break"
+  },
+  "creaking_heart_fall": {
+    "sounds": [
+      "deltaboxlib:creaking_heart_fall_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_heart_fall"
+  },
+  "creaking_heart_hit": {
+    "sounds": [
+      "deltaboxlib:creaking_heart_hit_1",
+      "deltaboxlib:creaking_heart_hit_2",
+      "deltaboxlib:creaking_heart_hit_3",
+      "deltaboxlib:creaking_heart_hit_4",
+      "deltaboxlib:creaking_heart_hit_5"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_heart_hit"
+  },
+  "creaking_heart_hurt": {
+    "sounds": [
+      "deltaboxlib:creaking_heart_hurt_1",
+      "deltaboxlib:creaking_heart_hurt_2",
+      "deltaboxlib:creaking_heart_hurt_3",
+      "deltaboxlib:creaking_heart_hurt_4",
+      "deltaboxlib:creaking_heart_hurt_5",
+      "deltaboxlib:creaking_heart_hurt_6",
+      "deltaboxlib:creaking_heart_hurt_7"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_heart_hurt"
+  },
+  "creaking_heart_idle": {
+    "sounds": [
+      "deltaboxlib:creaking_heart_idle_1",
+      "deltaboxlib:creaking_heart_idle_2",
+      "deltaboxlib:creaking_heart_idle_3",
+      "deltaboxlib:creaking_heart_idle_4"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_heart_idle"
+  },
+  "creaking_heart_place": {
+    "sounds": [
+      "deltaboxlib:creaking_heart_place_1",
+      "deltaboxlib:creaking_heart_place_2",
+      "deltaboxlib:creaking_heart_place_3",
+      "deltaboxlib:creaking_heart_place_4"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_heart_place"
+  },
+  "creaking_heart_step": {
+    "sounds": [
+      "deltaboxlib:creaking_heart_step_1",
+      "deltaboxlib:creaking_heart_step_2",
+      "deltaboxlib:creaking_heart_step_3",
+      "deltaboxlib:creaking_heart_step_4",
+      "deltaboxlib:creaking_heart_step_5",
+      "deltaboxlib:creaking_heart_step_6"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_heart_step"
+  },
+  "creaking_hit": {
+    "sounds": [
+      "deltaboxlib:creaking_hit_1",
+      "deltaboxlib:creaking_hit_2",
+      "deltaboxlib:creaking_hit_3",
+      "deltaboxlib:creaking_hit_4"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_hit"
+  },
+  "creaking_spawn": {
+    "sounds": [
+      "deltaboxlib:creaking_spawn_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_spawn"
+  },
+  "creaking_step": {
+    "sounds": [
+      "deltaboxlib:creaking_step_1",
+      "deltaboxlib:creaking_step_2",
+      "deltaboxlib:creaking_step_3",
+      "deltaboxlib:creaking_step_4",
+      "deltaboxlib:creaking_step_5"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_step"
+  },
+  "creaking_twitch": {
+    "sounds": [
+      "deltaboxlib:creaking_twitch_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_twitch"
+  },
+  "creaking_unfreeze": {
+    "sounds": [
+      "deltaboxlib:creaking_unfreeze_1",
+      "deltaboxlib:creaking_unfreeze_2",
+      "deltaboxlib:creaking_unfreeze_3"
+    ],
+    "subtitle": "sounds.deltaboxlib.creaking_unfreeze"
+  },
+  "eyeblossom_close": {
+    "sounds": [
+      "deltaboxlib:eyeblossom_close_1",
+      "deltaboxlib:eyeblossom_close_2",
+      "deltaboxlib:eyeblossom_close_3"
+    ],
+    "subtitle": "sounds.deltaboxlib.eyeblossom_close"
+  },
+  "eyeblossom_close_long": {
+    "sounds": [
+      "deltaboxlib:eyeblossom_close_long_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.eyeblossom_close_long"
+  },
+  "eyeblossom_idle": {
+    "sounds": [
+      "deltaboxlib:eyeblossom_idle_1",
+      "deltaboxlib:eyeblossom_idle_2",
+      "deltaboxlib:eyeblossom_idle_3",
+      "deltaboxlib:eyeblossom_idle_4",
+      "deltaboxlib:eyeblossom_idle_5",
+      "deltaboxlib:eyeblossom_idle_6"
+    ],
+    "subtitle": "sounds.deltaboxlib.eyeblossom_idle"
+  },
+  "eyeblossom_open": {
+    "sounds": [
+      "deltaboxlib:eyeblossom_open_1",
+      "deltaboxlib:eyeblossom_open_2",
+      "deltaboxlib:eyeblossom_open_3",
+      "deltaboxlib:eyeblossom_open_4"
+    ],
+    "subtitle": "sounds.deltaboxlib.eyeblossom_open"
+  },
+  "eyeblossom_open_long": {
+    "sounds": [
+      "deltaboxlib:eyeblossom_open_long_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.eyeblossom_open_long"
+  },
+  "resin_bricks_break": {
+    "sounds": [
+      "deltaboxlib:resin_bricks_break_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.resin_bricks_break"
+  },
+  "resin_bricks_fall": {
+    "sounds": [
+      "deltaboxlib:resin_bricks_fall_1"
+    ],
+    "subtitle": "sounds.deltaboxlib.resin_bricks_fall"
+  },
+  "resin_bricks_hit": {
+    "sounds": [
+      "deltaboxlib:resin_bricks_hit_1",
+      "deltaboxlib:resin_bricks_hit_2",
+      "deltaboxlib:resin_bricks_hit_3",
+      "deltaboxlib:resin_bricks_hit_4",
+      "deltaboxlib:resin_bricks_hit_5"
+    ],
+    "subtitle": "sounds.deltaboxlib.resin_bricks_hit"
+  },
+  "resin_bricks_place": {
+    "sounds": [
+      "deltaboxlib:resin_bricks_place_1",
+      "deltaboxlib:resin_bricks_place_2",
+      "deltaboxlib:resin_bricks_place_3",
+      "deltaboxlib:resin_bricks_place_4"
+    ],
+    "subtitle": "sounds.deltaboxlib.resin_bricks_place"
+  },
+  "resin_bricks_step": {
+    "sounds": [
+      "deltaboxlib:resin_bricks_step_1",
+      "deltaboxlib:resin_bricks_step_2",
+      "deltaboxlib:resin_bricks_step_3",
+      "deltaboxlib:resin_bricks_step_4",
+      "deltaboxlib:resin_bricks_step_5"
+    ],
+    "subtitle": "sounds.deltaboxlib.resin_bricks_step"
+  }
+}

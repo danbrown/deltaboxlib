@@ -7,6 +7,7 @@ import com.dannbrown.deltaboxlib.registrate.datagen.RegistrateRecipes
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateBlockModelGenerator
 import com.dannbrown.deltaboxlib.registrate.datagen.model.RegistrateItemModelGenerator
 import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeModifierProvider
+import com.dannbrown.deltaboxlib.registrate.providers.sounds.SoundsJsonProvider
 import com.dannbrown.deltaboxlib.registrate.providers.trades.VillagerTradeProvider
 import com.dannbrown.deltaboxlib.registrate.providers.trades.WandererTradeProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
@@ -60,6 +61,8 @@ object RegistrateDatagenFabric {
     pack.addProvider { packOutput -> VillagerTradeProvider(registrate, packOutput) }
     // wanderer trades
     pack.addProvider { packOutput -> WandererTradeProvider(registrate, packOutput) }
+    // sounds
+    pack.addProvider { packOutput -> SoundsJsonProvider(registrate, packOutput) }
     // configured features
     pack.addProvider(configuredFeaturesFactory(registrate))
     // placed features

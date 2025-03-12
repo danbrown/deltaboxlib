@@ -265,16 +265,16 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return this.particleRegistry.particleType(name, supplier, provider)
   }
 
-  fun soundEvent(name: String, range: Float): Supplier<SoundEvent> {
+  fun soundEvent(name: String, count: Int, range: Float): Supplier<SoundEvent> {
     val location = DeltaboxUtil.resourceLocation(modId, name)
     this.langRegistry.register("sounds.${modId}.${name}", DeltaboxUtil.asName(name))
-    return this.soundRegistry.register(name, { SoundEvent.createFixedRangeEvent(location, range) })
+    return this.soundRegistry.register(name, count, { SoundEvent.createFixedRangeEvent(location, range) })
   }
 
-  fun soundEvent(name: String): Supplier<SoundEvent> {
+  fun soundEvent(name: String, count: Int): Supplier<SoundEvent> {
     val location = DeltaboxUtil.resourceLocation(modId, name)
     this.langRegistry.register("sounds.${modId}.${name}", DeltaboxUtil.asName(name))
-    return this.soundRegistry.register(name, { SoundEvent.createVariableRangeEvent(location) })
+    return this.soundRegistry.register(name, count, { SoundEvent.createVariableRangeEvent(location) })
   }
 
   fun buildRegistries() {
