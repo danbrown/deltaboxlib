@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-12T11:52:51.742362	Deltabox Lib/Model Definitions
+// 1.20.1	2025-03-12T13:27:17.540102	Deltabox Lib/Model Definitions
 37ab3d273f15cbec3b378f39ff7ce3c5c126915c assets/deltaboxlib/models/block/cassava_crop_bottom_stage2.json
 24cb335c777cbf2e51e7b84da580bed8d56c38f0 assets/deltaboxlib/models/block/carioca_beans_stage5.json
 a5a4c60d7453c0beabbbae56c4adbc223f869b1e assets/deltaboxlib/models/block/corn_crop_top_stage2.json
@@ -253,8 +253,8 @@ a7b9f067abc8f3b147b73009776fb901769cd0eb assets/deltaboxlib/models/item/pyrite_s
 b5bf129f2a6b37aa5ce42419c267a4ede00e6e33 assets/deltaboxlib/blockstates/potted_simple_flower.json
 f61178933cb9ba9f21efd0de135932032befa2c4 assets/deltaboxlib/blockstates/pyrite.json
 778c71e0e0fc0e46e7909d58971abf8574925180 assets/deltaboxlib/blockstates/pyrite_brick_wall.json
-d181d0b6f288d630a4721978c3fcb89b75cb9f48 assets/deltaboxlib/models/block/pyrite_brick_wall_side_tall.json
 dced91ff64f6eb62021748868b3e86124914bf6c assets/deltaboxlib/models/block/compiled_block.json
+d181d0b6f288d630a4721978c3fcb89b75cb9f48 assets/deltaboxlib/models/block/pyrite_brick_wall_side_tall.json
 a614764eb6e249c31f71a680317b65b881afc9a3 assets/deltaboxlib/models/item/second_block.json
 8c856bfb42fceb236064766c91686105b130a634 assets/deltaboxlib/models/block/pale_oak_hanging_wall_sign.json
 263e3e66cd24702a2019cf95a4c63bfcd5399469 assets/deltaboxlib/models/block/pale_oak_button.json

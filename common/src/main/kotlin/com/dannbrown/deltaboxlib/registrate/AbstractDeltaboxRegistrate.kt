@@ -7,9 +7,7 @@ import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeSpawnCo
 import com.dannbrown.deltaboxlib.registrate.providers.trades.*
 import com.dannbrown.deltaboxlib.registrate.registry.*
 import com.dannbrown.deltaboxlib.registrate.types.RecipeFactory
-import com.dannbrown.deltaboxlib.registrate.util.ConfiguredFeaturesUtil
-import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
-import com.dannbrown.deltaboxlib.registrate.util.PlacedFeaturesUtil
+import com.dannbrown.deltaboxlib.registrate.util.*
 import com.mojang.serialization.Codec
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.client.model.geom.ModelLayerLocation
@@ -275,6 +273,16 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     val location = DeltaboxUtil.resourceLocation(modId, name)
     this.langRegistry.register("sounds.${modId}.${name}", DeltaboxUtil.asName(name))
     return this.soundRegistry.register(name, count, { SoundEvent.createVariableRangeEvent(location) })
+  }
+
+  fun biome(biome: AbstractBiome): AbstractBiome {
+    this.biomeRegistry.addBiome(biome)
+    return biome
+  }
+
+  fun dimension(dimension: AbstractDimension): AbstractDimension {
+    this.dimensionRegistry.addDimension(dimension)
+    return dimension
   }
 
   fun buildRegistries() {

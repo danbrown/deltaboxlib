@@ -9,25 +9,29 @@ import net.minecraft.data.worldgen.BootstapContext as BootstrapContext
 class DimensionRegistry(modId: String) {
   private val DIMENSIONS: MutableList<AbstractDimension> = ArrayList()
 
-  fun addDimension(biome: AbstractDimension) {
-    DIMENSIONS.add(biome)
+  fun addDimension(dimension: AbstractDimension) {
+    DIMENSIONS.add(dimension)
+  }
+
+  fun getDimensions(): MutableList<AbstractDimension> {
+    return DIMENSIONS
   }
 
   fun bootstrapNoise(context: BootstrapContext<NoiseGeneratorSettings>) {
-    for (biome in DIMENSIONS) {
-      biome.bootstrapNoise(context)
+    for (dimension in DIMENSIONS) {
+      dimension.bootstrapNoise(context)
     }
   }
 
   fun bootstrapStem(context: BootstrapContext<LevelStem>) {
-    for (biome in DIMENSIONS) {
-      biome.bootstrapStem(context)
+    for (dimension in DIMENSIONS) {
+      dimension.bootstrapStem(context)
     }
   }
 
   fun bootstrapType(context: BootstrapContext<DimensionType>) {
-    for (biome in DIMENSIONS) {
-      biome.bootstrapType(context)
+    for (dimension in DIMENSIONS) {
+      dimension.bootstrapType(context)
     }
   }
 }

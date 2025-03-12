@@ -19,6 +19,8 @@ object DeltaboxLibMod {
     DeltaboxWoodTypes.register()
     DeltaboxModelLayers.register()
     DeltaboxSounds.register()
+    DeltaboxBiomes.register()
+    DeltaboxDimensions.register()
     REGISTRATE.buildRegistries()
   }
 }

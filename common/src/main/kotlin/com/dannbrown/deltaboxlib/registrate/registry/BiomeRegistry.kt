@@ -11,6 +11,10 @@ class BiomeRegistry(modId: String) {
     BIOMES.add(biome)
   }
 
+  fun getBiomes(): MutableList<AbstractBiome> {
+    return BIOMES
+  }
+
   fun bootstrap(context: BootstrapContext<Biome>) {
     for (biome in BIOMES) {
       biome.bootstrapBiome(context)

@@ -10,6 +10,7 @@ import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeModifie
 import com.dannbrown.deltaboxlib.registrate.providers.sounds.SoundsJsonProvider
 import com.dannbrown.deltaboxlib.registrate.providers.trades.VillagerTradeProvider
 import com.dannbrown.deltaboxlib.registrate.providers.trades.WandererTradeProvider
+import com.mojang.serialization.Lifecycle
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
@@ -22,7 +23,6 @@ import net.minecraft.core.HolderLookup
 import net.minecraft.core.RegistrySetBuilder
 import net.minecraft.core.registries.Registries
 import net.minecraft.data.CachedOutput
-import net.minecraft.data.DataProvider
 import net.minecraft.data.models.BlockModelGenerators
 import net.minecraft.data.models.ItemModelGenerators
 import net.minecraft.data.recipes.FinishedRecipe
@@ -31,12 +31,24 @@ import net.minecraft.world.entity.decoration.PaintingVariant
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.dimension.DimensionType
+import net.minecraft.world.level.dimension.LevelStem
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 import net.minecraft.world.level.levelgen.presets.WorldPreset
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
+import com.mojang.serialization.JsonOps
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.minecraft.core.Holder
+import net.minecraft.core.HolderGetter
+import net.minecraft.data.DataProvider
+import net.minecraft.data.PackOutput
+import net.minecraft.resources.RegistryOps
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.data.worldgen.BootstapContext as BootstrapContext
 
 object RegistrateDatagenFabric {
   fun buildDatagenResources(pack: FabricDataGenerator.Pack, registrate: AbstractDeltaboxRegistrate) {
@@ -67,6 +79,14 @@ object RegistrateDatagenFabric {
     pack.addProvider(configuredFeaturesFactory(registrate))
     // placed features
     pack.addProvider(placedFeaturesFactory(registrate))
+    // biomes
+    pack.addProvider(biomesFactory(registrate))
+    // dimension noise settings
+    pack.addProvider(dimensionNoiseSettingsFactory(registrate))
+    // dimension level stem
+    pack.addProvider(dimensionStemFactory(registrate))
+    // dimension types
+    pack.addProvider(dimensionTypeFactory(registrate))
     // biome modifiers
     pack.addProvider { packOutput -> BiomeModifierProvider(registrate, packOutput) }
     // ----
@@ -75,6 +95,10 @@ object RegistrateDatagenFabric {
   fun buildRegistry(builder: RegistrySetBuilder, registrate: AbstractDeltaboxRegistrate) {
     builder.add(Registries.CONFIGURED_FEATURE, registrate.configuredFeatureRegistry::bootstrapConfiguredfeatures)
     builder.add(Registries.PLACED_FEATURE, registrate.placedFeatureRegistry::bootstrapPlacedFeatures)
+    builder.add(Registries.BIOME, registrate.biomeRegistry::bootstrap)
+    builder.add(Registries.NOISE_SETTINGS, registrate.dimensionRegistry::bootstrapNoise)
+    builder.add(Registries.LEVEL_STEM, Lifecycle.stable(), registrate.dimensionRegistry::bootstrapStem)
+    builder.add(Registries.DIMENSION_TYPE, registrate.dimensionRegistry::bootstrapType)
   }
 
 
@@ -361,6 +385,143 @@ object RegistrateDatagenFabric {
           key: ResourceKey<PlacedFeature>
         ) {
           val placedFeatureRegistryLookup = registries.lookupOrThrow(Registries.PLACED_FEATURE)
+          entries.add(key, placedFeatureRegistryLookup.getOrThrow(key).value())
+        }
+      }
+    }
+  }
+
+  private fun biomesFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricDynamicRegistryProvider> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricDynamicRegistryProvider(dataOutput, registriesFuture) {
+        override fun getName(): String {
+          return "worldgen/biome"
+        }
+
+        override fun configure(registries: HolderLookup.Provider, entries: Entries) {
+          for (biome in registrate.biomeRegistry.getBiomes()) {
+            add(registries, entries, biome.BIOME_KEY)
+          }
+        }
+
+        private fun add(
+          registries: HolderLookup.Provider,
+          entries: Entries,
+          key: ResourceKey<Biome>
+        ) {
+          val dimensionLookup = registries.lookupOrThrow(Registries.BIOME)
+          entries.add(key, dimensionLookup.getOrThrow(key).value())
+        }
+      }
+    }
+  }
+
+  private fun dimensionNoiseSettingsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricDynamicRegistryProvider> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricDynamicRegistryProvider(dataOutput, registriesFuture) {
+        override fun getName(): String {
+          return "worldgen/noise_settings"
+        }
+
+        override fun configure(registries: HolderLookup.Provider, entries: Entries) {
+          for (dimension in registrate.dimensionRegistry.getDimensions()) {
+            add(registries, entries, dimension.NOISE_SETTINGS)
+          }
+        }
+
+        private fun add(
+          registries: HolderLookup.Provider,
+          entries: Entries,
+          key: ResourceKey<NoiseGeneratorSettings>
+        ) {
+          val dimensionLookup = registries.lookupOrThrow(Registries.NOISE_SETTINGS)
+          entries.add(key, dimensionLookup.getOrThrow(key).value())
+        }
+      }
+    }
+  }
+
+  private fun dimensionStemFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricDynamicRegistryProvider> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricDynamicRegistryProvider(dataOutput, registriesFuture) {
+        private val path: PackOutput.PathProvider =
+          dataOutput.createPathProvider(PackOutput.Target.DATA_PACK, "dimension")
+
+        override fun getName(): String {
+          return "dimension"
+        }
+
+        override fun configure(registries: HolderLookup.Provider, entries: Entries) {
+          for (dimension in registrate.dimensionRegistry.getDimensions()) {
+            add(registries, entries, dimension.LEVEL_STEM)
+          }
+        }
+
+        private fun add(
+          registries: HolderLookup.Provider,
+          entries: Entries,
+          key: ResourceKey<LevelStem>
+        ) {
+          val dimensionLookup = registries.lookupOrThrow(Registries.LEVEL_STEM)
+          entries.add(key, dimensionLookup.getOrThrow(key).value())
+        }
+
+        override fun run(output: CachedOutput): CompletableFuture<*> {
+          return registriesFuture.thenCompose { registries ->
+            val entries = mutableMapOf<ResourceLocation, LevelStem>()
+            registrate.dimensionRegistry.bootstrapStem(object : BootstrapContext<LevelStem> {
+              override fun register(
+                resourceKey: ResourceKey<LevelStem>,
+                obj: LevelStem,
+                lifecycle: Lifecycle
+              ): Holder.Reference<LevelStem> {
+                entries[resourceKey.location()] = obj
+                return Holder.Reference.createStandAlone(null, resourceKey)
+              }
+
+              override fun <S> lookup(resourceKey: ResourceKey<out net.minecraft.core.Registry<out S>>): HolderGetter<S> {
+                return registries.lookupOrThrow(resourceKey)
+              }
+            })
+
+            val futures: Array<CompletableFuture<*>?> = arrayOfNulls(entries.size)
+            var i = 0
+            val ops = RegistryOps.create(JsonOps.INSTANCE, registries)
+            for ((key, value) in entries) {
+              val completableFuture = CompletableFuture.supplyAsync {
+                LevelStem.CODEC.encodeStart(ops, value).getOrThrow(false) {}
+              }.thenCompose { json ->
+                DataProvider.saveStable(output, json, path.json(key))
+              }
+              futures[i++] = completableFuture
+            }
+
+            CompletableFuture.allOf(*futures)
+          }
+        }
+      }
+    }
+  }
+
+  private fun dimensionTypeFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.RegistryDependentFactory<FabricDynamicRegistryProvider> {
+    return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
+      object : FabricDynamicRegistryProvider(dataOutput, registriesFuture) {
+        override fun getName(): String {
+          return "dimension_type"
+        }
+
+        override fun configure(registries: HolderLookup.Provider, entries: Entries) {
+          for (dimension in registrate.dimensionRegistry.getDimensions()) {
+            add(registries, entries, dimension.DIMENSION_TYPE)
+          }
+        }
+
+        private fun add(
+          registries: HolderLookup.Provider,
+          entries: Entries,
+          key: ResourceKey<DimensionType>
+        ) {
+          val placedFeatureRegistryLookup = registries.lookupOrThrow(Registries.DIMENSION_TYPE)
           entries.add(key, placedFeatureRegistryLookup.getOrThrow(key).value())
         }
       }
