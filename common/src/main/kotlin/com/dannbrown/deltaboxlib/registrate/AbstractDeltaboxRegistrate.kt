@@ -32,7 +32,6 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntity
-import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.levelgen.GenerationStep
@@ -68,6 +67,8 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val particleRegistry: ParticleRegistry = ParticleRegistry(modId)
   val woodTypesRegistry: WoodTypeRegistry = WoodTypeRegistry(modId)
   val soundRegistry: SoundRegistry = SoundRegistry(modId)
+  val biomeRegistry: BiomeRegistry = BiomeRegistry(modId)
+  val dimensionRegistry: DimensionRegistry = DimensionRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
