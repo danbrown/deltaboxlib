@@ -20,6 +20,7 @@ import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleType
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
+import net.minecraft.sounds.SoundEvent
 import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
@@ -66,6 +67,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val entityTypeRegistry: EntityTypeRegistry = EntityTypeRegistry(modId)
   val particleRegistry: ParticleRegistry = ParticleRegistry(modId)
   val woodTypesRegistry: WoodTypeRegistry = WoodTypeRegistry(modId)
+  val soundRegistry: SoundRegistry = SoundRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -262,6 +264,16 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return this.particleRegistry.particleType(name, supplier, provider)
   }
 
+  fun soundEvent(name: String, range: Float): Supplier<SoundEvent> {
+    val location = DeltaboxUtil.resourceLocation(modId, name)
+    return this.soundRegistry.register(name, { SoundEvent.createFixedRangeEvent(location, range) })
+  }
+
+  fun soundEvent(name: String): Supplier<SoundEvent> {
+    val location = DeltaboxUtil.resourceLocation(modId, name)
+    return this.soundRegistry.register(name, { SoundEvent.createVariableRangeEvent(location) })
+  }
+
   fun buildRegistries() {
     blockRegistry.build()
     itemRegistry.build()
@@ -270,6 +282,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     entityTypeRegistry.build()
     blockEntityRegistry.build()
     particleRegistry.build()
+    soundRegistry.build()
   }
 
   fun buildBlocks() {
@@ -298,5 +311,9 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun buildParticles() {
     particleRegistry.build()
+  }
+
+  fun buildSounds() {
+    soundRegistry.build()
   }
 }

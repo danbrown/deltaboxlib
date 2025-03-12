@@ -4,6 +4,7 @@ package com.dannbrown.deltaboxlib.content.block.eyeblossom
 import com.dannbrown.deltaboxlib.content.particle.trail.TrailParticleOption
 import com.dannbrown.deltaboxlib.init.DeltaboxBlockEntities
 import com.dannbrown.deltaboxlib.init.DeltaboxBlocks
+import com.dannbrown.deltaboxlib.init.DeltaboxSounds
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.server.level.ServerLevel
@@ -27,6 +28,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.Vec3
 import java.util.function.Consumer
+import java.util.function.Supplier
 import kotlin.math.sqrt
 
 class EyeBlossomBlock(open: Boolean, properties: Properties) :
@@ -49,7 +51,14 @@ class EyeBlossomBlock(open: Boolean, properties: Properties) :
     randomSource: RandomSource
   ) {
     if (this.tryChangingState(blockState, serverLevel, blockPos, randomSource)) {
-      serverLevel.playSound(null as Player?, blockPos, type.transform().longSwitchSound, SoundSource.BLOCKS, 1.0f, 1.0f)
+      serverLevel.playSound(
+        null as Player?,
+        blockPos,
+        type.transform().longSwitchSound.get(),
+        SoundSource.BLOCKS,
+        1.0f,
+        1.0f
+      )
     }
 
     super.randomTick(blockState, serverLevel, blockPos, randomSource)
@@ -60,7 +69,7 @@ class EyeBlossomBlock(open: Boolean, properties: Properties) :
       serverLevel.playSound(
         null as Player?,
         blockPos,
-        type.transform().shortSwitchSound,
+        type.transform().shortSwitchSound.get(),
         SoundSource.BLOCKS,
         1.0f,
         1.0f
@@ -109,24 +118,24 @@ class EyeBlossomBlock(open: Boolean, properties: Properties) :
     val open: Boolean,
     val effect: MobEffect,
     val effectDuration: Float,
-    val longSwitchSound: SoundEvent,
-    val shortSwitchSound: SoundEvent,
+    val longSwitchSound: Supplier<SoundEvent>,
+    val shortSwitchSound: Supplier<SoundEvent>,
     private val particleColor: Int
   ) {
     OPEN(
       true,
       MobEffects.BLINDNESS,
       11.0f,
-      SoundEvents.ALLAY_AMBIENT_WITHOUT_ITEM,
-      SoundEvents.ALLAY_AMBIENT_WITHOUT_ITEM,
+      DeltaboxSounds.EYEBLOSSOM_OPEN_LONG,
+      DeltaboxSounds.EYEBLOSSOM_OPEN,
       16545810
     ),
     CLOSED(
       false,
       MobEffects.CONFUSION,
       7.0f,
-      SoundEvents.ALLAY_AMBIENT_WITHOUT_ITEM,
-      SoundEvents.ALLAY_AMBIENT_WITHOUT_ITEM,
+      DeltaboxSounds.EYEBLOSSOM_CLOSE_LONG,
+      DeltaboxSounds.EYEBLOSSOM_CLOSE,
       6250335
     );
 

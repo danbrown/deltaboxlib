@@ -18,6 +18,7 @@ object DeltaboxLibMod {
     DeltaboxParticles.register()
     DeltaboxWoodTypes.register()
     DeltaboxModelLayers.register()
+    DeltaboxSounds.register()
     REGISTRATE.buildRegistries()
   }
 }
