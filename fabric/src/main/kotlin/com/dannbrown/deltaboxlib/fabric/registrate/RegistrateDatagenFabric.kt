@@ -41,7 +41,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import com.mojang.serialization.JsonOps
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderGetter
 import net.minecraft.data.DataProvider
