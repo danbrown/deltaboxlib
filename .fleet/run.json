@@ -22,5 +22,16 @@
         ":fabric:runDatagen"
       ],
     },
+    {
+      "type": "gradle",
+      "name": "Build All",
+      "args": [],
+      "tasks": [
+        ":common:build",
+        ":fabric:build",
+        ":forge:build",
+        "collectJars"
+      ],
+    },
   ]
 }

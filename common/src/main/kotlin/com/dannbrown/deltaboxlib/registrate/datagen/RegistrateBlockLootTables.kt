@@ -112,7 +112,7 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     )
   }
 
-  fun dropSelfSilkShearsOtherLoot(block: Block, other: Supplier<ItemLike>, chance: Float = 1f, multiplier: Int = 1) {
+  fun dropItselfSilkShearsOtherLoot(block: Block, other: Supplier<ItemLike>, chance: Float = 1f, multiplier: Int = 1) {
     simpleSilkShearsLootTable(block, block, other, chance, multiplier)
   }
 
@@ -337,11 +337,11 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     super.add(block, function)
   }
 
-  public override fun dropSelf(block: Block) {
+  public fun dropItself(block: Block) {
     super.dropSelf(block)
   }
 
-  public override fun dropOther(block: Block, itemLike: ItemLike) {
+  public fun dropAnother(block: Block, itemLike: ItemLike) {
     super.dropOther(block, itemLike)
   }
 

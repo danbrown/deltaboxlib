@@ -73,7 +73,7 @@ class CommonBlockPreset(
       .item()
       .itemTags(*(if (isWooden) BlockTagPresets.woodenStairsTags().second.toTypedArray() else BlockTagPresets.stairsTags().second.toTypedArray()))
       .build()
-      .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
+      .loot { g, b -> g.dropItself(b.get()) } as BlockBuilder<T>
   }
 
   fun <T : Block> createSlab(
@@ -130,7 +130,7 @@ class CommonBlockPreset(
       }
       .itemTags(*BlockTagPresets.wallTags().second.toTypedArray())
       .build()
-      .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
+      .loot { g, b -> g.dropItself(b.get()) } as BlockBuilder<T>
 
   }
 
@@ -150,7 +150,7 @@ class CommonBlockPreset(
       .model { g, i -> g.fenceInventory(i.get(), textureName) }
       .itemTags(*BlockTagPresets.fenceTags(isWooden).second.toTypedArray())
       .build()
-      .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
+      .loot { g, b -> g.dropItself(b.get()) } as BlockBuilder<T>
   }
 
   fun <T : Block> createFenceGate(
@@ -164,7 +164,7 @@ class CommonBlockPreset(
       .factory { c, p -> FenceGateBlock(p, woodType) }
       .copyFrom { Blocks.OAK_FENCE_GATE }
       .blockstate { g, b -> g.fenceGate(b.get(), textureName) }
-      .loot { g, b -> g.dropSelf(b.get()) }
+      .loot { g, b -> g.dropItself(b.get()) }
       .blockTags(BlockTags.FENCE_GATES)
   }
 
@@ -185,7 +185,7 @@ class CommonBlockPreset(
       .item()
       .itemTags(*BlockTagPresets.pressurePlateTags(isWooden).second.toTypedArray())
       .build()
-      .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
+      .loot { g, b -> g.dropItself(b.get()) } as BlockBuilder<T>
   }
 
   fun <T : Block> createButton(
@@ -206,7 +206,7 @@ class CommonBlockPreset(
       .model { g, i -> g.buttonInventory(i.get(), textureName) }
       .itemTags(*BlockTagPresets.buttonTags(isWooden).second.toTypedArray())
       .build()
-      .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
+      .loot { g, b -> g.dropItself(b.get()) } as BlockBuilder<T>
   }
 
   fun <T : Block> createWoodenTrapdoor(
@@ -227,7 +227,7 @@ class CommonBlockPreset(
       .itemTags(*BlockTagPresets.woodenTrapdoorTags().second.toTypedArray())
       .build()
       .cutoutRender()
-      .loot { g, b -> g.dropSelf(b.get()) } as BlockBuilder<T>
+      .loot { g, b -> g.dropItself(b.get()) } as BlockBuilder<T>
   }
 
   fun <T : Block> createDoor(

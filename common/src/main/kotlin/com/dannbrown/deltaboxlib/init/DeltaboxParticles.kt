@@ -7,6 +7,7 @@ object DeltaboxParticles {
   val TRAIL =
     DeltaboxLibMod.REGISTRATE.particleType("trail", { TrailParticleObject(false) }, { TrailParticle.Provider(it) })
 
+
   fun register() {
     // init class
   }

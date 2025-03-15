@@ -40,7 +40,7 @@ object DeltaboxBlocks {
     .block<RotatedPillarBlock>("adamantium_block")
     .copyFrom { Blocks.STONE }
     .factory { c, p -> RotatedPillarBlock(p) }
-    .loot { loot, block -> loot.dropSelf(block.get()) }
+    .loot { loot, block -> loot.dropItself(block.get()) }
     .item { a, b -> BlockItem(b, a.food(FoodProperties.Builder().fast().build())) }
     .build()
     .register()
@@ -155,7 +155,7 @@ object DeltaboxBlocks {
     .model { g, i -> g.flatItemBlock(i.get()) }
     .build()
     .compostable(0.3f)
-    .loot { g, b -> g.dropSelf(b.get()) }
+    .loot { g, b -> g.dropItself(b.get()) }
     .register()
 
   val POTTED_SIMPLE_FLOWER: BlockEntry<FlowerPotBlock> = REGISTRATE

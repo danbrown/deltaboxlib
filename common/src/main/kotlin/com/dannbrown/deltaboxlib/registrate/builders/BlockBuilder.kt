@@ -38,7 +38,7 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
   }
 
   private fun defaultLootTableFactory(): BlockLootTableFactory {
-    return { lt, b -> lt.dropSelf(b.get()) }
+    return { lt, b -> lt.dropItself(b.get()) }
   }
 
   private fun defaultBlockstateFactory(): BlockstateFactory {

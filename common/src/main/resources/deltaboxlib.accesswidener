@@ -20,3 +20,6 @@ accessible method net/minecraft/world/level/levelgen/feature/foliageplacers/Foli
 
 # TreeDecoratorType constructor
 accessible method net/minecraft/world/level/levelgen/feature/treedecorators/TreeDecoratorType <init> (Lcom/mojang/serialization/Codec;)V
+
+# Particle
+accessible method net/minecraft/core/particles/SimpleParticleType <init> (Z)V
