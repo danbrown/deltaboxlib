@@ -80,8 +80,8 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return BlockFamilyGeneratorBuilder(this, blockId)
   }
 
-  fun <T : Item> item(blockId: String): ItemBuilder<T> {
-    return ItemBuilder(this, blockId)
+  fun <T : Item> item(itemId: String): ItemBuilder<T> {
+    return ItemBuilder(this, itemId)
   }
 
   fun <T : Block, R : Item> item(blockId: String, blockBuilder: BlockBuilder<T>): ItemBuilder<R> {

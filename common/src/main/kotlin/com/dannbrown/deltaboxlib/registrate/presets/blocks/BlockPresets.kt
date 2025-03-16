@@ -220,7 +220,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   }
 
   fun leaves(
-    sapling: Supplier<GenericSaplingBlock>,
+    sapling: Supplier<out Block>,
     suffix: String = "_leaves"
   ): BlockBuilder<T> {
     return LeavesBlockPreset(
@@ -232,7 +232,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   }
 
   fun palmLeaves(
-    sapling: Supplier<GenericSaplingBlock>,
+    sapling: Supplier<out Block>,
     suffix: String = "_leaves"
   ): BlockBuilder<T> {
     return LeavesBlockPreset(
@@ -244,7 +244,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   }
 
   fun cropLeaves(
-    sapling: Supplier<GenericSaplingBlock>,
+    sapling: Supplier<out Block>,
     itemToDrop: Supplier<ItemLike>,
     suffix: String = "_leaves"
   ): BlockBuilder<T> {
@@ -257,7 +257,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
   }
 
   fun buddingLeaves(
-    sapling: Supplier<GenericSaplingBlock>,
+    sapling: Supplier<out Block>,
     fruitBlock: Supplier<Block>,
     suffix: String = "_leaves"
   ): BlockBuilder<T> {

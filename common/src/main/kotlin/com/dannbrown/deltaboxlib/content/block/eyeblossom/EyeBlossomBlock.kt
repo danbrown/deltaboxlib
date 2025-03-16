@@ -1,6 +1,5 @@
 package com.dannbrown.deltaboxlib.content.block.eyeblossom
 
-
 import com.dannbrown.deltaboxlib.content.particle.trail.TrailParticleOption
 import com.dannbrown.deltaboxlib.init.DeltaboxBlockEntities
 import com.dannbrown.deltaboxlib.init.DeltaboxBlocks
@@ -9,7 +8,6 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
-import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.RandomSource
 import net.minecraft.world.effect.MobEffect

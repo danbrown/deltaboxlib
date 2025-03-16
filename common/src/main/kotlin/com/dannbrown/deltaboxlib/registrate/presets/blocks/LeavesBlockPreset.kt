@@ -3,7 +3,6 @@ package com.dannbrown.deltaboxlib.registrate.presets.blocks
 import com.dannbrown.deltaboxlib.content.block.BuddingLeavesBlock
 import com.dannbrown.deltaboxlib.content.block.CropLeavesBlock
 import com.dannbrown.deltaboxlib.content.block.FlammableLeavesBlock
-import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
 import com.dannbrown.deltaboxlib.content.block.PalmLeavesBlock
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilder
@@ -18,7 +17,7 @@ import java.util.function.Supplier
 class LeavesBlockPreset(
   val registrate: AbstractDeltaboxRegistrate,
   val blockId: String,
-  private val sapling: Supplier<GenericSaplingBlock>,
+  private val sapling: Supplier<out Block>,
   private val suffix: String = "_leaves"
 ) : IBlockBuilderPreset(registrate, blockId) {
   fun <T : Block> create(): BlockBuilder<T> {

@@ -22,7 +22,7 @@ class EntityTypeBuilder<T : Entity>(registrate: AbstractDeltaboxRegistrate, val 
   protected var propertiesFactory: Function<EntityType.Builder<T>, EntityType.Builder<T>>? = null
   protected var entityFactory: EntityFactory<T>? = null
 
-  protected var entityRenderer: Function<EntityRendererProvider.Context, EntityRenderer<out Entity>>? = null
+  var entityRenderer: Function<EntityRendererProvider.Context, EntityRenderer<out Entity>>? = null
 
   var entityInstance: Supplier<EntityType<T>>? = null
 

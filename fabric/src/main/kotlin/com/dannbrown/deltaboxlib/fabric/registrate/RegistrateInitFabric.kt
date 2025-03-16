@@ -158,6 +158,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
 
   private fun registerEntityRenderers() {
     for (entityBuilder in registrate.entityTypeRegistry.entries) {
+      if (entityBuilder.entityRenderer == null) continue
       EntityRendererRegistry.register(entityBuilder.getEntity().get()) { ctx ->
         entityBuilder.getRenderer(ctx)
       }
@@ -166,6 +167,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
 
   private fun registerBlockEntityRenderers() {
     for (entityBuilder in registrate.blockEntityRegistry.entries) {
+      if (entityBuilder.blockEntityRenderer == null) continue
       BlockEntityRenderers.register(entityBuilder.getBlockEntity().get()) { ctx ->
         entityBuilder.getRenderer(ctx)
       }
