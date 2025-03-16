@@ -1,6 +1,5 @@
 package com.dannbrown.deltaboxlib.fabric.registrate
 
-import com.dannbrown.deltaboxlib.content.block.eyeblossom.EyeBlossomRenderer
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
@@ -11,6 +10,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
+import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry
@@ -21,12 +21,12 @@ import net.minecraft.client.renderer.BiomeColors
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.FoliageColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import java.util.function.Function
 import javax.management.BadAttributeValueExpException
-import kotlin.reflect.jvm.internal.impl.resolve.calls.inference.CapturedType
 
 class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
   fun init() {
@@ -34,6 +34,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
     registerStrippableBlocks()
     registerCompostableBlocks()
     registerBiomeModifiers()
+    registerEntityAttributes()
   }
 
   fun initClient() {
@@ -153,6 +154,20 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
     for ((path, data) in registrate.modelLayersRegistry.getModelLayers()) {
       val (model, modelLayer) = data
       EntityModelLayerRegistry.registerModelLayer(modelLayer, { model.get() })
+    }
+  }
+
+  private fun registerEntityAttributes() {
+    for (entityBuilder in registrate.entityTypeRegistry.entries) {
+      if (entityBuilder.attributeBuilderFactory == null) continue
+      try {
+        FabricDefaultAttributeRegistry.register(
+          entityBuilder.getEntity().get() as EntityType<out LivingEntity>,
+          entityBuilder.attributeBuilderFactory!!
+        )
+      } catch (e: Exception) {
+        println("Failed to register entity ${entityBuilder.entityId} attributs, it may not be a living entity")
+      }
     }
   }
 

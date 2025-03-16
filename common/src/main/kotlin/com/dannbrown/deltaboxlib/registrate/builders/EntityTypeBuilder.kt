@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EntityType.EntityFactory
 import net.minecraft.world.entity.MobCategory
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import java.util.function.Function
 import java.util.function.Supplier
 import javax.management.BadAttributeValueExpException
@@ -21,6 +22,8 @@ class EntityTypeBuilder<T : Entity>(registrate: AbstractDeltaboxRegistrate, val 
 
   protected var propertiesFactory: Function<EntityType.Builder<T>, EntityType.Builder<T>>? = null
   protected var entityFactory: EntityFactory<T>? = null
+
+  var attributeBuilderFactory: AttributeSupplier.Builder? = null
 
   var entityRenderer: Function<EntityRendererProvider.Context, EntityRenderer<out Entity>>? = null
 
@@ -55,6 +58,11 @@ class EntityTypeBuilder<T : Entity>(registrate: AbstractDeltaboxRegistrate, val 
     return this
   }
 
+  fun attributes(builder: AttributeSupplier.Builder): EntityTypeBuilder<T> {
+    this.attributeBuilderFactory = builder
+    return this
+  }
+
   // @ Get Functions
   fun getEntity(): Supplier<EntityType<T>> {
     return entityInstance!!
@@ -66,7 +74,7 @@ class EntityTypeBuilder<T : Entity>(registrate: AbstractDeltaboxRegistrate, val 
 
   // @ Register Functions
   fun register(): Supplier<EntityType<T>> {
-    if (entityFactory == null || propertiesFactory == null) throw BadAttributeValueExpException("Can't create an entity with no builder")
+    if (entityFactory == null || propertiesFactory == null) throw BadAttributeValueExpException("Can't create an entity with no factory or properties")
     val builder = EntityType.Builder.of(entityFactory!!, mobCategory)
     entityInstance = this.registrate.entityTypeRegistry.register(
       entityId,

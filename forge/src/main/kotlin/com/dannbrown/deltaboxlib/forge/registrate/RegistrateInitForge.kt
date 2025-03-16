@@ -11,6 +11,8 @@ import net.minecraft.client.renderer.BiomeColors
 import net.minecraft.client.renderer.Sheets
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.core.particles.ParticleOptions
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.FoliageColor
 import net.minecraft.world.level.block.Blocks
@@ -22,6 +24,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers
 import net.minecraftforge.client.event.RegisterColorHandlersEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import javax.management.BadAttributeValueExpException
 
 class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
@@ -138,6 +141,21 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     for ((path, data) in registrate.modelLayersRegistry.getModelLayers()) {
       val (model, modelLayer) = data
       event.registerLayerDefinition(modelLayer, model)
+    }
+  }
+
+  fun onRegisterEntityAttributes(event: EntityAttributeCreationEvent) {
+    for (entityBuilder in registrate.entityTypeRegistry.entries) {
+      if (entityBuilder.attributeBuilderFactory == null) continue
+      try {
+
+        event.put(
+          entityBuilder.getEntity().get() as EntityType<out LivingEntity>,
+          entityBuilder.attributeBuilderFactory!!.build()
+        )
+      } catch (e: Exception) {
+        println("Failed to register entity ${entityBuilder.entityId} attributs, it may not be a living entity")
+      }
     }
   }
 

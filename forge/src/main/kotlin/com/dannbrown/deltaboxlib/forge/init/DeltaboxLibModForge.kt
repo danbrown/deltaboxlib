@@ -43,6 +43,7 @@ object DeltaboxLibModForge {
     MOD_BUS.addListener(::commonSetup)
 
     DeltaboxLibLoadTradesForge.onRegisterTrades(forgeEventBus)
+    modBus.addListener(registrateInit::onRegisterEntityAttributes)
   }
 
   private fun registerClient(modBus: IEventBus, forgeEventBus: IEventBus) {
