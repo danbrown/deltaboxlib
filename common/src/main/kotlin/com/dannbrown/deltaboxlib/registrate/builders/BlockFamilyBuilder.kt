@@ -4,6 +4,7 @@ package com.dannbrown.deltaboxlib.registrate.builders
 import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.presets.family.BlockFamily
+import com.dannbrown.deltaboxlib.registrate.presets.family.BricksBlockFamilySet
 import com.dannbrown.deltaboxlib.registrate.presets.family.LongBlockFamilySet
 import com.dannbrown.deltaboxlib.registrate.presets.family.WoodBlockFamilySet
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
@@ -11,6 +12,7 @@ import com.dannbrown.deltaboxlib.registrate.types.BlockPropertiesFactory
 import net.minecraft.core.BlockPos
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockBehaviour
@@ -47,6 +49,21 @@ class BlockFamilyGeneratorBuilder(private val registrate: AbstractDeltaboxRegist
       _denyList,
       mainBlock,
       isRotatedBlock
+    ).getFamily()
+  }
+
+  fun bricksFamily(bricksMaterial: Supplier<ItemLike>): BlockFamily {
+    return BricksBlockFamilySet(
+      registrate,
+      _name,
+      _sharedProps,
+      _toolType,
+      _toolTier,
+      _color,
+      _accentColor,
+      _copyFrom,
+      _denyList,
+      bricksMaterial
     ).getFamily()
   }
 
