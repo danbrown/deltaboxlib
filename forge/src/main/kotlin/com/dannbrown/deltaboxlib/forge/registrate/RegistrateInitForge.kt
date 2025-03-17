@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.forge.registrate
 
+import com.dannbrown.deltaboxlib.content.item.DeltaboxSpawnEggItem
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.helpers.StripHelper
 import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
@@ -14,8 +15,10 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.FoliageColor
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.ComposterBlock
+import net.minecraft.world.level.block.DispenserBlock
 import net.minecraft.world.level.block.FlowerPotBlock
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraftforge.client.event.EntityRenderersEvent
@@ -34,6 +37,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     registerStrippableBlocks()
     registerPottedBlocks()
     registerComposterBlocks()
+    registerDispenserBehaviors()
   }
 
   fun clientSetup() {
@@ -92,6 +96,17 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     }
   }
 
+  private fun registerDispenserBehaviors() {
+    DeltaboxSpawnEggItem.MOD_EGGS.forEach { egg ->
+      egg.createDispenseBehavior().let { behavior ->
+        DispenserBlock.registerBehavior(egg, behavior)
+      }
+      DeltaboxSpawnEggItem.TYPE_MAP[egg.typeSupplier.get()] = egg
+    }
+    // TODO: Register items dispenser behaviors
+  }
+
+
   private fun registerWoodTypes() {
     for ((key, woodType) in registrate.woodTypesRegistry.getAllWoodTypes()) {
       Sheets.addWoodType(woodType)
@@ -113,6 +128,12 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
         entityBuilder.getBlockEntity().get(),
         entityBuilder::getRenderer
       )
+    }
+  }
+
+  fun onRegisterSpawnEggColors(event: RegisterColorHandlersEvent.Item) {
+    DeltaboxSpawnEggItem.MOD_EGGS.forEach { egg ->
+      event.itemColors.register({ stack, layer -> egg.getColor(layer) }, egg as ItemLike)
     }
   }
 

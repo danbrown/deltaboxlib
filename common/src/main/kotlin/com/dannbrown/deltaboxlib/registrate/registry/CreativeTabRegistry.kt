@@ -24,7 +24,6 @@ class CreativeTabRegistry(val modId: String) {
           .title(Component.translatable("itemGroup.${modId}.$name"))
           .icon(icon)
           .displayItems(displayItems)
-          .a
           .build()
       }
     }

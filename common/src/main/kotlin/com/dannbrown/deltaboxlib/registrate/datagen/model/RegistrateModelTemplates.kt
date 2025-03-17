@@ -11,6 +11,7 @@ object RegistrateModelTemplates {
   // ITEM
   val FLAT_ITEM = create(DeltaboxUtil.resourceLocation("minecraft", "item/generated"), TextureSlot.LAYER0)
   val FLAT_HANDHELD_ITEM = create(DeltaboxUtil.resourceLocation("minecraft", "item/handheld"), TextureSlot.LAYER0)
+  val SPAWN_EGG = create(DeltaboxUtil.resourceLocation("minecraft", "item/template_spawn_egg"))
 
   // BLOCK
   val CUBE_ALL = create(DeltaboxUtil.resourceLocation("minecraft", "block/cube_all"), RegistrateTextureSlots.ALL_SLOT)

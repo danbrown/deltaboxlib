@@ -1,6 +1,5 @@
 package com.dannbrown.deltaboxlib.content.item
 
-
 import com.dannbrown.deltaboxlib.content.entity.boat.BaseBoatEntity
 import com.dannbrown.deltaboxlib.content.entity.boat.BaseChestBoatEntity
 import net.minecraft.stats.Stats;

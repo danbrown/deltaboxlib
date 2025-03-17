@@ -23,6 +23,14 @@ class RegistrateItemModelGenerator(val output: BiConsumer<ResourceLocation, Supp
     )
   }
 
+  fun spawnEgg(item: Item) {
+    RegistrateModelTemplates.SPAWN_EGG.create(
+      BuiltInRegistries.ITEM.getKey(item).withPrefix("item/"),
+      TextureMapping(),
+      this.output
+    )
+  }
+
   fun flatItemBlock(item: Item, texture: String = "") {
     RegistrateModelTemplates.FLAT_ITEM.create(
       BuiltInRegistries.ITEM.getKey(item).withPrefix("item/"),
