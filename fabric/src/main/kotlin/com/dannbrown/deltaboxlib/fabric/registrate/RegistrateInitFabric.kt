@@ -163,7 +163,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
       try {
         FabricDefaultAttributeRegistry.register(
           entityBuilder.getEntity().get() as EntityType<out LivingEntity>,
-          entityBuilder.attributeBuilderFactory!!
+          entityBuilder.attributeBuilderFactory!!.build()
         )
       } catch (e: Exception) {
         println("Failed to register entity ${entityBuilder.entityId} attributs, it may not be a living entity")

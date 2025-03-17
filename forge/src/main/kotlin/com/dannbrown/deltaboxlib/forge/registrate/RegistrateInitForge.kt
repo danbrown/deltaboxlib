@@ -9,7 +9,6 @@ import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.renderer.BiomeColors
 import net.minecraft.client.renderer.Sheets
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
@@ -18,12 +17,12 @@ import net.minecraft.world.level.FoliageColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.ComposterBlock
 import net.minecraft.world.level.block.FlowerPotBlock
-import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraftforge.client.event.EntityRenderersEvent
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers
 import net.minecraftforge.client.event.RegisterColorHandlersEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
+import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import javax.management.BadAttributeValueExpException
 
@@ -101,6 +100,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
 
   fun onRegisterEntityRenderers(event: RegisterRenderers) {
     for (entityBuilder in registrate.entityTypeRegistry.entries) {
+      if (entityBuilder.entityRenderer == null) continue
       event.registerEntityRenderer(
         entityBuilder.getEntity().get(),
         entityBuilder::getRenderer
@@ -108,6 +108,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     }
 
     for (entityBuilder in registrate.blockEntityRegistry.entries) {
+      if (entityBuilder.blockEntityRenderer == null) continue
       event.registerBlockEntityRenderer(
         entityBuilder.getBlockEntity().get(),
         entityBuilder::getRenderer
@@ -151,7 +152,12 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
 
         event.put(
           entityBuilder.getEntity().get() as EntityType<out LivingEntity>,
-          entityBuilder.attributeBuilderFactory!!.build()
+          entityBuilder.attributeBuilderFactory!!
+            .add(ForgeMod.SWIM_SPEED.get())
+            .add(ForgeMod.NAMETAG_DISTANCE.get())
+            .add(ForgeMod.ENTITY_GRAVITY.get())
+            .add(ForgeMod.STEP_HEIGHT_ADDITION.get())
+            .build()
         )
       } catch (e: Exception) {
         println("Failed to register entity ${entityBuilder.entityId} attributs, it may not be a living entity")

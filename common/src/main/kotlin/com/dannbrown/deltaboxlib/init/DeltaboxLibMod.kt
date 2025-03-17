@@ -21,6 +21,7 @@ object DeltaboxLibMod {
     DeltaboxSounds.register()
     DeltaboxBiomes.register()
     DeltaboxDimensions.register()
+    DeltaboxAttributes.register()
     REGISTRATE.buildRegistries()
   }
 }

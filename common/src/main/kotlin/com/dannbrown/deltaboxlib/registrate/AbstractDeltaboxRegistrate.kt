@@ -22,6 +22,7 @@ import net.minecraft.sounds.SoundEvent
 import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.ai.attributes.Attribute
 import net.minecraft.world.entity.decoration.PaintingVariant
 import net.minecraft.world.entity.npc.VillagerProfession
 import net.minecraft.world.item.CreativeModeTab
@@ -67,6 +68,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val soundRegistry: SoundRegistry = SoundRegistry(modId)
   val biomeRegistry: BiomeRegistry = BiomeRegistry(modId)
   val dimensionRegistry: DimensionRegistry = DimensionRegistry(modId)
+  val attributeRegistry: AttributeRegistry = AttributeRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -280,6 +282,10 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return biome
   }
 
+  fun attribute(name: String, attributeSupplier: Supplier<Attribute>): Supplier<Attribute> {
+    return this.attributeRegistry.register(name, attributeSupplier)
+  }
+
   fun dimension(dimension: AbstractDimension): AbstractDimension {
     this.dimensionRegistry.addDimension(dimension)
     return dimension
@@ -294,6 +300,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     blockEntityRegistry.build()
     particleRegistry.build()
     soundRegistry.build()
+    attributeRegistry.build()
   }
 
   fun buildBlocks() {
@@ -326,5 +333,9 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun buildSounds() {
     soundRegistry.build()
+  }
+
+  fun buildAttributes() {
+    attributeRegistry.build()
   }
 }

@@ -12,7 +12,7 @@ import java.util.function.Supplier
 class CreativeTabRegistry(val modId: String) {
   private val creativeTabs = DeferredRegister.create(modId, Registries.CREATIVE_MODE_TAB)
   var isRegistered = false
-  
+
   fun register(
     name: String,
     icon: Supplier<ItemStack>,
@@ -24,6 +24,7 @@ class CreativeTabRegistry(val modId: String) {
           .title(Component.translatable("itemGroup.${modId}.$name"))
           .icon(icon)
           .displayItems(displayItems)
+          .a
           .build()
       }
     }
