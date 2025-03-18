@@ -69,6 +69,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val biomeRegistry: BiomeRegistry = BiomeRegistry(modId)
   val dimensionRegistry: DimensionRegistry = DimensionRegistry(modId)
   val attributeRegistry: AttributeRegistry = AttributeRegistry(modId)
+  val configRegistry: ConfigRegistry = ConfigRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -291,7 +292,28 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return dimension
   }
 
+  fun configBoolean(key: String, defaultValue: Boolean, comment: String?) {
+    return configRegistry.registerBoolean(key, defaultValue, comment)
+  }
+
+  fun configInt(key: String, defaultValue: Int, comment: String?) {
+    return configRegistry.registerInt(key, defaultValue, comment)
+  }
+
+  fun configFloat(key: String, defaultValue: Float, comment: String?) {
+    return configRegistry.registerFloat(key, defaultValue, comment)
+  }
+
+  fun configString(key: String, defaultValue: String, comment: String?) {
+    return configRegistry.registerString(key, defaultValue, comment)
+  }
+
+  fun loadConfig() {
+    configRegistry.loadConfig()
+  }
+
   fun buildRegistries() {
+    configRegistry.freeze()
     blockRegistry.build()
     itemRegistry.build()
     creativeTabRegistry.build()
@@ -337,5 +359,9 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun buildAttributes() {
     attributeRegistry.build()
+  }
+
+  fun freezeConfig() {
+    configRegistry.freeze()
   }
 }

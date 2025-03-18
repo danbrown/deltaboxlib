@@ -5,6 +5,7 @@ object DeltaboxLibMod {
   var REGISTRATE = DeltaboxRegistrate(MOD_ID)
 
   fun init() {
+    DeltaboxConfig.register()
     DeltaboxBlocks.register()
     DeltaboxItems.register()
     DeltaboxTags.register()
