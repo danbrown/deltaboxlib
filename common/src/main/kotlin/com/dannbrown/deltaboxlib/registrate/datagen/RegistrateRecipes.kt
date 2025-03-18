@@ -7,6 +7,7 @@ import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.data.recipes.ShapelessRecipeBuilder
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder
 import net.minecraft.data.recipes.SingleItemRecipeBuilder
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
@@ -18,6 +19,10 @@ class RegistrateRecipes(
   private val registrate: AbstractDeltaboxRegistrate,
   private val exporter: Consumer<FinishedRecipe>
 ) {
+
+  val DEFAULT_COOKING_XP = 0.0f
+  val DEFAULT_COOKING_TIME = 200
+
   // SHAPED
   fun simpleShapedRecipe(
     result: Supplier<ItemLike>,
@@ -91,6 +96,160 @@ class RegistrateRecipes(
     simpleShapelessRecipe(result, listOf(ingredients), category, amount, DeltaboxUtil.getItemId(result), suffix)
   }
   // END SHAPELESS
+
+  // COOKING
+  enum class CookingRecipeType {
+    SMELTING, BLASTING, CAMPFIRE, SMOKING;
+  }
+
+  fun simpleCookingRecipe(
+    result: Supplier<ItemLike>,
+    ingredients: Supplier<Ingredient>,
+    category: RecipeCategory,
+    type: CookingRecipeType,
+    experience: Float = DEFAULT_COOKING_XP,
+    cookingTime: Int = DEFAULT_COOKING_TIME,
+    name: String,
+    suffix: String = ""
+  ) {
+    val builder = when (type) {
+      CookingRecipeType.SMELTING -> SimpleCookingRecipeBuilder.smelting(
+        ingredients.get(),
+        category,
+        result.get(),
+        experience,
+        cookingTime
+      )
+
+      CookingRecipeType.BLASTING -> SimpleCookingRecipeBuilder.blasting(
+        ingredients.get(),
+        category,
+        result.get(),
+        experience,
+        cookingTime
+      )
+
+      CookingRecipeType.CAMPFIRE -> SimpleCookingRecipeBuilder.campfireCooking(
+        ingredients.get(),
+        category,
+        result.get(),
+        experience,
+        cookingTime
+      )
+
+      CookingRecipeType.SMOKING -> SimpleCookingRecipeBuilder.smoking(
+        ingredients.get(),
+        category,
+        result.get(),
+        experience,
+        cookingTime
+      )
+    }
+    val _suffix = when (type) {
+      CookingRecipeType.SMELTING -> suffix + "_smelting"
+      CookingRecipeType.BLASTING -> suffix + "_blasting"
+      CookingRecipeType.CAMPFIRE -> suffix + "_campfire"
+      CookingRecipeType.SMOKING -> suffix + "_smoking"
+    }
+
+    builder.unlockedBy(
+      "has_ingredients",
+      InventoryChangeTrigger.TriggerInstance.hasItems(ingredients.get().items[0].item)
+    )
+    builder.save(exporter, DeltaboxUtil.resourceLocation(registrate.modId, name + _suffix))
+  }
+
+  fun simpleCookingRecipe(
+    result: Supplier<ItemLike>,
+    ingredients: Supplier<Ingredient>,
+    category: RecipeCategory,
+    type: CookingRecipeType,
+    experience: Float = DEFAULT_COOKING_XP,
+    cookingTime: Int = DEFAULT_COOKING_TIME,
+    suffix: String = ""
+  ) {
+    simpleCookingRecipe(
+      result,
+      ingredients,
+      category,
+      type,
+      experience,
+      cookingTime,
+      DeltaboxUtil.getItemId(result),
+      suffix
+    )
+  }
+
+  fun comboBlastingRecipe(
+    result: Supplier<ItemLike>,
+    ingredients: Supplier<Ingredient>,
+    category: RecipeCategory,
+    experience: Float = DEFAULT_COOKING_XP,
+    cookingTime: Int = DEFAULT_COOKING_TIME,
+    suffix: String = ""
+  ) {
+    simpleCookingRecipe(
+      result,
+      ingredients,
+      category,
+      CookingRecipeType.BLASTING,
+      experience * 2,
+      cookingTime / 2,
+      suffix
+    )
+
+    simpleCookingRecipe(
+      result,
+      ingredients,
+      category,
+      CookingRecipeType.SMELTING,
+      experience,
+      cookingTime,
+      suffix
+    )
+  }
+
+  fun comboFoodRecipe(
+    result: Supplier<ItemLike>,
+    ingredients: Supplier<Ingredient>,
+    category: RecipeCategory,
+    experience: Float = DEFAULT_COOKING_XP,
+    cookingTime: Int = DEFAULT_COOKING_TIME,
+    suffix: String = ""
+  ) {
+    simpleCookingRecipe(
+      result,
+      ingredients,
+      category,
+      CookingRecipeType.SMOKING,
+      experience * 2,
+      cookingTime / 2,
+      suffix
+    )
+
+    simpleCookingRecipe(
+      result,
+      ingredients,
+      category,
+      CookingRecipeType.CAMPFIRE,
+      experience * 2,
+      cookingTime / 2,
+      suffix
+    )
+
+    simpleCookingRecipe(
+      result,
+      ingredients,
+      category,
+      CookingRecipeType.SMELTING,
+      experience,
+      cookingTime,
+      suffix
+    )
+  }
+
+
+  // END COOKING
 
   // Storage Blocks
   fun storageBlockRecipe(result: Supplier<ItemLike>, ingotItem: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
