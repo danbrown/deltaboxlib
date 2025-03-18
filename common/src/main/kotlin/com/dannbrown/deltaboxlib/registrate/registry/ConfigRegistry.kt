@@ -9,7 +9,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 class ConfigRegistry(private val modId: String) {
-  private val configFile: File = File(Platform.getConfigFolder().toFile(), "$modId.conf")
+  private val configFile: File = File(Platform.getConfigFolder().toFile(), "$modId.common.conf")
   private val properties = mutableMapOf<String, ConfigProperty<*>>()
   private var frozen = false
 
