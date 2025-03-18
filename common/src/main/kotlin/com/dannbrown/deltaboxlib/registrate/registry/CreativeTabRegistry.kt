@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.registrate.registry
 
+import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import dev.architectury.registry.CreativeTabRegistry as ArchCreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
@@ -18,8 +19,9 @@ class CreativeTabRegistry(val modId: String) {
     icon: Supplier<ItemStack>,
     displayItems: CreativeModeTab.DisplayItemsGenerator,
   ): RegistrySupplier<CreativeModeTab> {
-    return creativeTabs.register(name) {
-      ArchCreativeTabRegistry.create { builder ->
+    return creativeTabs.register(DeltaboxUtil.resourceLocation(modId, name)) {
+      ArchCreativeTabRegistry.create()
+      { builder ->
         builder
           .title(Component.translatable("itemGroup.${modId}.$name"))
           .icon(icon)
