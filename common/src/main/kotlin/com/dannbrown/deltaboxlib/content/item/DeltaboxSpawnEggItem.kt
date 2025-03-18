@@ -22,7 +22,6 @@ class DeltaboxSpawnEggItem(
   highlightColor: Int,
   props: Properties
 ) : SpawnEggItem(null, backgroundColor, highlightColor, props) {
-
   companion object {
     val MOD_EGGS: MutableList<DeltaboxSpawnEggItem> = ArrayList()
     val TYPE_MAP: MutableMap<EntityType<out Mob>, DeltaboxSpawnEggItem> = IdentityHashMap()

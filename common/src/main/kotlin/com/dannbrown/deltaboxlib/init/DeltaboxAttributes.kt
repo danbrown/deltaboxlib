@@ -1,8 +1,5 @@
 package com.dannbrown.deltaboxlib.init
 
-import com.dannbrown.deltaboxlib.init.DeltaboxLibMod.REGISTRATE
-import net.minecraft.world.entity.ai.attributes.RangedAttribute
-
 object DeltaboxAttributes {
 //  val SWIM_SPEED =
 //    REGISTRATE.attribute("swim_speed") { RangedAttribute("forge.swim_speed", 1.0, 0.0, 1024.0).setSyncable(true) }

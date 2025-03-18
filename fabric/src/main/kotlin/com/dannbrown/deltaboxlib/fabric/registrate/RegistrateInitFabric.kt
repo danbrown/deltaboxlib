@@ -1,5 +1,6 @@
 package com.dannbrown.deltaboxlib.fabric.registrate
 
+import com.dannbrown.deltaboxlib.content.item.DeltaboxSpawnEggItem
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.FoliageColor
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.DispenserBlock
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import javax.management.BadAttributeValueExpException
 
@@ -33,6 +35,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
     registerFlammableBlocks()
     registerStrippableBlocks()
     registerCompostableBlocks()
+    registerDispenserBehaviors()
     registerBiomeModifiers()
     registerEntityAttributes()
   }
@@ -91,6 +94,17 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
       }
     }
   }
+
+  private fun registerDispenserBehaviors() {
+    DeltaboxSpawnEggItem.MOD_EGGS.forEach { egg ->
+      egg.createDispenseBehavior().let { behavior ->
+        DispenserBlock.registerBehavior(egg, behavior)
+      }
+      DeltaboxSpawnEggItem.TYPE_MAP[egg.typeSupplier.get()] = egg
+    }
+    // TODO: Register items dispenser behaviors
+  }
+
 
   // register cutout renders
   private fun registerCutoutRenders() {
