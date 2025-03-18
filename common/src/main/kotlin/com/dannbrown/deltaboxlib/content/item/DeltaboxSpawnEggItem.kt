@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.MobSpawnType
+import net.minecraft.world.flag.FeatureFlagSet
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.SpawnEggItem
 import net.minecraft.world.level.block.DispenserBlock
@@ -55,6 +56,10 @@ class DeltaboxSpawnEggItem(
 
   override fun getType(tag: CompoundTag?): EntityType<*> {
     return super.getType(tag) ?: typeSupplier.get()
+  }
+
+  override fun requiredFeatures(): FeatureFlagSet {
+    return getDefaultType().requiredFeatures()
   }
 
   fun createDispenseBehavior(): DispenseItemBehavior {
