@@ -1,8 +1,5 @@
 package com.dannbrown.deltaboxlib.registrate.registry
 
-import com.google.gson.JsonElement
-import com.google.gson.JsonParser
-import com.google.gson.JsonPrimitive
 import dev.architectury.platform.Platform
 import java.io.File
 import java.io.FileReader
@@ -10,76 +7,81 @@ import java.io.FileWriter
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.function.Supplier
 
 class ConfigRegistry(private val modId: String) {
   private val configFile: File = File(Platform.getConfigFolder().toFile(), "$modId.conf")
   private val properties = mutableMapOf<String, ConfigProperty<*>>()
   private var frozen = false
 
-  // Register properties
-  fun registerBoolean(key: String, defaultValue: Boolean, comment: String?) {
-    if (frozen) return
-    properties[key] = BooleanConfigProperty(key, defaultValue, comment)
+  // Register properties and return a ConfigSupplier that provides the value lazily after the config is frozen
+  fun registerBoolean(key: String, defaultValue: Boolean, comment: String?): ConfigSupplier<Boolean> {
+    if (frozen) return ConfigSupplier { (properties[key] as BooleanConfigProperty).getValue() }
+    val property = BooleanConfigProperty(key, defaultValue, comment)
+    properties[key] = property
+    return ConfigSupplier { property.getValue() }
   }
 
-  fun registerInt(key: String, defaultValue: Int, comment: String?) {
-    if (frozen) return
-    properties[key] = IntConfigProperty(key, defaultValue, comment)
+  fun registerInt(key: String, defaultValue: Int, comment: String?): ConfigSupplier<Int> {
+    if (frozen) return ConfigSupplier { (properties[key] as IntConfigProperty).getValue() }
+    val property = IntConfigProperty(key, defaultValue, comment)
+    properties[key] = property
+    return ConfigSupplier { property.getValue() }
   }
 
-  fun registerFloat(key: String, defaultValue: Float, comment: String?) {
-    if (frozen) return
-    properties[key] = FloatConfigProperty(key, defaultValue, comment)
+  fun registerFloat(key: String, defaultValue: Float, comment: String?): ConfigSupplier<Float> {
+    if (frozen) return ConfigSupplier { (properties[key] as FloatConfigProperty).getValue() }
+    val property = FloatConfigProperty(key, defaultValue, comment)
+    properties[key] = property
+    return ConfigSupplier { property.getValue() }
   }
 
-  fun registerString(key: String, defaultValue: String, comment: String?) {
-    if (frozen) return
-    properties[key] = StringConfigProperty(key, defaultValue, comment)
+  fun registerString(key: String, defaultValue: String, comment: String?): ConfigSupplier<String> {
+    if (frozen) return ConfigSupplier { (properties[key] as StringConfigProperty).getValue() }
+    val property = StringConfigProperty(key, defaultValue, comment)
+    properties[key] = property
+    return ConfigSupplier { property.getValue() }
   }
 
   // Load or create the config file
   fun loadConfig() {
     if (!configFile.exists()) {
-      createConfigFile()
+      createConfigFile()  // Create the config file if it doesn't exist
     }
 
-    val jsonContent = try {
-      FileReader(configFile).use { it.readText() }
+    val lines = try {
+      FileReader(configFile).use { it.readLines() }
     } catch (e: IOException) {
       e.printStackTrace()
       return
     }
 
-    val json = JsonParser.parseString(jsonContent).asJsonObject
-
-    properties.forEach { (key, property) ->
-      val jsonElement = json.get(key)
-      if (jsonElement != null) {
-        property.loadValue(jsonElement)
-      } else {
-        property.saveValue()
+    // Parse the lines to load values
+    var insideCommentBlock = false
+    lines.forEach { line ->
+      if (line.trim().startsWith("#")) {
+        // It's a comment, skip or process accordingly
+      } else if (line.contains("=")) {
+        val (key, value) = line.split("=", limit = 2).map { it.trim() }
+        val property = properties[key]
+        property?.loadValue(value)
       }
     }
 
-    // Ensure all registered properties are saved
+    // Save the config after loading
     saveConfig()
+
+    frozen = true  // Mark config as frozen after loading
   }
 
   // Save the config file
   private fun saveConfig() {
-    val jsonObject = mutableMapOf<String, JsonElement>()
-    properties.forEach { (key, property) ->
-      jsonObject[key] = property.toJson()
-    }
-
     try {
       FileWriter(configFile).use { writer ->
-        writer.write("{\n")
-        jsonObject.forEach { (key, value) ->
-          writer.write("  \"$key\": ${value.toString()},\n")
+        writer.write("# Config for $modId\n")
+        properties.forEach { (key, property) ->
+          writer.write("${property.comment?.let { "# $it" } ?: ""}\n")
+          writer.write("$key=${property.toStringValue()}\n")
         }
-        writer.write("}\n")
       }
     } catch (e: IOException) {
       e.printStackTrace()
@@ -110,10 +112,9 @@ class ConfigRegistry(private val modId: String) {
   }
 
   private abstract class ConfigProperty<T>(val key: String, val defaultValue: T, val comment: String?) {
-    abstract fun loadValue(jsonElement: JsonElement)
-    abstract fun saveValue()
-
-    abstract fun toJson(): JsonElement
+    abstract fun loadValue(value: String)
+    abstract fun toStringValue(): String
+    abstract fun getValue(): T
   }
 
   private class BooleanConfigProperty(key: String, defaultValue: Boolean, comment: String?) :
@@ -121,17 +122,15 @@ class ConfigRegistry(private val modId: String) {
 
     private var value: Boolean = defaultValue
 
-    override fun loadValue(jsonElement: JsonElement) {
-      value = jsonElement.asBoolean
+    override fun loadValue(value: String) {
+      this.value = value.toBoolean()
     }
 
-    override fun saveValue() {
-      // Code to save boolean value to the config
+    override fun toStringValue(): String {
+      return value.toString()
     }
 
-    override fun toJson(): JsonElement {
-      return JsonPrimitive(value)
-    }
+    override fun getValue(): Boolean = value
   }
 
   private class IntConfigProperty(key: String, defaultValue: Int, comment: String?) :
@@ -139,17 +138,15 @@ class ConfigRegistry(private val modId: String) {
 
     private var value: Int = defaultValue
 
-    override fun loadValue(jsonElement: JsonElement) {
-      value = jsonElement.asInt
+    override fun loadValue(value: String) {
+      this.value = value.toInt()
     }
 
-    override fun saveValue() {
-      // Code to save integer value to the config
+    override fun toStringValue(): String {
+      return value.toString()
     }
 
-    override fun toJson(): JsonElement {
-      return JsonPrimitive(value)
-    }
+    override fun getValue(): Int = value
   }
 
   private class FloatConfigProperty(key: String, defaultValue: Float, comment: String?) :
@@ -157,17 +154,15 @@ class ConfigRegistry(private val modId: String) {
 
     private var value: Float = defaultValue
 
-    override fun loadValue(jsonElement: JsonElement) {
-      value = jsonElement.asFloat
+    override fun loadValue(value: String) {
+      this.value = value.toFloat()
     }
 
-    override fun saveValue() {
-      // Code to save float value to the config
+    override fun toStringValue(): String {
+      return value.toString()
     }
 
-    override fun toJson(): JsonElement {
-      return JsonPrimitive(value)
-    }
+    override fun getValue(): Float = value
   }
 
   private class StringConfigProperty(key: String, defaultValue: String, comment: String?) :
@@ -175,16 +170,26 @@ class ConfigRegistry(private val modId: String) {
 
     private var value: String = defaultValue
 
-    override fun loadValue(jsonElement: JsonElement) {
-      value = jsonElement.asString
+    override fun loadValue(value: String) {
+      this.value = value
     }
 
-    override fun saveValue() {
-      // Code to save string value to the config
+    override fun toStringValue(): String {
+      return value
     }
 
-    override fun toJson(): JsonElement {
-      return JsonPrimitive(value)
+    override fun getValue(): String = value
+  }
+
+  // ConfigSupplier to provide a lazy getter after the config is frozen
+  class ConfigSupplier<T>(private val valueGetter: () -> T) {
+    private var value: T? = null
+
+    fun get(): T {
+      if (value == null) {
+        value = valueGetter()
+      }
+      return value!!
     }
   }
 }

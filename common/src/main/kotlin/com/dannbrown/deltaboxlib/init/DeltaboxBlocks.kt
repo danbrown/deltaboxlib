@@ -16,26 +16,28 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.ButtonBlock
-import net.minecraft.world.level.block.DoorBlock
-import net.minecraft.world.level.block.FenceBlock
-import net.minecraft.world.level.block.FenceGateBlock
 import net.minecraft.world.level.block.FlowerPotBlock
-import net.minecraft.world.level.block.PressurePlateBlock
 import net.minecraft.world.level.block.RotatedPillarBlock
-import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.SoundType
-import net.minecraft.world.level.block.StairBlock
-import net.minecraft.world.level.block.TrapDoorBlock
-import net.minecraft.world.level.block.WallBlock
 import net.minecraft.world.level.block.state.BlockBehaviour.OffsetType
-import net.minecraft.world.level.block.state.properties.BlockSetType
-import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
 import net.minecraft.world.level.material.PushReaction
 
 
 object DeltaboxBlocks {
+  var IRON_BLOCK2: BlockEntry<out Block>? = null
+
+  init {
+    if (DeltaboxConfig.TEST2.get()) {
+      IRON_BLOCK2 = REGISTRATE
+        .blockPreset<Block>("compiled")
+        .storageBlock({ Items.IRON_INGOT }, { Ingredient.of(Items.FLINT) })
+        .copyFrom { Blocks.IRON_BLOCK }
+        .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_IRON_TOOL)
+        .register()
+    }
+  }
+
   val ADAMANTIUM_BLOCK = REGISTRATE
     .block<RotatedPillarBlock>("adamantium_block")
     .copyFrom { Blocks.STONE }
@@ -49,13 +51,6 @@ object DeltaboxBlocks {
     .block<RotatedPillarBlock>("second_block")
     .factory { c, p -> RotatedPillarBlock(p) }
     .strippable { ADAMANTIUM_BLOCK.get() }
-    .register()
-
-  val IRON_BLOCK2 = REGISTRATE
-    .blockPreset<Block>("compiled")
-    .storageBlock({ Items.IRON_INGOT }, { Ingredient.of(Items.FLINT) })
-    .copyFrom { Blocks.IRON_BLOCK }
-    .toolAndTier(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_IRON_TOOL)
     .register()
 
 

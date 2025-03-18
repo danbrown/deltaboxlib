@@ -201,7 +201,10 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
     itemEntry = _itemEntry
   }
 
-  fun register(): BlockEntry<T> {
+  fun register(doRegister: Boolean = true): BlockEntry<T> {
+    if (!doRegister) {
+      return BlockEntry(null, null)
+    }
     blockInstance = registrate.blockRegistry.register(blockId, blockFactory, this)
     if (!hasCustomItemBuilder && !this.ctx.noItem) itemBuilder.build()
     return asEntry()

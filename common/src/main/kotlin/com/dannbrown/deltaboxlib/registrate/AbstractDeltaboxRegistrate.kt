@@ -292,28 +292,28 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return dimension
   }
 
-  fun configBoolean(key: String, defaultValue: Boolean, comment: String?) {
+  fun configBoolean(
+    key: String,
+    defaultValue: Boolean,
+    comment: String? = null
+  ): ConfigRegistry.ConfigSupplier<Boolean> {
     return configRegistry.registerBoolean(key, defaultValue, comment)
   }
 
-  fun configInt(key: String, defaultValue: Int, comment: String?) {
+  fun configInt(key: String, defaultValue: Int, comment: String? = null): ConfigRegistry.ConfigSupplier<Int> {
     return configRegistry.registerInt(key, defaultValue, comment)
   }
 
-  fun configFloat(key: String, defaultValue: Float, comment: String?) {
+  fun configFloat(key: String, defaultValue: Float, comment: String? = null): ConfigRegistry.ConfigSupplier<Float> {
     return configRegistry.registerFloat(key, defaultValue, comment)
   }
 
-  fun configString(key: String, defaultValue: String, comment: String?) {
+  fun configString(key: String, defaultValue: String, comment: String? = null): ConfigRegistry.ConfigSupplier<String> {
     return configRegistry.registerString(key, defaultValue, comment)
   }
 
-  fun loadConfig() {
-    configRegistry.loadConfig()
-  }
-
   fun buildRegistries() {
-    configRegistry.freeze()
+    configRegistry.loadConfig()
     blockRegistry.build()
     itemRegistry.build()
     creativeTabRegistry.build()
@@ -362,6 +362,6 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   }
 
   fun freezeConfig() {
-    configRegistry.freeze()
+    configRegistry.loadConfig()
   }
 }
