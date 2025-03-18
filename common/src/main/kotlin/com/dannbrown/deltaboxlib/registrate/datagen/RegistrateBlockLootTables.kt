@@ -415,18 +415,6 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     )
   }
 
-//  private fun createSilkTouchOrShearsDispatchTable(
-//    arg: ItemLike,
-//    arg2: LootPoolEntryContainer.Builder<*>
-//  ): LootTable.Builder? {
-//    return LootTable.lootTable()
-//      .withPool(
-//        LootPool.lootPool()
-//          .setRolls(ConstantValue.exactly(1.0f))
-//          .add((LootItem.lootTableItem(arg).`when`(this.hasShearsOrSilkTouch())).otherwise(arg2))
-//      );
-//  }
-
   // create a silk touch table for a item to be dropped with silk touch
   fun createSecondaryDispatchTable(
     specificItem: ItemLike,
@@ -441,20 +429,6 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
 
     return LootTable.lootTable().withPool(pool)
   }
-
-// create a silk touch table for a item to be dropped with silk touch
-//  private fun createSilkTouchDispatchTable(
-//    arg: ItemLike,
-//    arg2: LootPoolEntryContainer.Builder<*>?
-//  ): LootTable.Builder {
-//    val pool = LootPool.lootPool()
-//      .setRolls(ConstantValue.exactly(1.0f))
-//      .add(LootItem.lootTableItem(arg).`when`(this.hasSilkTouch()))
-//
-//    arg2?.let { pool.add(it.otherwise(arg2)) }
-//
-//    return LootTable.lootTable().withPool(pool)
-//  }
 
   private fun simpleSilkShearsLootTable(
     b: Block,
