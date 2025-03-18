@@ -342,6 +342,7 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
 
   /**
    * Drops the silk item if the block is mined with silk touch or shears, and the other with a chance and multiplier if not
+   * Ex usage: vine, plants without item
    * @param silk the item to drop if the block is mined with silk touch or shears
    * @param other the item to drop if the block is mined normally
    * @param chance the chance to drop the silk item
@@ -359,16 +360,23 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
 
   /**
    * Drops the block itself if mined with silk touch or shears, and the other with a chance and multiplier if not
+   * Ex usage: plants with itself as the item
    * @param other the item to drop if the block is mined normally
    * @param chance the chance to drop the silk item
    * @param multiplier the amount of items to drop
    */
-  fun dropSelfSilkShearsOtherLoot(block: Block, other: Supplier<ItemLike>? = null, chance: Float = 1f, multiplier: Int = 1) {
+  fun dropSelfSilkShearsOtherLoot(
+    block: Block,
+    other: Supplier<ItemLike>? = null,
+    chance: Float = 1f,
+    multiplier: Int = 1
+  ) {
     simpleSilkShearsLootTable(block, block, other, chance, multiplier)
   }
 
   /**
    * Drops the silk item if the block is mined with silk touch, and the other with a chance and multiplier if not
+   * * Ex usage: Ore blocks without item
    * @param silk the item to drop if the block is mined with silk touch
    * @param other the item to drop if the block is mined normally
    * @param chance the chance to drop the silk item
@@ -386,6 +394,7 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
 
   /**
    * Drops the block itself if mined with silk touch, and the other with a chance and multiplier if not
+   * * Ex usage: Ore blocks
    * @param other the item to drop if the block is mined normally
    * @param chance the chance to drop the silk item
    * @param multiplier the amount of items to drop
@@ -419,7 +428,7 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
 //  }
 
   // create a silk touch table for a item to be dropped with silk touch
-  private fun createSecondaryDispatchTable(
+  fun createSecondaryDispatchTable(
     specificItem: ItemLike,
     secondaryItem: LootPoolEntryContainer.Builder<*>?,
     condition: LootItemCondition.Builder
