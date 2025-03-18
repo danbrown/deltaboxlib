@@ -46,11 +46,35 @@ import java.util.function.Supplier
 abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistrate) :
   BlockLootSubProvider(setOf(), FeatureFlags.REGISTRY.allFlags()), DataProvider {
   // new functions for Registrate
+
+  /**
+   * Drops nothing
+   */
   fun noLoot(block: Block) {
     super.add(block, LootTable.lootTable())
   }
 
-  fun pottedBlock(block: Block, plant: Supplier<out Block>) {
+
+  /**
+   * Drops the block itself
+   */
+  public fun dropItself(block: Block) {
+    super.dropSelf(block)
+  }
+
+  /**
+   * Drops the other loot instead
+   * @param itemLike the item to drop
+   */
+  public fun dropAnother(block: Block, itemLike: ItemLike) {
+    super.dropOther(block, itemLike)
+  }
+
+  /**
+   * Create a potted plant loot table, it will drop the flower pot and the plant item
+   * @param plant the plant item to drop
+   */
+  fun pottedBlock(block: Block, plant: Supplier<out ItemLike>) {
     super.add(
       block, LootTable.lootTable()
         .withPool(
@@ -70,6 +94,9 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     )
   }
 
+  /**
+   * Drops the slab item table
+   */
   fun dropSlab(block: Block) {
     super.add(
       block, LootTable.lootTable().withPool(
@@ -93,6 +120,9 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     )
   }
 
+  /**
+   * Create a door loot table, it will drop the door item itself, ignores drops from the second half of the door
+   */
   fun dropDoor(block: Block) {
     super.add(
       block,
@@ -116,10 +146,24 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     simpleSilkShearsLootTable(block, block, other, chance, multiplier)
   }
 
-  fun leaves(block: Block, saplingDrop: Supplier<out Block>) {
+  /**
+   * Create a Leaves loot table, it will drop the sapling with a 5% chance, and 1-2 sticks with a 1/200 chance
+   * Also adds silk touch and shears support
+   * @param saplingDrop the sapling to drop
+   */
+  fun dropLeaves(block: Block, saplingDrop: Supplier<out Block>) {
     this.add(block, this.createLeavesDrops(block, saplingDrop.get(), 0.05f, 0.0625f, 0.083333336f, 0.1f))
   }
 
+  /**
+   * Create a Leaves loot table, it will drop the sapling if not fully grown, and the stick if fully grown
+   * @param cropItem the item to drop if the block is fully grown
+   * @param saplingItem the item to drop if the block is not fully grown
+   * @param cropChance the chance to drop the crop item
+   * @param cropMultiplier the amount of items to drop
+   * @param saplingChance the chance to drop the sapling item
+   * @param saplingMultiplier the amount of saplings to drop
+   */
   fun dropLeafCropLoot(
     block: Block,
     cropItem: Supplier<ItemLike>,
@@ -154,6 +198,15 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     )
   }
 
+  /**
+   * Create a Crop loot table, it will drop the item if fully grown, and the seed if not fully grown
+   * @param cropItem the item to drop if the block is fully grown
+   * @param _seedItem the seed to drop, can be null
+   * @param includeSeedOnDrop if it will drop itself as a seed
+   * @param chance the chance to drop the crop item
+   * @param multiplier the amount of items to drop
+   * @param age the age the crop is ready
+   */
   fun dropCropLoot(
     block: Block,
     cropItem: Supplier<ItemLike>?,
@@ -197,6 +250,14 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     this.add(block, this.applyExplosionDecay(block, lootBuilder))
   }
 
+  /**
+   * Create a Double Crop loot table, it will drop the item if fully grown, and the seed if not fully grown
+   * @param cropItem the item to drop if the block is fully grown
+   * @param _seedItem the seed to drop, can be null
+   * @param includeSeedOnDrop if it will drop itself as a seed
+   * @param chance the chance to drop the crop item
+   * @param multiplier the amount of items to drop
+   */
   fun dropDoubleCropLoot(
     block: Block,
     cropItem: Supplier<ItemLike>?,
@@ -205,12 +266,11 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
     chance: Float = 0.25f,
     multiplier: Int = 1
   ) {
-    val registries = null
     val seedItem = _seedItem ?: Supplier { block.asItem() }
 
     var builder: LootPoolEntryContainer.Builder<*> = LootItem.lootTableItem(block)
       .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
-      .`when`(hasShearsOrSilkTouch(registries))
+      .`when`(hasShearsOrSilkTouch())
 
     builder = if (cropItem != null && includeSeedOnDrop) {
       builder.otherwise(
@@ -280,51 +340,166 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
   }
 
 
-  // private functions
-  private fun <B : Block> simpleSilkShearsLootTable(
-    b: B,
-    silk: ItemLike,
-    other: Supplier<ItemLike>,
+  /**
+   * Drops the silk item if the block is mined with silk touch or shears, and the other with a chance and multiplier if not
+   * @param silk the item to drop if the block is mined with silk touch or shears
+   * @param other the item to drop if the block is mined normally
+   * @param chance the chance to drop the silk item
+   * @param multiplier the amount of items to drop
+   */
+  fun <B : Block> dropSilkShearsOtherLoot(
+    block: Block,
+    silk: Supplier<ItemLike>,
+    other: Supplier<ItemLike>? = null,
     chance: Float = 1f,
     multiplier: Int = 1
   ) {
-    val registries = null
-    val enchant = Enchantments.BLOCK_FORTUNE
-    this.add(
-      b,
-      createSilkTouchOrShearsDispatchTable(
-        silk,
-        this.applyExplosionDecay(
-          silk, LootItem.lootTableItem(other.get())
-            .`when`(LootItemRandomChanceCondition.randomChance(chance))
-            .apply(ApplyBonusCount.addUniformBonusCount(enchant, 2))
-        ),
-        registries
-      )!!.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(multiplier.toFloat())))
-    )
+    simpleSilkShearsLootTable(block, silk.get(), other, chance, multiplier)
   }
 
-  private fun createSilkTouchOrShearsDispatchTable(
-    arg: ItemLike,
-    arg2: LootPoolEntryContainer.Builder<*>,
-    registries: HolderLookup.Provider? = null
-  ): LootTable.Builder? {
-    return LootTable.lootTable()
-      .withPool(
-        LootPool.lootPool()
-          .setRolls(ConstantValue.exactly(1.0f))
-          .add((LootItem.lootTableItem(arg).`when`(this.hasShearsOrSilkTouch(registries))).otherwise(arg2))
-      );
+  /**
+   * Drops the block itself if mined with silk touch or shears, and the other with a chance and multiplier if not
+   * @param other the item to drop if the block is mined normally
+   * @param chance the chance to drop the silk item
+   * @param multiplier the amount of items to drop
+   */
+  fun dropSelfSilkShearsOtherLoot(block: Block, other: Supplier<ItemLike>? = null, chance: Float = 1f, multiplier: Int = 1) {
+    simpleSilkShearsLootTable(block, block, other, chance, multiplier)
   }
 
-  private fun hasShearsOrSilkTouch(registries: HolderLookup.Provider? = null): LootItemCondition.Builder {
-    return HAS_SHEARS.or(hasSilkTouch(registries))
+  /**
+   * Drops the silk item if the block is mined with silk touch, and the other with a chance and multiplier if not
+   * @param silk the item to drop if the block is mined with silk touch
+   * @param other the item to drop if the block is mined normally
+   * @param chance the chance to drop the silk item
+   * @param multiplier the amount of items to drop
+   */
+  fun dropSilkOtherLoot(
+    block: Block,
+    silk: Supplier<ItemLike>,
+    other: Supplier<ItemLike>? = null,
+    chance: Float = 1f,
+    multiplier: Int = 1
+  ) {
+    simpleSilkLootTable(block, silk.get(), other, chance, multiplier)
   }
 
-  private fun hasSilkTouch(registries: HolderLookup.Provider? = null): LootItemCondition.Builder {
+  /**
+   * Drops the block itself if mined with silk touch, and the other with a chance and multiplier if not
+   * @param other the item to drop if the block is mined normally
+   * @param chance the chance to drop the silk item
+   * @param multiplier the amount of items to drop
+   */
+  fun dropSelfSilkOtherLoot(block: Block, other: Supplier<ItemLike>? = null, chance: Float = 1f, multiplier: Int = 1) {
+    simpleSilkLootTable(block, block, other, chance, multiplier)
+  }
+
+  // private functions
+  private fun hasShearsOrSilkTouch(): LootItemCondition.Builder {
+    return HAS_SHEARS.or(hasSilkTouch())
+  }
+
+  private fun hasSilkTouch(): LootItemCondition.Builder {
     return MatchTool.toolMatches(
       ItemPredicate.Builder.item()
         .hasEnchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
+    )
+  }
+
+//  private fun createSilkTouchOrShearsDispatchTable(
+//    arg: ItemLike,
+//    arg2: LootPoolEntryContainer.Builder<*>
+//  ): LootTable.Builder? {
+//    return LootTable.lootTable()
+//      .withPool(
+//        LootPool.lootPool()
+//          .setRolls(ConstantValue.exactly(1.0f))
+//          .add((LootItem.lootTableItem(arg).`when`(this.hasShearsOrSilkTouch())).otherwise(arg2))
+//      );
+//  }
+
+  // create a silk touch table for a item to be dropped with silk touch
+  private fun createSecondaryDispatchTable(
+    specificItem: ItemLike,
+    secondaryItem: LootPoolEntryContainer.Builder<*>?,
+    condition: LootItemCondition.Builder
+  ): LootTable.Builder {
+    val pool = LootPool.lootPool()
+      .setRolls(ConstantValue.exactly(1.0f))
+      .add(LootItem.lootTableItem(specificItem).`when`(condition))
+
+    secondaryItem?.let { pool.add(it.otherwise(secondaryItem)) }
+
+    return LootTable.lootTable().withPool(pool)
+  }
+
+// create a silk touch table for a item to be dropped with silk touch
+//  private fun createSilkTouchDispatchTable(
+//    arg: ItemLike,
+//    arg2: LootPoolEntryContainer.Builder<*>?
+//  ): LootTable.Builder {
+//    val pool = LootPool.lootPool()
+//      .setRolls(ConstantValue.exactly(1.0f))
+//      .add(LootItem.lootTableItem(arg).`when`(this.hasSilkTouch()))
+//
+//    arg2?.let { pool.add(it.otherwise(arg2)) }
+//
+//    return LootTable.lootTable().withPool(pool)
+//  }
+
+  private fun simpleSilkShearsLootTable(
+    b: Block,
+    silk: ItemLike,
+    other: Supplier<ItemLike>? = null,
+    chance: Float = 1f,
+    multiplier: Int = 1,
+    applyFortune: Boolean = true,
+  ) {
+    val enchant = Enchantments.BLOCK_FORTUNE
+    val lootItem = other?.get()?.let {
+      var entry = LootItem.lootTableItem(it)
+        .`when`(LootItemRandomChanceCondition.randomChance(chance))
+
+      if (applyFortune) {
+        entry = entry.apply(ApplyBonusCount.addUniformBonusCount(enchant, 2))
+      }
+
+      this.applyExplosionDecay(silk, entry)
+    }
+
+    this.add(
+      b,
+      createSecondaryDispatchTable(silk, lootItem, hasShearsOrSilkTouch()).withPool(
+        LootPool.lootPool().setRolls(ConstantValue.exactly(multiplier.toFloat()))
+      )
+    )
+  }
+
+  private fun simpleSilkLootTable(
+    b: Block,
+    silk: ItemLike,
+    other: Supplier<ItemLike>? = null,
+    chance: Float = 1f,
+    multiplier: Int = 1,
+    applyFortune: Boolean = true,
+  ) {
+    val enchant = Enchantments.BLOCK_FORTUNE
+    val lootItem = other?.get()?.let {
+      var entry = LootItem.lootTableItem(it)
+        .`when`(LootItemRandomChanceCondition.randomChance(chance))
+
+      if (applyFortune) {
+        entry = entry.apply(ApplyBonusCount.addUniformBonusCount(enchant, 2))
+      }
+
+      this.applyExplosionDecay(silk, entry)
+    }
+
+    this.add(
+      b,
+      createSecondaryDispatchTable(silk, lootItem, hasSilkTouch()).withPool(
+        LootPool.lootPool().setRolls(ConstantValue.exactly(multiplier.toFloat()))
+      )
     )
   }
 
@@ -335,14 +510,6 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
 
   public override fun add(block: Block, function: Function<Block, LootTable.Builder>) {
     super.add(block, function)
-  }
-
-  public fun dropItself(block: Block) {
-    super.dropSelf(block)
-  }
-
-  public fun dropAnother(block: Block, itemLike: ItemLike) {
-    super.dropOther(block, itemLike)
   }
 
   // generate function to hold on fabric

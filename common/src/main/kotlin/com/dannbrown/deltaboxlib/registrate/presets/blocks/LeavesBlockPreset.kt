@@ -43,7 +43,7 @@ class LeavesBlockPreset(
       .itemTags(ItemTags.LEAVES, *DeltaboxUtil.TAGS.modloaderItemTag("leaves").toTypedArray())
       .compostable(0.3f)
       .blockstate { g, b -> g.leavesBlock(b.get(), blockId + suffix) }
-      .loot { g, b -> g.leaves(b.get(), sapling) }
+      .loot { g, b -> g.dropLeaves(b.get(), sapling) }
   }
 
   fun <T : Block> createPalmLeaves(): BlockBuilder<T> {
@@ -69,7 +69,7 @@ class LeavesBlockPreset(
       .itemTags(ItemTags.LEAVES, *DeltaboxUtil.TAGS.modloaderItemTag("leaves").toTypedArray())
       .compostable(0.3f)
       .blockstate { g, b -> g.leavesBlock(b.get(), blockId + suffix) }
-      .loot { g, b -> g.leaves(b.get(), sapling) }
+      .loot { g, b -> g.dropLeaves(b.get(), sapling) }
   }
 
   fun <T : Block> createBuddingLeaves(
@@ -96,7 +96,7 @@ class LeavesBlockPreset(
       )
       .blockstate { g, b -> g.leavesBlock(b.get(), blockId + suffix) }
       .noItem()
-      .loot { g, b -> g.leaves(b.get(), sapling) }
+      .loot { g, b -> g.dropLeaves(b.get(), sapling) }
   }
 
   fun <T : Block> createCropLeaves(
