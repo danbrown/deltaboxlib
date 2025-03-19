@@ -1,6 +1,0 @@
-{
-  "parent": "deltaboxlib:block/template_cross",
-  "textures": {
-    "cross": "deltaboxlib:block/pale_oak_sapling"
-  }
-}

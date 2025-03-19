@@ -1,5 +1,7 @@
 package com.dannbrown.deltaboxlib.init
 
+import com.dannbrown.deltaboxlib.init.test.*
+
 object DeltaboxLibMod {
   const val MOD_ID = "deltaboxlib"
   var REGISTRATE = DeltaboxRegistrate(MOD_ID)

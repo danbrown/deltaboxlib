@@ -1,8 +1,0 @@
-{
-  "parent": "deltaboxlib:block/template_wall_post",
-  "textures": {
-    "bottom": "deltaboxlib:block/pyrite_bricks",
-    "top": "deltaboxlib:block/pyrite_bricks",
-    "wall": "deltaboxlib:block/pyrite_bricks"
-  }
-}

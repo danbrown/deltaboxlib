@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "deltaboxlib:acai_berries_crate",
-    "deltaboxlib:adamantium_block",
-    "deltaboxlib:flammable_block",
-    "minecraft:acacia_log"
-  ]
-}

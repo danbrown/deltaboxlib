@@ -1,8 +1,0 @@
-{
-  "parent": "deltaboxlib:block/template_wall_post",
-  "textures": {
-    "bottom": "deltaboxlib:block/polished_pyrite",
-    "top": "deltaboxlib:block/polished_pyrite",
-    "wall": "deltaboxlib:block/polished_pyrite"
-  }
-}

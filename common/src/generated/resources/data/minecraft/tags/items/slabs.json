@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "deltaboxlib:pyrite_slab",
-    "deltaboxlib:polished_pyrite_slab",
-    "deltaboxlib:pyrite_brick_slab",
-    "deltaboxlib:pale_oak_slab"
-  ]
-}

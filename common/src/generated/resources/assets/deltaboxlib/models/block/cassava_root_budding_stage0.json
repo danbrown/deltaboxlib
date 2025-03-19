@@ -1,6 +1,0 @@
-{
-  "parent": "deltaboxlib:block/template_cross",
-  "textures": {
-    "cross": "deltaboxlib:block/cassava/cassava_budding_stage0"
-  }
-}

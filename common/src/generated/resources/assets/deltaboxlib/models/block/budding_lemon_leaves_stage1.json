@@ -1,6 +1,0 @@
-{
-  "parent": "deltaboxlib:block/template_leaves",
-  "textures": {
-    "all": "deltaboxlib:block/budding_lemon_leaves_stage1"
-  }
-}
