@@ -383,4 +383,18 @@ class RegistrateRecipes(
   fun slabToChiseledRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
     simpleShapedRecipe(result, arrayOf("I", "I"), mapOf('I' to ingredient), 1, "_craft")
   }
+
+  fun boatCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+    simpleShapedRecipe(result, arrayOf("I I", "III"), mapOf('I' to ingredient), 1, "_craft")
+  }
+
+  fun chestboatCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<ItemLike>) {
+    directShapelessRecipe(
+      result,
+      { Ingredient.of(Items.CHEST, ingredient.get()) },
+      RecipeCategory.BUILDING_BLOCKS,
+      1,
+      "_craft"
+    )
+  }
 }

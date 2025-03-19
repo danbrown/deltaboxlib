@@ -465,11 +465,21 @@ class WoodBlockFamilySet(
     BOAT_ITEM =
       registrate.item<BoatItem>("${_name}_boat")
         .factory { p -> BoatItem(_name, { BOAT_ENTITY!!.get() }, false, p.stacksTo(1)) }
+        .recipe { c, p ->
+          c.boatCraftingRecipe({ p.get() }) {
+            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+          }
+        }
         .register()
 
     CHEST_BOAT_ITEM =
       registrate.item<BoatItem>("${_name}_chest_boat")
         .factory { p -> BoatItem(_name, { getContent().chestBoatEntity.get() }, true, p.stacksTo(1)) }
+        .recipe { c, p ->
+          c.chestboatCraftingRecipe({ p.get() }) {
+            _blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem()
+          }
+        }
         .register()
   }
 

@@ -33,6 +33,7 @@ class SaplingBlockPreset(
           .noOcclusion()
       }
       .cutoutRender()
+      .compostable(0.3f)
       .blockstate { g, b -> g.crossBlock(b.get(), nameWithSuffix) }
       .blockTags(BlockTags.SAPLINGS)
       .item()
