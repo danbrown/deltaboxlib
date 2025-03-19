@@ -17,4 +17,7 @@ dependencies {
   modImplementation("net.fabricmc:fabric-loader:${rootProject.property("fabric_loader_version")}")
   // Remove the next line if you don't want to depend on the API
   modApi("dev.architectury:architectury:${rootProject.property("architectury_version")}")
+
+  // compile against the JEI API but do not include it at runtime
+  modCompileOnly("mezz.jei:jei-${rootProject.property("minecraft_version")}-common-api:${rootProject.property("jei_version")}")
 }
