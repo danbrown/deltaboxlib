@@ -42,10 +42,9 @@ class ConfigRegistry(private val modId: String) {
     return ConfigSupplier { property.getValue() }
   }
 
-  // Load or create the config file
   fun loadConfig() {
     if (!configFile.exists()) {
-      createConfigFile()  // Create the config file if it doesn't exist
+      createConfigFile()
     }
 
     val lines = try {
@@ -55,7 +54,7 @@ class ConfigRegistry(private val modId: String) {
       return
     }
 
-    // Parse the lines to load values
+    // Parse
     var insideCommentBlock = false
     lines.forEach { line ->
       if (line.trim().startsWith("#")) {
@@ -66,14 +65,11 @@ class ConfigRegistry(private val modId: String) {
         property?.loadValue(value)
       }
     }
-
-    // Save the config after loading
     saveConfig()
 
-    frozen = true  // Mark config as frozen after loading
+    frozen = true
   }
 
-  // Save the config file
   private fun saveConfig() {
     try {
       FileWriter(configFile).use { writer ->
@@ -88,7 +84,6 @@ class ConfigRegistry(private val modId: String) {
     }
   }
 
-  // Create an empty config file with comments
   private fun createConfigFile() {
     try {
       Files.createDirectories(Paths.get(configFile.parent))
@@ -101,7 +96,6 @@ class ConfigRegistry(private val modId: String) {
     }
   }
 
-  // Freeze config, preventing any further modifications
   fun freeze() {
     frozen = true
   }
