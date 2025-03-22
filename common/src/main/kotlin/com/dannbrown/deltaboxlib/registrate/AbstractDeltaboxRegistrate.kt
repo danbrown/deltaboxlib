@@ -14,6 +14,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.particle.ParticleProvider
 import net.minecraft.client.particle.SpriteSet
+import net.minecraft.core.dispenser.DispenseItemBehavior
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleType
 import net.minecraft.core.registries.Registries
@@ -72,6 +73,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val attributeRegistry: AttributeRegistry = AttributeRegistry(modId)
   val configRegistry: ConfigRegistry = ConfigRegistry(modId)
   val effectRegistry: EffectRegistry = EffectRegistry(modId)
+  val dispenserBehaviorRegistry: DispenserBehaviorRegistry = DispenserBehaviorRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -295,7 +297,13 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   }
 
   fun mobEffect(name: String, effect: Supplier<MobEffect>): Supplier<MobEffect> {
+    this.langs().effect(name, DeltaboxUtil.asName(name))
     return this.effectRegistry.register(name, effect)
+  }
+
+  fun dispenserBehavior(itemEntry: ItemEntry<*>, behavior: DispenseItemBehavior): AbstractDeltaboxRegistrate {
+    this.dispenserBehaviorRegistry.register(itemEntry, behavior)
+    return this
   }
 
   fun configBoolean(
@@ -365,6 +373,10 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun buildAttributes() {
     attributeRegistry.build()
+  }
+
+  fun buildEffects() {
+    effectRegistry.build()
   }
 
   fun freezeConfig() {

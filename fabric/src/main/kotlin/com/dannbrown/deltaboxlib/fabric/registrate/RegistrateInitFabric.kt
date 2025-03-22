@@ -102,7 +102,10 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
       }
       DeltaboxSpawnEggItem.TYPE_MAP[egg.typeSupplier.get()] = egg
     }
-    // TODO: Register items dispenser behaviors
+    // Register items dispenser behaviors
+    registrate.dispenserBehaviorRegistry.getRegistries().forEach { (t, u) ->
+      DispenserBlock.registerBehavior(t.get(), u)
+    }
   }
 
 
