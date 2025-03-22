@@ -423,9 +423,10 @@ abstract class RegistrateBlockLootTables(val registrate: AbstractDeltaboxRegistr
   ): LootTable.Builder {
     val pool = LootPool.lootPool()
       .setRolls(ConstantValue.exactly(1.0f))
-      .add(LootItem.lootTableItem(specificItem).`when`(condition))
-
-    secondaryItem?.let { pool.add(it.otherwise(secondaryItem)) }
+      .add(
+        if (secondaryItem != null) LootItem.lootTableItem(specificItem).`when`(condition).otherwise(secondaryItem)
+        else LootItem.lootTableItem(specificItem).`when`(condition)
+      )
 
     return LootTable.lootTable().withPool(pool)
   }
