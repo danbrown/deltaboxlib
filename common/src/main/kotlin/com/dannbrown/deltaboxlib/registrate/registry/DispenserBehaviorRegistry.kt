@@ -1,15 +1,17 @@
 package com.dannbrown.deltaboxlib.registrate.registry
 
 import net.minecraft.core.dispenser.DispenseItemBehavior
+import net.minecraft.world.level.ItemLike
+import java.util.function.Supplier
 
 class DispenserBehaviorRegistry(modId: String) {
-  private val entries: MutableMap<ItemEntry<*>, DispenseItemBehavior> = mutableMapOf()
+  private val entries: MutableMap<Supplier<ItemLike>, DispenseItemBehavior> = mutableMapOf()
 
-  fun register(item: ItemEntry<*>, behavior: DispenseItemBehavior) {
+  fun register(item: Supplier<ItemLike>, behavior: DispenseItemBehavior) {
     entries[item] = behavior
   }
 
-  fun getRegistries(): MutableMap<ItemEntry<*>, DispenseItemBehavior> {
+  fun getRegistries(): MutableMap<Supplier<ItemLike>, DispenseItemBehavior> {
     return entries
   }
 }

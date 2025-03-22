@@ -30,6 +30,7 @@ import net.minecraft.world.entity.npc.VillagerProfession
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntity
@@ -301,7 +302,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return this.effectRegistry.register(name, effect)
   }
 
-  fun dispenserBehavior(itemEntry: ItemEntry<*>, behavior: DispenseItemBehavior): AbstractDeltaboxRegistrate {
+  fun dispenserBehavior(itemEntry: Supplier<ItemLike>, behavior: DispenseItemBehavior): AbstractDeltaboxRegistrate {
     this.dispenserBehaviorRegistry.register(itemEntry, behavior)
     return this
   }
