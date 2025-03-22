@@ -20,6 +20,7 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.tags.TagKey
+import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.Attribute
@@ -70,6 +71,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val dimensionRegistry: DimensionRegistry = DimensionRegistry(modId)
   val attributeRegistry: AttributeRegistry = AttributeRegistry(modId)
   val configRegistry: ConfigRegistry = ConfigRegistry(modId)
+  val effectRegistry: EffectRegistry = EffectRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -290,6 +292,10 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   fun dimension(dimension: AbstractDimension): AbstractDimension {
     this.dimensionRegistry.addDimension(dimension)
     return dimension
+  }
+
+  fun mobEffect(name: String, effect: Supplier<MobEffect>): Supplier<MobEffect> {
+    return this.effectRegistry.register(name, effect)
   }
 
   fun configBoolean(
