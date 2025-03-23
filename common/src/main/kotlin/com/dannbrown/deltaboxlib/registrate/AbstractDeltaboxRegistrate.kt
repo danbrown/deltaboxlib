@@ -111,32 +111,60 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return LangBuilder(this, _modId)
   }
 
-  fun blockTags(hostTag: TagKey<Block>): BlockTagBuilder {
-    return BlockTagBuilder(this, hostTag)
+  fun blockTags(hostTag: TagKey<Block>): TagBuilder<Block> {
+    return object : TagBuilder<Block>(this, hostTag) {
+      override fun register() {
+        tagRegistry.addBlock(hostTag, this)
+      }
+    }
   }
 
-  fun itemTags(hostTag: TagKey<Item>): ItemTagBuilder {
-    return ItemTagBuilder(this, hostTag)
+  fun itemTags(hostTag: TagKey<Item>): TagBuilder<Item> {
+    return object : TagBuilder<Item>(this, hostTag) {
+      override fun register() {
+        tagRegistry.addItem(hostTag, this)
+      }
+    }
   }
 
-  fun fluidTags(hostTag: TagKey<Fluid>): FluidTagBuilder {
-    return FluidTagBuilder(this, hostTag)
+  fun fluidTags(hostTag: TagKey<Fluid>): TagBuilder<Fluid> {
+    return object : TagBuilder<Fluid>(this, hostTag) {
+      override fun register() {
+        tagRegistry.addFluid(hostTag, this)
+      }
+    }
   }
 
-  fun biomeTags(hostTag: TagKey<Biome>): BiomeTagBuilder {
-    return BiomeTagBuilder(this, hostTag)
+  fun biomeTags(hostTag: TagKey<Biome>): TagBuilder<Biome> {
+    return object : TagBuilder<Biome>(this, hostTag) {
+      override fun register() {
+        tagRegistry.addBiome(hostTag, this)
+      }
+    }
   }
 
-  fun entityTags(hostTag: TagKey<EntityType<*>>): EntityTagBuilder {
-    return EntityTagBuilder(this, hostTag)
+  fun entityTags(hostTag: TagKey<EntityType<*>>): TagBuilder<EntityType<*>> {
+    return object : TagBuilder<EntityType<*>>(this, hostTag) {
+      override fun register() {
+        tagRegistry.addEntity(hostTag, this)
+      }
+    }
   }
 
-  fun paintingTags(hostTag: TagKey<PaintingVariant>): PaintingTagBuilder {
-    return PaintingTagBuilder(this, hostTag)
+  fun paintingTags(hostTag: TagKey<PaintingVariant>): TagBuilder<PaintingVariant> {
+    return object : TagBuilder<PaintingVariant>(this, hostTag) {
+      override fun register() {
+        tagRegistry.addPainting(hostTag, this)
+      }
+    }
   }
 
-  fun worldPresetTags(hostTag: TagKey<WorldPreset>): WorldPresetTagBuilder {
-    return WorldPresetTagBuilder(this, hostTag)
+  fun worldPresetTags(hostTag: TagKey<WorldPreset>): TagBuilder<WorldPreset> {
+    return object : TagBuilder<WorldPreset>(this, hostTag) {
+      override fun register() {
+        tagRegistry.addWorldPreset(hostTag, this)
+      }
+    }
   }
 
   fun recipe(factory: RecipeFactory): AbstractDeltaboxRegistrate {

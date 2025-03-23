@@ -215,10 +215,15 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
       object : FabricTagProvider.BlockTagProvider(dataOutput, registriesFuture) {
         override fun addTags(arg: HolderLookup.Provider) {
-          registrate.tagRegistry.getBlockTags().forEach { (tagKey, blocks) ->
+          registrate.tagRegistry.getBlockTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
-            blocks.forEach { entry ->
-              builder.add(entry.get())
+            for (b in builders) {
+              b.getTagEntries().forEach { entry ->
+                builder.add(entry.get())
+              }
+              b.getTagChilds().forEach { entry ->
+                builder.addTag(entry)
+              }
             }
           }
         }
@@ -231,10 +236,15 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
       object : FabricTagProvider.ItemTagProvider(dataOutput, registriesFuture) {
         override fun addTags(arg: HolderLookup.Provider) {
-          registrate.tagRegistry.getItemTags().forEach { (tagKey, items) ->
+          registrate.tagRegistry.getItemTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
-            items.forEach { entry ->
-              builder.add(entry.get())
+            for (b in builders) {
+              b.getTagEntries().forEach { entry ->
+                builder.add(entry.get())
+              }
+              b.getTagChilds().forEach { entry ->
+                builder.addTag(entry)
+              }
             }
           }
         }
@@ -247,10 +257,15 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
       object : FabricTagProvider.FluidTagProvider(dataOutput, registriesFuture) {
         override fun addTags(arg: HolderLookup.Provider) {
-          registrate.tagRegistry.getFluidTags().forEach { (tagKey, fluids) ->
+          registrate.tagRegistry.getFluidTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
-            fluids.forEach { supplier ->
-              builder.add(supplier.get())
+            for (b in builders) {
+              b.getTagEntries().forEach { entry ->
+                builder.add(entry.get())
+              }
+              b.getTagChilds().forEach { entry ->
+                builder.addTag(entry)
+              }
             }
           }
         }
@@ -263,10 +278,15 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
       object : FabricTagProvider<Biome>(dataOutput, Registries.BIOME, registriesFuture) {
         override fun addTags(arg: HolderLookup.Provider) {
-          registrate.tagRegistry.getBiomeTags().forEach { (tagKey, biomes) ->
+          registrate.tagRegistry.getBiomeTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
-            biomes.forEach { resourceKey ->
-              builder.add(resourceKey)
+            for (b in builders) {
+              b.getTagEntries().forEach { entry ->
+                builder.add(entry.get())
+              }
+              b.getTagChilds().forEach { entry ->
+                builder.addTag(entry)
+              }
             }
           }
         }
@@ -279,10 +299,15 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
       object : FabricTagProvider.EntityTypeTagProvider(dataOutput, registriesFuture) {
         override fun addTags(arg: HolderLookup.Provider) {
-          registrate.tagRegistry.getEntityTags().forEach { (tagKey, entities) ->
+          registrate.tagRegistry.getEntityTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
-            entities.forEach { supplier ->
-              builder.add(supplier.get())
+            for (b in builders) {
+              b.getTagEntries().forEach { entry ->
+                builder.add(entry.get())
+              }
+              b.getTagChilds().forEach { entry ->
+                builder.addTag(entry)
+              }
             }
           }
         }
@@ -295,10 +320,15 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
       object : FabricTagProvider<PaintingVariant>(dataOutput, Registries.PAINTING_VARIANT, registriesFuture) {
         override fun addTags(arg: HolderLookup.Provider) {
-          registrate.tagRegistry.getPaintingTags().forEach { (tagKey, paintings) ->
+          registrate.tagRegistry.getPaintingTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
-            paintings.forEach { supplier ->
-              builder.add(supplier.get())
+            for (b in builders) {
+              b.getTagEntries().forEach { entry ->
+                builder.add(entry.get())
+              }
+              b.getTagChilds().forEach { entry ->
+                builder.addTag(entry)
+              }
             }
           }
         }
@@ -311,10 +341,15 @@ object RegistrateDatagenFabric {
     return FabricDataGenerator.Pack.RegistryDependentFactory { dataOutput, registriesFuture ->
       object : FabricTagProvider<WorldPreset>(dataOutput, Registries.WORLD_PRESET, registriesFuture) {
         override fun addTags(arg: HolderLookup.Provider) {
-          registrate.tagRegistry.getWorldPresetTags().forEach { (tagKey, presets) ->
+          registrate.tagRegistry.getWorldPresetTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
-            presets.forEach { supplier ->
-              builder.add(supplier.get())
+            for (b in builders) {
+              b.getTagEntries().forEach { entry ->
+                builder.add(entry.get())
+              }
+              b.getTagChilds().forEach { entry ->
+                builder.addTag(entry)
+              }
             }
           }
         }

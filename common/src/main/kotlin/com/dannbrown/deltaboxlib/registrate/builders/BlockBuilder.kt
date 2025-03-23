@@ -133,7 +133,7 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
   @SafeVarargs
   fun blockTags(vararg tag: TagKey<Block>): BlockBuilder<T> {
     for (blockTagKey in tag) {
-      registrate.tagRegistry.addBlock(blockTagKey, asEntry())
+      registrate.blockTags(blockTagKey).add({ blockInstance.get() }).register()
     }
     return this
   }
