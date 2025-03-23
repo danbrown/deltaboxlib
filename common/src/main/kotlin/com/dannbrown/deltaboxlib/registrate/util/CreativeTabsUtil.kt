@@ -20,8 +20,8 @@ object CreativeTabsUtil {
     output: CreativeModeTab.Output,
     filterTag: TagKey<Item>? = null
   ) {
-    displayItems(registrate, parameters, output, filterTag)
     displayBlocks(registrate, parameters, output, filterTag)
+    displayItems(registrate, parameters, output, filterTag)
     displayBuckets(registrate, parameters, output, filterTag)
   }
 
