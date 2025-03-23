@@ -222,13 +222,14 @@ object RegistrateDatagenFabric {
           registrate.tagRegistry.getBlockTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
             for (b in builders) {
-              b.getTagEntries().forEach { entry ->
+              for (entry in b.getTagEntries()) {
                 builder.add(entry.get())
               }
-              b.getTagChilds().forEach { entry ->
+              for (entry in b.getTagChilds()) {
+                if (entry == tagKey) continue
                 builder.addOptionalTag(entry)
               }
-              b.getTagKeys().forEach { entry ->
+              for (entry in b.getTagKeys()) {
                 builder.add(entry)
               }
             }
@@ -246,13 +247,14 @@ object RegistrateDatagenFabric {
           registrate.tagRegistry.getItemTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
             for (b in builders) {
-              b.getTagEntries().forEach { entry ->
+              for (entry in b.getTagEntries()) {
                 builder.add(entry.get())
               }
-              b.getTagChilds().forEach { entry ->
+              for (entry in b.getTagChilds()) {
+                if (entry == tagKey) continue
                 builder.addOptionalTag(entry)
               }
-              b.getTagKeys().forEach { entry ->
+              for (entry in b.getTagKeys()) {
                 builder.add(entry)
               }
             }
@@ -270,13 +272,14 @@ object RegistrateDatagenFabric {
           registrate.tagRegistry.getFluidTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
             for (b in builders) {
-              b.getTagEntries().forEach { entry ->
+              for (entry in b.getTagEntries()) {
                 builder.add(entry.get())
               }
-              b.getTagChilds().forEach { entry ->
+              for (entry in b.getTagChilds()) {
+                if (entry == tagKey) continue
                 builder.addOptionalTag(entry)
               }
-              b.getTagKeys().forEach { entry ->
+              for (entry in b.getTagKeys()) {
                 builder.add(entry)
               }
             }
@@ -294,13 +297,14 @@ object RegistrateDatagenFabric {
           registrate.tagRegistry.getBiomeTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
             for (b in builders) {
-              b.getTagEntries().forEach { entry ->
+              for (entry in b.getTagEntries()) {
                 builder.add(entry.get())
               }
-              b.getTagChilds().forEach { entry ->
+              for (entry in b.getTagChilds()) {
+                if (entry == tagKey) continue
                 builder.addOptionalTag(entry)
               }
-              b.getTagKeys().forEach { entry ->
+              for (entry in b.getTagKeys()) {
                 builder.add(entry)
               }
             }
@@ -318,13 +322,14 @@ object RegistrateDatagenFabric {
           registrate.tagRegistry.getEntityTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
             for (b in builders) {
-              b.getTagEntries().forEach { entry ->
+              for (entry in b.getTagEntries()) {
                 builder.add(entry.get())
               }
-              b.getTagChilds().forEach { entry ->
+              for (entry in b.getTagChilds()) {
+                if (entry == tagKey) continue
                 builder.addOptionalTag(entry)
               }
-              b.getTagKeys().forEach { entry ->
+              for (entry in b.getTagKeys()) {
                 builder.add(entry)
               }
             }
@@ -342,13 +347,14 @@ object RegistrateDatagenFabric {
           registrate.tagRegistry.getPaintingTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
             for (b in builders) {
-              b.getTagEntries().forEach { entry ->
+              for (entry in b.getTagEntries()) {
                 builder.add(entry.get())
               }
-              b.getTagChilds().forEach { entry ->
+              for (entry in b.getTagChilds()) {
+                if (entry == tagKey) continue
                 builder.addOptionalTag(entry)
               }
-              b.getTagKeys().forEach { entry ->
+              for (entry in b.getTagKeys()) {
                 builder.add(entry)
               }
             }
@@ -366,13 +372,14 @@ object RegistrateDatagenFabric {
           registrate.tagRegistry.getWorldPresetTags().forEach { (tagKey, builders) ->
             val builder = getOrCreateTagBuilder(tagKey)
             for (b in builders) {
-              b.getTagEntries().forEach { entry ->
+              for (entry in b.getTagEntries()) {
                 builder.add(entry.get())
               }
-              b.getTagChilds().forEach { entry ->
+              for (entry in b.getTagChilds()) {
+                if (entry == tagKey) continue
                 builder.addOptionalTag(entry)
               }
-              b.getTagKeys().forEach { entry ->
+              for (entry in b.getTagKeys()) {
                 builder.add(entry)
               }
             }

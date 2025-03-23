@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:exclude_from_creative",
+      "required": false
+    },
+    {
+      "id": "#forge:exclude_from_creative",
+      "required": false
+    },
+    {
+      "id": "#neoforge:exclude_from_creative",
+      "required": false
+    }
+  ]
+}

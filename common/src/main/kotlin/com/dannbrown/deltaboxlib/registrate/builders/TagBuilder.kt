@@ -12,19 +12,18 @@ open class TagBuilder<T>(
   private val childTags: MutableList<TagKey<T>> = mutableListOf()
   private val keys: MutableList<ResourceKey<T>> = mutableListOf()
 
-
-  fun add(entry: Supplier<out T>): TagBuilder<T> {
-    entries.add(entry)
+  fun add(vararg entry: Supplier<out T>): TagBuilder<T> {
+    entries.addAll(entry)
     return this
   }
 
-  fun add(childTag: TagKey<T>): TagBuilder<T> {
-    childTags.add(childTag)
+  fun add(vararg childTag: TagKey<T>): TagBuilder<T> {
+    childTags.addAll(childTag)
     return this
   }
 
-  fun add(key: ResourceKey<T>): TagBuilder<T> {
-    keys.add(key)
+  fun add(vararg key: ResourceKey<T>): TagBuilder<T> {
+    keys.addAll(key)
     return this
   }
 

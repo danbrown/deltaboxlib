@@ -8,11 +8,13 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.decoration.PaintingVariant
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.levelgen.presets.WorldPreset
 import net.minecraft.world.level.material.Fluid
 import org.apache.logging.log4j.LogManager
 import java.util.function.Supplier
@@ -184,6 +186,14 @@ object DeltaboxUtil {
       return deltaboxTag(Registries.ENTITY_TYPE, path)
     }
 
+    fun deltaboxPaintingTag(path: String): TagKey<PaintingVariant> {
+      return deltaboxTag(Registries.PAINTING_VARIANT, path)
+    }
+
+    fun deltaboxWorldPresetTag(path: String): TagKey<WorldPreset> {
+      return deltaboxTag(Registries.WORLD_PRESET, path)
+    }
+
     // ANY MOD
     fun <R, T : Registry<R>> modTag(modId: String, registry: ResourceKey<T>, path: String): TagKey<R> {
       return optionalTag(registry, resourceLocation(modId, path))
@@ -215,10 +225,7 @@ object DeltaboxUtil {
         optionalTag(registry, resourceLocation("c", path)), // tag for fabric
         optionalTag(registry, resourceLocation("forge", path)), // tag for forge
         optionalTag(registry, resourceLocation("neoforge", path)), // tag for neoforged
-        optionalTag(
-          registry,
-          resourceLocation("deltaboxlib", path)
-        ) // tag for deltaboxlib (generic for global iteration)
+        optionalTag(registry, resourceLocation(DeltaboxLibMod.MOD_ID, path)), // for common registration
       )
     }
 
@@ -240,6 +247,14 @@ object DeltaboxUtil {
 
     fun modloaderEntityTag(path: String): MutableList<TagKey<EntityType<*>>> {
       return modloaderTag(Registries.ENTITY_TYPE, path)
+    }
+
+    fun modloaderPaintingTag(path: String): MutableList<TagKey<PaintingVariant>> {
+      return modloaderTag(Registries.PAINTING_VARIANT, path)
+    }
+
+    fun modloaderWorldPresetTag(path: String): MutableList<TagKey<WorldPreset>> {
+      return modloaderTag(Registries.WORLD_PRESET, path)
     }
 
     // allow to use for recipe tags
