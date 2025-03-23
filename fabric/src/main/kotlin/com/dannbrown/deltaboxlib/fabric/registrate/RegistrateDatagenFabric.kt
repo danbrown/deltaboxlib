@@ -222,7 +222,10 @@ object RegistrateDatagenFabric {
                 builder.add(entry.get())
               }
               b.getTagChilds().forEach { entry ->
-                builder.addTag(entry)
+                builder.addOptionalTag(entry)
+              }
+              b.getTagKeys().forEach { entry ->
+                builder.add(entry)
               }
             }
           }
@@ -243,7 +246,10 @@ object RegistrateDatagenFabric {
                 builder.add(entry.get())
               }
               b.getTagChilds().forEach { entry ->
-                builder.addTag(entry)
+                builder.addOptionalTag(entry)
+              }
+              b.getTagKeys().forEach { entry ->
+                builder.add(entry)
               }
             }
           }
@@ -264,7 +270,10 @@ object RegistrateDatagenFabric {
                 builder.add(entry.get())
               }
               b.getTagChilds().forEach { entry ->
-                builder.addTag(entry)
+                builder.addOptionalTag(entry)
+              }
+              b.getTagKeys().forEach { entry ->
+                builder.add(entry)
               }
             }
           }
@@ -285,7 +294,10 @@ object RegistrateDatagenFabric {
                 builder.add(entry.get())
               }
               b.getTagChilds().forEach { entry ->
-                builder.addTag(entry)
+                builder.addOptionalTag(entry)
+              }
+              b.getTagKeys().forEach { entry ->
+                builder.add(entry)
               }
             }
           }
@@ -306,7 +318,10 @@ object RegistrateDatagenFabric {
                 builder.add(entry.get())
               }
               b.getTagChilds().forEach { entry ->
-                builder.addTag(entry)
+                builder.addOptionalTag(entry)
+              }
+              b.getTagKeys().forEach { entry ->
+                builder.add(entry)
               }
             }
           }
@@ -327,7 +342,10 @@ object RegistrateDatagenFabric {
                 builder.add(entry.get())
               }
               b.getTagChilds().forEach { entry ->
-                builder.addTag(entry)
+                builder.addOptionalTag(entry)
+              }
+              b.getTagKeys().forEach { entry ->
+                builder.add(entry)
               }
             }
           }
@@ -348,7 +366,10 @@ object RegistrateDatagenFabric {
                 builder.add(entry.get())
               }
               b.getTagChilds().forEach { entry ->
-                builder.addTag(entry)
+                builder.addOptionalTag(entry)
+              }
+              b.getTagKeys().forEach { entry ->
+                builder.add(entry)
               }
             }
           }
