@@ -33,14 +33,14 @@ import java.util.function.Supplier
 
 open class GenericCropBlock(
   props: Properties,
-  private val isBudding: Boolean = false,
-  private val grownBlock: Supplier<out Block>? = null,
-  private val isDouble: Boolean = false,
-  private val isBush: Boolean = false,
-  private val includeSeedOnDrop: Boolean = false,
-  private val fruitItem: Supplier<ItemLike>?,
-  private val chance: Float = 1f,
-  private val multiplier: Int = 1
+  protected val isBudding: Boolean = false,
+  protected val grownBlock: Supplier<out Block>? = null,
+  protected val isDouble: Boolean = false,
+  protected val isBush: Boolean = false,
+  protected val includeSeedOnDrop: Boolean = false,
+  protected val fruitItem: Supplier<ItemLike>?,
+  protected val chance: Float = 1f,
+  protected val multiplier: Int = 1
 ) : CropBlock(props) {
   init {
     registerDefaultState(defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER).setValue(AGE, 0))
@@ -155,7 +155,7 @@ open class GenericCropBlock(
     }
   }
 
-  private fun canSurviveDouble(pState: BlockState, pLevel: LevelReader, pPos: BlockPos): Boolean {
+  protected fun canSurviveDouble(pState: BlockState, pLevel: LevelReader, pPos: BlockPos): Boolean {
     if (pState.getValue(HALF) != DoubleBlockHalf.UPPER) {
       val blockState2 = pLevel.getBlockState(pPos.above())
       return blockState2.`is`(this) && blockState2.getValue(HALF) == DoubleBlockHalf.UPPER && super.canSurvive(
@@ -225,19 +225,19 @@ open class GenericCropBlock(
     else super.isValidBonemealTarget(levelReader, blockPos, blockState, bl)
   }
 
-  private fun updateBlockState(level: Level, blockPos: BlockPos, blockstate: BlockState, i: Int = 3) {
+  protected fun updateBlockState(level: Level, blockPos: BlockPos, blockstate: BlockState, i: Int = 3) {
     level.setBlock(blockPos, blockstate, i)
     if (isDouble) level.setBlock(getDoubleOtherPos(blockPos, blockstate), getOtherBlockstate(blockstate), i)
   }
 
-  private fun growTall(level: Level, blockPos: BlockPos) {
+  protected fun growTall(level: Level, blockPos: BlockPos) {
     if (!isBudding || grownBlock == null || !level.getBlockState(blockPos.above()).canBeReplaced()) return
     val abovePos = blockPos.above()
     level.setBlock(blockPos, grownBlock.get().defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER), 3)
     level.setBlock(abovePos, grownBlock.get().defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER), 3)
   }
 
-  private fun getDoubleOtherPos(blockPos: BlockPos, blockstate: BlockState): BlockPos {
+  protected fun getDoubleOtherPos(blockPos: BlockPos, blockstate: BlockState): BlockPos {
     if (blockstate.getValue(HALF) == DoubleBlockHalf.LOWER) {
       return blockPos.above()
     } else if (blockstate.getValue(HALF) == DoubleBlockHalf.UPPER) {
@@ -246,7 +246,7 @@ open class GenericCropBlock(
     return blockPos
   }
 
-  private fun getOtherBlockstate(blockstate: BlockState): BlockState {
+  protected fun getOtherBlockstate(blockstate: BlockState): BlockState {
     if (blockstate.getValue(HALF) == DoubleBlockHalf.LOWER) {
       return blockstate.setValue(HALF, DoubleBlockHalf.UPPER)
     } else if (blockstate.getValue(HALF) == DoubleBlockHalf.UPPER) {
@@ -255,7 +255,7 @@ open class GenericCropBlock(
     return blockstate
   }
 
-  private fun dropResources(pLevel: ServerLevel, pPos: BlockPos) {
+  protected fun dropResources(pLevel: ServerLevel, pPos: BlockPos) {
     // if no seed and drop item is set, at least one is required
     if (!isBush) return
 
@@ -289,7 +289,7 @@ open class GenericCropBlock(
     )
   }
 
-  private fun preventCreativeDropFromBottomPart(
+  protected fun preventCreativeDropFromBottomPart(
     level: Level,
     blockPos: BlockPos,
     blockState: BlockState,
@@ -308,7 +308,7 @@ open class GenericCropBlock(
     }
   }
 
-  private fun copyWaterloggedFrom(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): BlockState {
+  protected fun copyWaterloggedFrom(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): BlockState {
     return if (blockState.hasProperty(BlockStateProperties.WATERLOGGED)) blockState.setValue(
       BlockStateProperties.WATERLOGGED,
       levelReader.isWaterAt(blockPos)
@@ -316,7 +316,7 @@ open class GenericCropBlock(
   }
 
   companion object {
-    private val SHAPE_BY_AGE = arrayOf<VoxelShape>(
+    protected val SHAPE_BY_AGE = arrayOf<VoxelShape>(
       Block.box(0.0, 0.0, 0.0, 16.0, 2.0, 16.0),
       Block.box(0.0, 0.0, 0.0, 16.0, 3.0, 16.0),
       Block.box(0.0, 0.0, 0.0, 16.0, 5.0, 16.0),
@@ -328,6 +328,6 @@ open class GenericCropBlock(
     )
 
     val HALF = BlockStateProperties.DOUBLE_BLOCK_HALF
-    private val MID_STAGE = 3
+    protected val MID_STAGE = 3
   }
 }
