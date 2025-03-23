@@ -16,7 +16,6 @@ data class WildCropConfiguration(
   val secondaryFeature: Holder<PlacedFeature>,
   val floorFeature: Holder<PlacedFeature>?
 ) : FeatureConfiguration {
-
   companion object {
     val CODEC: Codec<WildCropConfiguration> =
       RecordCodecBuilder.create { config: RecordCodecBuilder.Instance<WildCropConfiguration> ->

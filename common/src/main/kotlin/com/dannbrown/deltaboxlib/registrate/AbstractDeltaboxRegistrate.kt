@@ -38,6 +38,8 @@ import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.levelgen.GenerationStep
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
+import net.minecraft.world.level.levelgen.feature.Feature
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator
@@ -75,6 +77,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val configRegistry: ConfigRegistry = ConfigRegistry(modId)
   val effectRegistry: EffectRegistry = EffectRegistry(modId)
   val dispenserBehaviorRegistry: DispenserBehaviorRegistry = DispenserBehaviorRegistry(modId)
+  val featureRegistry: FeatureRegistry = FeatureRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -292,6 +295,10 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return this.attributeRegistry.register(name, attributeSupplier)
   }
 
+  fun <T : FeatureConfiguration> feature(name: String, featureupplier: Supplier<Feature<T>>): Supplier<Feature<T>> {
+    return this.featureRegistry.register(name, featureupplier)
+  }
+
   fun dimension(dimension: AbstractDimension): AbstractDimension {
     this.dimensionRegistry.addDimension(dimension)
     return dimension
@@ -338,6 +345,8 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     particleRegistry.build()
     soundRegistry.build()
     attributeRegistry.build()
+    effectRegistry.build()
+    featureRegistry.build()
   }
 
   fun buildBlocks() {
@@ -378,6 +387,10 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun buildEffects() {
     effectRegistry.build()
+  }
+
+  fun buildFeatures() {
+    featureRegistry.build()
   }
 
   fun freezeConfig() {

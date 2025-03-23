@@ -2,9 +2,13 @@ package com.dannbrown.deltaboxlib.content.block
 
 import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import net.minecraft.core.BlockPos
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.util.RandomSource
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.BonemealableBlock
 import net.minecraft.world.level.block.DoublePlantBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf
@@ -14,8 +18,9 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf
  */
 open class GenericDoublePlantBlock(
   props: Properties,
-  private val placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null
-) : DoublePlantBlock(props) {
+  private val placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null,
+  private val duplicateOnBoneMeal: Boolean
+) : DoublePlantBlock(props), BonemealableBlock {
 
   override fun mayPlaceOn(blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos): Boolean {
     if (placeOn !== null) {
@@ -40,5 +45,32 @@ open class GenericDoublePlantBlock(
 
   override fun getCloneItemStack(blockGetter: BlockGetter, blockPos: BlockPos, blockState: BlockState): ItemStack {
     return ItemStack(this.asItem())
+  }
+
+  override fun isValidBonemealTarget(
+    levelReader: LevelReader,
+    blockPos: BlockPos,
+    blockState: BlockState,
+    bl: Boolean
+  ): Boolean {
+    return duplicateOnBoneMeal
+  }
+
+  override fun isBonemealSuccess(
+    level: Level,
+    randomSource: RandomSource,
+    blockPos: BlockPos,
+    blockState: BlockState
+  ): Boolean {
+    return duplicateOnBoneMeal
+  }
+
+  override fun performBonemeal(
+    serverLevel: ServerLevel,
+    randomSource: RandomSource,
+    blockPos: BlockPos,
+    blockState: BlockState
+  ) {
+    if (duplicateOnBoneMeal) popResource(serverLevel, blockPos, ItemStack(this))
   }
 }

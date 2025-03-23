@@ -37,7 +37,6 @@ class GrassBlockPreset(
           .noCollission()
           .noOcclusion()
       }
-
       .cutoutRender()
       .item()
       .model { g, i -> g.flatItemBlock(i.get()) }
@@ -93,13 +92,13 @@ class GrassBlockPreset(
     val blockNameWithPrefix = "${prefix}${blockId}"
     return registrate
       .block<T>(blockNameWithPrefix)
-      .factory { c, p -> GenericDoublePlantBlock(p, placeOn) }
+      .factory { c, p -> GenericDoublePlantBlock(p, placeOn, false) }
       .copyFrom { Blocks.TALL_GRASS }
       .properties { c, p -> p.strength(0.0f).randomTicks().noCollission().noOcclusion() }
       .cutoutRender()
       .blockstate { g, b -> g.crossDoubleBlock(b.get(), "${blockNameWithPrefix}_bottom", "${blockNameWithPrefix}_top") }
       .item()
-      .model { g, i -> g.flatItemBlock(i.get(), "${blockNameWithPrefix}_top") }
+      .model { g, i -> g.flatItemBlock(i.get(), "${blockNameWithPrefix}_bottom") }
       .build()
       .compostable(0.3f)
       .loot { g, b ->
@@ -112,5 +111,23 @@ class GrassBlockPreset(
           multiplier
         )
       } as BlockBuilder<T>
+  }
+
+  fun <T : Block> createDoubleFlowerBlock(
+    duplicateOnBoneMeal: Boolean
+  ): BlockBuilder<T> {
+    val blockNameWithPrefix = "${blockId}"
+    return registrate
+      .block<T>(blockNameWithPrefix)
+      .factory { c, p -> GenericDoublePlantBlock(p, placeOn, duplicateOnBoneMeal) }
+      .copyFrom { Blocks.ROSE_BUSH }
+      .properties { c, p -> p.strength(0.0f).randomTicks().noCollission().noOcclusion() }
+      .cutoutRender()
+      .blockstate { g, b -> g.crossDoubleBlock(b.get(), "${blockNameWithPrefix}_bottom", "${blockNameWithPrefix}_top") }
+      .item()
+      .model { g, i -> g.flatItemBlock(i.get(), "${blockNameWithPrefix}_bottom") }
+      .build()
+      .compostable(0.3f)
+      .loot { g, b -> g.dropItself(b.get()) } as BlockBuilder<T>
   }
 }

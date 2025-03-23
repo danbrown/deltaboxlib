@@ -189,7 +189,6 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
     return GrassBlockPreset(
       registrate,
       blockId,
-
       false,
       false,
       false,
@@ -217,6 +216,24 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
       multiplier,
       placeOn
     ).createDoubleTallGrassBlock(dropItem, seedItem, prefix)
+  }
+
+  fun doubleFlowerBlock(
+    chance: Float = 0.25f,
+    multiplier: Int = 2,
+    placeOn: ((blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos) -> Boolean)? = null,
+    duplicateOnBoneMeal: Boolean = true
+  ): BlockBuilder<T> {
+    return GrassBlockPreset(
+      registrate,
+      blockId,
+      false,
+      false,
+      false,
+      chance,
+      multiplier,
+      placeOn
+    ).createDoubleFlowerBlock(duplicateOnBoneMeal)
   }
 
   fun leaves(
