@@ -241,5 +241,9 @@ object DeltaboxUtil {
     fun modloaderItemIngredient(path: String): Ingredient {
       return Ingredient.of(modloaderItemTag(path).map { Ingredient.of(it).items }.toTypedArray().flatten().stream())
     }
+
+    fun modloaderItemIngredient(tags: MutableList<TagKey<Item>>): Ingredient {
+      return Ingredient.of(tags.map { Ingredient.of(it).items }.toTypedArray().flatten().stream())
+    }
   }
 }
