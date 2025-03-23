@@ -169,7 +169,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     }
   }
 
-  fun deltaboxBlockTag(path: String): TagKey<Block> {
+  fun comboBlockTag(path: String): TagKey<Block> {
     val tag = DeltaboxUtil.TAGS.deltaboxBlockTag(path)
     this.blockTags(tag)
       .add(*DeltaboxUtil.TAGS.modloaderBlockTag(path).toTypedArray())
@@ -177,7 +177,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return tag
   }
 
-  fun deltaboxItemTag(path: String): TagKey<Item> {
+  fun comboItemTag(path: String): TagKey<Item> {
     val tag = DeltaboxUtil.TAGS.deltaboxItemTag(path)
     this.itemTags(tag)
       .add(*DeltaboxUtil.TAGS.modloaderItemTag(path).toTypedArray())
@@ -185,7 +185,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return tag
   }
 
-  fun deltaboxFluidTag(path: String): TagKey<Fluid> {
+  fun comboFluidTag(path: String): TagKey<Fluid> {
     val tag = DeltaboxUtil.TAGS.deltaboxFluidTag(path)
     this.fluidTags(tag)
       .add(*DeltaboxUtil.TAGS.modloaderFluidTag(path).toTypedArray())
@@ -193,7 +193,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return tag
   }
 
-  fun deltaboxEntityTypeTag(path: String): TagKey<EntityType<*>> {
+  fun comboEntityTypeTag(path: String): TagKey<EntityType<*>> {
     val tag = DeltaboxUtil.TAGS.deltaboxEntityTag(path)
     this.entityTags(tag)
       .add(*DeltaboxUtil.TAGS.modloaderEntityTag(path).toTypedArray())
@@ -201,7 +201,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return tag
   }
 
-  fun deltaboxBiomeTag(path: String): TagKey<Biome> {
+  fun comboBiomeTag(path: String): TagKey<Biome> {
     val tag = DeltaboxUtil.TAGS.deltaboxBiomeTag(path)
     this.biomeTags(tag)
       .add(*DeltaboxUtil.TAGS.modloaderBiomeTag(path).toTypedArray())
@@ -209,7 +209,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return tag
   }
 
-  fun deltaboxPaintingTag(path: String): TagKey<PaintingVariant> {
+  fun comboPaintingTag(path: String): TagKey<PaintingVariant> {
     val tag = DeltaboxUtil.TAGS.deltaboxPaintingTag(path)
     this.paintingTags(tag)
       .add(*DeltaboxUtil.TAGS.modloaderPaintingTag(path).toTypedArray())
@@ -217,7 +217,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return tag
   }
 
-  fun deltaboxWorldPresetTag(path: String): TagKey<WorldPreset> {
+  fun comboWorldPresetTag(path: String): TagKey<WorldPreset> {
     val tag = DeltaboxUtil.TAGS.deltaboxWorldPresetTag(path)
     this.worldPresetTags(tag)
       .add(*DeltaboxUtil.TAGS.modloaderWorldPresetTag(path).toTypedArray())

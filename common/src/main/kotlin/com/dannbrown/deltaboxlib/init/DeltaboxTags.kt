@@ -13,7 +13,7 @@ object DeltaboxTags {
 //    .register()
 
   object ITEM {
-    val EXCLUDE_FROM_CREATIVE = REGISTRATE.deltaboxItemTag("exclude_from_creative")
+    val EXCLUDE_FROM_CREATIVE = REGISTRATE.comboItemTag("exclude_from_creative")
     fun register() {
       // init class
     }
