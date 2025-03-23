@@ -39,10 +39,11 @@ class RegistrateRecipes(
       builder.define(k, v.get())
     }
 
-
     builder.unlockedBy(
       "has_ingredients",
-      InventoryChangeTrigger.TriggerInstance.hasItems(*key.values.map { it.get().items[0].item }.toTypedArray())
+      InventoryChangeTrigger.TriggerInstance.hasItems(
+        *key.values.map { it.get().items.map { it.item } }.flatten().toTypedArray()
+      )
     )
     builder.save(exporter, DeltaboxUtil.resourceLocation(registrate.modId, name + suffix))
   }
@@ -69,9 +70,11 @@ class RegistrateRecipes(
     val builder = ShapelessRecipeBuilder.shapeless(category, result.get(), amount)
     for (ingredient in ingredients) builder.requires(ingredient.get())
 
+    val _ingredients_items = ingredients.map { it.get().items.toList() }.flatten().map { it.item }
+
     builder.unlockedBy(
       "has_ingredients",
-      InventoryChangeTrigger.TriggerInstance.hasItems(*ingredients.map { it.get().items[0].item }.toTypedArray())
+      InventoryChangeTrigger.TriggerInstance.hasItems(*_ingredients_items.toTypedArray())
     )
     builder.save(exporter, DeltaboxUtil.resourceLocation(registrate.modId, name + suffix))
   }
@@ -154,7 +157,7 @@ class RegistrateRecipes(
 
     builder.unlockedBy(
       "has_ingredients",
-      InventoryChangeTrigger.TriggerInstance.hasItems(ingredients.get().items[0].item)
+      InventoryChangeTrigger.TriggerInstance.hasItems(*ingredients.get().items.map { it.item }.toTypedArray())
     )
     builder.save(exporter, DeltaboxUtil.resourceLocation(registrate.modId, name + _suffix))
   }
