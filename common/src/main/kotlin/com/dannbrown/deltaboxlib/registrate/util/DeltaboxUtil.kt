@@ -86,6 +86,11 @@ object DeltaboxUtil {
     return names[names.size - 1]
   }
 
+  fun getItemId(item: ItemLike): String {
+    val names = item.asItem().descriptionId.split(".")
+    return names[names.size - 1]
+  }
+
   fun getEntityId(entity: EntityType<*>): String {
     return BuiltInRegistries.ENTITY_TYPE.getKey(entity).path
   }

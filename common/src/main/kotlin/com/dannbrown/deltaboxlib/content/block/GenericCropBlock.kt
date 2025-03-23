@@ -20,7 +20,6 @@ import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.CropBlock
-import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
@@ -155,7 +154,7 @@ open class GenericCropBlock(
     }
   }
 
-  protected fun canSurviveDouble(pState: BlockState, pLevel: LevelReader, pPos: BlockPos): Boolean {
+  protected open fun canSurviveDouble(pState: BlockState, pLevel: LevelReader, pPos: BlockPos): Boolean {
     if (pState.getValue(HALF) != DoubleBlockHalf.UPPER) {
       val blockState2 = pLevel.getBlockState(pPos.above())
       return blockState2.`is`(this) && blockState2.getValue(HALF) == DoubleBlockHalf.UPPER && super.canSurvive(
@@ -225,19 +224,19 @@ open class GenericCropBlock(
     else super.isValidBonemealTarget(levelReader, blockPos, blockState, bl)
   }
 
-  protected fun updateBlockState(level: Level, blockPos: BlockPos, blockstate: BlockState, i: Int = 3) {
+  protected open fun updateBlockState(level: Level, blockPos: BlockPos, blockstate: BlockState, i: Int = 3) {
     level.setBlock(blockPos, blockstate, i)
     if (isDouble) level.setBlock(getDoubleOtherPos(blockPos, blockstate), getOtherBlockstate(blockstate), i)
   }
 
-  protected fun growTall(level: Level, blockPos: BlockPos) {
+  protected open fun growTall(level: Level, blockPos: BlockPos) {
     if (!isBudding || grownBlock == null || !level.getBlockState(blockPos.above()).canBeReplaced()) return
     val abovePos = blockPos.above()
     level.setBlock(blockPos, grownBlock.get().defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER), 3)
     level.setBlock(abovePos, grownBlock.get().defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER), 3)
   }
 
-  protected fun getDoubleOtherPos(blockPos: BlockPos, blockstate: BlockState): BlockPos {
+  protected open fun getDoubleOtherPos(blockPos: BlockPos, blockstate: BlockState): BlockPos {
     if (blockstate.getValue(HALF) == DoubleBlockHalf.LOWER) {
       return blockPos.above()
     } else if (blockstate.getValue(HALF) == DoubleBlockHalf.UPPER) {
@@ -246,7 +245,7 @@ open class GenericCropBlock(
     return blockPos
   }
 
-  protected fun getOtherBlockstate(blockstate: BlockState): BlockState {
+  protected open fun getOtherBlockstate(blockstate: BlockState): BlockState {
     if (blockstate.getValue(HALF) == DoubleBlockHalf.LOWER) {
       return blockstate.setValue(HALF, DoubleBlockHalf.UPPER)
     } else if (blockstate.getValue(HALF) == DoubleBlockHalf.UPPER) {
@@ -255,7 +254,7 @@ open class GenericCropBlock(
     return blockstate
   }
 
-  protected fun dropResources(pLevel: ServerLevel, pPos: BlockPos) {
+  protected open fun dropResources(pLevel: ServerLevel, pPos: BlockPos) {
     // if no seed and drop item is set, at least one is required
     if (!isBush) return
 
@@ -308,7 +307,11 @@ open class GenericCropBlock(
     }
   }
 
-  protected fun copyWaterloggedFrom(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): BlockState {
+  protected open fun copyWaterloggedFrom(
+    levelReader: LevelReader,
+    blockPos: BlockPos,
+    blockState: BlockState
+  ): BlockState {
     return if (blockState.hasProperty(BlockStateProperties.WATERLOGGED)) blockState.setValue(
       BlockStateProperties.WATERLOGGED,
       levelReader.isWaterAt(blockPos)

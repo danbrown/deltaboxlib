@@ -10,6 +10,7 @@ import com.dannbrown.deltaboxlib.registrate.types.RecipeFactory
 import com.dannbrown.deltaboxlib.registrate.util.*
 import com.mojang.serialization.Codec
 import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.advancements.Advancement
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.particle.ParticleProvider
@@ -78,6 +79,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val effectRegistry: EffectRegistry = EffectRegistry(modId)
   val dispenserBehaviorRegistry: DispenserBehaviorRegistry = DispenserBehaviorRegistry(modId)
   val featureRegistry: FeatureRegistry = FeatureRegistry(modId)
+  val advancementRegistry: AdvancementRegistry = AdvancementRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -340,6 +342,16 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   fun dispenserBehavior(itemEntry: Supplier<ItemLike>, behavior: DispenseItemBehavior): AbstractDeltaboxRegistrate {
     this.dispenserBehaviorRegistry.register(itemEntry, behavior)
     return this
+  }
+
+  fun advancement(
+    name: String,
+    title: String,
+    description: String,
+    consumer: (String, AdvancementUtil, Advancement.Builder) -> Advancement
+  ): Advancement {
+    this.langs().advancement(name, title, description)
+    return this.advancementRegistry.addAdvancement(name, consumer)
   }
 
   fun configBoolean(

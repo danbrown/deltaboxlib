@@ -41,6 +41,8 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import com.mojang.serialization.JsonOps
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider
+import net.minecraft.advancements.Advancement
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderGetter
 import net.minecraft.data.DataProvider
@@ -88,6 +90,8 @@ object RegistrateDatagenFabric {
     pack.addProvider(dimensionTypeFactory(registrate))
     // biome modifiers
     pack.addProvider { packOutput -> BiomeModifierProvider(registrate, packOutput) }
+    // advancements
+    pack.addProvider(advancementsFactory(registrate))
     // ----
   }
 
@@ -578,6 +582,18 @@ object RegistrateDatagenFabric {
         ) {
           val placedFeatureRegistryLookup = registries.lookupOrThrow(Registries.DIMENSION_TYPE)
           entries.add(key, placedFeatureRegistryLookup.getOrThrow(key).value())
+        }
+      }
+    }
+  }
+
+  private fun advancementsFactory(registrate: AbstractDeltaboxRegistrate): FabricDataGenerator.Pack.Factory<FabricAdvancementProvider> {
+    return FabricDataGenerator.Pack.Factory { dataOutput ->
+      object : FabricAdvancementProvider(dataOutput) {
+        override fun generateAdvancement(consumer: Consumer<Advancement>) {
+          for ((key, advancement) in registrate.advancementRegistry.getAdvancements()) {
+            consumer.accept(advancement)
+          }
         }
       }
     }
