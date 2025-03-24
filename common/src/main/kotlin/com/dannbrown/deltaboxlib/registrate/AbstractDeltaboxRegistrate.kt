@@ -6,6 +6,7 @@ import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeModifie
 import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeSpawnCodec
 import com.dannbrown.deltaboxlib.registrate.providers.trades.*
 import com.dannbrown.deltaboxlib.registrate.registry.*
+import com.dannbrown.deltaboxlib.registrate.types.AdvancementSupplier
 import com.dannbrown.deltaboxlib.registrate.types.RecipeFactory
 import com.dannbrown.deltaboxlib.registrate.util.*
 import com.mojang.serialization.Codec
@@ -404,8 +405,8 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     name: String,
     title: String,
     description: String,
-    consumer: (String, AdvancementUtil, Advancement.Builder) -> Advancement
-  ): Advancement {
+    consumer: AdvancementSupplier
+  ): Supplier<Advancement> {
     this.langs().advancement(name, title, description)
     return this.advancementRegistry.addAdvancement(name, consumer)
   }

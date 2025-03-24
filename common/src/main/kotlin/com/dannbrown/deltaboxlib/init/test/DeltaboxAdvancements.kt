@@ -7,7 +7,7 @@ import net.minecraft.advancements.RequirementsStrategy
 import net.minecraft.world.item.Items
 
 object DeltaboxAdvancements {
-
+//
 //  private val SAPLINGS = arrayOf(
 //    Items.BAMBOO,
 //    Items.ACACIA_BUTTON,
@@ -17,7 +17,7 @@ object DeltaboxAdvancements {
 //  val SAMPLE_ROOT = REGISTRATE.advancement("root", "Brazilian Delight", "Welcome to Brazilian Delight!", { k, u, b ->
 //    u.hasItemsCriterion(
 //      u.basicAdvancement(
-//        Items.BAMBOO,
+//        DeltaboxItems.ADAMANTIUM_INGOT.get(),
 //        k,
 //        DeltaboxUtil.resourceLocation(DeltaboxLibMod.MOD_ID, "textures/block/lemon_leaves.png")
 //      ),
@@ -33,7 +33,7 @@ object DeltaboxAdvancements {
 //        u.basicAdvancement(
 //          Items.AMETHYST_SHARD,
 //          k
-//        ).parent(SAMPLE_ROOT),
+//        ).parent(SAMPLE_ROOT.get()),
 //        k,
 //        RequirementsStrategy.OR,
 //        *SAPLINGS,

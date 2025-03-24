@@ -599,7 +599,7 @@ object RegistrateDatagenFabric {
       object : FabricAdvancementProvider(dataOutput) {
         override fun generateAdvancement(consumer: Consumer<Advancement>) {
           for ((key, advancement) in registrate.advancementRegistry.getAdvancements()) {
-            consumer.accept(advancement)
+            consumer.accept(advancement.get())
           }
         }
       }
