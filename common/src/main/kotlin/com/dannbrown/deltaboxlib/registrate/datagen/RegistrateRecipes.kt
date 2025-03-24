@@ -16,8 +16,8 @@ import java.util.function.Consumer
 import java.util.function.Supplier
 
 class RegistrateRecipes(
-  private val registrate: AbstractDeltaboxRegistrate,
-  private val exporter: Consumer<FinishedRecipe>
+  val registrate: AbstractDeltaboxRegistrate,
+  val exporter: Consumer<FinishedRecipe>
 ) {
 
   val DEFAULT_COOKING_XP = 0.0f
