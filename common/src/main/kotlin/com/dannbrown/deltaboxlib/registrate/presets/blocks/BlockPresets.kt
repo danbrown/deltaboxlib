@@ -89,9 +89,10 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
 
   fun fence(
     textureName: String,
+    isWooden: Boolean = true,
     addSuffix: Boolean = true
   ): BlockBuilder<T> {
-    return CommonBlockPreset(registrate, blockId).createFence(textureName, addSuffix)
+    return CommonBlockPreset(registrate, blockId).createFence(textureName, isWooden, addSuffix)
   }
 
   fun fenceGate(

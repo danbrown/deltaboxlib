@@ -277,7 +277,7 @@ class WoodBlockFamilySet(
     }
     // Fence
     _blockFamily.setVariant(BlockFamily.Type.FENCE) {
-      registrate.blockPreset<FenceBlock>(_name).fence(_name + "_planks", false)
+      registrate.blockPreset<FenceBlock>(_name).fence(_name + "_planks", true)
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->

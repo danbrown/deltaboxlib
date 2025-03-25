@@ -9,7 +9,6 @@ import net.minecraft.advancements.critereon.LocationPredicate
 import net.minecraft.advancements.critereon.MinMaxBounds
 import net.minecraft.advancements.critereon.StatePropertiesPredicate
 import net.minecraft.core.BlockPos
-import net.minecraft.core.HolderLookup
 import net.minecraft.data.CachedOutput
 import net.minecraft.data.DataProvider
 import net.minecraft.data.loot.BlockLootSubProvider

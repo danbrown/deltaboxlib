@@ -1,6 +1,7 @@
 package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
+import com.dannbrown.deltaboxlib.registrate.util.AttributesUtil
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.renderer.entity.EntityRenderer
@@ -23,7 +24,7 @@ class EntityTypeBuilder<T : Entity>(registrate: AbstractDeltaboxRegistrate, val 
   protected var propertiesFactory: Function<EntityType.Builder<T>, EntityType.Builder<T>>? = null
   protected var entityFactory: EntityFactory<T>? = null
 
-  var attributeBuilderFactory: AttributeSupplier.Builder? = null
+  var attributeBuilderFactory: Function<AttributesUtil, AttributeSupplier.Builder>? = null
 
   var entityRenderer: Function<EntityRendererProvider.Context, EntityRenderer<out Entity>>? = null
 
@@ -58,7 +59,7 @@ class EntityTypeBuilder<T : Entity>(registrate: AbstractDeltaboxRegistrate, val 
     return this
   }
 
-  fun attributes(builder: AttributeSupplier.Builder): EntityTypeBuilder<T> {
+  fun attributes(builder: Function<AttributesUtil, AttributeSupplier.Builder>): EntityTypeBuilder<T> {
     this.attributeBuilderFactory = builder
     return this
   }

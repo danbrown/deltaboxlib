@@ -3,6 +3,7 @@ package com.dannbrown.deltaboxlib.fabric.registrate
 import com.dannbrown.deltaboxlib.content.item.DeltaboxSpawnEggItem
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
+import com.dannbrown.deltaboxlib.registrate.util.AttributesUtil
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
@@ -180,7 +181,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
       try {
         FabricDefaultAttributeRegistry.register(
           entityBuilder.getEntity().get() as EntityType<out LivingEntity>,
-          entityBuilder.attributeBuilderFactory!!.build()
+          entityBuilder.attributeBuilderFactory!!.apply(AttributesUtil).build()
         )
       } catch (e: Exception) {
         println("Failed to register entity ${entityBuilder.entityId} attributs, it may not be a living entity")

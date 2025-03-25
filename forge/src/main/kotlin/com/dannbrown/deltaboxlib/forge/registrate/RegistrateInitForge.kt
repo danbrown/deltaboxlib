@@ -4,6 +4,7 @@ import com.dannbrown.deltaboxlib.content.item.DeltaboxSpawnEggItem
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.helpers.StripHelper
 import com.dannbrown.deltaboxlib.registrate.registry.ParticleRegistry
+import com.dannbrown.deltaboxlib.registrate.util.AttributesUtil
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
@@ -173,15 +174,9 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     for (entityBuilder in registrate.entityTypeRegistry.entries) {
       if (entityBuilder.attributeBuilderFactory == null) continue
       try {
-
         event.put(
           entityBuilder.getEntity().get() as EntityType<out LivingEntity>,
-          entityBuilder.attributeBuilderFactory!!
-            .add(ForgeMod.SWIM_SPEED.get())
-            .add(ForgeMod.NAMETAG_DISTANCE.get())
-            .add(ForgeMod.ENTITY_GRAVITY.get())
-            .add(ForgeMod.STEP_HEIGHT_ADDITION.get())
-            .build()
+          entityBuilder.attributeBuilderFactory!!.apply(AttributesUtil).build()
         )
       } catch (e: Exception) {
         println("Failed to register entity ${entityBuilder.entityId} attributs, it may not be a living entity")

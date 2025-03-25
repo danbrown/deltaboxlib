@@ -1,23 +1,20 @@
 package com.dannbrown.deltaboxlib.registrate.util
 
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
-import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.monster.Monster
 
 object AttributesUtil {
   fun createLivingAttributes(): AttributeSupplier.Builder {
-    return AttributeSupplier.builder()
-      .add(Attributes.MAX_HEALTH)
-      .add(Attributes.KNOCKBACK_RESISTANCE)
-      .add(Attributes.MOVEMENT_SPEED)
-      .add(Attributes.ARMOR)
-      .add(Attributes.ARMOR_TOUGHNESS)
+    return LivingEntity.createLivingAttributes()
   }
 
   fun createMobAttributes(): AttributeSupplier.Builder {
-    return createLivingAttributes().add(Attributes.FOLLOW_RANGE, 16.0).add(Attributes.ATTACK_KNOCKBACK)
+    return Mob.createMobAttributes()
   }
 
   fun createMonsterAttributes(): AttributeSupplier.Builder {
-    return createMobAttributes().add(Attributes.ATTACK_DAMAGE);
+    return Monster.createMonsterAttributes()
   }
 }
