@@ -1,6 +1,7 @@
 package com.dannbrown.deltaboxlib.registrate.datagen
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
+import com.dannbrown.deltaboxlib.registrate.util.DataIngredient
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.advancements.critereon.InventoryChangeTrigger
 import net.minecraft.data.recipes.FinishedRecipe
@@ -10,7 +11,6 @@ import net.minecraft.data.recipes.ShapelessRecipeBuilder
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder
 import net.minecraft.data.recipes.SingleItemRecipeBuilder
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.ItemLike
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -27,31 +27,29 @@ class RegistrateRecipes(
   fun simpleShapedRecipe(
     result: Supplier<ItemLike>,
     pattern: Array<String>,
-    key: Map<Char, Supplier<Ingredient>>,
+    key: Map<Char, Supplier<DataIngredient>>,
     amount: Int = 1,
-    name: String,
+    name: String? = null,
     suffix: String = ""
   ) {
+    val asName = name ?: DeltaboxUtil.getItemId(result.get())
     val builder = ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, result.get(), amount)
 
     for (line in pattern) builder.pattern(line)
     for ((k, v) in key) {
-      builder.define(k, v.get())
+      builder.define(k, v.get().ingredient())
     }
 
-    builder.unlockedBy(
-      "has_ingredients",
-      InventoryChangeTrigger.TriggerInstance.hasItems(
-        *key.values.map { it.get().items.map { it.item } }.flatten().toTypedArray()
-      )
-    )
-    builder.save(exporter, DeltaboxUtil.resourceLocation(registrate.modId, name + suffix))
+    val ingredients = key.values.toList()
+    DataIngredient.addIngredientsRecipeCriterions(builder, ingredients, asName)
+
+    builder.save(exporter, DeltaboxUtil.resourceLocation(registrate.modId, asName + suffix))
   }
 
   fun simpleShapedRecipe(
     result: Supplier<ItemLike>,
     pattern: Array<String>,
-    key: Map<Char, Supplier<Ingredient>>,
+    key: Map<Char, Supplier<DataIngredient>>,
     amount: Int = 1,
     suffix: String = ""
   ) {
@@ -61,27 +59,24 @@ class RegistrateRecipes(
   // SHAPELESS
   fun simpleShapelessRecipe(
     result: Supplier<ItemLike>,
-    ingredients: List<Supplier<Ingredient>>,
+    ingredients: List<Supplier<DataIngredient>>,
     category: RecipeCategory,
     amount: Int = 1,
-    name: String,
+    name: String? = null,
     suffix: String = ""
   ) {
+    val asName = name ?: DeltaboxUtil.getItemId(result.get())
     val builder = ShapelessRecipeBuilder.shapeless(category, result.get(), amount)
-    for (ingredient in ingredients) builder.requires(ingredient.get())
+    for (ingredient in ingredients) builder.requires(ingredient.get().ingredient())
 
-    val _ingredients_items = ingredients.map { it.get().items.toList() }.flatten().map { it.item }
+    DataIngredient.addIngredientsRecipeCriterions(builder, ingredients, asName)
 
-    builder.unlockedBy(
-      "has_ingredients",
-      InventoryChangeTrigger.TriggerInstance.hasItems(*_ingredients_items.toTypedArray())
-    )
-    builder.save(exporter, DeltaboxUtil.resourceLocation(registrate.modId, name + suffix))
+    builder.save(exporter, DeltaboxUtil.resourceLocation(registrate.modId, asName + suffix))
   }
 
   fun simpleShapelessRecipe(
     result: Supplier<ItemLike>,
-    ingredients: List<Supplier<Ingredient>>,
+    ingredients: List<Supplier<DataIngredient>>,
     category: RecipeCategory,
     amount: Int = 1,
     suffix: String = ""
@@ -91,7 +86,7 @@ class RegistrateRecipes(
 
   fun directShapelessRecipe(
     result: Supplier<ItemLike>,
-    ingredients: Supplier<Ingredient>,
+    ingredients: Supplier<DataIngredient>,
     category: RecipeCategory,
     amount: Int = 1,
     suffix: String = ""
@@ -107,17 +102,18 @@ class RegistrateRecipes(
 
   fun simpleCookingRecipe(
     result: Supplier<ItemLike>,
-    ingredients: Supplier<Ingredient>,
+    ingredients: Supplier<DataIngredient>,
     category: RecipeCategory,
     type: CookingRecipeType,
     experience: Float = DEFAULT_COOKING_XP,
     cookingTime: Int = DEFAULT_COOKING_TIME,
-    name: String,
+    name: String? = null,
     suffix: String = ""
   ) {
+    val asName = name ?: DeltaboxUtil.getItemId(result.get())
     val builder = when (type) {
       CookingRecipeType.SMELTING -> SimpleCookingRecipeBuilder.smelting(
-        ingredients.get(),
+        ingredients.get().ingredient(),
         category,
         result.get(),
         experience,
@@ -125,7 +121,7 @@ class RegistrateRecipes(
       )
 
       CookingRecipeType.BLASTING -> SimpleCookingRecipeBuilder.blasting(
-        ingredients.get(),
+        ingredients.get().ingredient(),
         category,
         result.get(),
         experience,
@@ -133,7 +129,7 @@ class RegistrateRecipes(
       )
 
       CookingRecipeType.CAMPFIRE -> SimpleCookingRecipeBuilder.campfireCooking(
-        ingredients.get(),
+        ingredients.get().ingredient(),
         category,
         result.get(),
         experience,
@@ -141,7 +137,7 @@ class RegistrateRecipes(
       )
 
       CookingRecipeType.SMOKING -> SimpleCookingRecipeBuilder.smoking(
-        ingredients.get(),
+        ingredients.get().ingredient(),
         category,
         result.get(),
         experience,
@@ -155,16 +151,14 @@ class RegistrateRecipes(
       CookingRecipeType.SMOKING -> suffix + "_smoking"
     }
 
-    builder.unlockedBy(
-      "has_ingredients",
-      InventoryChangeTrigger.TriggerInstance.hasItems(*ingredients.get().items.map { it.item }.toTypedArray())
-    )
-    builder.save(exporter, DeltaboxUtil.resourceLocation(registrate.modId, name + _suffix))
+    DataIngredient.addIngredientsRecipeCriterions(builder, listOf(ingredients), asName)
+
+    builder.save(exporter, DeltaboxUtil.resourceLocation(registrate.modId, asName + _suffix))
   }
 
   fun simpleCookingRecipe(
     result: Supplier<ItemLike>,
-    ingredients: Supplier<Ingredient>,
+    ingredients: Supplier<DataIngredient>,
     category: RecipeCategory,
     type: CookingRecipeType,
     experience: Float = DEFAULT_COOKING_XP,
@@ -185,7 +179,7 @@ class RegistrateRecipes(
 
   fun comboBlastingRecipe(
     result: Supplier<ItemLike>,
-    ingredients: Supplier<Ingredient>,
+    ingredients: Supplier<DataIngredient>,
     category: RecipeCategory,
     experience: Float = DEFAULT_COOKING_XP,
     cookingTime: Int = DEFAULT_COOKING_TIME,
@@ -214,7 +208,7 @@ class RegistrateRecipes(
 
   fun comboFoodRecipe(
     result: Supplier<ItemLike>,
-    ingredients: Supplier<Ingredient>,
+    ingredients: Supplier<DataIngredient>,
     category: RecipeCategory,
     experience: Float = DEFAULT_COOKING_XP,
     cookingTime: Int = DEFAULT_COOKING_TIME,
@@ -255,7 +249,11 @@ class RegistrateRecipes(
   // END COOKING
 
   // Storage Blocks
-  fun storageBlockRecipe(result: Supplier<ItemLike>, ingotItem: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun storageBlockRecipe(
+    result: Supplier<ItemLike>,
+    ingotItem: Supplier<ItemLike>,
+    ingredient: Supplier<DataIngredient>
+  ) {
     simpleShapedRecipe(
       result,
       arrayOf("III", "III", "III"),
@@ -265,7 +263,7 @@ class RegistrateRecipes(
     )
     simpleShapelessRecipe(
       ingotItem,
-      listOf(Supplier { Ingredient.of(result.get()) }),
+      listOf(Supplier { DataIngredient(result.get()) }),
       RecipeCategory.BUILDING_BLOCKS,
       9,
       DeltaboxUtil.getItemId(result),
@@ -276,7 +274,7 @@ class RegistrateRecipes(
   fun smallStorageBlockRecipe(
     result: Supplier<ItemLike>,
     ingotItem: Supplier<ItemLike>,
-    ingredient: Supplier<Ingredient>
+    ingredient: Supplier<DataIngredient>
   ) {
     simpleShapedRecipe(
       result,
@@ -287,7 +285,7 @@ class RegistrateRecipes(
     )
     simpleShapelessRecipe(
       ingotItem,
-      listOf(Supplier { Ingredient.of(result.get()) }),
+      listOf(Supplier { DataIngredient(result.get()) }),
       RecipeCategory.BUILDING_BLOCKS,
       4,
       DeltaboxUtil.getItemId(result),
@@ -299,7 +297,7 @@ class RegistrateRecipes(
   // Stonecutting
   fun simpleStonecuttingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<ItemLike>, amount: Int = 1) {
     SingleItemRecipeBuilder.stonecutting(
-      Ingredient.of(ingredient.get()),
+      DataIngredient(ingredient.get()).ingredient(),
       RecipeCategory.BUILDING_BLOCKS,
       result.get(),
       amount
@@ -315,86 +313,86 @@ class RegistrateRecipes(
   }
   // End Stonecutting
 
-  fun stairsCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun stairsCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(result, arrayOf("I  ", "II ", "III"), mapOf('I' to ingredient), 4, "_craft")
   }
 
-  fun slabCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun slabCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(result, arrayOf("III"), mapOf('I' to ingredient), 6, "_craft")
   }
 
-  fun wallCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun wallCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(result, arrayOf("III", "III"), mapOf('I' to ingredient), 6, "_craft")
   }
 
-  fun fenceCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun fenceCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(
       result,
       arrayOf("ISI", "ISI"),
-      mapOf('I' to ingredient, 'S' to Supplier { Ingredient.of(Items.STICK) }),
+      mapOf('I' to ingredient, 'S' to Supplier { DataIngredient(Items.STICK) }),
       3,
       "_craft"
     )
   }
 
-  fun fenceGateCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun fenceGateCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(
       result,
       arrayOf("SIS", "SIS"),
-      mapOf('I' to ingredient, 'S' to Supplier { Ingredient.of(Items.STICK) }),
+      mapOf('I' to ingredient, 'S' to Supplier { DataIngredient(Items.STICK) }),
       1,
       "_craft"
     )
   }
 
-  fun signCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun signCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(
       result,
       arrayOf("III", "III", " S "),
-      mapOf('I' to ingredient, 'S' to Supplier { Ingredient.of(Items.STICK) }),
+      mapOf('I' to ingredient, 'S' to Supplier { DataIngredient(Items.STICK) }),
       3,
       "_craft"
     )
   }
 
-  fun hangingSignCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun hangingSignCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(
       result,
       arrayOf("C C", "III", "III"),
-      mapOf('I' to ingredient, 'C' to Supplier { Ingredient.of(Items.CHAIN) }),
+      mapOf('I' to ingredient, 'C' to Supplier { DataIngredient(Items.CHAIN) }),
       6,
       "_craft"
     )
   }
 
-  fun pressurePlateCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun pressurePlateCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(result, arrayOf("II"), mapOf('I' to ingredient), 1, "_craft")
   }
 
-  fun doorCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun doorCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(result, arrayOf("II", "II", "II"), mapOf('I' to ingredient), 3, "_craft")
   }
 
-  fun trapdoorCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun trapdoorCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(result, arrayOf("III", "III"), mapOf('I' to ingredient), 2, "_craft")
   }
 
-  fun polishedCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>, amount: Int = 4) {
+  fun polishedCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>, amount: Int = 4) {
     simpleShapedRecipe(result, arrayOf("II", "II"), mapOf('I' to ingredient), amount, "_craft")
   }
 
-  fun slabToChiseledRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun slabToChiseledRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(result, arrayOf("I", "I"), mapOf('I' to ingredient), 1, "_craft")
   }
 
-  fun boatCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<Ingredient>) {
+  fun boatCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<DataIngredient>) {
     simpleShapedRecipe(result, arrayOf("I I", "III"), mapOf('I' to ingredient), 1, "_craft")
   }
 
   fun chestboatCraftingRecipe(result: Supplier<ItemLike>, ingredient: Supplier<ItemLike>) {
     directShapelessRecipe(
       result,
-      { Ingredient.of(Items.CHEST, ingredient.get()) },
+      { DataIngredient(Items.CHEST, ingredient.get()) },
       RecipeCategory.BUILDING_BLOCKS,
       1,
       "_craft"

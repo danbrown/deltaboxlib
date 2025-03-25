@@ -1,13 +1,12 @@
 package com.dannbrown.deltaboxlib.registrate.presets.blocks
 
 import com.dannbrown.deltaboxlib.content.block.GenericDoublePlantBlock
-import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
 import com.dannbrown.deltaboxlib.content.worldgen.tree.DeltaboxTreeGrower
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilder
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
+import com.dannbrown.deltaboxlib.registrate.util.DataIngredient
 import net.minecraft.core.BlockPos
-import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
@@ -19,7 +18,7 @@ import java.util.function.Supplier
 class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val blockId: String) {
   fun storageBlock(
     ingotItem: Supplier<ItemLike>,
-    ingredient: Supplier<Ingredient>,
+    ingredient: Supplier<DataIngredient>,
     suffix: String = "_block"
   ): BlockBuilder<T> {
     return StorageBlockPreset(registrate, blockId, ingotItem, ingredient, suffix).create()
@@ -27,7 +26,7 @@ class BlockPresets<T : Block>(val registrate: AbstractDeltaboxRegistrate, val bl
 
   fun smallStorageBlock(
     ingotItem: Supplier<ItemLike>,
-    ingredient: Supplier<Ingredient>,
+    ingredient: Supplier<DataIngredient>,
     suffix: String = "_block"
   ): BlockBuilder<T> {
     return StorageBlockPreset(registrate, blockId, ingotItem, ingredient, suffix).createSmall()

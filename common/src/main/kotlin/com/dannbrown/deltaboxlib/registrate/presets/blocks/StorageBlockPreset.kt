@@ -3,7 +3,7 @@ package com.dannbrown.deltaboxlib.registrate.presets.blocks
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilder
 import com.dannbrown.deltaboxlib.registrate.presets.tags.BlockTagPresets
-import net.minecraft.world.item.crafting.Ingredient
+import com.dannbrown.deltaboxlib.registrate.util.DataIngredient
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
 import java.util.function.Supplier
@@ -12,7 +12,7 @@ class StorageBlockPreset(
   val registrate: AbstractDeltaboxRegistrate,
   val blockId: String,
   val ingotItem: Supplier<ItemLike>,
-  val ingredient: Supplier<Ingredient>,
+  val ingredient: Supplier<DataIngredient>,
   val suffix: String = "_block"
 ) : IBlockBuilderPreset(registrate, blockId) {
   fun <T : Block> create(): BlockBuilder<T> {

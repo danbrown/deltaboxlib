@@ -12,6 +12,7 @@ import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilderContext
 import com.dannbrown.deltaboxlib.registrate.registry.ItemEntry
 import com.dannbrown.deltaboxlib.registrate.types.BlockPropertiesFactory
+import com.dannbrown.deltaboxlib.registrate.util.DataIngredient
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.core.BlockPos
 import net.minecraft.data.recipes.RecipeCategory
@@ -22,7 +23,6 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobCategory
 import net.minecraft.world.item.HangingSignItem
 import net.minecraft.world.item.SignItem
-import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
@@ -128,7 +128,7 @@ class WoodBlockFamilySet(
         .recipe { c, p ->
           c.polishedCraftingRecipe(
             { p.get() },
-            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.LOG]!!.get()) },
+            { DataIngredient(_blockFamily.blocks[BlockFamily.Type.LOG]!!.get()) },
             3
           )
         }
@@ -184,7 +184,7 @@ class WoodBlockFamilySet(
         .recipe { c, p ->
           c.polishedCraftingRecipe(
             { p.get() },
-            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get()) },
+            { DataIngredient(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get()) },
             3
           )
         }
@@ -222,28 +222,28 @@ class WoodBlockFamilySet(
         .recipe { c, p ->
           c.directShapelessRecipe(
             { p.get() },
-            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.LOG]!!.get()) },
+            { DataIngredient(_blockFamily.blocks[BlockFamily.Type.LOG]!!.get()) },
             RecipeCategory.BUILDING_BLOCKS,
             4,
             "_from_log"
           )
           c.directShapelessRecipe(
             { p.get() },
-            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get()) },
+            { DataIngredient(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get()) },
             RecipeCategory.BUILDING_BLOCKS,
             4,
             "_from_stripped_log"
           )
           c.directShapelessRecipe(
             { p.get() },
-            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.WOOD]!!.get()) },
+            { DataIngredient(_blockFamily.blocks[BlockFamily.Type.WOOD]!!.get()) },
             RecipeCategory.BUILDING_BLOCKS,
             4,
             "_from_wood"
           )
           c.directShapelessRecipe(
             { p.get() },
-            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_WOOD]!!.get()) },
+            { DataIngredient(_blockFamily.blocks[BlockFamily.Type.STRIPPED_WOOD]!!.get()) },
             RecipeCategory.BUILDING_BLOCKS,
             4,
             "_from_stripped_wood"
@@ -258,7 +258,7 @@ class WoodBlockFamilySet(
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
           c.stairsCraftingRecipe({ p.get() }) {
-            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+            DataIngredient(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
           }
         }
         .register()
@@ -270,7 +270,7 @@ class WoodBlockFamilySet(
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
           c.slabCraftingRecipe({ p.get() }) {
-            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+            DataIngredient(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
           }
         }
         .register()
@@ -282,7 +282,7 @@ class WoodBlockFamilySet(
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
           c.fenceCraftingRecipe({ p.get() }) {
-            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+            DataIngredient(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
           }
         }
         .register()
@@ -294,7 +294,7 @@ class WoodBlockFamilySet(
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
           c.fenceGateCraftingRecipe({ p.get() }) {
-            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+            DataIngredient(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
           }
         }
         .register()
@@ -306,7 +306,7 @@ class WoodBlockFamilySet(
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
           c.pressurePlateCraftingRecipe({ p.get() }) {
-            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+            DataIngredient(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
           }
         }
         .register()
@@ -319,7 +319,7 @@ class WoodBlockFamilySet(
         .recipe { c, p ->
           c.directShapelessRecipe(
             { p.get() },
-            { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) },
+            { DataIngredient(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get()) },
             RecipeCategory.BUILDING_BLOCKS,
             1
           )
@@ -333,7 +333,7 @@ class WoodBlockFamilySet(
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
           c.doorCraftingRecipe({ p.get() }) {
-            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+            DataIngredient(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
           }
         }
         .register()
@@ -345,7 +345,7 @@ class WoodBlockFamilySet(
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
           c.trapdoorCraftingRecipe({ p.get() }) {
-            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+            DataIngredient(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
           }
         }
         .register()
@@ -380,7 +380,7 @@ class WoodBlockFamilySet(
         .itemTags(ItemTags.SIGNS)
         .recipe { c, p ->
           c.signCraftingRecipe({ p.get() }) {
-            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+            DataIngredient(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
           }
         }
         .blockstate { g, b -> g.simpleParticleOnly(b.get(), _name + "_planks") }
@@ -425,7 +425,7 @@ class WoodBlockFamilySet(
         .itemTags(ItemTags.HANGING_SIGNS)
         .recipe { c, p ->
           c.hangingSignCraftingRecipe({ p.get() }) {
-            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get().asItem())
+            DataIngredient(_blockFamily.blocks[BlockFamily.Type.STRIPPED_LOG]!!.get().asItem())
           }
         }
         .blockstate { g, b -> g.simpleParticleOnly(b.get(), _name + "_planks") }
@@ -467,7 +467,7 @@ class WoodBlockFamilySet(
         .factory { p -> BoatItem(_name, { BOAT_ENTITY!!.get() }, false, p.stacksTo(1)) }
         .recipe { c, p ->
           c.boatCraftingRecipe({ p.get() }) {
-            Ingredient.of(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
+            DataIngredient(_blockFamily.blocks[BlockFamily.Type.MAIN]!!.get().asItem())
           }
         }
         .register()

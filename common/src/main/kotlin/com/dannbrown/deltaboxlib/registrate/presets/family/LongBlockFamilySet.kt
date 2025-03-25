@@ -6,9 +6,9 @@ import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilderContext
 import com.dannbrown.deltaboxlib.registrate.presets.tags.BlockTagPresets
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
 import com.dannbrown.deltaboxlib.registrate.types.BlockPropertiesFactory
+import com.dannbrown.deltaboxlib.registrate.util.DataIngredient
 import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.tags.TagKey
-import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.RotatedPillarBlock
@@ -63,7 +63,7 @@ class LongBlockFamilySet(
                 1
               )
               c.stairsCraftingRecipe({ p.get() }) {
-                Ingredient.of(mainBlock!!.getItem())
+                DataIngredient(mainBlock!!.getItem())
               }
             }
             .register()
@@ -82,7 +82,7 @@ class LongBlockFamilySet(
                 2
               )
               c.slabCraftingRecipe({ p.get() }) {
-                Ingredient.of(mainBlock!!.getItem())
+                DataIngredient(mainBlock!!.getItem())
               }
             }
             .register()
@@ -101,7 +101,7 @@ class LongBlockFamilySet(
                 1
               )
               c.wallCraftingRecipe({ p.get() }) {
-                Ingredient.of(mainBlock!!.getItem())
+                DataIngredient(mainBlock!!.getItem())
               }
             }
             .register()
@@ -121,7 +121,7 @@ class LongBlockFamilySet(
               1
             )
             c.polishedCraftingRecipe({ p.get() }, {
-              Ingredient.of(mainBlock!!.getItem())
+              DataIngredient(mainBlock!!.getItem())
             })
           }
           .register()
@@ -144,7 +144,7 @@ class LongBlockFamilySet(
                 1
               )
               c.stairsCraftingRecipe({ p.get() }) {
-                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
+                DataIngredient(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
               }
             }
             .register()
@@ -168,7 +168,7 @@ class LongBlockFamilySet(
                 2
               )
               c.slabCraftingRecipe({ p.get() }) {
-                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
+                DataIngredient(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
               }
             }
             .register()
@@ -192,7 +192,7 @@ class LongBlockFamilySet(
                 1
               )
               c.wallCraftingRecipe({ p.get() }) {
-                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
+                DataIngredient(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
               }
             }
             .register()
@@ -217,7 +217,7 @@ class LongBlockFamilySet(
               1
             )
             c.polishedCraftingRecipe({ p.get() }, {
-              Ingredient.of(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
+              DataIngredient(_blockFamily.blocks[BlockFamily.Type.POLISHED]!!.getItem())
             })
           }
           .register()
@@ -245,7 +245,7 @@ class LongBlockFamilySet(
                 1
               )
               c.stairsCraftingRecipe({ p.get() }) {
-                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
+                DataIngredient(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
               }
             }
             .register()
@@ -274,7 +274,7 @@ class LongBlockFamilySet(
                 2
               )
               c.slabCraftingRecipe({ p.get() }) {
-                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
+                DataIngredient(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
               }
             }
             .register()
@@ -303,7 +303,7 @@ class LongBlockFamilySet(
                 1
               )
               c.wallCraftingRecipe({ p.get() }) {
-                Ingredient.of(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
+                DataIngredient(_blockFamily.blocks[BlockFamily.Type.BRICKS]!!.getItem())
               }
             }
             .register()
@@ -329,7 +329,7 @@ class LongBlockFamilySet(
             )
             c.slabToChiseledRecipe(
               { p.get() },
-              { Ingredient.of(_blockFamily.blocks[BlockFamily.Type.SLAB]!!.getItem()) }
+              { DataIngredient(_blockFamily.blocks[BlockFamily.Type.SLAB]!!.getItem()) }
             )
           }
           .register()
@@ -354,7 +354,7 @@ class LongBlockFamilySet(
             )
             c.slabToChiseledRecipe(
               { p.get() },
-              { Ingredient.of(mainBlock!!.getItem()) }
+              { DataIngredient(mainBlock!!.getItem()) }
             )
           }
           .register()
