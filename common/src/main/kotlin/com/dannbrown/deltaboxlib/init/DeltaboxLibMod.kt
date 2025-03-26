@@ -27,6 +27,7 @@ object DeltaboxLibMod {
     DeltaboxAttributes.register()
     DeltaboxFeatures.register()
     DeltaboxAdvancements.register()
+    DeltaboxMenus.register()
     REGISTRATE.buildRegistries()
   }
 }

@@ -10,6 +10,7 @@ import com.dannbrown.deltaboxlib.registrate.types.AdvancementSupplier
 import com.dannbrown.deltaboxlib.registrate.types.RecipeFactory
 import com.dannbrown.deltaboxlib.registrate.util.*
 import com.mojang.serialization.Codec
+import dev.architectury.registry.menu.MenuRegistry.ExtendedMenuTypeFactory
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.advancements.Advancement
 import net.minecraft.client.model.geom.ModelLayerLocation
@@ -29,6 +30,8 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.Attribute
 import net.minecraft.world.entity.decoration.PaintingVariant
 import net.minecraft.world.entity.npc.VillagerProfession
+import net.minecraft.world.inventory.AbstractContainerMenu
+import net.minecraft.world.inventory.MenuType
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -81,6 +84,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
   val dispenserBehaviorRegistry: DispenserBehaviorRegistry = DispenserBehaviorRegistry(modId)
   val featureRegistry: FeatureRegistry = FeatureRegistry(modId)
   val advancementRegistry: AdvancementRegistry = AdvancementRegistry(modId)
+  val menuRegistry: MenuRegistry = MenuRegistry(modId)
 
   fun <T : Block> block(blockId: String): BlockBuilder<T> {
     return BlockBuilder(this, blockId)
@@ -411,6 +415,13 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     return this.advancementRegistry.addAdvancement(name, consumer)
   }
 
+  fun <T : AbstractContainerMenu> menu(
+    name: String,
+    factory: ExtendedMenuTypeFactory<T>
+  ): RegistrySupplier<MenuType<T>> {
+    return this.menuRegistry.registerMenu(name, factory)
+  }
+
   fun configBoolean(
     key: String,
     defaultValue: Boolean,
@@ -444,6 +455,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     attributeRegistry.build()
     effectRegistry.build()
     featureRegistry.build()
+    menuRegistry.build()
   }
 
   fun buildBlocks() {
@@ -488,6 +500,10 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun buildFeatures() {
     featureRegistry.build()
+  }
+
+  fun buildMenus() {
+    menuRegistry.build()
   }
 
   fun freezeConfig() {
