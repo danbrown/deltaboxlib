@@ -1,6 +1,8 @@
 package com.dannbrown.deltaboxlib.registrate
 
 import com.dannbrown.deltaboxlib.registrate.builders.*
+import com.dannbrown.deltaboxlib.registrate.network.NetworkChannelBuilder
+import com.dannbrown.deltaboxlib.registrate.network.NetworkUtil
 import com.dannbrown.deltaboxlib.registrate.presets.blocks.BlockPresets
 import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeModifierCodec
 import com.dannbrown.deltaboxlib.registrate.providers.biomeModifier.BiomeSpawnCodec
@@ -58,6 +60,7 @@ import net.minecraft.world.level.material.Fluid
 import java.util.function.Supplier
 
 abstract class AbstractDeltaboxRegistrate(val modId: String) {
+  val networkRegistry = NetworkUtil.builder(modId)
   val blockRegistry: BlockRegistry = BlockRegistry(modId)
   val itemRegistry: ItemRegistry = ItemRegistry(modId)
   val langRegistry: LangRegistry = LangRegistry(modId)
@@ -420,6 +423,10 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
     factory: ExtendedMenuTypeFactory<T>
   ): RegistrySupplier<MenuType<T>> {
     return this.menuRegistry.registerMenu(name, factory)
+  }
+
+  fun network(): NetworkChannelBuilder {
+    return this.networkRegistry
   }
 
   fun configBoolean(

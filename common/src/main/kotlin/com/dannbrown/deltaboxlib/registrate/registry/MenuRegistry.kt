@@ -10,6 +10,8 @@ import net.minecraft.world.inventory.MenuType
 
 class MenuRegistry(modId: String) {
   private val SCREENS = DeferredRegister.create(modId, Registries.MENU)
+  var isRegistered = false
+
 
   fun <T : AbstractContainerMenu> registerMenu(
     name: String,
@@ -19,6 +21,8 @@ class MenuRegistry(modId: String) {
   }
 
   fun build() {
+    if (isRegistered) return
+    isRegistered = true
     SCREENS.register()
   }
 }

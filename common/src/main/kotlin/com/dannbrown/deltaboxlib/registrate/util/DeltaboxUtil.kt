@@ -1,11 +1,13 @@
 package com.dannbrown.deltaboxlib.registrate.util
 
 import com.dannbrown.deltaboxlib.init.DeltaboxLibMod
+import dev.architectury.injectables.annotations.ExpectPlatform
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.MinecraftServer
 import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.decoration.PaintingVariant
@@ -20,10 +22,47 @@ import org.apache.logging.log4j.LogManager
 import java.util.function.Supplier
 
 object DeltaboxUtil {
+
+
+  // Logger
   val LOGGER = LogManager.getLogger()
 
   fun logInfo(message: String, modId: String = DeltaboxLibMod.MOD_ID) {
     LOGGER.info("[${modId}] $message")
+  }
+
+  // Side
+  enum class Side {
+    CLIENT, SERVER;
+
+    fun isClient(): Boolean {
+      return this == CLIENT
+    }
+
+    fun isServer(): Boolean {
+      return this == SERVER
+    }
+
+    fun ifClient(runnable: Runnable) {
+      if (isClient()) runnable.run()
+    }
+
+    fun ifServer(runnable: Runnable) {
+      if (isServer()) runnable.run()
+    }
+  }
+
+  @JvmStatic
+  @ExpectPlatform
+  fun getSide(): Side {
+    throw AssertionError()
+  }
+
+  // Server
+  @JvmStatic
+  @ExpectPlatform
+  fun getCurrentServer(): MinecraftServer? {
+    throw AssertionError()
   }
 
 
