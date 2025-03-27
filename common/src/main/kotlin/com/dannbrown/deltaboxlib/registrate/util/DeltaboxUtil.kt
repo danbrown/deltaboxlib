@@ -159,7 +159,7 @@ object DeltaboxUtil {
   )
 
   fun asId(name: String): String {
-    return name.lowercase().replace(" ", "_")
+    return name.lowercase().replace(" ", "_").replace("-", "_").replace("/", "_")
   }
 
   fun asName(id: String): String {

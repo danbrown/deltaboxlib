@@ -23,32 +23,32 @@ import java.util.concurrent.Executor
 
 object DeltaboxLibLoadTradesFabric {
   // Bellow we deal with villager trades registering, fabric is quite complex to do it...
+  val registry: (ResourceLocation, PreparableReloadListener) -> Unit = { id, listener ->
+    ResourceManagerHelper.get(PackType.SERVER_DATA)
+      .registerReloadListener(object : IdentifiableResourceReloadListener {
+        override fun getFabricId(): ResourceLocation = id
+
+        override fun reload(
+          synchronizer: PreparationBarrier,
+          manager: ResourceManager,
+          prepareProfiler: ProfilerFiller,
+          applyProfiler: ProfilerFiller,
+          prepareExecutor: Executor,
+          applyExecutor: Executor
+        ): CompletableFuture<Void> {
+          return listener.reload(
+            synchronizer,
+            manager,
+            prepareProfiler,
+            applyProfiler,
+            prepareExecutor,
+            applyExecutor
+          )
+        }
+      })
+  }
+
   fun onDatapackReload(registrate: AbstractDeltaboxRegistrate) {
-    val registry: (ResourceLocation, PreparableReloadListener) -> Unit = { id, listener ->
-      ResourceManagerHelper.get(PackType.SERVER_DATA)
-        .registerReloadListener(object : IdentifiableResourceReloadListener {
-          override fun getFabricId(): ResourceLocation = id
-
-          override fun reload(
-            synchronizer: PreparationBarrier,
-            manager: ResourceManager,
-            prepareProfiler: ProfilerFiller,
-            applyProfiler: ProfilerFiller,
-            prepareExecutor: Executor,
-            applyExecutor: Executor
-          ): CompletableFuture<Void> {
-            return listener.reload(
-              synchronizer,
-              manager,
-              prepareProfiler,
-              applyProfiler,
-              prepareExecutor,
-              applyExecutor
-            )
-          }
-        })
-    }
-
     // registries
     registry(
       DeltaboxUtil.resourceLocation(registrate.modId, VillagerTradeDeserializer.PATH),

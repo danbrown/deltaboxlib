@@ -81,6 +81,10 @@ class RegistrateItemModelGenerator(val output: BiConsumer<ResourceLocation, Supp
     RegistrateModelTemplates.create(TextureMapping.getBlockTexture(block))
   }
 
+  fun asOutput(): BiConsumer<ResourceLocation, Supplier<JsonElement>> {
+    return this.output
+  }
+
 
   // Util
 
