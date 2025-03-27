@@ -1,6 +1,10 @@
 package com.dannbrown.deltaboxlib.registrate.presets.blocks
 
 
+import com.dannbrown.deltaboxlib.content.block.FlammableFenceBlock
+import com.dannbrown.deltaboxlib.content.block.FlammableFenceGateBlock
+import com.dannbrown.deltaboxlib.content.block.FlammableSlabBlock
+import com.dannbrown.deltaboxlib.content.block.FlammableStairBlock
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.builders.BlockBuilder
 import com.dannbrown.deltaboxlib.registrate.presets.tags.BlockTagPresets
@@ -59,7 +63,14 @@ class CommonBlockPreset(
     val nameWithSuffix = if (addSuffix) this.blockId + "_stairs" else blockId
     return registrate
       .block<T>(nameWithSuffix)
-      .factory { c, p -> StairBlock(Blocks.STONE.defaultBlockState(), p) }
+      .factory { c, p ->
+        if (isWooden) FlammableStairBlock(
+          Blocks.OAK_PLANKS.defaultBlockState(),
+          p,
+          c.flammabilityBurnChance,
+          c.flammabilitySpreadChance
+        ) else StairBlock(Blocks.STONE.defaultBlockState(), p)
+      }
       .copyFrom { if (isWooden) Blocks.OAK_STAIRS else Blocks.COBBLESTONE_STAIRS }
       .blockstate { g, b ->
         if (bottomTop) g.bottomTopStairs(
@@ -69,6 +80,7 @@ class CommonBlockPreset(
           textureName
         ) else g.stairs(b.get(), textureName)
       }
+      .transform { t -> if (isWooden) t.flammable() else t }
       .blockTags(*(if (isWooden) BlockTagPresets.woodenStairsTags().first.toTypedArray() else BlockTagPresets.stairsTags().first.toTypedArray()))
       .item()
       .itemTags(*(if (isWooden) BlockTagPresets.woodenStairsTags().second.toTypedArray() else BlockTagPresets.stairsTags().second.toTypedArray()))
@@ -85,7 +97,13 @@ class CommonBlockPreset(
     val nameWithSuffix = if (addSuffix) this.blockId + "_slab" else blockId
     return registrate
       .block<T>(nameWithSuffix)
-      .factory { c, p -> SlabBlock(p) }
+      .factory { c, p ->
+        if (isWooden) FlammableSlabBlock(
+          p,
+          c.flammabilityBurnChance,
+          c.flammabilitySpreadChance
+        ) else SlabBlock(p)
+      }
       .copyFrom { if (isWooden) Blocks.OAK_SLAB else Blocks.COBBLESTONE_SLAB }
       .blockstate { g, b ->
         if (bottomTop) g.bottomTopSlab(
@@ -95,6 +113,7 @@ class CommonBlockPreset(
           textureName
         ) else g.slab(b.get(), textureName)
       }
+      .transform { t -> if (isWooden) t.flammable() else t }
       .blockTags(*(if (isWooden) BlockTagPresets.woodenSlabTags().first.toTypedArray() else BlockTagPresets.slabTags().first.toTypedArray()))
       .item()
       .itemTags(*(if (isWooden) BlockTagPresets.woodenSlabTags().second.toTypedArray() else BlockTagPresets.slabTags().second.toTypedArray()))
@@ -142,10 +161,17 @@ class CommonBlockPreset(
     val nameWithSuffix = if (addSuffix) this.blockId + "_fence" else blockId
     return registrate
       .block<T>(nameWithSuffix)
-      .factory { c, p -> FenceBlock(p) }
+      .factory { c, p ->
+        if (isWooden) FlammableFenceBlock(
+          p,
+          c.flammabilityBurnChance,
+          c.flammabilitySpreadChance
+        ) else FenceBlock(p)
+      }
       .copyFrom { if (isWooden) Blocks.OAK_FENCE else Blocks.NETHER_BRICK_FENCE }
       .blockstate { g, b -> g.fence(b.get(), textureName) }
       .blockTags(*BlockTagPresets.fenceTags(isWooden).first.toTypedArray())
+      .transform { t -> if (isWooden) t.flammable() else t }
       .item()
       .model { g, i -> g.fenceInventory(i.get(), textureName) }
       .itemTags(*BlockTagPresets.fenceTags(isWooden).second.toTypedArray())
@@ -156,13 +182,22 @@ class CommonBlockPreset(
   fun <T : Block> createFenceGate(
     textureName: String,
     woodType: WoodType,
+    isWooden: Boolean = true,
     addSuffix: Boolean = true
   ): BlockBuilder<T> {
     val nameWithSuffix = if (addSuffix) this.blockId + "_fence_gate" else blockId
     return registrate
       .block<T>(nameWithSuffix)
-      .factory { c, p -> FenceGateBlock(p, woodType) }
+      .factory { c, p ->
+        if (isWooden) FlammableFenceGateBlock(
+          p,
+          woodType,
+          c.flammabilityBurnChance,
+          c.flammabilitySpreadChance
+        ) else FenceGateBlock(p, woodType)
+      }
       .copyFrom { Blocks.OAK_FENCE_GATE }
+      .transform { t -> if (isWooden) t.flammable() else t }
       .blockstate { g, b -> g.fenceGate(b.get(), textureName) }
       .loot { g, b -> g.dropItself(b.get()) }
       .blockTags(BlockTags.FENCE_GATES)

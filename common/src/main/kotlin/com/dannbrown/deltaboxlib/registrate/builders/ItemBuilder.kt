@@ -105,6 +105,9 @@ class ItemBuilder<T : Item>(_registrate: AbstractDeltaboxRegistrate, val itemId:
     return this
   }
 
+  fun transform(consumer: Function<ItemBuilder<T>, ItemBuilder<T>>): ItemBuilder<T> {
+    return consumer.apply(this)
+  }
 
   // @ Registering
   private fun asEntry(): ItemEntry<T> {

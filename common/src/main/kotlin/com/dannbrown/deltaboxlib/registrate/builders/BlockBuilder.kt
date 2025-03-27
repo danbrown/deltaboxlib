@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.material.MapColor
 import java.util.function.BiFunction
+import java.util.function.Function
 import java.util.function.Supplier
 
 class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockId: String) :
@@ -190,6 +191,10 @@ class BlockBuilder<T : Block>(registrate: AbstractDeltaboxRegistrate, val blockI
     if (color !== null) this.color(color)
     this.toolAndTier(tool, tier, correctToolForDrops)
     return this
+  }
+
+  fun transform(consumer: Function<BlockBuilder<T>, BlockBuilder<T>>): BlockBuilder<T> {
+    return consumer.apply(this)
   }
 
   // @ Registering

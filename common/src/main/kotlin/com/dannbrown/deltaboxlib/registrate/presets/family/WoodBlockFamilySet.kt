@@ -1,8 +1,6 @@
 package com.dannbrown.deltaboxlib.registrate.presets.family
 
-import com.dannbrown.deltaboxlib.content.block.FlammableBlock
-import com.dannbrown.deltaboxlib.content.block.FlammablePillarBlock
-import com.dannbrown.deltaboxlib.content.block.GenericSaplingBlock
+import com.dannbrown.deltaboxlib.content.block.*
 import com.dannbrown.deltaboxlib.content.entity.boat.BaseBoatEntity
 import com.dannbrown.deltaboxlib.content.entity.boat.BaseBoatRenderer
 import com.dannbrown.deltaboxlib.content.entity.boat.BaseChestBoatEntity
@@ -253,7 +251,7 @@ class WoodBlockFamilySet(
     }
     // Stairs
     _blockFamily.setVariant(BlockFamily.Type.STAIRS) {
-      registrate.blockPreset<StairBlock>(_name).stairs(_name + "_planks", false, true)
+      registrate.blockPreset<FlammableStairBlock>(_name).stairs(_name + "_planks", false, true)
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
@@ -265,7 +263,7 @@ class WoodBlockFamilySet(
     }
     // Slab
     _blockFamily.setVariant(BlockFamily.Type.SLAB) {
-      registrate.blockPreset<SlabBlock>(_name).slab(_name + "_planks", false, true)
+      registrate.blockPreset<FlammableSlabBlock>(_name).slab(_name + "_planks", false, true)
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
@@ -277,7 +275,7 @@ class WoodBlockFamilySet(
     }
     // Fence
     _blockFamily.setVariant(BlockFamily.Type.FENCE) {
-      registrate.blockPreset<FenceBlock>(_name).fence(_name + "_planks", true)
+      registrate.blockPreset<FlammableFenceBlock>(_name).fence(_name + "_planks", true)
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
@@ -289,7 +287,7 @@ class WoodBlockFamilySet(
     }
     // Fence Gate
     _blockFamily.setVariant(BlockFamily.Type.FENCE_GATE) {
-      registrate.blockPreset<FenceGateBlock>(_name).fenceGate(_name + "_planks", woodType)
+      registrate.blockPreset<FlammableFenceGateBlock>(_name).fenceGate(_name + "_planks", woodType, true)
         .toolAndTier(BlockTags.MINEABLE_WITH_AXE, null, false)
         .color(_accentColor ?: MapColor.WOOD)
         .recipe { c, p ->
