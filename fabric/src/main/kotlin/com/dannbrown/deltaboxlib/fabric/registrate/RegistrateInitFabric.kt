@@ -171,7 +171,7 @@ class RegistrateInitFabric(val registrate: AbstractDeltaboxRegistrate) {
     }
     for ((path, data) in registrate.modelLayersRegistry.getModelLayers()) {
       val (model, modelLayer) = data
-      EntityModelLayerRegistry.registerModelLayer(modelLayer, { model.get() })
+      EntityModelLayerRegistry.registerModelLayer(modelLayer.get(), { model.get() })
     }
   }
 

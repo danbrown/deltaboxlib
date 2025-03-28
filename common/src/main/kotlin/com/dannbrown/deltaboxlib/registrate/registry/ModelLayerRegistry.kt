@@ -6,19 +6,23 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import java.util.function.Supplier
 
 class ModelLayerRegistry(val modId: String) {
-  private val MODEL_LAYERS: MutableMap<String, Pair<Supplier<LayerDefinition>, ModelLayerLocation>> = mutableMapOf()
-  fun add(path: String, model: Supplier<LayerDefinition>, folder: String = "main"): ModelLayerLocation {
-    val modelLayer = ModelLayerLocation(
-      DeltaboxUtil.resourceLocation(
-        modId,
-        path
-      ), folder
-    )
+  private val MODEL_LAYERS: MutableMap<String, Pair<Supplier<LayerDefinition>, Supplier<ModelLayerLocation>>> =
+    mutableMapOf()
+
+  fun add(path: String, model: Supplier<LayerDefinition>, folder: String = "main"): Supplier<ModelLayerLocation> {
+    val modelLayer = Supplier {
+      ModelLayerLocation(
+        DeltaboxUtil.resourceLocation(
+          modId,
+          path
+        ), folder
+      )
+    }
     MODEL_LAYERS[path] = Pair(model, modelLayer)
     return modelLayer
   }
 
-  fun getModelLayers(): MutableMap<String, Pair<Supplier<LayerDefinition>, ModelLayerLocation>> {
+  fun getModelLayers(): MutableMap<String, Pair<Supplier<LayerDefinition>, Supplier<ModelLayerLocation>>> {
     return MODEL_LAYERS
   }
 }

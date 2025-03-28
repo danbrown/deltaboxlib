@@ -166,7 +166,7 @@ class RegistrateInitForge(val registrate: AbstractDeltaboxRegistrate) {
     }
     for ((path, data) in registrate.modelLayersRegistry.getModelLayers()) {
       val (model, modelLayer) = data
-      event.registerLayerDefinition(modelLayer, model)
+      event.registerLayerDefinition(modelLayer.get(), model)
     }
   }
 

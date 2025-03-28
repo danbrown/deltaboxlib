@@ -344,7 +344,7 @@ abstract class AbstractDeltaboxRegistrate(val modId: String) {
 
   fun modelLayer(
     path: String, model: Supplier<LayerDefinition>, folder: String = "main"
-  ): ModelLayerLocation {
+  ): Supplier<ModelLayerLocation> {
     return this.modelLayersRegistry.add(path, model, folder)
   }
 
