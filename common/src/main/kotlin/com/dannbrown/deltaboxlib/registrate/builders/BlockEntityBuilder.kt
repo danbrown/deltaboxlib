@@ -2,6 +2,7 @@ package com.dannbrown.deltaboxlib.registrate.builders
 
 import com.dannbrown.deltaboxlib.registrate.AbstractDeltaboxRegistrate
 import com.dannbrown.deltaboxlib.registrate.registry.BlockEntry
+import com.dannbrown.deltaboxlib.registrate.util.DeltaboxUtil
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.client.renderer.entity.EntityRendererProvider
@@ -38,8 +39,12 @@ class BlockEntityBuilder<T : BlockEntity>(
     return this
   }
 
-  fun renderer(_blockEntityRenderer: Function<BlockEntityRendererProvider.Context, BlockEntityRenderer<out BlockEntity>>): BlockEntityBuilder<T> {
-    blockEntityRenderer = _blockEntityRenderer
+  fun renderer(_blockEntityRenderer: Supplier<Function<BlockEntityRendererProvider.Context, BlockEntityRenderer<out BlockEntity>>>): BlockEntityBuilder<T> {
+    if (blockEntityRenderer == null) {
+      if (DeltaboxUtil.getSide().isClient()) {
+        blockEntityRenderer = _blockEntityRenderer.get()
+      }
+    }
     return this
   }
 

@@ -13,6 +13,7 @@ object DeltaboxLibMod {
     DeltaboxTags.register()
     DeltaboxCreativeTabs.register()
     DeltaboxBlockEntities.register()
+    DeltaboxEntityTypes.register()
     DeltaboxTrades.register()
     DeltaboxPlacerTypes.register()
     DeltaboxConfiguredFeatures.register()

@@ -11,6 +11,11 @@ import net.minecraft.world.entity.MobCategory
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.crafting.Ingredient
 import java.util.function.Supplier
+import com.dannbrown.deltaboxlib.content.item.arrow.BaseArrowItem
+import com.dannbrown.deltaboxlib.registrate.util.DataIngredient
+import net.minecraft.tags.ItemTags
+import net.minecraft.world.item.Rarity
+import net.minecraft.world.level.block.Blocks
 
 object DeltaboxItems {
 //  val ADAMANTIUM_INGOT = REGISTRATE
@@ -34,6 +39,20 @@ object DeltaboxItems {
 //  val BEAN_POD = REGISTRATE.item<Item>("bean_pod")
 //    .compostable(0.3f)
 //    .register()
+
+//  val EXPLOSIVE_ARROW =
+//    REGISTRATE.item<BaseArrowItem>("explosive_arrow")
+//      .factory { p -> BaseArrowItem(p) { l, e, _ -> ExplosiveArrow(l, e) } }
+//      .recipe { c, p ->
+//        c.simpleShapedRecipe(
+//          { p.get() }, arrayOf("AAA", "ADA", "AAA"), mapOf(
+//            'D' to Supplier { DataIngredient(Items.TNT) },
+//            'A' to Supplier { DataIngredient(Items.ARROW) }
+//          ), 8
+//        )
+//      }
+//      .itemTags(ItemTags.ARROWS)
+//      .register()
 
   fun register() {
     REGISTRATE.buildItems()

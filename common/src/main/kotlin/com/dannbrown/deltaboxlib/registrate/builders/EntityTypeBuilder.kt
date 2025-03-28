@@ -45,8 +45,12 @@ class EntityTypeBuilder<T : Entity>(registrate: AbstractDeltaboxRegistrate, val 
     return this
   }
 
-  fun renderer(_entityRenderer: Function<EntityRendererProvider.Context, EntityRenderer<out Entity>>): EntityTypeBuilder<T> {
-    entityRenderer = _entityRenderer
+  fun renderer(_entityRenderer: Supplier<Function<EntityRendererProvider.Context, EntityRenderer<out Entity>>>): EntityTypeBuilder<T> {
+    if (entityRenderer == null) {
+      if (DeltaboxUtil.getSide().isClient()) {
+        entityRenderer = _entityRenderer.get()
+      }
+    }
     return this
   }
 

@@ -44,6 +44,7 @@ import net.minecraft.world.level.block.state.properties.BlockSetType
 import net.minecraft.world.level.block.state.properties.WoodType
 import net.minecraft.world.level.material.MapColor
 import java.util.function.BiFunction
+import java.util.function.Function
 import java.util.function.Supplier
 
 /**
@@ -443,8 +444,10 @@ class WoodBlockFamilySet(
     registrate.boatVariant(_name)
 
     BOAT_ENTITY = registrate.entityType<BaseBoatEntity>("${_name}_boat")
-      .renderer { c ->
-        BaseBoatRenderer(registrate.modId, _name, c, false)
+      .renderer {
+        Function { c ->
+          BaseBoatRenderer(registrate.modId, _name, c, false)
+        }
       }
       .factory { e, l -> BaseBoatEntity({ BOAT_ITEM!!.get() }, _name, { e }, l) }
       .properties { p -> p.sized(1.375f, 0.5625f) }
@@ -452,8 +455,10 @@ class WoodBlockFamilySet(
       .register()
 
     CHEST_BOAT_ENTITY = registrate.entityType<BaseChestBoatEntity>("${_name}_chest_boat")
-      .renderer { c ->
-        BaseBoatRenderer(registrate.modId, _name, c, true)
+      .renderer {
+        Function { c ->
+          BaseBoatRenderer(registrate.modId, _name, c, true)
+        }
       }
       .factory { e, l -> BaseChestBoatEntity({ getContent().chestBoatItem.get() }, _name, { e }, l) }
       .properties { p -> p.sized(1.375f, 0.5625f) }
