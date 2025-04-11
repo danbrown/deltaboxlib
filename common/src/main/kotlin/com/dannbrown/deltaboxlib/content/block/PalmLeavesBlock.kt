@@ -1,148 +1,112 @@
 package com.dannbrown.deltaboxlib.content.block
 
 import net.minecraft.core.BlockPos
-import net.minecraft.core.BlockPos.MutableBlockPos
 import net.minecraft.core.Direction
-import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.tags.BlockTags
-import net.minecraft.util.ParticleUtils
 import net.minecraft.util.RandomSource
 import net.minecraft.world.item.context.BlockPlaceContext
-import net.minecraft.world.level.BlockGetter
-import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SimpleWaterloggedBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
-import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.block.state.properties.IntegerProperty
-import net.minecraft.world.level.material.FluidState
 import net.minecraft.world.level.material.Fluids
-import net.minecraft.world.phys.shapes.Shapes
-import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.*
-import kotlin.math.min
 
 open class PalmLeavesBlock(
-  pProperties: Properties,
-  private val flammability: Int = 20,
-  private val fireSpread: Int = 5
+    pProperties: Properties,
+    private val flammability: Int = 20,
+    private val fireSpread: Int = 5
 ) : FlammableLeavesBlock(pProperties, flammability, fireSpread), SimpleWaterloggedBlock {
-  override fun getBlockSupportShape(pState: BlockState, pReader: BlockGetter, pPos: BlockPos): VoxelShape {
-    return Shapes.empty()
-  }
-
-  override fun isRandomlyTicking(pState: BlockState): Boolean {
-    return pState.getValue(DISTANCE_9) == DECAY_DISTANCE && !pState.getValue(PERSISTENT)
-  }
-
-  override fun randomTick(pState: BlockState, pLevel: ServerLevel, pPos: BlockPos, pRandom: RandomSource) {
-    if (this.decaying(pState)) {
-      dropResources(pState, pLevel, pPos)
-      pLevel.removeBlock(pPos, false)
+    companion object {
+        const val MAX_DISTANCE_12 = 12
+        val DISTANCE_12: IntegerProperty = IntegerProperty.create("distance_9", 1, MAX_DISTANCE_12)
     }
-  }
 
-  override fun decaying(pState: BlockState): Boolean {
-    return !pState.getValue(PERSISTENT) && pState.getValue(DISTANCE_9) == DECAY_DISTANCE
-  }
-
-  override fun tick(pState: BlockState, pLevel: ServerLevel, pPos: BlockPos, pRandom: RandomSource) {
-    pLevel.setBlock(pPos, updateDistance(pState, pLevel, pPos), 3)
-  }
-
-  override fun getLightBlock(pState: BlockState, pLevel: BlockGetter, pPos: BlockPos): Int {
-    return 1
-  }
-
-  override fun updateShape(
-    pState: BlockState,
-    pFacing: Direction,
-    pFacingState: BlockState,
-    pLevel: LevelAccessor,
-    pCurrentPos: BlockPos,
-    pFacingPos: BlockPos
-  ): BlockState {
-    if (pState.getValue(WATERLOGGED)) {
-      pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel))
+    init {
+        registerDefaultState(
+            defaultBlockState()
+                .setValue(DISTANCE, 1)
+                .setValue(DISTANCE_12, MAX_DISTANCE_12)
+                .setValue(PERSISTENT, false)
+                .setValue(WATERLOGGED, false)
+        )
     }
-    val i: Int = getDistanceAt(pFacingState) + 1
-    if (i != 1 || pState.getValue(DISTANCE_9) != i) {
-      pLevel.scheduleTick(pCurrentPos, this, 1)
+
+    override fun isRandomlyTicking(state: BlockState): Boolean {
+        return state.getValue(DISTANCE_12) == MAX_DISTANCE_12 && !state.getValue(PERSISTENT)
     }
-    return pState
-  }
 
-  override fun getFluidState(pState: BlockState): FluidState {
-    return if (pState.getValue(WATERLOGGED)) Fluids.WATER.getSource(false) else super.getFluidState(pState)
-  }
-
-  override fun animateTick(pState: BlockState, pLevel: Level, pPos: BlockPos, pRandom: RandomSource) {
-    if (pLevel.isRainingAt(pPos.above()) && pRandom.nextInt(15) == 1) {
-      val blockpos = pPos.below()
-      val blockstate = pLevel.getBlockState(blockpos)
-      if (!blockstate.canOcclude() || !blockstate.isFaceSturdy(pLevel, blockpos, Direction.UP)) {
-        ParticleUtils.spawnParticleBelow(pLevel, pPos, pRandom, ParticleTypes.DRIPPING_WATER)
-      }
-    }
-  }
-
-  override fun createBlockStateDefinition(stateBuilder: StateDefinition.Builder<Block?, BlockState?>) {
-    stateBuilder.add(DISTANCE_9, PERSISTENT, WATERLOGGED, DISTANCE)
-  }
-
-  override fun getStateForPlacement(pContext: BlockPlaceContext): BlockState {
-    val fluidstate = pContext.level.getFluidState(pContext.clickedPos)
-    val blockstate =
-      (defaultBlockState().setValue(PERSISTENT, true)).setValue(WATERLOGGED, fluidstate.type === Fluids.WATER)
-    return updateDistance(blockstate, pContext.level, pContext.clickedPos)
-  }
-
-  init {
-    this.registerDefaultState(
-      this.stateDefinition.any().setValue(DISTANCE_9, DECAY_DISTANCE).setValue(PERSISTENT, false)
-        .setValue(WATERLOGGED, false).setValue(DISTANCE, 7)
-    )
-  }
-
-  companion object {
-    const val DECAY_DISTANCE: Int = 9
-    val DISTANCE: IntegerProperty = BlockStateProperties.DISTANCE
-    val PERSISTENT: BooleanProperty = BlockStateProperties.PERSISTENT
-    val WATERLOGGED: BooleanProperty = BlockStateProperties.WATERLOGGED
-    val DISTANCE_9: IntegerProperty = IntegerProperty.create("distance_9", 1, DECAY_DISTANCE)
-
-    private fun updateDistance(pState: BlockState, pLevel: LevelAccessor, pPos: BlockPos): BlockState {
-      var i = DECAY_DISTANCE
-      val mutablePos = MutableBlockPos()
-      val var5 = Direction.values()
-      val var6 = var5.size
-
-      for (var7 in 0 until var6) {
-        val direction = var5[var7]
-        mutablePos.setWithOffset(pPos, direction)
-        i = min(i.toDouble(), (getDistanceAt(pLevel.getBlockState(mutablePos)) + 1).toDouble()).toInt()
-        if (i == 1) {
-          break
+    override fun randomTick(state: BlockState, level: ServerLevel, pos: BlockPos, random: RandomSource) {
+        if (!state.getValue(PERSISTENT) && state.getValue(DISTANCE_12) == MAX_DISTANCE_12) {
+            dropResources(state, level, pos)
+            level.removeBlock(pos, false)
         }
-      }
-
-      return pState.setValue(DISTANCE_9, i)
     }
 
-    private fun getDistanceAt(pNeighbor: BlockState): Int {
-      return getOptionalDistanceAt(pNeighbor).orElse(DECAY_DISTANCE)
+    override fun tick(state: BlockState, level: ServerLevel, pos: BlockPos, random: RandomSource) {
+        level.setBlock(pos, updatePalmDistance(state, level, pos), 3)
     }
 
-    private fun getOptionalDistanceAt(pState: BlockState): OptionalInt {
-      return if (pState.`is`(BlockTags.LOGS)) {
-        OptionalInt.of(0)
-      } else {
-        if (pState.hasProperty(DISTANCE_9)) OptionalInt.of((pState.getValue(DISTANCE_9))) else OptionalInt.empty()
-      }
+    override fun updateShape(
+        state: BlockState,
+        direction: Direction,
+        neighborState: BlockState,
+        level: LevelAccessor,
+        pos: BlockPos,
+        neighborPos: BlockPos
+    ): BlockState {
+        if (state.getValue(WATERLOGGED)) {
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level))
+        }
+
+        val distance = getDistanceAtPalm(neighborState) + 1
+        if (distance != 1 || state.getValue(DISTANCE_12) != distance) {
+            level.scheduleTick(pos, this, 1)
+        }
+
+        return state
     }
-  }
+
+    private fun updatePalmDistance(state: BlockState, level: LevelAccessor, pos: BlockPos): BlockState {
+        var distance = MAX_DISTANCE_12
+        val mutablePos = BlockPos.MutableBlockPos()
+
+        for (dir in Direction.values()) {
+            mutablePos.setWithOffset(pos, dir)
+            distance = minOf(distance, getDistanceAtPalm(level.getBlockState(mutablePos)) + 1)
+            if (distance == 1) break
+        }
+
+        return state.setValue(DISTANCE_12, distance)
+    }
+
+    private fun getDistanceAtPalm(state: BlockState): Int {
+        return getOptionalDistanceAtPalm(state).orElse(MAX_DISTANCE_12)
+    }
+
+    private fun getOptionalDistanceAtPalm(state: BlockState): OptionalInt {
+        return when {
+            state.`is`(BlockTags.LOGS) -> OptionalInt.of(0)
+            state.hasProperty(DISTANCE_12) -> OptionalInt.of(state.getValue(DISTANCE_12))
+            state.hasProperty(DISTANCE) -> OptionalInt.of(state.getValue(DISTANCE))
+            else -> OptionalInt.empty()
+        }
+    }
+
+    override fun createBlockStateDefinition(stateBuilder: StateDefinition.Builder<Block?, BlockState?>) {
+        super.createBlockStateDefinition(stateBuilder)
+        stateBuilder.add(DISTANCE_12)
+    }
+
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState {
+        val fluid = ctx.level.getFluidState(ctx.clickedPos)
+        val state = defaultBlockState()
+            .setValue(PERSISTENT, true)
+            .setValue(WATERLOGGED, fluid.type == Fluids.WATER)
+
+        return updatePalmDistance(state, ctx.level, ctx.clickedPos)
+    }
 }

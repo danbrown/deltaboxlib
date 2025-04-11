@@ -1,15 +1,24 @@
 package com.dannbrown.deltaboxlib.content.worldgen.placerType
 
+import com.dannbrown.deltaboxlib.content.block.PalmLeavesBlock
 import com.dannbrown.deltaboxlib.init.DeltaboxPlacerTypes
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.BlockPos
+import net.minecraft.core.BlockPos.MutableBlockPos
 import net.minecraft.core.Direction
+import net.minecraft.util.Mth
 import net.minecraft.util.RandomSource
 import net.minecraft.util.valueproviders.IntProvider
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelSimulatedReader
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.levelgen.feature.TreeFeature
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType
+import net.minecraft.world.level.material.Fluids
+import kotlin.math.min
 
 class PalmFoliagePlacer(pRadius: IntProvider, pOffset: IntProvider) : FoliagePlacer(pRadius, pOffset) {
   override fun type(): FoliagePlacerType<*> {
@@ -41,6 +50,7 @@ class PalmFoliagePlacer(pRadius: IntProvider, pOffset: IntProvider) : FoliagePla
     return 0
   }
 
+
   override fun shouldSkipLocation(
     pRandom: RandomSource,
     pLocalX: Int,
@@ -62,6 +72,31 @@ class PalmFoliagePlacer(pRadius: IntProvider, pOffset: IntProvider) : FoliagePla
           )
         }
       }
+
+    fun tryPlaceLeaf(
+      levelSimulatedReader: LevelSimulatedReader,
+      foliageSetter: FoliageSetter,
+      randomSource: RandomSource,
+      treeConfiguration: TreeConfiguration,
+      blockPos: BlockPos
+    ): Boolean {
+      if (!TreeFeature.validTreePos(levelSimulatedReader, blockPos)) {
+        return false
+      }
+      var blockState =
+        treeConfiguration.foliageProvider.getState(randomSource, blockPos).setValue(PalmLeavesBlock.DISTANCE_12, 7)
+      if (blockState.hasProperty(BlockStateProperties.WATERLOGGED)) {
+        val isWaterlogged = levelSimulatedReader.isFluidAtPosition(blockPos) { fluidState ->
+          fluidState.isSourceOfType(Fluids.WATER)
+        }
+        blockState =
+          blockState.setValue(BlockStateProperties.WATERLOGGED, isWaterlogged)
+      }
+
+      foliageSetter.set(blockPos, blockState)
+      println(blockState)
+      return true
+    }
 
     private fun createQuadrant(
       direction: Direction,
