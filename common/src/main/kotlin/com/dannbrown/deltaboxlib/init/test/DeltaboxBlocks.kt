@@ -27,7 +27,6 @@ import net.minecraft.tags.BlockTags
 //import net.minecraft.world.level.material.MapColor
 //import net.minecraft.world.level.material.PushReaction
 
-
 object DeltaboxBlocks {
   //  var IRON_BLOCK2: BlockEntry<out Block>? = null
 //
