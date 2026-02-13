@@ -43,7 +43,7 @@ class BaseChestBoatEntity(
 
   fun setVariant(name: String) {
     try {
-      entityData.set(BaseBoatEntity.DATA_ID_TYPE, name)
+      entityData.set(DATA_ID_TYPE, name)
     } catch (err: IllegalArgumentException) {
       throw IllegalArgumentException("Invalid boat variant: $name")
     }
@@ -52,12 +52,12 @@ class BaseChestBoatEntity(
   /*? if >1.21 {*/
   /*override fun defineSynchedData(arg: SynchedEntityData.Builder) {
     super.defineSynchedData(arg)
-    arg.define(BaseBoatEntity.DATA_ID_TYPE, "oak") // Default variant
+    arg.define(DATA_ID_TYPE, "oak") // Default variant
   }
   *//*?} else {*/
   override fun defineSynchedData() {
   super.defineSynchedData()
-  entityData.define(BaseBoatEntity.DATA_ID_TYPE, "oak") // Default variant
+  entityData.define(DATA_ID_TYPE, "oak") // Default variant
 }
   /*?}*/
 
@@ -68,7 +68,7 @@ class BaseChestBoatEntity(
     *//*?} else {*/
     this.addChestVehicleSaveData(pCompound)
     /*?}*/
-    pCompound.putString("Type", this.entityData.get(BaseBoatEntity.DATA_ID_TYPE))
+    pCompound.putString("Type", this.entityData.get(DATA_ID_TYPE))
   }
 
   override fun readAdditionalSaveData(pCompound: CompoundTag) {
@@ -81,5 +81,9 @@ class BaseChestBoatEntity(
     if (pCompound.contains("Type", 8)) {
       this.setVariant(pCompound.getString("Type"))
     }
+  }
+
+  companion object {
+    val DATA_ID_TYPE: EntityDataAccessor<String> = SynchedEntityData.defineId(BaseChestBoatEntity::class.java, EntityDataSerializers.STRING)
   }
 }

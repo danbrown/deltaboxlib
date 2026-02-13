@@ -71,6 +71,6 @@ class BaseBoatEntity(
   }
 
   companion object {
-    val DATA_ID_TYPE: EntityDataAccessor<String> =  SynchedEntityData.defineId(Boat::class.java, EntityDataSerializers.STRING)
+    val DATA_ID_TYPE: EntityDataAccessor<String> =  SynchedEntityData.defineId(BaseBoatEntity::class.java, EntityDataSerializers.STRING)
   }
 }
